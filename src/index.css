@@ -1,0 +1,361 @@
+/* =========================================================================
+   SyncRun — 디자인 토큰 (라이트 · 리퀴드 글래스)
+   iOS 앱(SRColor·SRFont·Glass.swift) 라이트 팔레트를 웹으로 옮긴다.
+   원칙: 밝은 바탕 + 톡 튀는 리퀴드 글래스 + 검정(주 액션)과 코발트·러너 색의 대비.
+   ========================================================================= */
+
+:root {
+  /* 배경 — iOS 라이트(흰/연회색). 살짝 쿨한 톤으로 글래스가 떠 보이게 */
+  --bg: #eef0f7;
+  --bg-base: #ffffff;
+  --bg-elevated: #ffffff;
+
+  /* 잉크(검정) — 텍스트·주 액션. iOS primaryFill(light=0x0B0B0F) */
+  --ink: #0b0b0f;
+  --text: #0b0b0f;
+  --text-secondary: rgba(17, 18, 28, 0.6);
+  --text-tertiary: rgba(17, 18, 28, 0.42);
+  --text-faint: rgba(17, 18, 28, 0.24);
+
+  /* 모션 코발트 — 시그니처 액센트, 밝은 바탕에서 톡 튄다 */
+  --cobalt: #5264e8; /* motionBlueCore */
+  --cobalt-bright: #6675ff;
+  --cobalt-deep: #3a47c8;
+  --cobalt-soft: rgba(82, 100, 232, 0.1);
+  --cobalt-glow: rgba(82, 100, 232, 0.4);
+
+  /* 러너 팔레트 — 참가자 경로·아바타·강조 (index 0 = 나 = 코발트) */
+  --runner-0: #5264e8;
+  --runner-1: #ff9f45;
+  --runner-2: #ff5d8f;
+  --runner-3: #a78bfa;
+  --runner-4: #ffc531;
+  --runner-5: #4c8dff;
+  --runner-6: #17c0e6;
+  --runner-7: #22c98f;
+
+  --success: #22b04a;
+  --warn: #ff9f0a;
+
+  /* 리퀴드 글래스 — 밝고 반투명한 흰 표면 + 밝은 스페큘러 하이라이트 */
+  --glass-fill: rgba(255, 255, 255, 0.55);
+  --glass-fill-strong: rgba(255, 255, 255, 0.74);
+  --glass-edge: rgba(17, 18, 28, 0.07);
+  --glass-specular: rgba(255, 255, 255, 0.95);
+  --glass-blur: 20px;
+
+  /* 타이포 — Apple 앱이라 SF Pro 시스템 스택이 곧 브랜드. 작은 라벨엔 모노 대비. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", "Pretendard", "Apple SD Gothic Neo", system-ui, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, "Menlo", "Consolas", monospace;
+
+  --maxw: 1200px;
+  --gutter: clamp(20px, 5vw, 64px);
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------ reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+
+  /* 밝은 바탕 위 톡 튀는 리퀴드 컬러 글로우 — 코발트·라벤더·시안 */
+  background-image:
+    radial-gradient(58% 48% at 82% -6%, rgba(82, 100, 232, 0.22), transparent 62%),
+    radial-gradient(46% 42% at 4% 6%, rgba(167, 139, 250, 0.2), transparent 62%),
+    radial-gradient(50% 42% at 50% 108%, rgba(23, 192, 230, 0.16), transparent 60%);
+  background-attachment: fixed;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+::selection {
+  background: var(--cobalt);
+  color: #fff;
+}
+
+/* 아주 옅은 그레인 — plastic 느낌 방지 (밝은 바탕이라 multiply, 저강도) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------- layout */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(84px, 11vw, 150px);
+}
+
+/* ---------------------------------------------------------- typography */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  /* 어두운 패널 위에서도 라벨 색을 따라간다 */
+  background: currentColor;
+  box-shadow: 0 0 12px var(--cobalt-glow);
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.display {
+  font-size: clamp(2.6rem, 7.4vw, 5.6rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.h2 {
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  letter-spacing: -0.04em;
+}
+
+.lede {
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  letter-spacing: -0.01em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------- glass */
+/* Liquid Glass — 밝은 반투명 흰 표면 + 대각 스페큘러 하이라이트 + 옅은 엣지 */
+.glass {
+  position: relative;
+  background: var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur)) saturate(185%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(185%);
+  border-radius: 24px;
+  box-shadow:
+    inset 0 1px 0 var(--glass-specular),
+    0 0 0 1px var(--glass-edge),
+    0 18px 44px -22px rgba(30, 40, 90, 0.28);
+}
+
+/* 대각 그라데이션 스페큘러 하이라이트 (topLeading → bottomTrailing) */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--glass-specular), rgba(255, 255, 255, 0.1) 55%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------- buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 54px;
+  padding-inline: 26px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: transform 0.2s var(--ease-out), background 0.2s ease,
+    box-shadow 0.3s ease, color 0.2s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* 주 액션 — 검정 채움(iOS 라이트 Start). 밝은 바탕에 검정이 또렷하게 섞인다. */
+.btn-primary {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 12px 34px -14px rgba(11, 11, 15, 0.5);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px -14px rgba(11, 11, 15, 0.55);
+}
+
+/* 보조 — 밝은 글래스 */
+.btn-ghost {
+  background: var(--glass-fill-strong);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--glass-edge), inset 0 1px 0 var(--glass-specular);
+}
+
+.btn-ghost:hover {
+  box-shadow: inset 0 0 0 1.5px var(--cobalt), inset 0 1px 0 var(--glass-specular);
+  color: var(--cobalt-deep);
+}
+
+/* ------------------------------------------------------- keyframes */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+@keyframes ripple-out {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.86);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}

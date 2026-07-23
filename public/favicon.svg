@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8A98FF"/>
+      <stop offset="1" stop-color="#5264E8"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="#0B0B0F"/>
+  <!-- 맞댐 리플 — 두 점이 서로를 향해 퍼지는 동심원 -->
+  <circle cx="32" cy="32" r="20" fill="none" stroke="url(#g)" stroke-width="2.4" opacity="0.35"/>
+  <circle cx="32" cy="32" r="13" fill="none" stroke="url(#g)" stroke-width="2.8" opacity="0.6"/>
+  <circle cx="32" cy="32" r="5.4" fill="url(#g)"/>
+</svg>
