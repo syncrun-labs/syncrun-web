@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+# GitHub Pages 배포는 수동 트리거 또는 main 푸시로 실행한다.
+# 켜는 법: 레포 Settings → Pages → Source = "GitHub Actions" 선택.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 동시 배포 1건만 — 진행 중 실행은 취소하지 않고 큐잉
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # project site(user.github.io/syncrun-web/)에 맞춰 base 경로를 주입
+      - run: npm run build
+        env:
+          VITE_BASE: /syncrun-web/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

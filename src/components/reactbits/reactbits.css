@@ -1,0 +1,184 @@
+/* =========================================================================
+   React Bits 컴포넌트 스타일 — SyncRun 토큰에 맞춘 판.
+   ========================================================================= */
+
+/* SplitText -------------------------------------------------------------- */
+.sr-split-word {
+  display: inline-block;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.55em);
+  will-change: transform, opacity;
+}
+
+.sr-split-word.is-in {
+  animation: sr-word-rise 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sr-word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.55em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sr-split-word {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* ShinyText -------------------------------------------------------------- */
+/* 밝은 바탕용 — 코발트→라벤더 시머가 지나가는 액센트 워드 */
+.shiny-text {
+  color: var(--cobalt);
+  font-weight: 700;
+  background: linear-gradient(
+    120deg,
+    var(--cobalt) 32%,
+    var(--runner-3) 50%,
+    var(--cobalt) 68%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4.5s linear infinite;
+}
+
+/* GradientText ----------------------------------------------------------- */
+.gradient-text {
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-text--animate {
+  animation: gradient-move 8s linear infinite;
+}
+
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+/* SpotlightCard ---------------------------------------------------------- */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+  --mx: 50%;
+  --my: 0px;
+}
+
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    360px circle at var(--mx) var(--my),
+    var(--spotlight, rgba(82, 100, 232, 0.28)),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.spotlight-card:hover::after {
+  opacity: 1;
+}
+
+.spotlight-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* StarBorder ------------------------------------------------------------- */
+.star-border {
+  position: relative;
+  display: inline-block;
+  padding: 2px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: transparent;
+  isolation: isolate;
+}
+
+.star-border__travel {
+  position: absolute;
+  width: 320%;
+  height: 60%;
+  opacity: 0.7;
+  border-radius: 50%;
+  z-index: 0;
+  filter: blur(1px);
+}
+
+.star-border__bottom {
+  bottom: -12px;
+  right: -260%;
+  animation: star-move-bottom linear infinite alternate;
+}
+
+.star-border__top {
+  top: -12px;
+  left: -260%;
+  animation: star-move-top linear infinite alternate;
+}
+
+.star-border__inner {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 54px;
+  padding-inline: 28px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #fff;
+  background: linear-gradient(180deg, #1a1b2a, #0c0d16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* 어두운 패널 위에 놓일 때 — 흰 알약 + 잉크 글씨로 뒤집는다 */
+.star-border--light .star-border__inner {
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgba(11, 11, 15, 0.08);
+}
+
+@keyframes star-move-bottom {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-40%);
+  }
+}
+
+@keyframes star-move-top {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(40%);
+  }
+}

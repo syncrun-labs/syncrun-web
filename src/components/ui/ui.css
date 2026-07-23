@@ -1,0 +1,351 @@
+/* =========================================================================
+   제품 비주얼 목업 — 폰(홈)·러닝 카드·라이브 맵 (라이트 · 리퀴드 글래스)
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- Phone */
+.phone {
+  perspective: 1400px;
+  filter: drop-shadow(0 44px 80px rgba(40, 50, 100, 0.28));
+}
+
+.phone__frame {
+  position: relative;
+  width: min(300px, 76vw);
+  aspect-ratio: 9 / 19.3;
+  border-radius: 46px;
+  padding: 10px;
+  /* 실제 기기 베젤 — 진한 프레임이 밝은 화면을 감싼다(검정과 섞임) */
+  background: linear-gradient(160deg, #2a2b34, #101118 62%);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.14),
+    inset 0 0 0 8px #0a0a0d,
+    0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.phone__island {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88px;
+  height: 26px;
+  border-radius: 999px;
+  background: #000;
+  z-index: 5;
+}
+
+.phone__screen {
+  position: relative;
+  height: 100%;
+  border-radius: 38px;
+  /* iOS 라이트 홈 — 밝은 화면 + 은은한 코발트 앰비언트 */
+  background:
+    radial-gradient(80% 46% at 50% 26%, rgba(82, 100, 232, 0.12), transparent 68%),
+    radial-gradient(70% 40% at 80% 100%, rgba(167, 139, 250, 0.1), transparent 66%),
+    #f6f7fb;
+  overflow: hidden;
+  padding: 46px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: 4px;
+}
+
+.phone__brand {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-secondary);
+}
+
+.phone__help {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 0 0 1px var(--glass-edge);
+}
+
+.phone__stage {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.phone__ripple {
+  position: absolute;
+  width: 118px;
+  height: 118px;
+  border-radius: 999px;
+  border: 1.5px solid var(--cobalt);
+  opacity: 0;
+  animation: ripple-out 3.4s ease-out infinite;
+}
+
+.phone__ripple--2 {
+  animation-delay: 1.7s;
+}
+
+.phone__capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px 7px 8px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.phone__avatars {
+  display: flex;
+}
+
+.phone__avatar {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin-right: -8px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 0 0 2px #f6f7fb;
+}
+
+.phone__check {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: var(--success);
+  color: #fff;
+  font-size: 8px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1.5px #f6f7fb;
+}
+
+.phone__capsule-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* iOS 라이트 Start — 검정 알약, 흰 글씨 */
+.phone__start {
+  width: 88%;
+  height: 50px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  box-shadow: 0 12px 26px -12px rgba(11, 11, 15, 0.5);
+}
+
+.phone__goal {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.phone__dock {
+  display: flex;
+  gap: 26px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  margin-top: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.phone__tab {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+}
+
+.phone__tab i {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--text-faint);
+}
+
+.phone__tab.is-active i {
+  background: var(--cobalt);
+  box-shadow: 0 0 10px var(--cobalt-glow);
+}
+
+/* ------------------------------------------------------------- RouteArt */
+.routeart {
+  width: 100%;
+  max-width: 420px;
+  padding: 22px;
+  border-radius: 28px;
+}
+
+.routeart__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.routeart__label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--cobalt);
+}
+
+.routeart__title {
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.routeart__date {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.routeart__canvas {
+  width: 100%;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f8f9fe, #eef0f8);
+  box-shadow: inset 0 0 0 1px var(--glass-edge);
+}
+
+.routeart__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.routeart__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.routeart__stat-k {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.routeart__stat-v {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.routeart__stat-v em {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-left: 3px;
+}
+
+/* -------------------------------------------------------------- LiveMap */
+.livemap {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 28px;
+}
+
+.livemap__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.livemap__pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--success);
+  box-shadow: 0 0 10px var(--success);
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+.livemap__canvas {
+  width: 100%;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f8f9fe, #eef0f8);
+  box-shadow: inset 0 0 0 1px var(--glass-edge);
+}
+
+.livemap__rows {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.livemap__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 6px;
+  border-top: 1px solid var(--glass-edge);
+  font-size: 14px;
+}
+
+.livemap__row:first-child {
+  border-top: none;
+}
+
+.livemap__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+}
+
+.livemap__name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.livemap__pace {
+  margin-left: auto;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.livemap__dist {
+  color: var(--text-tertiary);
+  font-size: 13px;
+  min-width: 56px;
+  text-align: right;
+}
