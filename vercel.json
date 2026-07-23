@@ -3,5 +3,9 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/support", "destination": "/support/index.html" },
+    { "source": "/(.*)", "destination": "/" }
+  ]
 }

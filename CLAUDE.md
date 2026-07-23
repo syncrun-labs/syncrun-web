@@ -43,10 +43,14 @@ npm run preview    # 빌드 결과 미리보기
 
 ## 구조
 
+- 페이지는 라우터 없이 HTML 두 벌이다(`vite.config.ts`의 `rollupOptions.input`):
+  `/`(랜딩 — App Store Connect의 Marketing URL) · `/support`(지원 — Support URL).
+  지원 페이지의 사실관계(맞댐 조건·권한 문구·계정 삭제 경로)는 syncrun-ios의 `project.yml`과 앱 화면을 따른다.
 - `src/index.css` — 디자인 토큰(`:root`) · 리셋 · `.glass` · 버튼 · 키프레임.
 - `src/components/reactbits/` — React Bits 계열(Aurora·SplitText·SpotlightCard·StarBorder·CountUp 등) + `reactbits.css`.
 - `src/components/ui/` — 제품 목업(PhoneMock·RouteArt·LiveMap) + `ui.css`.
 - `src/components/sections/` — 랜딩 섹션. `App.tsx`가 조립한다.
+- `src/support/` — 지원 페이지 진입점과 본문. `src/styles/support.css`가 문서형 레이아웃을 맡는다.
 - `src/styles/sections.css` — 섹션 레이아웃 · 반응형.
 
 ## 배포

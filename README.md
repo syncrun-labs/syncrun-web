@@ -30,9 +30,23 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 장식 레이어(WebGL 등)는 `SafeBoundary`로 감싸 실패해도 페이지 전체가 죽지 않고 CSS 폴백만 남긴다.
 `prefers-reduced-motion` 사용자와 `?reveal=all`(정적 QA)에서는 리빌 게이팅을 건너뛰고 콘텐츠를 즉시 보여준다.
 
+## 페이지
+
+라우터 없이 **HTML 두 벌**로 빌드한다(`vite.config.ts`의 `rollupOptions.input`).
+
+| 주소 | 내용 | App Store Connect |
+| --- | --- | --- |
+| `/` | 랜딩 — 제품 소개 | Marketing URL |
+| `/support` | 지원 — 문의처 · FAQ · 권한 안내 · 계정 삭제 안내(한국어 + 영어 요약) | Support URL |
+
+지원 페이지의 사실관계(맞댐 조건, 권한 문구, 계정 삭제 경로)는 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
+`project.yml` 권한 설명과 앱 화면을 따른다 — 앱이 바뀌면 이 페이지도 같이 고친다.
+
 ## 구조
 
 ```
+index.html                 랜딩 진입 HTML
+support/index.html         지원 페이지 진입 HTML
 src/
   index.css                디자인 토큰(:root) · 리셋 · 글래스 · 버튼 · 키프레임
   main.tsx / App.tsx        진입점 · 섹션 조립
@@ -41,7 +55,9 @@ src/
     reactbits/              React Bits 계열 컴포넌트 + reactbits.css
     ui/                     제품 목업 — PhoneMock(홈) · RouteArt(러닝 카드) · LiveMap + ui.css
     sections/               Nav · Hero · HowItWorks · OneStart · LiveSession · RunCard · Stats · Features · CTA · Footer
+  support/                  지원 페이지 진입점 · 본문(Support.tsx)
   styles/sections.css       섹션 레이아웃 · 반응형
+  styles/support.css        문서형 페이지 레이아웃
 ```
 
 ## 개발
@@ -57,8 +73,8 @@ npm run preview    # 빌드 결과 미리보기
 
 정적 사이트라 어느 정적 호스트에도 올라간다. 빌드 산출물은 `dist/`.
 
-- **Vercel / Netlify**: 프레임워크 = Vite, 빌드 = `npm run build`, 출력 = `dist`. `vercel.json` 포함.
-- **GitHub Pages**: `.github/workflows/deploy.yml`이 준비돼 있다. 레포 **Settings → Pages → Source = "GitHub Actions"**로 켜면 `main` 푸시마다 배포된다. 프로젝트 사이트(`<user>.github.io/syncrun-web/`)라 워크플로가 `VITE_BASE=/syncrun-web/`로 빌드한다. 커스텀 도메인·루트 배포는 기본값 `/` 그대로.
+- **Vercel / Netlify**: 프레임워크 = Vite, 빌드 = `npm run build`, 출력 = `dist`. `vercel.json` 포함 — 지원 페이지는 `/support`, 나머지 경로는 랜딩으로 돌린다.
+- **GitHub Pages**: `.github/workflows/deploy.yml`이 준비돼 있다. 레포 **Settings → Pages → Source = "GitHub Actions"**로 켜면 `main` 푸시마다 배포된다. 프로젝트 사이트(`<user>.github.io/syncrun-web/`)라 워크플로가 `VITE_BASE=/syncrun-web/`로 빌드하고, 지원 페이지는 `/syncrun-web/support/`가 된다. 커스텀 도메인·루트 배포는 기본값 `/` 그대로.
 
 ## SyncRun
 

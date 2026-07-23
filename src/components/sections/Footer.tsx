@@ -1,3 +1,5 @@
+const SUPPORT_URL = `${import.meta.env.BASE_URL}support`;
+
 const COLS = [
   {
     head: "제품",
@@ -6,6 +8,14 @@ const COLS = [
       { label: "함께 달리기", href: "#onestart" },
       { label: "러닝 카드", href: "#card" },
       { label: "기능", href: "#features" },
+    ],
+  },
+  {
+    head: "지원",
+    links: [
+      { label: "지원 · 도움말", href: SUPPORT_URL },
+      { label: "권한 안내", href: `${SUPPORT_URL}#permissions` },
+      { label: "문의", href: "mailto:sjsb4838@gmail.com?subject=%5BSyncRun%20%EB%AC%B8%EC%9D%98%5D" },
     ],
   },
   {
