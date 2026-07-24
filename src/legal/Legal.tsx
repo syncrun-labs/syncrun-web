@@ -15,27 +15,45 @@ const DOCS = [
 
 type DocKey = (typeof DOCS)[number]["key"];
 
-function keyFromHash(): DocKey {
-  const hash = typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
+// 문서별 공개 URL 슬러그 — App Store Connect 개인정보 URL과 앱의 약관 링크가 이 경로(`/legal/<슬러그>`)를 가리킨다.
+const SLUG: Record<DocKey, string> = {
+  terms: "terms-of-service",
+  privacy: "privacy-policy",
+  location: "location-terms",
+};
+const KEY_BY_SLUG: Record<string, DocKey> = {
+  "terms-of-service": "terms",
+  "privacy-policy": "privacy",
+  "location-terms": "location",
+};
+
+// 경로(`/legal/privacy-policy`) 우선, 없으면 레거시 해시(`/legal#privacy`) 폴백으로 표시할 문서를 고른다.
+function keyFromLocation(): DocKey {
+  if (typeof window === "undefined") return "terms";
+  const slug = window.location.pathname.replace(/\/+$/, "").split("/").pop() ?? "";
+  if (KEY_BY_SLUG[slug]) return KEY_BY_SLUG[slug];
+  const hash = window.location.hash.replace("#", "");
   return DOCS.some((doc) => doc.key === hash) ? (hash as DocKey) : "terms";
 }
 
 export default function Legal() {
-  const [active, setActive] = useState<DocKey>(keyFromHash);
+  const [active, setActive] = useState<DocKey>(keyFromLocation);
 
   useEffect(() => {
-    const onHashChange = () => {
-      const key = window.location.hash.replace("#", "");
-      if (DOCS.some((doc) => doc.key === key)) setActive(key as DocKey);
+    const sync = () => setActive(keyFromLocation());
+    window.addEventListener("popstate", sync);
+    window.addEventListener("hashchange", sync);
+    return () => {
+      window.removeEventListener("popstate", sync);
+      window.removeEventListener("hashchange", sync);
     };
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
   const select = (key: DocKey) => {
     setActive(key);
-    if (window.location.hash.replace("#", "") !== key) {
-      history.replaceState(null, "", `#${key}`);
+    const path = `${HOME}legal/${SLUG[key]}`;
+    if (window.location.pathname !== path) {
+      history.replaceState(null, "", path);
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
