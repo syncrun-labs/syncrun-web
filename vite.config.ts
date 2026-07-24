@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         support: resolve(__dirname, "support/index.html"),
+        legal: resolve(__dirname, "legal/index.html"),
       },
     },
   },

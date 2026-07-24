@@ -1,0 +1,191 @@
+/* =========================================================================
+   약관 페이지 — 문서형 레이아웃(support.css) 위에 문서 전환 탭 + 마크다운 본문
+   ========================================================================= */
+
+/* -------------------------------------------------------------- 문서 전환 탭 */
+.legal-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+
+.legal-tab {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+  background: var(--glass-fill-strong);
+  box-shadow: inset 0 0 0 1px var(--glass-edge), inset 0 1px 0 var(--glass-specular);
+  transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s var(--ease-out);
+}
+
+.legal-tab:hover {
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--cobalt), inset 0 1px 0 var(--glass-specular);
+}
+
+.legal-tab:active {
+  transform: scale(0.97);
+}
+
+.legal-tab.is-active {
+  color: #fff;
+  background: var(--ink);
+  box-shadow: 0 10px 26px -14px rgba(11, 11, 15, 0.5);
+}
+
+/* ---------------------------------------------------------------- 본문 패널 */
+.legal-doc {
+  max-width: 52rem;
+  padding: clamp(24px, 4vw, 48px);
+  background: var(--bg-base);
+  border: 1px solid var(--glass-edge);
+  border-radius: 24px;
+  box-shadow: 0 18px 44px -30px rgba(30, 40, 90, 0.28);
+}
+
+/* ------------------------------------------------------------- 마크다운 본문 */
+.md {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--text);
+}
+
+.md__h {
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+  text-wrap: balance;
+}
+
+.md__h1 {
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  margin-bottom: 6px;
+}
+
+.md__h2 {
+  font-size: clamp(1.3rem, 2.6vw, 1.65rem);
+  margin-top: 2.1em;
+  padding-top: 1em;
+  border-top: 1px solid var(--glass-edge);
+}
+
+.md__h3 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin-top: 1.6em;
+}
+
+.md__p {
+  margin-top: 0.85em;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.md__li {
+  display: flex;
+  gap: 0.6em;
+  margin-top: 0.5em;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.md__li-marker {
+  flex-shrink: 0;
+  color: var(--cobalt);
+  font-weight: 600;
+}
+
+.md__li--ordered .md__li-marker {
+  min-width: 1.7em;
+  font-variant-numeric: tabular-nums;
+}
+
+.md__li-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.md__quote {
+  margin-top: 1em;
+  padding: 0.7em 1.1em;
+  border-left: 3px solid var(--cobalt);
+  border-radius: 0 12px 12px 0;
+  background: var(--cobalt-soft);
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.md__hr {
+  margin: 1.9em 0;
+  border: none;
+  border-top: 1px solid var(--glass-edge);
+}
+
+.md__table-wrap {
+  margin-top: 1.1em;
+  overflow-x: auto;
+  border: 1px solid var(--glass-edge);
+  border-radius: 14px;
+}
+
+.md__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.md__table th,
+.md__table td {
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  word-break: keep-all;
+  border-bottom: 1px solid var(--glass-edge);
+  border-right: 1px solid var(--glass-edge);
+}
+
+.md__table tr:last-child th,
+.md__table tr:last-child td {
+  border-bottom: none;
+}
+
+.md__table th:last-child,
+.md__table td:last-child {
+  border-right: none;
+}
+
+.md__table th {
+  background: var(--cobalt-soft);
+  color: var(--ink);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.md code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+  background: rgba(17, 18, 28, 0.06);
+}
+
+.md strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.md a {
+  color: var(--cobalt-deep);
+  border-bottom: 1px solid var(--cobalt-soft);
+}
+
+@media (max-width: 560px) {
+  .legal-doc {
+    padding: 22px 18px;
+    border-radius: 20px;
+  }
+}
