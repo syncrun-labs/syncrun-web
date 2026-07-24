@@ -95,6 +95,11 @@ html {
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
+  /* 마지막 스냅 챕터(CTA) 뒤 footer는 스냅 대상이 아니라 mandatory가 그 지점에서
+     더 못 내려가게 막는다 — footer 끝을 스냅 지점으로 잡아 끝까지 스크롤을 열어준다 */
+  html.snap .footer {
+    scroll-snap-align: end;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
