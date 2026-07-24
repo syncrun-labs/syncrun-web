@@ -1,72 +1,53 @@
-import Aurora from "../reactbits/Aurora";
-import SafeBoundary from "../reactbits/SafeBoundary";
 import SplitText from "../reactbits/SplitText";
 import GradientText from "../reactbits/GradientText";
 import StarBorder from "../reactbits/StarBorder";
 import AnimatedContent from "../reactbits/AnimatedContent";
-import PhoneMock from "../ui/PhoneMock";
+import DeviceFrame from "../ui/DeviceFrame";
+import { useLang } from "../../i18n/lang";
 
-const CHIPS = ["UWB · 20cm", "0.4초 확정", "외부 의존성 0", "SwiftUI · Liquid Glass"];
+const HOME = `${import.meta.env.BASE_URL}shots/home.png`;
 
 export default function Hero() {
-  return (
-    <section className="hero" id="top">
-      <div className="hero__aurora">
-        <SafeBoundary>
-          <Aurora colorStops={["#6C7CFF", "#A78BFA", "#45D8FF"]} amplitude={1.0} blend={0.5} speed={0.35} />
-        </SafeBoundary>
-        <div className="hero__aurora-fade" />
-      </div>
+  const { t } = useLang();
 
+  return (
+    <section className="hero snap-chapter" id="top">
       <div className="hero__grid container">
         <div className="hero__copy">
-          <AnimatedContent direction="up" distance={20} inView={false}>
-            <span className="eyebrow">iOS · 함께 뛰는 러닝</span>
-          </AnimatedContent>
-
           <h1 className="display hero__title">
-            <SplitText text="맞대면, 그 자리에서" splitBy="words" className="hero__title-line" stagger={0.06} inView={false} />
+            <SplitText text={t.hero.titleTop} splitBy="words" className="hero__title-line" stagger={0.06} inView={false} />
             <span className="hero__title-line">
-              함께&nbsp;<GradientText>뛴다</GradientText>
+              <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>{t.hero.titleAccent}</GradientText>
             </span>
           </h1>
 
           <AnimatedContent direction="up" distance={20} delay={0.15} inView={false}>
-            <p className="lede hero__lede">
-              옆 사람과 iPhone을 맞대면 그 순간 함께 뛸 그룹이 결성됩니다. 방 만들기도, 초대 링크도
-              없이 — 함께 뛴 경로는 한 장의 러닝 카드로 남습니다.
-            </p>
+            <p className="lede hero__lede">{t.hero.lede}</p>
           </AnimatedContent>
 
           <AnimatedContent direction="up" distance={20} delay={0.28} inView={false}>
             <div className="hero__actions">
-              <StarBorder as="a" href="#download">
+              <StarBorder as="a" href="#download" color="#FF8A8E">
                 <AppleGlyph />
-                App Store에서 받기
+                {t.hero.ctaPrimary}
               </StarBorder>
-              <a href="#how" className="btn btn-ghost">
-                작동 방식 보기
+              <a href="#onestart" className="btn btn-ghost">
+                {t.hero.ctaSecondary}
               </a>
             </div>
-          </AnimatedContent>
-
-          <AnimatedContent direction="up" distance={20} delay={0.4} inView={false}>
-            <ul className="hero__chips">
-              {CHIPS.map((c) => (
-                <li key={c} className="hero__chip mono">
-                  {c}
-                </li>
-              ))}
-            </ul>
           </AnimatedContent>
         </div>
 
         <div className="hero__visual">
-          <PhoneMock variant="group" />
+          <DeviceFrame src={HOME} alt="SyncRun — 하나의 Start 홈 화면" width={318} priority glow="accent" />
         </div>
       </div>
 
-      <div className="hero__scroll mono">SCROLL</div>
+      <a href="#onestart" className="hero__scroll" aria-label={t.hero.scroll}>
+        <span className="hero__scroll-mouse" aria-hidden="true">
+          <span className="hero__scroll-dot" />
+        </span>
+      </a>
     </section>
   );
 }
