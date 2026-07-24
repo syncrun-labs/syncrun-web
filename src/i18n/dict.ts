@@ -267,7 +267,7 @@ export const dict: Record<Lang, Dict> = {
     },
     bump: {
       eyebrow: "Bump",
-      titleTop: "Touch phones,",
+      titleTop: "Bump phones,",
       titleAccent: "form on the spot",
       lede:
         "Hold the top of your iPhone near your running partner’s. Confirmed within 20cm in 0.4 seconds over UWB, you both join the same session automatically. No shaking, no tap-to-impact.",
