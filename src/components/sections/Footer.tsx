@@ -1,4 +1,5 @@
 const SUPPORT_URL = `${import.meta.env.BASE_URL}support`;
+const LEGAL_URL = `${import.meta.env.BASE_URL}legal`;
 
 const COLS = [
   {
@@ -16,6 +17,14 @@ const COLS = [
       { label: "지원 · 도움말", href: SUPPORT_URL },
       { label: "권한 안내", href: `${SUPPORT_URL}#permissions` },
       { label: "문의", href: "mailto:sjsb4838@gmail.com?subject=%5BSyncRun%20%EB%AC%B8%EC%9D%98%5D" },
+    ],
+  },
+  {
+    head: "약관",
+    links: [
+      { label: "이용약관", href: `${LEGAL_URL}#terms` },
+      { label: "개인정보 처리방침", href: `${LEGAL_URL}#privacy` },
+      { label: "위치기반서비스", href: `${LEGAL_URL}#location` },
     ],
   },
   {
