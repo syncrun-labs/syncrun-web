@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import BrandMark from "../ui/BrandMark";
 import { useLang } from "../../i18n/lang";
 import type { Lang } from "../../i18n/dict";
+
+const WORDMARK = `${import.meta.env.BASE_URL}brand/wordmark.png`;
 
 export default function Nav() {
   const { t, lang, setLang } = useLang();
@@ -30,8 +31,7 @@ export default function Nav() {
       <div className="nav__inner container">
         <div className="nav__bar">
           <a href="#top" className="nav__brand" aria-label="SyncRun">
-            <BrandMark size={24} className="nav__mark" />
-            <span>SyncRun</span>
+            <img src={WORDMARK} alt="SyncRun" className="nav__wordmark" />
           </a>
 
           <nav className="nav__links">
