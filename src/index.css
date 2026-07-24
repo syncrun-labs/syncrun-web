@@ -58,7 +58,7 @@
     "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Helvetica Neue", system-ui, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, "Menlo", "Consolas", monospace;
 
-  --maxw: 1180px;
+  --maxw: 1000px;
   --gutter: clamp(20px, 5vw, 64px);
   --nav-h: 56px;
 
