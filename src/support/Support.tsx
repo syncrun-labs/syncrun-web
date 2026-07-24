@@ -1,6 +1,7 @@
 const EMAIL = "sjsb4838@gmail.com";
 const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent("[SyncRun 문의]")}`;
 const HOME = import.meta.env.BASE_URL;
+const LEGAL = `${HOME}legal`;
 
 const FAQ = [
   {
@@ -220,8 +221,12 @@ export default function Support() {
               <div>
                 <h3 className="doc__h3">약관과 처리방침</h3>
                 <p className="doc__p">
-                  이용약관, 개인정보 처리방침, 위치기반서비스 이용약관 전문은 앱 첫 실행의 동의 화면과 &lsquo;나&rsquo;
-                  탭 &gt; 계정 관리에서 열람할 수 있습니다.
+                  이용약관, 개인정보 처리방침, 위치기반서비스 이용약관 전문은{" "}
+                  <a href={LEGAL} className="doc__inline-link">
+                    약관 및 정책
+                  </a>{" "}
+                  페이지에서 볼 수 있고, 앱 첫 실행의 동의 화면과 &lsquo;나&rsquo; 탭 &gt; 계정 관리에서도 열람할 수
+                  있습니다.
                 </p>
               </div>
               <div>
@@ -261,6 +266,7 @@ export default function Support() {
           <span className="mono">© 2026 SyncRun Labs</span>
           <div className="doc-foot__links">
             <a href={HOME}>홈</a>
+            <a href={LEGAL}>약관</a>
             <a href={MAILTO}>문의</a>
             <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer">
               GitHub
