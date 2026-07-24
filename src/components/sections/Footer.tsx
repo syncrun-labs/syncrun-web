@@ -1,7 +1,7 @@
-import BrandMark from "../ui/BrandMark";
 import { useLang } from "../../i18n/lang";
 
 const BASE = import.meta.env.BASE_URL;
+const WORDMARK = `${BASE}brand/wordmark.png`;
 
 /** 지원/약관은 별도 HTML 페이지라 BASE_URL을 붙인다. 앵커·외부·mailto는 그대로. */
 function resolve(href: string): string {
@@ -18,8 +18,7 @@ export default function Footer() {
       <div className="container footer__inner">
         <div className="footer__brand">
           <div className="footer__logo">
-            <BrandMark size={26} />
-            <span>SyncRun</span>
+            <img src={WORDMARK} alt="SyncRun" className="footer__wordmark" />
           </div>
           <p className="footer__tag">{f.tagline}</p>
         </div>
