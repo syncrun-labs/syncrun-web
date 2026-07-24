@@ -35,15 +35,15 @@
 }
 
 /* ShinyText -------------------------------------------------------------- */
-/* 밝은 바탕용 — 코발트→라벤더 시머가 지나가는 액센트 워드 */
+/* 밝은 바탕용 — 코랄→피치 시머가 지나가는 액센트 워드 */
 .shiny-text {
-  color: var(--cobalt);
+  color: var(--accent-core);
   font-weight: 700;
   background: linear-gradient(
     120deg,
-    var(--cobalt) 32%,
-    var(--runner-3) 50%,
-    var(--cobalt) 68%
+    var(--accent-core) 32%,
+    var(--accent-bright) 50%,
+    var(--accent-core) 68%
   );
   background-size: 220% 100%;
   -webkit-background-clip: text;

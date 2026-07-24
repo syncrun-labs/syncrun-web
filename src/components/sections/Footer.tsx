@@ -1,79 +1,50 @@
-const SUPPORT_URL = `${import.meta.env.BASE_URL}support`;
-const LEGAL_URL = `${import.meta.env.BASE_URL}legal`;
+import BrandMark from "../ui/BrandMark";
+import { useLang } from "../../i18n/lang";
 
-const COLS = [
-  {
-    head: "제품",
-    links: [
-      { label: "작동 방식", href: "#how" },
-      { label: "함께 달리기", href: "#onestart" },
-      { label: "러닝 카드", href: "#card" },
-      { label: "기능", href: "#features" },
-    ],
-  },
-  {
-    head: "지원",
-    links: [
-      { label: "지원 · 도움말", href: SUPPORT_URL },
-      { label: "권한 안내", href: `${SUPPORT_URL}#permissions` },
-      { label: "문의", href: "mailto:sjsb4838@gmail.com?subject=%5BSyncRun%20%EB%AC%B8%EC%9D%98%5D" },
-    ],
-  },
-  {
-    head: "약관",
-    links: [
-      { label: "이용약관", href: `${LEGAL_URL}#terms` },
-      { label: "개인정보 처리방침", href: `${LEGAL_URL}#privacy` },
-      { label: "위치기반서비스", href: `${LEGAL_URL}#location` },
-    ],
-  },
-  {
-    head: "개발",
-    links: [
-      { label: "GitHub", href: "https://github.com/syncrun-labs" },
-      { label: "iOS 앱", href: "https://github.com/syncrun-labs/syncrun-ios" },
-      { label: "백엔드", href: "https://github.com/syncrun-labs/syncrun-server" },
-    ],
-  },
-];
+const BASE = import.meta.env.BASE_URL;
+
+/** 지원/약관은 별도 HTML 페이지라 BASE_URL을 붙인다. 앵커·외부·mailto는 그대로. */
+function resolve(href: string): string {
+  if (href.startsWith("#") || href.startsWith("http") || href.startsWith("mailto")) return href;
+  return `${BASE}${href}`;
+}
 
 export default function Footer() {
+  const { t } = useLang();
+  const f = t.footer;
+
   return (
     <footer className="footer">
       <div className="container footer__inner">
         <div className="footer__brand">
           <div className="footer__logo">
-            <svg viewBox="0 0 64 64" width="26" height="26" aria-hidden="true">
-              <circle cx="32" cy="32" r="20" fill="none" stroke="var(--cobalt-bright)" strokeWidth="2.4" opacity="0.35" />
-              <circle cx="32" cy="32" r="13" fill="none" stroke="var(--cobalt-bright)" strokeWidth="2.8" opacity="0.6" />
-              <circle cx="32" cy="32" r="5.4" fill="var(--cobalt)" />
-            </svg>
+            <BrandMark size={26} />
             <span>SyncRun</span>
           </div>
-          <p className="footer__tag">
-            맞대면 그 자리에서 함께 뛰는 러닝 앱.
-            <br />
-            SwiftUI · Liquid Glass.
-          </p>
+          <p className="footer__tag">{f.tagline}</p>
         </div>
 
         <nav className="footer__cols">
-          {COLS.map((c) => (
+          {f.cols.map((c) => (
             <div key={c.head} className="footer__col">
               <span className="footer__head mono">{c.head}</span>
-              {c.links.map((l) => (
-                <a key={l.label} href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
-                  {l.label}
-                </a>
-              ))}
+              {c.links.map((l) => {
+                const href = resolve(l.href);
+                const external = href.startsWith("http");
+                return (
+                  <a key={l.label} href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+                    {l.label}
+                  </a>
+                );
+              })}
             </div>
           ))}
         </nav>
       </div>
 
       <div className="container footer__bottom">
-        <span className="mono">© 2026 SyncRun Labs</span>
-        <span className="mono">Made with React Bits · Liquid Glass</span>
+        <span className="mono">{f.rights}</span>
+        <a className="footer__mailto" href="mailto:sjsb4838@gmail.com">sjsb4838@gmail.com</a>
       </div>
     </footer>
   );

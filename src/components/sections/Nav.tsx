@@ -1,49 +1,72 @@
 import { useEffect, useState } from "react";
-import Magnet from "../reactbits/Magnet";
-
-const LINKS = [
-  { label: "작동 방식", href: "#how" },
-  { label: "함께 달리기", href: "#onestart" },
-  { label: "러닝 카드", href: "#card" },
-  { label: "기능", href: "#features" },
-];
+import { motion, useScroll, useSpring } from "framer-motion";
+import BrandMark from "../ui/BrandMark";
+import { useLang } from "../../i18n/lang";
+import type { Lang } from "../../i18n/dict";
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+  const { t, lang, setLang } = useLang();
+  const [condensed, setCondensed] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setCondensed(window.scrollY > 60);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const links = [
+    { label: t.nav.how, href: "#onestart" },
+    { label: t.nav.card, href: "#card" },
+    { label: t.nav.activity, href: "#activity" },
+    { label: t.nav.features, href: "#features" },
+  ];
+
   return (
-    <header className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
+    <header className={`nav ${condensed ? "nav--condensed" : ""}`}>
+      <motion.span className="nav__progress" style={{ scaleX: progress }} aria-hidden="true" />
       <div className="nav__inner container">
-        <a href="#top" className="nav__brand">
-          <svg className="nav__mark" viewBox="0 0 64 64" aria-hidden="true">
-            <circle cx="32" cy="32" r="20" fill="none" stroke="var(--cobalt-bright)" strokeWidth="2.4" opacity="0.35" />
-            <circle cx="32" cy="32" r="13" fill="none" stroke="var(--cobalt-bright)" strokeWidth="2.8" opacity="0.6" />
-            <circle cx="32" cy="32" r="5.4" fill="var(--cobalt)" />
-          </svg>
-          <span>SyncRun</span>
-        </a>
-
-        <nav className="nav__links">
-          {LINKS.map((l) => (
-            <a key={l.href} href={l.href}>
-              {l.label}
-            </a>
-          ))}
-        </nav>
-
-        <Magnet strength={0.25} radius={90}>
-          <a href="#download" className="btn btn-primary nav__cta">
-            App Store
+        <div className="nav__bar">
+          <a href="#top" className="nav__brand" aria-label="SyncRun">
+            <BrandMark size={24} className="nav__mark" />
+            <span>SyncRun</span>
           </a>
-        </Magnet>
+
+          <nav className="nav__links">
+            {links.map((l) => (
+              <a key={l.href} href={l.href}>
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="nav__right">
+            <LangToggle lang={lang} setLang={setLang} />
+            <a href="#download" className="btn btn-primary nav__cta">
+              {t.nav.cta}
+            </a>
+          </div>
+        </div>
       </div>
     </header>
+  );
+}
+
+function LangToggle({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
+  return (
+    <div className="lang-toggle" role="group" aria-label="Language">
+      {(["ko", "en"] as Lang[]).map((l) => (
+        <button
+          key={l}
+          className={`lang-toggle__opt ${lang === l ? "is-active" : ""}`}
+          onClick={() => setLang(l)}
+          aria-pressed={lang === l}
+        >
+          {l === "ko" ? "KO" : "EN"}
+        </button>
+      ))}
+    </div>
   );
 }
