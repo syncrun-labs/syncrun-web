@@ -63,6 +63,7 @@ npm run preview    # 빌드 결과 미리보기
 - `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running·me). `public/brand/` — 로고(wordmark·icon).
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
 - `src/support/`·`src/legal/` — 지원·약관 페이지 진입점과 본문(i18n 미적용, 한국어). `src/styles/support.css`·`legal.css`가 문서형 레이아웃.
+  **`src/legal/docs/*.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 원문이 개정되면 그대로 복사해 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
 - `src/styles/sections.css` — 섹션 레이아웃 · 반응형.
 
 ## 배포
