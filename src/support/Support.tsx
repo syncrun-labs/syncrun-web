@@ -2,6 +2,7 @@ const EMAIL = "sjsb4838@gmail.com";
 const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent("[SyncRun 문의]")}`;
 const HOME = import.meta.env.BASE_URL;
 const LEGAL = `${HOME}legal`;
+const WORDMARK = `${HOME}brand/wordmark.png`;
 
 const FAQ = [
   {
@@ -119,12 +120,7 @@ export default function Support() {
       <header className="doc-nav">
         <div className="container doc-nav__inner">
           <a href={HOME} className="doc-nav__brand">
-            <svg viewBox="0 0 64 64" width="24" height="24" aria-hidden="true">
-              <circle cx="32" cy="32" r="20" fill="none" stroke="var(--cobalt-bright)" strokeWidth="2.4" opacity="0.35" />
-              <circle cx="32" cy="32" r="13" fill="none" stroke="var(--cobalt-bright)" strokeWidth="2.8" opacity="0.6" />
-              <circle cx="32" cy="32" r="5.4" fill="var(--cobalt)" />
-            </svg>
-            <span>SyncRun</span>
+            <img src={WORDMARK} alt="SyncRun" className="doc-nav__wordmark" />
           </a>
           <div className="doc-nav__actions">
             <a href={HOME} className="doc-nav__link">

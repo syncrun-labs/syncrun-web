@@ -35,7 +35,7 @@
   padding-top: 9px;
 }
 
-/* 상단엔 전폭 바, 스크롤하면 가운데로 가로 수축 → 플로팅 글래스 알약 */
+/* 상단 전폭 바 — 크기는 스크롤해도 그대로, 항상 플로팅 글래스 */
 .nav__bar {
   display: flex;
   align-items: center;
@@ -43,18 +43,10 @@
   gap: 18px;
   height: 44px;
   width: 100%;
-  max-width: 1180px;
+  max-width: var(--maxw);
   margin-inline: auto;
-  padding: 4px 8px;
+  padding: 0 0 0 16px;
   border-radius: 999px;
-  /* 부드러운 수축 — max-width만 애니메이트(길이값이라 매끄럽게 보간된다) */
-  transition: max-width 0.66s cubic-bezier(0.22, 1, 0.36, 1),
-    background 0.45s ease, box-shadow 0.55s ease, padding 0.55s ease;
-}
-
-.nav--condensed .nav__bar {
-  max-width: 700px;
-  padding: 5px 6px 5px 18px;
   background: var(--glass-fill-strong);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -75,24 +67,17 @@
   flex: none;
 }
 
-/* 스크롤 시 가운데 링크가 사라지며 가로로 줄어드는 효과 */
+.nav__wordmark {
+  height: 32px;
+  width: auto;
+}
+
 .nav__links {
   display: flex;
   gap: 28px;
   font-size: 14px;
   color: var(--text-secondary);
-  overflow: hidden;
   white-space: nowrap;
-  max-width: 640px;
-  opacity: 1;
-  transition: max-width 0.66s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
-}
-
-.nav--condensed .nav__links {
-  max-width: 0;
-  opacity: 0;
-  margin-inline: -9px;
-  pointer-events: none;
 }
 
 .nav__links a {
@@ -137,8 +122,8 @@
   background: var(--ink);
 }
 
-.nav__cta {
-  height: 36px;
+.nav__bar .nav__cta {
+  height: 44px;
   font-size: 13.5px;
   padding-inline: 16px;
 }
@@ -149,8 +134,6 @@
   }
   .nav__bar {
     max-width: 100% !important;
-    background: none !important;
-    box-shadow: none !important;
     padding-inline: 4px;
   }
 }
@@ -176,6 +159,7 @@
 .hero__title {
   margin: 0 0 8px;
   max-width: 100%;
+  font-size: clamp(2.6rem, 7.4vw, 5.8rem);
 }
 
 .hero__title-line {
@@ -602,7 +586,7 @@
 .features__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 .feature-cell {
@@ -615,7 +599,7 @@
 
 .feature {
   position: relative;
-  padding: 28px;
+  padding: 24px;
   border-radius: 24px;
   height: 100%;
 }
@@ -626,7 +610,7 @@
   width: 34px;
   height: 4px;
   border-radius: 999px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .feature__title {
@@ -642,7 +626,17 @@
   max-width: 34em;
 }
 
+/* 태블릿 — 3열→2열로 한 단계 거쳐 좁아진다 */
 @media (max-width: 880px) {
+  .features__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .feature--wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 560px) {
   .features__grid {
     grid-template-columns: 1fr;
   }
@@ -751,6 +745,11 @@
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--ink);
+}
+
+.footer__wordmark {
+  height: 34px;
+  width: auto;
 }
 
 .footer__tag {
