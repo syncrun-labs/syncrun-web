@@ -1,10 +1,8 @@
 name: Deploy to GitHub Pages
 
-# GitHub Pages 배포는 수동 트리거 또는 main 푸시로 실행한다.
-# 켜는 법: 레포 Settings → Pages → Source = "GitHub Actions" 선택.
+# 공개 사이트는 Vercel이 main에서 자동 배포한다. 이 워크플로는 GitHub Pages로 옮길 때를 위한 수동 경로다.
+# 켜는 법: 레포 Settings → Pages → Source = "GitHub Actions" 선택 후 수동 실행.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
