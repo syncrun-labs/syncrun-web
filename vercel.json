@@ -5,11 +5,17 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/support", "destination": "/support/index.html" },
-    { "source": "/legal", "destination": "/legal/index.html" },
-    { "source": "/legal/privacy-policy", "destination": "/legal/index.html" },
-    { "source": "/legal/terms-of-service", "destination": "/legal/index.html" },
-    { "source": "/legal/location-terms", "destination": "/legal/index.html" },
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/support",
+      "destination": "/support/index.html"
+    },
+    {
+      "source": "/legal",
+      "destination": "/legal/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
   ]
 }
