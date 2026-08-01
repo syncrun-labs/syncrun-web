@@ -7,7 +7,9 @@
   "rewrites": [
     { "source": "/support", "destination": "/support/index.html" },
     { "source": "/legal", "destination": "/legal/index.html" },
-    { "source": "/legal/(privacy-policy|terms-of-service|location-terms)", "destination": "/legal/index.html" },
+    { "source": "/legal/privacy-policy", "destination": "/legal/index.html" },
+    { "source": "/legal/terms-of-service", "destination": "/legal/index.html" },
+    { "source": "/legal/location-terms", "destination": "/legal/index.html" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
