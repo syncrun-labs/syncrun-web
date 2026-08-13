@@ -3,9 +3,10 @@ import Markdown from "./Markdown";
 import termsSrc from "./docs/terms-of-service.md?raw";
 import privacySrc from "./docs/privacy-policy.md?raw";
 import locationSrc from "./docs/location-terms.md?raw";
+import { supportMailto } from "../lib/contact";
 
 const HOME = import.meta.env.BASE_URL;
-const MAILTO = `mailto:sjsb4838@gmail.com?subject=${encodeURIComponent("[SyncRun 문의]")}`;
+const MAILTO = supportMailto("[SyncRun 문의]");
 const WORDMARK = `${HOME}brand/wordmark.png`;
 
 const DOCS = [

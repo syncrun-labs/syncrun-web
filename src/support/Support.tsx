@@ -1,5 +1,7 @@
-const EMAIL = "sjsb4838@gmail.com";
-const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent("[SyncRun 문의]")}`;
+import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
+
+const EMAIL = SUPPORT_EMAIL;
+const MAILTO = supportMailto("[SyncRun 문의]");
 const HOME = import.meta.env.BASE_URL;
 const LEGAL = `${HOME}legal`;
 const WORDMARK = `${HOME}brand/wordmark.png`;

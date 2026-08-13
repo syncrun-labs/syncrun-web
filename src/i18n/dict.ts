@@ -1,6 +1,8 @@
 /* 랜딩 카피 — 한국어/영어. 제품 메시지는 syncrun 허브의 현재 사실을 따른다.
    구조: dict[lang].<섹션>.<키>. 컴포넌트는 useLang()의 t로 접근한다. */
 
+import { supportMailto } from "../lib/contact";
+
 export type Lang = "ko" | "en";
 
 export interface Dict {
@@ -206,7 +208,7 @@ export const dict: Record<Lang, Dict> = {
           links: [
             { label: "지원 · 도움말", href: `${SUPPORT}` },
             { label: "권한 안내", href: `${SUPPORT}#permissions` },
-            { label: "문의", href: "mailto:sjsb4838@gmail.com?subject=%5BSyncRun%20%EB%AC%B8%EC%9D%98%5D" },
+            { label: "문의", href: supportMailto("[SyncRun 문의]") },
           ],
         },
         {
@@ -353,7 +355,7 @@ export const dict: Record<Lang, Dict> = {
           links: [
             { label: "Support · Help", href: `${SUPPORT}` },
             { label: "Permissions", href: `${SUPPORT}#permissions` },
-            { label: "Contact", href: "mailto:sjsb4838@gmail.com?subject=%5BSyncRun%5D" },
+            { label: "Contact", href: supportMailto("[SyncRun]") },
           ],
         },
         {

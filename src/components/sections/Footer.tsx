@@ -1,4 +1,5 @@
 import { useLang } from "../../i18n/lang";
+import { SUPPORT_EMAIL } from "../../lib/contact";
 
 const BASE = import.meta.env.BASE_URL;
 const WORDMARK = `${BASE}brand/wordmark.png`;
@@ -43,7 +44,7 @@ export default function Footer() {
 
       <div className="container footer__bottom">
         <span className="mono">{f.rights}</span>
-        <a className="footer__mailto" href="mailto:sjsb4838@gmail.com">sjsb4838@gmail.com</a>
+        <a className="footer__mailto" href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
       </div>
     </footer>
   );
