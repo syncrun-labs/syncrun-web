@@ -1,4 +1,5 @@
 import { useLang } from "../../i18n/lang";
+import { COMPANY } from "../../lib/company";
 import { SUPPORT_EMAIL } from "../../lib/contact";
 
 const BASE = import.meta.env.BASE_URL;
@@ -11,8 +12,9 @@ function resolve(href: string): string {
 }
 
 export default function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const f = t.footer;
+  const c = COMPANY[lang];
 
   return (
     <footer className="footer">
@@ -40,6 +42,16 @@ export default function Footer() {
             </div>
           ))}
         </nav>
+      </div>
+
+      <div className="container footer__biz">
+        <span className="footer__head mono">{f.bizHead}</span>
+        <p className="footer__biz-line">
+          {c.legalName} · {f.bizLabels.ceo} {c.ceo} · {f.bizLabels.bizNo} {c.bizNo}
+        </p>
+        <p className="footer__biz-line">
+          ({c.postalCode}) {c.address}
+        </p>
       </div>
 
       <div className="container footer__bottom">

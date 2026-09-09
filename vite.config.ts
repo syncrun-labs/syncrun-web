@@ -27,13 +27,14 @@ export default defineConfig({
   base: process.env.VITE_BASE ?? "/",
   plugins: [react(), legalDocumentRoutes()],
   build: {
-    // 랜딩(/)과 지원 페이지(/support)는 각각 독립된 HTML로 빌드된다 —
+    // 랜딩(/)과 지원·약관·회사 페이지는 각각 독립된 HTML로 빌드된다 —
     // App Store Connect에 적는 Support URL은 라우터 없이도 열리는 실제 주소여야 한다.
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
         support: resolve(__dirname, "support/index.html"),
         legal: resolve(__dirname, "legal/index.html"),
+        company: resolve(__dirname, "company/index.html"),
       },
     },
   },

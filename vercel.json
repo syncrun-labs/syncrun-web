@@ -14,6 +14,10 @@
       "destination": "/legal/index.html"
     },
     {
+      "source": "/company",
+      "destination": "/company/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

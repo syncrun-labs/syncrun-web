@@ -790,6 +790,23 @@
   color: var(--ink);
 }
 
+.footer__biz {
+  padding-bottom: 22px;
+}
+
+.footer__biz .footer__head {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer__biz-line {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-faint);
+  word-break: keep-all;
+}
+
 .footer__bottom {
   display: flex;
   justify-content: space-between;

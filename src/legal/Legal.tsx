@@ -117,6 +117,7 @@ export default function Legal() {
           <span className="mono">© 2026 SyncRun Labs</span>
           <div className="doc-foot__links">
             <a href={HOME}>홈</a>
+            <a href={`${HOME}company`}>회사 소개</a>
             <a href={`${HOME}support`}>지원</a>
             <a href={MAILTO}>문의</a>
           </div>

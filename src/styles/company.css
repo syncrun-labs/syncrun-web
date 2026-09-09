@@ -1,0 +1,64 @@
+/* =========================================================================
+   회사 소개 — 문서형 레이아웃(support.css)을 그대로 쓰고, 사업자 정보 표만 더한다.
+   표는 <table>이 아니라 <dl>이다. 항목·값 두 칸뿐이라 좁은 화면에서 세로로 접혀야 한다.
+   ========================================================================= */
+
+.biz {
+  margin: 28px 0 0;
+  border-top: 1px solid var(--glass-edge);
+}
+
+.biz__row {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 14rem) 1fr;
+  gap: 8px 28px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--glass-edge);
+}
+
+.biz__k {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  padding-top: 2px;
+}
+
+.biz__v {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+@media (max-width: 640px) {
+  .biz__row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* 마일스톤 — 지원 페이지의 Q&A 행을 그대로 쓰되, 라벨이 "2026.08"이라 칸을 넓힌다.
+   답변 문단이 질문 없이 홀로 서므로 위 여백도 지운다. */
+.doc__faq--milestones .doc__qa {
+  grid-template-columns: 86px 1fr;
+}
+
+.doc__faq--milestones .doc__qa-a {
+  margin-top: 0;
+}
+
+/* 기술 스택 — 지원 페이지의 권한 격자를 쓰되 항목이 셋이라 3열로 둔다.
+   2열이면 빈 칸 하나가 배경색 그대로 남아 카드가 하나 비어 보인다.
+   클래스를 두 번 겹쳐 특정도를 올린다 — 빌드가 support.css를 이 파일 뒤에 싣기 때문에
+   같은 특정도로는 2열 규칙에 진다. */
+.doc__perms.doc__perms--stack {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .doc__perms.doc__perms--stack {
+    grid-template-columns: 1fr;
+  }
+}
