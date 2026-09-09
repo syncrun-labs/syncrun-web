@@ -18,7 +18,7 @@ export const COMPANY = {
     postalCode: "38659",
     industry: "정보통신업 · 응용 소프트웨어 개발 및 공급업",
     form: "개인사업자",
-    founded: "2026년",
+    founded: "2026년 설립",
   },
   en: {
     name: "SyncRun Labs",
@@ -30,7 +30,7 @@ export const COMPANY = {
     postalCode: "38659",
     industry: "Information & communications · Application software development and supply",
     form: "Sole proprietorship",
-    founded: "2026",
+    founded: "Founded 2026",
   },
   site: "www.syncrunlabs.com",
   github: "https://github.com/syncrun-labs",
