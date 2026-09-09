@@ -54,9 +54,13 @@ npm run preview    # 빌드 결과 미리보기
   지원 페이지의 사실관계(맞댐 조건·권한 문구·계정 삭제 경로)는 syncrun-ios의 `project.yml`과 앱 화면을 따른다.
   **회사 소개의 사업자 정보는 약관(이용약관 제27조·위치기반서비스 이용약관 제16조)과 같은 값이어야 한다** —
   값은 `src/lib/company.ts` 한 곳에 두고 랜딩 푸터도 그 상수를 읽는다. 약관이 개정되면 이 상수를 함께 본다.
-- **i18n**(`src/i18n/`): `dict.ts`(ko/en 카피 — 구조 `t.<섹션>.<키>`) · `lang.tsx`(`LangProvider`/`useLang`).
+- **i18n**(`src/i18n/`): **네 페이지 전부 ko/en이다.** `lang.tsx`(`LangProvider`/`useLang`)를 각 진입점이 감싸고,
+  카피는 페이지마다 한 파일이다 — `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `legal.ts`.
+  **랜딩 카피만 `useLang().t`로 오고, 문서형 페이지는 `useLang().lang`으로 자기 카피 객체를 고른다** — 한 파일에 다 넣으면 dict가 감당이 안 된다.
+  **`LangProvider`에 `meta`를 넘겨 페이지마다 제목·설명을 갖는다**(안 넘기면 랜딩 제목이 덮어써진다).
   첫 언어는 `navigator.languages`로 자동 감지 — **한국어를 하드 기본값으로 두지 않는다**(로케일에 한국어가 있을 때만 ko, 그 외 en).
-  선택은 `localStorage('sr-lang')`에 저장되고 Nav의 KO/EN 토글로 바꾼다. 카피 변경은 `dict.ts` 한 곳에서.
+  선택은 `localStorage('sr-lang')`에 저장되고 `components/LangToggle.tsx`(랜딩 Nav·문서형 페이지 공용)로 바꾼다.
+  **약관 본문(`src/legal/docs/*.md`)은 번역하지 않는다** — 한국어가 정본이고 앱이 동의를 받는 문서다. 영어 화면에서는 그 사실과 요지를 알리는 안내만 띄운다.
 - **스냅 스크롤**: `App`이 `html.snap`을 붙이고, 스토리 섹션에 `.snap-chapter`. reduced-motion·모바일에선 미디어쿼리로 끈다.
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
 - `src/components/reactbits/` — React Bits 계열(Aurora·SplitText·SpotlightCard·StarBorder·CountUp 등) + `reactbits.css`.
@@ -64,7 +68,7 @@ npm run preview    # 빌드 결과 미리보기
 - `src/components/sections/` — 랜딩 섹션(Nav·Hero·OneStart·Bump[다크]·LiveSession·RunCard·Activity·Stats·Features·CTA[다크]·Footer). `App.tsx`가 조립한다.
 - `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running·me). `public/brand/` — 로고(wordmark·icon).
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
-- `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문(i18n 미적용, 한국어 본문 + 영어 절).
+- `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 원문이 개정되면 그대로 복사해 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
 - `src/styles/sections.css` — 섹션 레이아웃 · 반응형.
