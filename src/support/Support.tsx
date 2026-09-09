@@ -4,6 +4,7 @@ const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
 const HOME = import.meta.env.BASE_URL;
 const LEGAL = `${HOME}legal`;
+const COMPANY_PAGE = `${HOME}company`;
 const WORDMARK = `${HOME}brand/wordmark.png`;
 
 const FAQ = [
@@ -145,7 +146,7 @@ export default function Support() {
               맞대면 그 자리에서 함께 뛰는 러닝 앱, SyncRun. 자주 막히는 지점과 문의 방법을 이 한 페이지에 모았습니다.
             </p>
             <p className="doc__meta mono">
-              iOS 18.0 이상 · Apple Watch는 watchOS 11.0 이상(선택) · 앱 버전 0.1.0
+              iOS 18.0 이상 · Apple Watch는 watchOS 11.0 이상(선택) · 앱 버전 1.0.0
             </p>
           </section>
 
@@ -265,6 +266,7 @@ export default function Support() {
           <span className="mono">© 2026 SyncRun Labs</span>
           <div className="doc-foot__links">
             <a href={HOME}>홈</a>
+            <a href={COMPANY_PAGE}>회사 소개</a>
             <a href={LEGAL}>약관</a>
             <a href={MAILTO}>문의</a>
             <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer">

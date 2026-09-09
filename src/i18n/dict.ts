@@ -76,15 +76,19 @@ export interface Dict {
   footer: {
     tagline: string;
     cols: { head: string; links: { label: string; href: string }[] }[];
+    /* 사업자 정보 — 값은 lib/company.ts에서 오고 여기엔 라벨만 둔다. */
+    bizHead: string;
+    bizLabels: { ceo: string; bizNo: string };
     rights: string;
     made: string;
   };
   common: { appStore: string; langName: string; comingSoon: string };
 }
 
-/* 지원/약관은 라우터 없는 별도 HTML 페이지다(vite rollup input). Footer가 BASE_URL을 붙인다. */
+/* 지원/약관/회사는 라우터 없는 별도 HTML 페이지다(vite rollup input). Footer가 BASE_URL을 붙인다. */
 const SUPPORT = "support";
 const LEGAL = "legal";
+const COMPANY_PAGE = "company";
 
 export const dict: Record<Lang, Dict> = {
   ko: {
@@ -206,6 +210,7 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "지원",
           links: [
+            { label: "회사 소개", href: `${COMPANY_PAGE}` },
             { label: "지원 · 도움말", href: `${SUPPORT}` },
             { label: "권한 안내", href: `${SUPPORT}#permissions` },
             { label: "문의", href: supportMailto("[SyncRun 문의]") },
@@ -228,6 +233,8 @@ export const dict: Record<Lang, Dict> = {
           ],
         },
       ],
+      bizHead: "사업자 정보",
+      bizLabels: { ceo: "대표", bizNo: "사업자등록번호" },
       rights: "© 2026 SyncRun Labs",
       made: "Made with React Bits · Liquid Glass",
     },
@@ -353,6 +360,7 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "Support",
           links: [
+            { label: "About us", href: `${COMPANY_PAGE}` },
             { label: "Support · Help", href: `${SUPPORT}` },
             { label: "Permissions", href: `${SUPPORT}#permissions` },
             { label: "Contact", href: supportMailto("[SyncRun]") },
@@ -375,6 +383,8 @@ export const dict: Record<Lang, Dict> = {
           ],
         },
       ],
+      bizHead: "Business information",
+      bizLabels: { ceo: "Representative", bizNo: "Business registration no." },
       rights: "© 2026 SyncRun Labs",
       made: "Made with React Bits · Liquid Glass",
     },

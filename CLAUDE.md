@@ -49,9 +49,11 @@ npm run preview    # 빌드 결과 미리보기
 
 ## 구조
 
-- 페이지는 라우터 없이 HTML 세 벌이다(`vite.config.ts`의 `rollupOptions.input`):
-  `/`(랜딩 — App Store Connect의 Marketing URL) · `/support`(지원 — Support URL) · `/legal`(약관).
+- 페이지는 라우터 없이 HTML 네 벌이다(`vite.config.ts`의 `rollupOptions.input`):
+  `/`(랜딩 — App Store Connect의 Marketing URL) · `/support`(지원 — Support URL) · `/legal`(약관) · `/company`(회사 소개).
   지원 페이지의 사실관계(맞댐 조건·권한 문구·계정 삭제 경로)는 syncrun-ios의 `project.yml`과 앱 화면을 따른다.
+  **회사 소개의 사업자 정보는 약관(이용약관 제27조·위치기반서비스 이용약관 제16조)과 같은 값이어야 한다** —
+  값은 `src/lib/company.ts` 한 곳에 두고 랜딩 푸터도 그 상수를 읽는다. 약관이 개정되면 이 상수를 함께 본다.
 - **i18n**(`src/i18n/`): `dict.ts`(ko/en 카피 — 구조 `t.<섹션>.<키>`) · `lang.tsx`(`LangProvider`/`useLang`).
   첫 언어는 `navigator.languages`로 자동 감지 — **한국어를 하드 기본값으로 두지 않는다**(로케일에 한국어가 있을 때만 ko, 그 외 en).
   선택은 `localStorage('sr-lang')`에 저장되고 Nav의 KO/EN 토글로 바꾼다. 카피 변경은 `dict.ts` 한 곳에서.
@@ -62,7 +64,8 @@ npm run preview    # 빌드 결과 미리보기
 - `src/components/sections/` — 랜딩 섹션(Nav·Hero·OneStart·Bump[다크]·LiveSession·RunCard·Activity·Stats·Features·CTA[다크]·Footer). `App.tsx`가 조립한다.
 - `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running·me). `public/brand/` — 로고(wordmark·icon).
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
-- `src/support/`·`src/legal/` — 지원·약관 페이지 진입점과 본문(i18n 미적용, 한국어). `src/styles/support.css`·`legal.css`가 문서형 레이아웃.
+- `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문(i18n 미적용, 한국어 본문 + 영어 절).
+  `src/styles/support.css`·`legal.css`·`company.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 원문이 개정되면 그대로 복사해 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
 - `src/styles/sections.css` — 섹션 레이아웃 · 반응형.
 
