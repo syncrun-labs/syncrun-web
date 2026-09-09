@@ -3,16 +3,20 @@ import Markdown from "./Markdown";
 import termsSrc from "./docs/terms-of-service.md?raw";
 import privacySrc from "./docs/privacy-policy.md?raw";
 import locationSrc from "./docs/location-terms.md?raw";
-import { supportMailto } from "../lib/contact";
+import LangToggle from "../components/LangToggle";
+import { useLang } from "../i18n/lang";
+import { legalCopy } from "../i18n/legal";
+import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 
 const HOME = import.meta.env.BASE_URL;
 const MAILTO = supportMailto("[SyncRun 문의]");
 const WORDMARK = `${HOME}brand/wordmark.png`;
 
+// 본문은 번역하지 않는다 — 약관 3종은 한국어가 정본이고 앱이 동의를 받는 것도 이 문서다.
 const DOCS = [
-  { key: "terms", tab: "이용약관", source: termsSrc },
-  { key: "privacy", tab: "개인정보 처리방침", source: privacySrc },
-  { key: "location", tab: "위치기반서비스", source: locationSrc },
+  { key: "terms", source: termsSrc },
+  { key: "privacy", source: privacySrc },
+  { key: "location", source: locationSrc },
 ] as const;
 
 type DocKey = (typeof DOCS)[number]["key"];
@@ -39,6 +43,8 @@ function keyFromLocation(): DocKey {
 }
 
 export default function Legal() {
+  const { lang } = useLang();
+  const c = legalCopy[lang];
   const [active, setActive] = useState<DocKey>(keyFromLocation);
 
   useEffect(() => {
@@ -71,11 +77,12 @@ export default function Legal() {
           </a>
           <div className="doc-nav__actions">
             <a href={HOME} className="doc-nav__link">
-              홈
+              {c.nav.home}
             </a>
             <a href={`${HOME}support`} className="doc-nav__link">
-              지원
+              {c.nav.support}
             </a>
+            <LangToggle />
           </div>
         </div>
       </header>
@@ -84,14 +91,30 @@ export default function Legal() {
         <div className="container">
           <section className="doc__head">
             <span className="eyebrow">Legal</span>
-            <h1 className="doc__title">약관 및 정책</h1>
-            <p className="lede doc__lede">
-              싱크런(SyncRun)의 이용약관과 개인정보·위치정보 처리 방침 전문입니다. 앱 첫 실행의 동의 화면과 &lsquo;나&rsquo;
-              탭에서도 같은 내용을 볼 수 있습니다.
-            </p>
+            <h1 className="doc__title">{c.head.title}</h1>
+            <p className="lede doc__lede">{c.head.lede}</p>
           </section>
 
-          <div className="legal-tabs" role="tablist" aria-label="약관 문서">
+          {c.notice ? (
+            <aside className="legal-notice">
+              {c.notice.paragraphs.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+              <p>
+                {c.notice.askPrefix}
+                <a href={MAILTO} className="doc__inline-link">
+                  {SUPPORT_EMAIL}
+                </a>
+                {c.notice.askMiddle}
+                <a href={`${HOME}company`} className="doc__inline-link">
+                  {c.notice.askLink}
+                </a>
+                {c.notice.askSuffix}
+              </p>
+            </aside>
+          ) : null}
+
+          <div className="legal-tabs" role="tablist" aria-label={c.tabsLabel}>
             {DOCS.map((item) => (
               <button
                 key={item.key}
@@ -101,7 +124,7 @@ export default function Legal() {
                 className={`legal-tab${item.key === active ? " is-active" : ""}`}
                 onClick={() => select(item.key)}
               >
-                {item.tab}
+                {c.tabs[item.key]}
               </button>
             ))}
           </div>
@@ -116,10 +139,10 @@ export default function Legal() {
         <div className="container doc-foot__inner">
           <span className="mono">© 2026 SyncRun Labs</span>
           <div className="doc-foot__links">
-            <a href={HOME}>홈</a>
-            <a href={`${HOME}company`}>회사 소개</a>
-            <a href={`${HOME}support`}>지원</a>
-            <a href={MAILTO}>문의</a>
+            <a href={HOME}>{c.foot.home}</a>
+            <a href={`${HOME}company`}>{c.foot.company}</a>
+            <a href={`${HOME}support`}>{c.foot.support}</a>
+            <a href={MAILTO}>{c.foot.contact}</a>
           </div>
         </div>
       </footer>

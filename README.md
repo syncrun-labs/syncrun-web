@@ -37,9 +37,13 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 | 주소 | 내용 | App Store Connect |
 | --- | --- | --- |
 | `/` | 랜딩 — 제품 소개 | Marketing URL |
-| `/support` | 지원 — 문의처 · FAQ · 권한 안내 · 계정 삭제 안내(한국어 + 영어 요약) | Support URL |
-| `/company` | 회사 소개 — 제품 · 현황 · 기술 · **사업자 정보**(한국어 + 영어) | — |
+| `/support` | 지원 — 문의처 · FAQ · 권한 안내 · 계정 삭제 안내 | Support URL |
+| `/company` | 회사 소개 — 제품 · 현황 · 기술 · **사업자 정보** | — |
 | `/legal/<슬러그>` | 약관 3종 전문 — `privacy-policy` · `terms-of-service` · `location-terms` | Privacy Policy URL |
+
+**네 페이지 모두 한국어·영어를 갖는다.** 첫 언어는 브라우저 로케일로 정해지고(한국어가 있을 때만 ko, 그 외 en)
+KO/EN 토글로 바꾼 선택이 `localStorage`에 남는다. 카피는 페이지마다 `src/i18n/`에 한 파일씩 있다.
+**약관 본문만 번역하지 않는다** — 한국어가 정본이고 앱이 동의를 받는 문서라, 영어 화면에는 그 사실과 요지를 알리는 안내를 띄운다.
 
 `/company`의 사업자 정보는 약관 3종의 이용약관 제27조·위치기반서비스 이용약관 제16조와 같은 값이어야 한다.
 값은 `src/lib/company.ts` 한 곳에 있고 랜딩 푸터도 같은 상수를 읽는다 — 약관을 고칠 때 이 상수를 함께 본다.
@@ -64,6 +68,8 @@ src/
   support/                  지원 페이지 진입점 · 본문(Support.tsx)
   company/                  회사 소개 진입점 · 본문(Company.tsx)
   lib/company.ts            사업자 정보 상수(약관과 같은 값) — 회사 소개·랜딩 푸터가 함께 읽는다
+  i18n/                     dict.ts(랜딩) · support.ts · company.ts · legal.ts · lang.tsx(LangProvider)
+  components/LangToggle.tsx KO/EN 전환 — 랜딩 Nav와 문서형 페이지가 함께 쓴다
   styles/sections.css       섹션 레이아웃 · 반응형
   styles/support.css        문서형 페이지 레이아웃
   styles/company.css        회사 소개 — 사업자 정보 표 등 문서형 레이아웃 위의 차이만

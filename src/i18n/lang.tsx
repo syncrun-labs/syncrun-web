@@ -19,6 +19,12 @@ function detectLang(): Lang {
   return locales.some((l) => l && l.toLowerCase().startsWith("ko")) ? "ko" : "en";
 }
 
+/** 문서 제목·설명. 페이지마다 다르므로 LangProvider가 주입받는다. */
+export interface PageMeta {
+  title: string;
+  description: string;
+}
+
 interface LangCtx {
   lang: Lang;
   t: Dict;
@@ -28,7 +34,14 @@ interface LangCtx {
 
 const Ctx = createContext<LangCtx | null>(null);
 
-export function LangProvider({ children }: { children: ReactNode }) {
+/** `meta`를 주면 그 페이지의 제목·설명을 쓴다. 없으면 랜딩 카피(dict)의 것을 쓴다. */
+export function LangProvider({
+  children,
+  meta,
+}: {
+  children: ReactNode;
+  meta?: Record<Lang, PageMeta>;
+}) {
   const [lang, setLangState] = useState<Lang>(detectLang);
 
   const setLang = useCallback((l: Lang) => {
@@ -43,14 +56,15 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const toggle = useCallback(() => setLang(lang === "ko" ? "en" : "ko"), [lang, setLang]);
 
   const t = dict[lang];
+  const pageMeta = meta ? meta[lang] : t.meta;
 
   // <html lang>·문서 제목·메타 설명을 현재 언어에 맞춘다(SPA라 클라이언트에서 갱신).
   useEffect(() => {
     document.documentElement.lang = lang;
-    document.title = t.meta.title;
+    document.title = pageMeta.title;
     const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute("content", t.meta.description);
-  }, [lang, t]);
+    if (desc) desc.setAttribute("content", pageMeta.description);
+  }, [lang, pageMeta]);
 
   const value = useMemo<LangCtx>(() => ({ lang, t, setLang, toggle }), [lang, t, setLang, toggle]);
 

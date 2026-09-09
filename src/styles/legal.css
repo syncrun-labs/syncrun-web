@@ -3,6 +3,27 @@
    ========================================================================= */
 
 /* -------------------------------------------------------------- 문서 전환 탭 */
+/* 영어로 읽는 이용자를 위한 안내 — 본문이 한국어라 정본이 무엇인지 먼저 밝힌다. */
+.legal-notice {
+  margin-top: clamp(20px, 2.6vw, 30px);
+  padding: clamp(18px, 2.4vw, 26px);
+  border-radius: 20px;
+  border: 1px solid var(--glass-edge);
+  background: var(--glass-fill);
+  max-width: 46rem;
+}
+
+.legal-notice p {
+  margin: 0 0 10px;
+  font-size: 14.5px;
+  line-height: 1.68;
+  color: var(--text-secondary);
+}
+
+.legal-notice p:last-child {
+  margin-bottom: 0;
+}
+
 .legal-tabs {
   display: flex;
   flex-wrap: wrap;

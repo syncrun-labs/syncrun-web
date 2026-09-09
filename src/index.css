@@ -439,3 +439,30 @@ h3 {
   opacity: 0;
   transform: translateY(28px);
 }
+
+/* ------------------------------------------------ 언어 전환 (랜딩·문서형 공용) */
+.lang-toggle {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--glass-fill-strong);
+  box-shadow: inset 0 0 0 1px var(--glass-edge);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.lang-toggle__opt {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: var(--text-tertiary);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.lang-toggle__opt.is-active {
+  color: #fff;
+  background: var(--ink);
+}
