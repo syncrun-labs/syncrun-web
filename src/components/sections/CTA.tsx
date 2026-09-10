@@ -16,12 +16,7 @@ export default function CTA() {
         <div className="cta__panel">
           <div className="cta__aurora">
             <SafeBoundary>
-              <Aurora
-                colorStops={["#FF6B70", "#DC565B", "#7E2528"]}
-                amplitude={1.1}
-                blend={0.6}
-                speed={0.3}
-              />
+              <Aurora colorStops={["#FF6B70", "#DC565B", "#7E2528"]} amplitude={1.1} blend={0.6} speed={0.3} />
             </SafeBoundary>
             <div className="cta__aurora-fade" />
           </div>
@@ -48,12 +43,7 @@ export default function CTA() {
                 >
                   {c.ctaPrimary}
                 </StarBorder>
-                <a
-                  href="https://github.com/syncrun-labs"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-ghost"
-                >
+                <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer" className="btn btn-ghost">
                   {c.ctaSecondary}
                 </a>
               </div>

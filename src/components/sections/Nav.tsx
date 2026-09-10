@@ -45,12 +45,7 @@ export default function Nav() {
 
           <div className="nav__right">
             <LangToggle />
-            <a
-              href={APP_STORE_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-primary nav__cta"
-            >
+            <a href={APP_STORE_URL} target="_blank" rel="noreferrer" className="btn btn-primary nav__cta">
               {t.nav.cta}
             </a>
           </div>

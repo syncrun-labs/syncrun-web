@@ -55,8 +55,8 @@
 
   /* 타이포 — 라틴은 SF Pro 시스템, 한국어는 Pretendard(OFL). 라벨은 모노 대비 */
   --font-sans:
-    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Pretendard Variable",
-    Pretendard, "Apple SD Gothic Neo", "Helvetica Neue", system-ui, sans-serif;
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Pretendard Variable", Pretendard,
+    "Apple SD Gothic Neo", "Helvetica Neue", system-ui, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, "Menlo", "Consolas", monospace;
 
   --maxw: 1000px;

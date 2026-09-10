@@ -28,12 +28,7 @@ export default function Activity() {
 
         <AnimatedContent direction="left" distance={40} delay={0.1}>
           <div className="activity__visual">
-            <DeviceFrame
-              src={ACTIVITY}
-              alt="SyncRun 활동 — 이야기 대시보드"
-              width={300}
-              glow="cool"
-            />
+            <DeviceFrame src={ACTIVITY} alt="SyncRun 활동 — 이야기 대시보드" width={300} glow="cool" />
           </div>
         </AnimatedContent>
       </div>

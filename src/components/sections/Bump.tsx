@@ -17,9 +17,7 @@ export default function Bump() {
             <h2 className="h2 bump__title">
               <SplitText text={b.titleTop} splitBy="words" />
               <br />
-              <GradientText colors={["#FF8A8E", "#DC565B", "#FFB48A"]}>
-                {b.titleAccent}
-              </GradientText>
+              <GradientText colors={["#FF8A8E", "#DC565B", "#FFB48A"]}>{b.titleAccent}</GradientText>
             </h2>
             <p className="lede bump__lede">{b.lede}</p>
 

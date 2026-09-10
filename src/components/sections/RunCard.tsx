@@ -14,22 +14,14 @@ export default function RunCard() {
       <div className="container card__grid">
         <AnimatedContent direction="right" distance={40}>
           <div className="card__visual">
-            <DeviceFrame
-              src={CARD}
-              alt="SyncRun 러닝 카드 — 함께 뛴 경로 루트 아트"
-              width={302}
-              glow="accent"
-            />
+            <DeviceFrame src={CARD} alt="SyncRun 러닝 카드 — 함께 뛴 경로 루트 아트" width={302} glow="accent" />
           </div>
         </AnimatedContent>
 
         <AnimatedContent direction="left" distance={40} delay={0.1}>
           <div className="card__copy">
             <h2 className="h2">
-              {c.titleLead}{" "}
-              <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>
-                {c.titleAccent}
-              </GradientText>
+              {c.titleLead} <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>{c.titleAccent}</GradientText>
               {c.titleTail}
             </h2>
             <p className="lede">{c.lede}</p>

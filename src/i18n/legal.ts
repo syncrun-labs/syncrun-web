@@ -26,7 +26,8 @@ export const legalCopy: Record<Lang, LegalCopy> = {
   ko: {
     meta: {
       title: "SyncRun 약관 및 정책 — 이용약관 · 개인정보 · 위치기반",
-      description: "SyncRun 서비스 이용약관, 개인정보 처리방침, 위치기반서비스 이용약관 전문.",
+      description:
+        "SyncRun 서비스 이용약관, 개인정보 처리방침, 위치기반서비스 이용약관 전문.",
     },
     nav: { home: "홈", support: "지원" },
     head: {
@@ -36,7 +37,7 @@ export const legalCopy: Record<Lang, LegalCopy> = {
     tabsLabel: "약관 문서",
     tabs: { terms: "이용약관", privacy: "개인정보 처리방침", location: "위치기반서비스" },
     notice: null,
-    foot: { home: "홈", company: "회사 소개", support: "지원", contact: "문의" },
+  foot: { home: "홈", company: "회사 소개", support: "지원", contact: "문의" },
   },
 
   en: {
