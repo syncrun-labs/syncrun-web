@@ -27,7 +27,19 @@ npm run preview    # 빌드 결과 미리보기
    동일하게 이 레포도 GitHub에서 merge commit만 허용한다. **병합하면 그 작업 브랜치를 삭제한다**
    (원격은 `delete_branch_on_merge`로 자동, 로컬은 정리). 로컬에 커밋을 쌓아두지 않는다.
    커밋 메시지는 **Conventional Commits**를 따른다: `type(scope): 한국어 요약`
-   (type = feat·fix·docs·refactor·style·chore …). **Co-Authored-By에 AI 도구를 넣지 않는다.**
+   (type = feat·fix·docs·refactor·style·chore·test …). **Co-Authored-By에 AI 도구를 넣지 않는다.**
+   **이슈·PR 제목도 같은 형식을 쓴다.** 요약은 한국어 평서문("~한다")으로, 마침표 없이.
+
+   | | 형식 | 예 |
+   |---|---|---|
+   | 커밋 | `type(scope): 요약` | `feat(seo): 로케일별 canonical을 붙인다` |
+   | 이슈 | `type(scope): 요약` | `feat(seo): 마케팅 사이트를 Next.js로 이전한다` |
+   | PR | `[#이슈] type(scope): 요약` | `[#22] feat(seo): 로케일 구조와 Metadata를 세운다` |
+
+   **이슈 제목에는 번호를 붙이지 않는다** — 생성 전에는 자기 번호를 알 수 없다.
+   **PR 제목 앞에는 대상 이슈 번호를 붙인다** — 병합 커밋 제목이 PR 제목이라, 이 접두가
+   `git log --first-parent`에 이슈 추적을 남긴다. 대응 이슈가 없는 순수 잡무·메타문서 PR은 접두를 생략한다.
+   부연을 덧붙일 때는 괄호가 아니라 `—`나 `·`로 잇는다.
 2. **디자인 충실도**: 색·타이포·글래스는 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
    디자인 시스템(`SRColor`·`SRFont`·`Glass.swift`)을 웹으로 옮긴 것이다. 새 색·폰트를 임의로 만들지 말고
    `src/index.css`의 `:root` 토큰(잉크 `#0B0B0F`, **시그니처 코랄 `--accent-core` `#DC565B`**, 러너 팔레트 8색, 글래스 표면)만 쓴다.
