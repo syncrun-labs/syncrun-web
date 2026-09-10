@@ -3,6 +3,14 @@ import { defineConfig, devices } from "@playwright/test";
 const PORT = 4173;
 
 /**
+ * `E2E_BASE_URL`을 주면 로컬 서버를 띄우지 않고 그 주소를 겨눈다 — Vercel 프리뷰나 프로덕션에
+ * 그대로 쏠 수 있다. 약관 URL 계약은 "빌드 결과가 맞다"가 아니라 "실제로 서비스되는 주소가 맞다"를
+ * 확인해야 하는 검사라, 배포본을 직접 찌를 수 있어야 한다.
+ */
+const externalTarget = process.env.E2E_BASE_URL;
+const baseURL = externalTarget ?? `http://localhost:${PORT}`;
+
+/**
  * 시각 회귀·URL 계약 테스트.
  *
  * `reducedMotion: "reduce"`가 렌더를 결정론적으로 만든다 — 리빌 게이팅(`src/lib/reveal.ts`)이
@@ -12,18 +20,25 @@ const PORT = 4173;
  * 언어는 `locale`이 정한다 — `LangProvider`의 `detectLang()`이 `navigator.languages`를 읽고,
  * 새 컨텍스트에는 `localStorage('sr-lang')`가 없어 로케일이 그대로 첫 언어가 된다.
  *
- * 개발 서버가 아니라 프로덕션 빌드(`preview`)를 찍는다 — 비교 대상이 배포 산출물이기 때문이다.
+ * 로컬에서는 개발 서버가 아니라 프로덕션 빌드(`preview`)를 찍는다 — 비교 대상이 배포 산출물이기 때문이다.
  */
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  reporter: [["list"]],
+  // CI의 일시적 흔들림은 재시도로 걸러내되, 로컬에서는 실패를 즉시 드러낸다.
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: process.env.CI ? [["html"], ["github"]] : [["list"], ["html"]],
   snapshotPathTemplate: "{testDir}/__screenshots__/{projectName}/{arg}{ext}",
 
   use: {
-    baseURL: `http://localhost:${PORT}`,
+    baseURL,
     reducedMotion: "reduce",
+    // 실패한 것만 남긴다 — 통과한 실행까지 저장하면 산출물이 금방 불어난다.
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
   },
 
   expect: {
@@ -62,10 +77,12 @@ export default defineConfig({
     },
   ],
 
-  webServer: {
-    command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
-    port: PORT,
-    reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
-  },
+  webServer: externalTarget
+    ? undefined
+    : {
+        command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
+        port: PORT,
+        reuseExistingServer: !process.env.CI,
+        timeout: 180_000,
+      },
 });

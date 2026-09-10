@@ -13,6 +13,16 @@ npm run test:update   # 기준 이미지 생성·갱신
 npm run test:report   # 실패 diff 보기
 ```
 
+`E2E_BASE_URL`을 주면 로컬 서버 대신 그 주소를 겨눈다. 배포본이 실제로 무엇을 서빙하는지
+확인하는 용도라, 계약 테스트와 함께 쓴다.
+
+```bash
+E2E_BASE_URL=https://www.syncrunlabs.com npx playwright test legal-urls
+E2E_BASE_URL=<Vercel 프리뷰 URL> npx playwright test legal-urls   # 병합 전 확인
+```
+
+시각 회귀는 이 방식으로 돌리지 않는다 — 기준 이미지는 로컬 빌드에서 뜬 것이라 배포본과 맞지 않는다.
+
 ## 약관 URL 계약
 
 `/legal/terms-of-service` · `/legal/privacy-policy` · `/legal/location-terms` 는
