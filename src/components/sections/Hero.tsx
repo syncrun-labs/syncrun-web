@@ -16,7 +16,13 @@ export default function Hero() {
       <div className="hero__grid container">
         <div className="hero__copy">
           <h1 className="display hero__title">
-            <SplitText text={t.hero.titleTop} splitBy="words" className="hero__title-line" stagger={0.06} inView={false} />
+            <SplitText
+              text={t.hero.titleTop}
+              splitBy="words"
+              className="hero__title-line"
+              stagger={0.06}
+              inView={false}
+            />
             <span className="hero__title-line">
               <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>{t.hero.titleAccent}</GradientText>
             </span>

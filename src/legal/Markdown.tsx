@@ -32,7 +32,7 @@ function renderInline(text: string): ReactNode[] {
       nodes.push(
         <a key={key++} href={match[6]} target="_blank" rel="noreferrer">
           {match[5]}
-        </a>
+        </a>,
       );
     rest = rest.slice(match.index + match[0].length);
   }
@@ -180,7 +180,7 @@ export default function Markdown({ source }: { source: string }) {
                             <th key={c}>{renderInline(cell)}</th>
                           ) : (
                             <td key={c}>{renderInline(cell)}</td>
-                          )
+                          ),
                         )}
                       </tr>
                     ))}

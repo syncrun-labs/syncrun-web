@@ -34,11 +34,11 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 
 라우터 없이 **독립된 HTML 네 벌**로 빌드한다(`vite.config.ts`의 `rollupOptions.input`).
 
-| 주소 | 내용 | App Store Connect |
-| --- | --- | --- |
-| `/` | 랜딩 — 제품 소개 | Marketing URL |
-| `/support` | 지원 — 문의처 · FAQ · 권한 안내 · 계정 삭제 안내 | Support URL |
-| `/company` | 회사 소개 — 제품 · 현황 · 기술 · **사업자 정보** | — |
+| 주소              | 내용                                                                     | App Store Connect  |
+| ----------------- | ------------------------------------------------------------------------ | ------------------ |
+| `/`               | 랜딩 — 제품 소개                                                         | Marketing URL      |
+| `/support`        | 지원 — 문의처 · FAQ · 권한 안내 · 계정 삭제 안내                         | Support URL        |
+| `/company`        | 회사 소개 — 제품 · 현황 · 기술 · **사업자 정보**                         | —                  |
 | `/legal/<슬러그>` | 약관 3종 전문 — `privacy-policy` · `terms-of-service` · `location-terms` | Privacy Policy URL |
 
 **네 페이지 모두 한국어·영어를 갖는다.** 첫 언어는 브라우저 로케일로 정해지고(한국어가 있을 때만 ko, 그 외 en)

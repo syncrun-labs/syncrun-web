@@ -19,10 +19,10 @@
   --text-faint: rgba(17, 18, 28, 0.22);
 
   /* 시그니처 코랄 — 브랜드 액센트(iOS SRColor). 밝은 바탕에서 또렷하게 튄다 */
-  --accent: #d23d42;        /* 라이트 대비 보정 액센트(텍스트·아이콘) */
-  --accent-core: #dc565b;   /* 브랜드 원색 — 글로우·틴트·러너 '나' */
+  --accent: #d23d42; /* 라이트 대비 보정 액센트(텍스트·아이콘) */
+  --accent-core: #dc565b; /* 브랜드 원색 — 글로우·틴트·러너 '나' */
   --accent-bright: #ff6b70; /* 다크 위 밝은 코랄 */
-  --accent-deep: #7e2528;   /* 짙은 브랜드 안개 */
+  --accent-deep: #7e2528; /* 짙은 브랜드 안개 */
   --accent-soft: rgba(220, 86, 91, 0.12);
   --accent-glow: rgba(220, 86, 91, 0.42);
 
@@ -54,8 +54,9 @@
   --glass-blur: 22px;
 
   /* 타이포 — 라틴은 SF Pro 시스템, 한국어는 Pretendard(OFL). 라벨은 모노 대비 */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Helvetica Neue", system-ui, sans-serif;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Pretendard Variable", Pretendard,
+    "Apple SD Gothic Neo", "Helvetica Neue", system-ui, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, "Menlo", "Consolas", monospace;
 
   --maxw: 1000px;
@@ -338,8 +339,11 @@ h3 {
   font-weight: 600;
   letter-spacing: -0.01em;
   white-space: nowrap;
-  transition: transform 0.2s var(--ease-out), background 0.2s ease,
-    box-shadow 0.3s ease, color 0.2s ease;
+  transition:
+    transform 0.2s var(--ease-out),
+    background 0.2s ease,
+    box-shadow 0.3s ease,
+    color 0.2s ease;
 }
 
 .btn:active {
@@ -369,11 +373,15 @@ h3 {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   color: var(--ink);
-  box-shadow: inset 0 0 0 1px var(--glass-edge), inset 0 1px 0 var(--glass-specular);
+  box-shadow:
+    inset 0 0 0 1px var(--glass-edge),
+    inset 0 1px 0 var(--glass-specular);
 }
 
 .btn-ghost:hover {
-  box-shadow: inset 0 0 0 1.5px var(--accent), inset 0 1px 0 var(--glass-specular);
+  box-shadow:
+    inset 0 0 0 1.5px var(--accent),
+    inset 0 1px 0 var(--glass-specular);
   color: var(--accent);
 }
 
@@ -459,7 +467,9 @@ h3 {
   padding: 5px 9px;
   border-radius: 999px;
   color: var(--text-tertiary);
-  transition: color 0.2s ease, background 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
 .lang-toggle__opt.is-active {

@@ -39,12 +39,7 @@
 .shiny-text {
   color: var(--accent-core);
   font-weight: 700;
-  background: linear-gradient(
-    120deg,
-    var(--accent-core) 32%,
-    var(--accent-bright) 50%,
-    var(--accent-core) 68%
-  );
+  background: linear-gradient(120deg, var(--accent-core) 32%, var(--accent-bright) 50%, var(--accent-core) 68%);
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;

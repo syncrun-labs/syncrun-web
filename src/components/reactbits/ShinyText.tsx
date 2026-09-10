@@ -11,10 +11,7 @@ type Props = {
 
 export default function ShinyText({ text, className = "", speed = 5 }: Props) {
   return (
-    <span
-      className={`shiny-text ${className}`}
-      style={{ animationDuration: `${speed}s` }}
-    >
+    <span className={`shiny-text ${className}`} style={{ animationDuration: `${speed}s` }}>
       {text}
     </span>
   );

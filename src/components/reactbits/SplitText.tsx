@@ -50,7 +50,7 @@ export default function SplitText({
           }
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.35 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -78,7 +78,7 @@ export default function SplitText({
         style={{ animationDelay: `${delay + i * stagger}s` }}
       >
         {unit}
-      </span>
+      </span>,
     );
     if (splitBy === "words" && i < units.length - 1) nodes.push(" ");
   });
