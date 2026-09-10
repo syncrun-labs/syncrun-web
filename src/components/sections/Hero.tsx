@@ -4,6 +4,7 @@ import StarBorder from "../reactbits/StarBorder";
 import AnimatedContent from "../reactbits/AnimatedContent";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
+import { APP_STORE_URL } from "../../lib/app-store";
 
 const HOME = `${import.meta.env.BASE_URL}shots/home.png`;
 
@@ -27,7 +28,7 @@ export default function Hero() {
 
           <AnimatedContent direction="up" distance={20} delay={0.28} inView={false}>
             <div className="hero__actions">
-              <StarBorder as="a" href="#download" color="#FF8A8E">
+              <StarBorder as="a" href={APP_STORE_URL} target="_blank" rel="noreferrer" color="#FF8A8E">
                 <AppleGlyph />
                 {t.hero.ctaPrimary}
               </StarBorder>

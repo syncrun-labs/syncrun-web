@@ -76,7 +76,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
     },
     status: {
       heading: "지금 어디까지 왔나",
-      lede: "현재 TestFlight 내부 베타 단계이며, 외부 베타를 거쳐 App Store 정식 출시를 준비하고 있습니다.",
+      lede: "2026년 9월 9일 App Store에 정식 출시했습니다. iPhone에서 무료로 내려받아 쓰실 수 있습니다.",
       milestones: [
         {
           when: "2026.08",
@@ -91,8 +91,12 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
           what: "개인사업자 등록 — 싱크런 랩스(SyncRun Labs), 사업자등록번호 656-09-03142",
         },
         {
+          when: "2026.09",
+          what: "App Store 정식 출시 — SyncRun 1.0.0, iOS 18.0 이상, 무료",
+        },
+        {
           when: "다음",
-          what: "TestFlight 외부 베타 · 위치기반서비스사업 신고 · App Store 정식 출시",
+          what: "위치기반서비스사업 신고 · 실제 러닝에서 나오는 것들을 앱에 반영",
         },
       ],
     },
@@ -185,7 +189,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
     },
     status: {
       heading: "Where we are",
-      lede: "The app is in closed TestFlight beta. An open beta and the App Store release are being prepared.",
+      lede: "SyncRun 1.0.0 has been on the App Store since 9 September 2026, free to download on iPhone.",
       milestones: [
         {
           when: "2026.08",
@@ -200,8 +204,12 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
           what: "Registered as a business — SyncRun Labs, business registration no. 656-09-03142",
         },
         {
+          when: "2026.09",
+          what: "Released on the App Store — SyncRun 1.0.0, iOS 18.0 or later, free",
+        },
+        {
           when: "Next",
-          what: "Open TestFlight beta · location-based service provider filing · App Store release",
+          what: "Location-based service provider filing · shipping what real runs teach us",
         },
       ],
     },

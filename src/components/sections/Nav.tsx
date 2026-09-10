@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useLang } from "../../i18n/lang";
 import LangToggle from "../LangToggle";
+import { APP_STORE_URL } from "../../lib/app-store";
 
 const WORDMARK = `${import.meta.env.BASE_URL}brand/wordmark.png`;
 
@@ -44,7 +45,12 @@ export default function Nav() {
 
           <div className="nav__right">
             <LangToggle />
-            <a href="#download" className="btn btn-primary nav__cta">
+            <a
+              href={APP_STORE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-primary nav__cta"
+            >
               {t.nav.cta}
             </a>
           </div>

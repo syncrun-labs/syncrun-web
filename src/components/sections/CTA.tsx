@@ -4,6 +4,7 @@ import StarBorder from "../reactbits/StarBorder";
 import SplitText from "../reactbits/SplitText";
 import AnimatedContent from "../reactbits/AnimatedContent";
 import { useLang } from "../../i18n/lang";
+import { APP_STORE_URL } from "../../lib/app-store";
 
 export default function CTA() {
   const { t } = useLang();
@@ -31,7 +32,15 @@ export default function CTA() {
             </AnimatedContent>
             <AnimatedContent direction="up" distance={20} delay={0.28}>
               <div className="cta__actions">
-                <StarBorder as="a" href="#top" speed="4s" color="#FF8A8E" className="star-border--light">
+                <StarBorder
+                  as="a"
+                  href={APP_STORE_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  speed="4s"
+                  color="#FF8A8E"
+                  className="star-border--light"
+                >
                   {c.ctaPrimary}
                 </StarBorder>
                 <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer" className="btn btn-ghost">
