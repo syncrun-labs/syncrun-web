@@ -1,3 +1,7 @@
+/* Pretendard(OFL) — npm 패키지에서 직접 가져와 번들한다. 동적 서브셋이라 브라우저는
+   unicode-range가 맞는 조각만 내려받는다. CDN을 거치지 않으므로 서드파티 왕복이 없다. */
+@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
+
 /* =========================================================================
    SyncRun — 디자인 토큰 (라이트 캔버스 · 시그니처 코랄 · 리퀴드 글래스)
    iOS 앱(SRColor·SRFont·Glass.swift)의 코랄 팔레트를 웹으로 옮긴다.
