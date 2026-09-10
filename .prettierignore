@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+
+# Playwright 산출물
+test-results
+playwright-report
+blob-report
+tests/__screenshots__
+
+# 약관 3종은 syncrun 허브 `legal/`의 사본이다 — 원문과 바이트로 같아야 `sync.sh` 대조가 성립한다.
+# 이 레포에서 본문을 고치지 않으므로 포맷터도 손대지 않는다.
+src/legal/docs
