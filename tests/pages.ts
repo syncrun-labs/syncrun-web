@@ -9,8 +9,9 @@ export const PAGES = [
 ] as const;
 
 /**
- * 출시된 iOS 앱과 App Store Connect가 참조하는 약관 주소 — `syncrun-ios`의 `enum LegalLinks`.
- * 앱은 되돌릴 수 없으므로 이 경로와 문서의 짝은 고정이다. 자세한 배경은 `docs/adr/0001-migrate-to-nextjs.md`.
+ * App Store Connect에 등록돼 심사에서 열리는 약관 주소 — `syncrun-ios`가 `enum LegalLinks`로
+ * 정식 주소로 선언해 둔 값이기도 하다. 경로와 문서의 짝을 고정으로 지킨다.
+ * 자세한 배경은 `docs/adr/0001-migrate-to-nextjs.md`.
  *
  * 본문은 번역하지 않으므로(한국어가 정본) 제목은 화면 언어와 무관하게 같다.
  */
