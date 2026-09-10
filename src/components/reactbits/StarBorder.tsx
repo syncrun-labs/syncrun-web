@@ -12,6 +12,8 @@ type Props = {
   color?: string;
   speed?: string;
   href?: string;
+  target?: string;
+  rel?: string;
 };
 
 export default function StarBorder({
@@ -21,8 +23,10 @@ export default function StarBorder({
   color = "#8A98FF",
   speed = "5s",
   href,
+  target,
+  rel,
 }: Props) {
-  const extra = href ? { href } : {};
+  const extra = href ? { href, target, rel } : {};
   return (
     <Tag className={`star-border ${className}`} {...extra}>
       <span

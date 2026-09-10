@@ -82,7 +82,7 @@ export interface Dict {
     rights: string;
     made: string;
   };
-  common: { appStore: string; langName: string; comingSoon: string };
+  common: { appStore: string; langName: string };
 }
 
 /* 지원/약관/회사는 라우터 없는 별도 HTML 페이지다(vite rollup input). Footer가 BASE_URL을 붙인다. */
@@ -238,7 +238,7 @@ export const dict: Record<Lang, Dict> = {
       rights: "© 2026 SyncRun Labs",
       made: "Made with React Bits · Liquid Glass",
     },
-    common: { appStore: "App Store", langName: "한국어", comingSoon: "곧 출시" },
+    common: { appStore: "App Store", langName: "한국어" },
   },
 
   en: {
@@ -388,6 +388,6 @@ export const dict: Record<Lang, Dict> = {
       rights: "© 2026 SyncRun Labs",
       made: "Made with React Bits · Liquid Glass",
     },
-    common: { appStore: "App Store", langName: "English", comingSoon: "Coming soon" },
+    common: { appStore: "App Store", langName: "English" },
   },
 };
