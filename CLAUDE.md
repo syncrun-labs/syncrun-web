@@ -35,7 +35,26 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    동일하게 이 레포도 GitHub에서 merge commit만 허용한다. **병합하면 그 작업 브랜치를 삭제한다**
    (원격은 `delete_branch_on_merge`로 자동, 로컬은 정리). 로컬에 커밋을 쌓아두지 않는다.
    커밋 메시지는 **Conventional Commits**를 따른다: `type(scope): 한국어 요약`
-   (type = feat·fix·docs·refactor·style·chore …). **Co-Authored-By에 AI 도구를 넣지 않는다.**
+   (type = feat·fix·docs·refactor·style·chore·test …). **Co-Authored-By에 AI 도구를 넣지 않는다.**
+   **이슈·PR 제목도 같은 형식을 쓴다.** 요약은 한국어 평서문("~한다")으로, 마침표 없이.
+
+   | | 형식 | 예 |
+   |---|---|---|
+   | 커밋 | `type(scope): 요약` | `feat(seo): 로케일별 canonical을 붙인다` |
+   | 이슈 | `type(scope): 요약` | `feat(seo): 마케팅 사이트를 Next.js로 이전한다` |
+   | PR | `[#이슈] type(scope): 요약` | `[#22] feat(seo): 로케일 구조와 Metadata를 세운다` |
+
+   **이슈 제목에는 번호를 붙이지 않는다** — 생성 전에는 자기 번호를 알 수 없다.
+   **PR 제목 앞에는 대상 이슈 번호를 붙인다** — 병합 커밋 제목이 PR 제목이라, 이 접두가
+   `git log --first-parent`에 이슈 추적을 남긴다. 대응 이슈가 없는 순수 잡무·메타문서 PR은 접두를 생략한다.
+   부연을 덧붙일 때는 괄호가 아니라 `—`나 `·`로 잇는다.
+
+   **이슈 하나에 PR 하나가 기본이다.** PR 본문에 `Closes #N`을 적으면 병합이 이슈를 닫는다 —
+   손으로 닫을 일을 만들지 않는 것이 이 기본값의 이유다.
+   **예외는 여러 PR로 나뉘는 큰 작업이다.** 이때 이슈는 체크리스트를 가진 우산이 되고,
+   각 PR은 `Closes` 대신 **`Refs #N`**으로 건다. GitHub가 닫아주지 않으므로 마지막 PR을 병합한 뒤
+   **이슈를 직접 닫는다** — 우산 이슈를 열어둔 채 잊는 것이 이 방식의 유일한 실패 모드다.
+   우산이 PR 셋을 넘길 조짐이면 하위 이슈(sub-issue)로 쪼개 각각을 1:1로 되돌린다.
 2. **디자인 충실도**: 색·타이포·글래스는 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
    디자인 시스템(`SRColor`·`SRFont`·`Glass.swift`)을 웹으로 옮긴 것이다. 새 색·폰트를 임의로 만들지 말고
    `src/index.css`의 `:root` 토큰(잉크 `#0B0B0F`, **시그니처 코랄 `--accent-core` `#DC565B`**, 러너 팔레트 8색, 글래스 표면)만 쓴다.
@@ -51,6 +70,9 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    한국어 폰트는 **Pretendard(OFL)**, 라틴은 SF Pro 시스템. 한국어는 라틴보다 자간을 넉넉히(`:lang(ko)`).
 4. **문서·주석은 현재 상태만 서술한다.** 변경 이력·"기존 A에서 B로"·참고 대상 서술은 커밋 메시지가 담당한다.
    주석은 "지금 이 코드가 무엇인지"와 비자명한 "왜"만 적는다.
+   **예외는 `docs/adr/`이다** — 아키텍처 결정 기록(ADR)은 결정 시점을 기록한다. 무엇을 정했는지와 함께
+   그때의 맥락·검토한 대안·기각 사유를 남긴다. 결정이 뒤집히면 파일을 고치지 말고 새 번호의 ADR을 쓰고
+   이전 것을 "대체됨"으로 표시한다. 구조를 바꾸기 전에 관련 ADR의 제약을 먼저 읽는다.
 5. **장식은 견고하게.** WebGL·애니메이션 같은 장식 레이어는 실패해도 페이지 본문이 죽으면 안 된다 —
    `SafeBoundary`로 감싸고, `prefers-reduced-motion`에서는 리빌 게이팅을 건너뛰어 콘텐츠를 즉시 보여준다
    (`src/lib/reveal.ts`). `?reveal=all`은 정적 QA용으로 모든 리빌을 즉시 표시한다.
