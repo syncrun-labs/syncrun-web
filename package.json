@@ -8,7 +8,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "test": "playwright test",
+    "test:update": "playwright test --update-snapshots",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "framer-motion": "^11.11.9",
@@ -17,6 +20,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "^20.19.43",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",

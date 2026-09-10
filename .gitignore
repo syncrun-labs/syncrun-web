@@ -25,3 +25,10 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+
+# playwright
+/test-results
+/playwright-report
+/blob-report
+# 시각 회귀 기준 이미지는 로컬 생성물이다 — 자세한 이유는 tests/README.md
+/tests/__screenshots__
