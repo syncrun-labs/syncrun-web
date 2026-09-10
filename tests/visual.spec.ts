@@ -16,9 +16,7 @@ async function loadLazyImages(page: Page): Promise<void> {
     window.scrollTo(0, 0);
   });
 
-  await page.waitForFunction(() =>
-    Array.from(document.images).every((img) => img.complete && img.naturalWidth > 0),
-  );
+  await page.waitForFunction(() => Array.from(document.images).every((img) => img.complete && img.naturalWidth > 0));
 }
 
 /**
