@@ -19,6 +19,9 @@ npm run preview       # 빌드 결과 미리보기
 npm run lint          # ESLint
 npm run format        # Prettier 적용 (format:check 는 검사만)
 npm run verify        # lint + format:check + build — 커밋 전 한 방
+npm test              # Playwright — 시각 회귀 · 약관 URL 계약
+npm run lighthouse    # Lighthouse 측정 (LHCI_BASE_URL 로 대상 지정, 기본 프로덕션)
+npm run lighthouse:report   # 측정 결과를 표로
 ```
 
 **변경 후 필수 검증**: `npm run verify`가 통과해야 한다.
