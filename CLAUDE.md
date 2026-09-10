@@ -13,12 +13,20 @@ i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/e
 
 ```bash
 npm install
-npm run dev        # 개발 서버
-npm run build      # 타입체크(tsc -b) + vite build → dist/
-npm run preview    # 빌드 결과 미리보기
+npm run dev           # 개발 서버
+npm run build         # 타입체크(tsc -b) + vite build → dist/
+npm run preview       # 빌드 결과 미리보기
+npm run lint          # ESLint
+npm run format        # Prettier 적용 (format:check 는 검사만)
+npm run verify        # lint + format:check + build — 커밋 전 한 방
 ```
 
-**변경 후 필수 검증**: `npm run build`가 타입 오류 없이 통과해야 한다.
+**변경 후 필수 검증**: `npm run verify`가 통과해야 한다.
+husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 돌린다.
+
+서식은 **Prettier가 전담한다** — 손으로 맞추지 말고 `npm run format`을 돌린다.
+`src/legal/docs/`는 포맷 대상이 아니다(허브 사본이라 원문과 바이트로 같아야 한다).
+`src/components/reactbits/`는 최신 훅 규칙 셋이 경고로 낮춰져 있다(관용구라 지금 고치지 않는다).
 
 ## 필수 규칙
 
