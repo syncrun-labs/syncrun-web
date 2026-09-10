@@ -16,6 +16,9 @@
     "test": "playwright test",
     "test:update": "playwright test --update-snapshots",
     "test:report": "playwright show-report",
+    "lighthouse": "lhci collect --config=./lighthouserc.cjs",
+    "lighthouse:local": "lhci collect --config=./lighthouserc.cjs --start-server-command='npm run preview -- --port 4173 --strictPort' --start-server-ready-pattern='Local'",
+    "lighthouse:report": "node scripts/lighthouse-summary.mjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -26,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.63.0",
     "@types/node": "^20.19.43",
     "@types/react": "^18.3.11",
