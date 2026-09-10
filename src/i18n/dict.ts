@@ -97,13 +97,18 @@ export const dict: Record<Lang, Dict> = {
       description:
         "옆 사람과 iPhone을 맞대면 그 자리에서 함께 뛸 그룹이 결성되고, 함께 뛴 기록이 한 장의 러닝 카드가 됩니다. 솔로와 그룹은 하나의 Start.",
     },
-    nav: { how: "하나의 Start", card: "러닝 카드", activity: "이야기", features: "기능", cta: "App Store" },
+    nav: {
+      how: "하나의 Start",
+      card: "러닝 카드",
+      activity: "이야기",
+      features: "기능",
+      cta: "App Store",
+    },
     hero: {
       eyebrow: "iOS · 함께 뛰는 러닝",
       titleTop: "맞대면, 그 자리에서",
       titleAccent: "함께 뛴다",
-      lede:
-        "옆 사람과 iPhone을 맞대는 순간 함께 뛸 그룹이 결성됩니다. 방 만들기도, 초대 링크도 없이 — 함께 뛴 경로는 한 장의 러닝 카드로 남습니다.",
+      lede: "옆 사람과 iPhone을 맞대는 순간 함께 뛸 그룹이 결성됩니다. 방 만들기도, 초대 링크도 없이 — 함께 뛴 경로는 한 장의 러닝 카드로 남습니다.",
       ctaPrimary: "App Store에서 받기",
       ctaSecondary: "작동 방식 보기",
       chips: ["UWB · 20cm", "0.4초 확정", "외부 의존성 0", "SwiftUI · Liquid Glass"],
@@ -128,8 +133,7 @@ export const dict: Record<Lang, Dict> = {
       eyebrow: "맞댐 · Bump",
       titleTop: "폰을 맞대면,",
       titleAccent: "그 자리에서 결성",
-      lede:
-        "함께 뛸 사람과 iPhone 상단을 가까이 대세요. UWB로 20cm·0.4초를 확인하면 자동으로 같은 세션에 합류합니다. 흔들기도, 충격도 필요 없습니다.",
+      lede: "함께 뛸 사람과 iPhone 상단을 가까이 대세요. UWB로 20cm·0.4초를 확인하면 자동으로 같은 세션에 합류합니다. 흔들기도, 충격도 필요 없습니다.",
       stats: [
         { value: "20", unit: "cm", label: "맞댐 인식 거리" },
         { value: "0.4", unit: "초", label: "결성 확정 시간" },
@@ -139,8 +143,7 @@ export const dict: Record<Lang, Dict> = {
     live: {
       eyebrow: "실시간 · 실측",
       title: "달리는 동안, 서로가 보인다",
-      lede:
-        "함께 뛰는 사람들의 위치와 페이스가 같은 순간 흐릅니다. 거리·페이스·고도·케이던스는 추정 없이 실제로 측정해요.",
+      lede: "함께 뛰는 사람들의 위치와 페이스가 같은 순간 흐릅니다. 거리·페이스·고도·케이던스는 추정 없이 실제로 측정해요.",
       metrics: [
         { k: "실시간 위치", v: "서로의 위치가 지도 위에서 함께 흐릅니다." },
         { k: "라이브 페이스", v: "동행자의 거리·페이스가 초 단위로 갱신됩니다." },
@@ -152,16 +155,14 @@ export const dict: Record<Lang, Dict> = {
       titleLead: "함께 뛴 경로가",
       titleAccent: "한 장의 작품",
       titleTail: "이 된다",
-      lede:
-        "러닝이 끝나면 카드는 이미 완성돼 있습니다. 개인·단체를 따로 만들지 않고 한 장만 남기며, 내 경로만 또는 전원의 경로를 겹쳐 보여주도록 편집할 수 있습니다.",
+      lede: "러닝이 끝나면 카드는 이미 완성돼 있습니다. 개인·단체를 따로 만들지 않고 한 장만 남기며, 내 경로만 또는 전원의 경로를 겹쳐 보여주도록 편집할 수 있습니다.",
       edits: ["내 경로만 · 전원 경로", "배경 · 템플릿", "표시 항목 · 규격", "한 번에 공유"],
       watermark: "SyncRun",
     },
     activity: {
       eyebrow: "이야기 · Activity",
       title: "모든 러닝이 이야기가 된다",
-      lede:
-        "지금까지 이어 온 거리, 함께 만든 러닝, 평균 페이스와 심박까지 — 한 화면의 이야기로 모입니다. 솔로와 함께를 나눠 돌아보고, 각 기록은 다시 한 장의 카드로 열립니다.",
+      lede: "지금까지 이어 온 거리, 함께 만든 러닝, 평균 페이스와 심박까지 — 한 화면의 이야기로 모입니다. 솔로와 함께를 나눠 돌아보고, 각 기록은 다시 한 장의 카드로 열립니다.",
       facts: [
         { k: "총 이야기", v: "지금까지 이어 온 모든 러닝의 합" },
         { k: "함께 만든 이야기", v: "맞대어 함께 뛴 거리만 따로" },
@@ -179,12 +180,44 @@ export const dict: Record<Lang, Dict> = {
       title: "러닝에 필요한 모든 것",
       lede: "함께 뛰는 순간 밖에서도, 러닝을 이어 가는 데 필요한 것들.",
       items: [
-        { tag: "기록", title: "실측 러닝 지표", body: "CoreLocation 거리·페이스·고도에 케이던스까지, 추정 없이 실제로 측정합니다.", runner: 0, wide: true },
-        { tag: "기기", title: "Apple Watch", body: "손목에서 시작하고 심박을 함께 기록합니다.", runner: 5 },
-        { tag: "화면", title: "라이브 액티비티 · 위젯", body: "잠금 화면과 다이내믹 아일랜드에서 러닝 현황을 확인합니다.", runner: 3 },
-        { tag: "연동", title: "HealthKit 연동", body: "완료한 러닝을 건강 앱으로 내보냅니다.", runner: 7 },
-        { tag: "코칭", title: "음성 코치", body: "페이스와 구간을 목소리로 짚어 줍니다.", runner: 1 },
-        { tag: "돌아보기", title: "경로 리플레이", body: "달린 길을 다시 재생하며 그날의 러닝을 돌아봅니다.", runner: 2, wide: true },
+        {
+          tag: "기록",
+          title: "실측 러닝 지표",
+          body: "CoreLocation 거리·페이스·고도에 케이던스까지, 추정 없이 실제로 측정합니다.",
+          runner: 0,
+          wide: true,
+        },
+        {
+          tag: "기기",
+          title: "Apple Watch",
+          body: "손목에서 시작하고 심박을 함께 기록합니다.",
+          runner: 5,
+        },
+        {
+          tag: "화면",
+          title: "라이브 액티비티 · 위젯",
+          body: "잠금 화면과 다이내믹 아일랜드에서 러닝 현황을 확인합니다.",
+          runner: 3,
+        },
+        {
+          tag: "연동",
+          title: "HealthKit 연동",
+          body: "완료한 러닝을 건강 앱으로 내보냅니다.",
+          runner: 7,
+        },
+        {
+          tag: "코칭",
+          title: "음성 코치",
+          body: "페이스와 구간을 목소리로 짚어 줍니다.",
+          runner: 1,
+        },
+        {
+          tag: "돌아보기",
+          title: "경로 리플레이",
+          body: "달린 길을 다시 재생하며 그날의 러닝을 돌아봅니다.",
+          runner: 2,
+          wide: true,
+        },
       ],
     },
     cta: {
@@ -247,13 +280,18 @@ export const dict: Record<Lang, Dict> = {
       description:
         "Touch phones with the person beside you and a running group forms on the spot. Every shared run becomes one running card. Solo and group share one Start.",
     },
-    nav: { how: "One Start", card: "Run Card", activity: "Story", features: "Features", cta: "App Store" },
+    nav: {
+      how: "One Start",
+      card: "Run Card",
+      activity: "Story",
+      features: "Features",
+      cta: "App Store",
+    },
     hero: {
       eyebrow: "iOS · Run together",
       titleTop: "Bump. And you’re",
       titleAccent: "running together.",
-      lede:
-        "Touch iPhones with the person next to you and a running group forms in that instant. No rooms, no invite links — and the route you run together stays as one running card.",
+      lede: "Touch iPhones with the person next to you and a running group forms in that instant. No rooms, no invite links — and the route you run together stays as one running card.",
       ctaPrimary: "Download on the App Store",
       ctaSecondary: "See how it works",
       chips: ["UWB · 20cm", "0.4s to form", "Zero dependencies", "SwiftUI · Liquid Glass"],
@@ -278,8 +316,7 @@ export const dict: Record<Lang, Dict> = {
       eyebrow: "Bump",
       titleTop: "Bump phones,",
       titleAccent: "form on the spot",
-      lede:
-        "Hold the top of your iPhone near your running partner’s. Confirmed within 20cm in 0.4 seconds over UWB, you both join the same session automatically. No shaking, no tap-to-impact.",
+      lede: "Hold the top of your iPhone near your running partner’s. Confirmed within 20cm in 0.4 seconds over UWB, you both join the same session automatically. No shaking, no tap-to-impact.",
       stats: [
         { value: "20", unit: "cm", label: "Bump detection range" },
         { value: "0.4", unit: "s", label: "Time to confirm" },
@@ -289,12 +326,14 @@ export const dict: Record<Lang, Dict> = {
     live: {
       eyebrow: "Live · Measured",
       title: "While you run, you see each other",
-      lede:
-        "Everyone’s location and pace stream in the same moment. Distance, pace, elevation and cadence are all measured for real — never estimated.",
+      lede: "Everyone’s location and pace stream in the same moment. Distance, pace, elevation and cadence are all measured for real — never estimated.",
       metrics: [
         { k: "Live location", v: "Everyone’s position flows together on one map." },
         { k: "Live pace", v: "Your partners’ distance and pace update by the second." },
-        { k: "Reattach & continue", v: "Drop the connection and it restores the session and record on reattach." },
+        {
+          k: "Reattach & continue",
+          v: "Drop the connection and it restores the session and record on reattach.",
+        },
       ],
     },
     card: {
@@ -302,16 +341,19 @@ export const dict: Record<Lang, Dict> = {
       titleLead: "The route you ran together",
       titleAccent: "becomes a piece of art",
       titleTail: "",
-      lede:
-        "By the time the run ends, the card is already made. One card — never separate personal and group versions — and you can edit it to show just your route or everyone’s routes layered together.",
-      edits: ["My route · all routes", "Backdrop · template", "Fields · format", "Share in one tap"],
+      lede: "By the time the run ends, the card is already made. One card — never separate personal and group versions — and you can edit it to show just your route or everyone’s routes layered together.",
+      edits: [
+        "My route · all routes",
+        "Backdrop · template",
+        "Fields · format",
+        "Share in one tap",
+      ],
       watermark: "SyncRun",
     },
     activity: {
       eyebrow: "Story · Activity",
       title: "Every run becomes a story",
-      lede:
-        "The distance you’ve carried this far, the runs you made together, average pace and heart rate — all gathered into one screen. Look back at solo and together separately, and open any record as a card again.",
+      lede: "The distance you’ve carried this far, the runs you made together, average pace and heart rate — all gathered into one screen. Look back at solo and together separately, and open any record as a card again.",
       facts: [
         { k: "Total story", v: "The sum of every run you’ve carried so far" },
         { k: "Made together", v: "Only the distance you bumped and ran together" },
@@ -329,12 +371,44 @@ export const dict: Record<Lang, Dict> = {
       title: "Everything a run needs",
       lede: "Beyond the moment you run together, everything you need to keep running.",
       items: [
-        { tag: "Metrics", title: "Measured run metrics", body: "CoreLocation distance, pace and elevation plus cadence — measured for real, never estimated.", runner: 0, wide: true },
-        { tag: "Device", title: "Apple Watch", body: "Start from your wrist and record heart rate alongside.", runner: 5 },
-        { tag: "Screen", title: "Live Activity · Widgets", body: "Check your run from the Lock Screen and Dynamic Island.", runner: 3 },
-        { tag: "Sync", title: "HealthKit", body: "Export finished runs to the Health app.", runner: 7 },
-        { tag: "Coaching", title: "Voice coach", body: "Pace and splits called out in your ear.", runner: 1 },
-        { tag: "Replay", title: "Route replay", body: "Play the path back and revisit that day’s run.", runner: 2, wide: true },
+        {
+          tag: "Metrics",
+          title: "Measured run metrics",
+          body: "CoreLocation distance, pace and elevation plus cadence — measured for real, never estimated.",
+          runner: 0,
+          wide: true,
+        },
+        {
+          tag: "Device",
+          title: "Apple Watch",
+          body: "Start from your wrist and record heart rate alongside.",
+          runner: 5,
+        },
+        {
+          tag: "Screen",
+          title: "Live Activity · Widgets",
+          body: "Check your run from the Lock Screen and Dynamic Island.",
+          runner: 3,
+        },
+        {
+          tag: "Sync",
+          title: "HealthKit",
+          body: "Export finished runs to the Health app.",
+          runner: 7,
+        },
+        {
+          tag: "Coaching",
+          title: "Voice coach",
+          body: "Pace and splits called out in your ear.",
+          runner: 1,
+        },
+        {
+          tag: "Replay",
+          title: "Route replay",
+          body: "Play the path back and revisit that day’s run.",
+          runner: 2,
+          wide: true,
+        },
       ],
     },
     cta: {

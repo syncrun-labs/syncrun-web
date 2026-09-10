@@ -31,9 +31,7 @@ export default function GlassSurface({
       style={{
         borderRadius: radius,
         padding,
-        ...(tint
-          ? { backgroundColor: tint }
-          : null),
+        ...(tint ? { backgroundColor: tint } : null),
         ...style,
       }}
     >

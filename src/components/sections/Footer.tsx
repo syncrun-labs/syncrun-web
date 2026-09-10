@@ -34,7 +34,12 @@ export default function Footer() {
                 const href = resolve(l.href);
                 const external = href.startsWith("http");
                 return (
-                  <a key={l.label} href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+                  <a
+                    key={l.label}
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noreferrer" : undefined}
+                  >
                     {l.label}
                   </a>
                 );
@@ -56,7 +61,9 @@ export default function Footer() {
 
       <div className="container footer__bottom">
         <span className="mono">{f.rights}</span>
-        <a className="footer__mailto" href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+        <a className="footer__mailto" href={`mailto:${SUPPORT_EMAIL}`}>
+          {SUPPORT_EMAIL}
+        </a>
       </div>
     </footer>
   );

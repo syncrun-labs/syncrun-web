@@ -109,7 +109,12 @@ export default function Company() {
             </div>
             <p className="doc__p">
               {c.stack.reposPrefix}
-              <a href={COMPANY.github} className="doc__inline-link" target="_blank" rel="noreferrer">
+              <a
+                href={COMPANY.github}
+                className="doc__inline-link"
+                target="_blank"
+                rel="noreferrer"
+              >
                 github.com/syncrun-labs
               </a>
               {c.stack.reposSuffix}

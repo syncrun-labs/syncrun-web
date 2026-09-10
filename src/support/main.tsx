@@ -11,5 +11,5 @@ createRoot(document.getElementById("root")!).render(
     <LangProvider meta={{ ko: supportCopy.ko.meta, en: supportCopy.en.meta }}>
       <Support />
     </LangProvider>
-  </StrictMode>
+  </StrictMode>,
 );

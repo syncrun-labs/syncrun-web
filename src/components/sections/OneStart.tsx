@@ -37,7 +37,13 @@ export default function OneStart() {
 
             <div className="morph__arrow" aria-hidden="true">
               <span>{o.bump}</span>
-              <svg viewBox="0 0 40 12" fill="none" stroke="var(--accent)" strokeWidth="1.6" strokeLinecap="round">
+              <svg
+                viewBox="0 0 40 12"
+                fill="none"
+                stroke="var(--accent)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              >
                 <path d="M2 6h32M28 2l6 4-6 4" />
               </svg>
             </div>

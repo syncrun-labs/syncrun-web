@@ -52,7 +52,10 @@ export default function DeviceFrame({
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="device__frame" style={float && !reduce ? { animation: "float 8s ease-in-out infinite" } : undefined}>
+        <div
+          className="device__frame"
+          style={float && !reduce ? { animation: "float 8s ease-in-out infinite" } : undefined}
+        >
           <div className="device__screen">
             <img src={src} alt={alt} loading={priority ? "eager" : "lazy"} draggable={false} />
             <span className="device__gloss" aria-hidden="true" />

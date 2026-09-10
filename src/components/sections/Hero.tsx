@@ -16,9 +16,17 @@ export default function Hero() {
       <div className="hero__grid container">
         <div className="hero__copy">
           <h1 className="display hero__title">
-            <SplitText text={t.hero.titleTop} splitBy="words" className="hero__title-line" stagger={0.06} inView={false} />
+            <SplitText
+              text={t.hero.titleTop}
+              splitBy="words"
+              className="hero__title-line"
+              stagger={0.06}
+              inView={false}
+            />
             <span className="hero__title-line">
-              <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>{t.hero.titleAccent}</GradientText>
+              <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>
+                {t.hero.titleAccent}
+              </GradientText>
             </span>
           </h1>
 
@@ -28,7 +36,13 @@ export default function Hero() {
 
           <AnimatedContent direction="up" distance={20} delay={0.28} inView={false}>
             <div className="hero__actions">
-              <StarBorder as="a" href={APP_STORE_URL} target="_blank" rel="noreferrer" color="#FF8A8E">
+              <StarBorder
+                as="a"
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noreferrer"
+                color="#FF8A8E"
+              >
                 <AppleGlyph />
                 {t.hero.ctaPrimary}
               </StarBorder>
@@ -40,7 +54,13 @@ export default function Hero() {
         </div>
 
         <div className="hero__visual">
-          <DeviceFrame src={HOME} alt="SyncRun — 하나의 Start 홈 화면" width={318} priority glow="accent" />
+          <DeviceFrame
+            src={HOME}
+            alt="SyncRun — 하나의 Start 홈 화면"
+            width={318}
+            priority
+            glow="accent"
+          />
         </div>
       </div>
 

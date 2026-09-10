@@ -25,7 +25,10 @@ export default function Features() {
               delay={(i % 3) * 0.08}
             >
               <SpotlightCard className="feature" spotlightColor="rgba(220, 86, 91, 0.18)">
-                <span className="feature__accent" style={{ background: `var(--runner-${it.runner})` } as CSSProperties} />
+                <span
+                  className="feature__accent"
+                  style={{ background: `var(--runner-${it.runner})` } as CSSProperties}
+                />
                 <h3 className="feature__title">{it.title}</h3>
                 <p className="feature__body">{it.body}</p>
               </SpotlightCard>

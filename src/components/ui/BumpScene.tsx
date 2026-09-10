@@ -11,13 +11,23 @@ export default function BumpScene() {
   const reduce = useReducedMotion();
   const sway = reduce
     ? {}
-    : { animate: { x: [0, 6, 0], y: [0, -3, 0] }, transition: { duration: 3.6, repeat: Infinity, ease: "easeInOut" } };
+    : {
+        animate: { x: [0, 6, 0], y: [0, -3, 0] },
+        transition: { duration: 3.6, repeat: Infinity, ease: "easeInOut" },
+      };
   const swayR = reduce
     ? {}
-    : { animate: { x: [0, -6, 0], y: [0, -3, 0] }, transition: { duration: 3.6, repeat: Infinity, ease: "easeInOut" } };
+    : {
+        animate: { x: [0, -6, 0], y: [0, -3, 0] },
+        transition: { duration: 3.6, repeat: Infinity, ease: "easeInOut" },
+      };
 
   return (
-    <div className="bump-scene" role="img" aria-label="Two iPhones touching to form a running group">
+    <div
+      className="bump-scene"
+      role="img"
+      aria-label="Two iPhones touching to form a running group"
+    >
       <motion.div className="bump-scene__phone bump-scene__phone--l" {...sway}>
         <div className="bump-scene__frame">
           <img src={HOME} alt="" loading="lazy" draggable={false} />
