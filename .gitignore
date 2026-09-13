@@ -40,3 +40,7 @@ pnpm-debug.log*
 /.next
 /out
 next-env.d.ts
+
+# 생성 폰트 (scripts/prepare-fonts.mjs)
+/public/fonts
+/src/fonts

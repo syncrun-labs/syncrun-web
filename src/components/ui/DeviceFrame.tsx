@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import Image, { type StaticImageData } from "next/image";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import type { CSSProperties } from "react";
 import { shouldSkipReveal } from "../../lib/reveal";
@@ -18,7 +19,7 @@ export default function DeviceFrame({
   priority = false,
   className = "",
 }: {
-  src: string;
+  src: StaticImageData;
   alt: string;
   width?: number;
   tilt?: boolean;
@@ -60,7 +61,8 @@ export default function DeviceFrame({
           style={float && !reduce ? { animation: "float 8s ease-in-out infinite" } : undefined}
         >
           <div className="device__screen">
-            <img src={src} alt={alt} loading={priority ? "eager" : "lazy"} draggable={false} />
+            {/* 정적 import라 크기를 알고, Vercel이 AVIF/WebP·표시 크기별로 변환해 낸다. 표시 폭은 CSS의 --dev-w 상한을 따른다. */}
+            <Image src={src} alt={alt} priority={priority} sizes={`${width}px`} draggable={false} />
             <span className="device__gloss" aria-hidden="true" />
           </div>
         </div>

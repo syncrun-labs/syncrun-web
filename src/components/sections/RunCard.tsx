@@ -1,9 +1,8 @@
 import AnimatedContent from "../reactbits/AnimatedContent";
+import card from "@/public/shots/card.png";
 import GradientText from "../reactbits/GradientText";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
-
-const CARD = "/shots/card.png";
 
 export default function RunCard() {
   const { t } = useLang();
@@ -14,7 +13,7 @@ export default function RunCard() {
       <div className="container card__grid">
         <AnimatedContent direction="right" distance={40}>
           <div className="card__visual">
-            <DeviceFrame src={CARD} alt="SyncRun 러닝 카드 — 함께 뛴 경로 루트 아트" width={302} glow="accent" />
+            <DeviceFrame src={card} alt="SyncRun 러닝 카드 — 함께 뛴 경로 루트 아트" width={302} glow="accent" />
           </div>
         </AnimatedContent>
 

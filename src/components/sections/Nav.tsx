@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import wordmark from "@/public/brand/wordmark.png";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useLang } from "../../i18n/lang";
 import LangToggle from "../LangToggle";
 import { APP_STORE_URL } from "../../lib/app-store";
-
-const WORDMARK = "/brand/wordmark.png";
 
 export default function Nav() {
   const { t } = useLang();
@@ -32,7 +32,7 @@ export default function Nav() {
       <div className="nav__inner container">
         <div className="nav__bar">
           <a href="#top" className="nav__brand" aria-label="SyncRun">
-            <img src={WORDMARK} alt="SyncRun" className="nav__wordmark" />
+            <Image src={wordmark} alt="SyncRun" className="nav__wordmark" priority />
           </a>
 
           <nav className="nav__links">

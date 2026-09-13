@@ -22,8 +22,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
   if (!doc) notFound();
   const base = legalCopy.en.meta;
   // 문서마다 제목을 달리해 세 페이지가 검색엔진에 서로 다른 문서로 잡히게 한다.
+  // 공통 제목의 부제(" — 이용약관 · …")는 문서명과 겹치므로 뗀다.
   return buildMetadata("en", `/legal/${slug}`, {
-    title: `${legalCopy.en.tabs[doc.key]} — ${base.title}`,
+    title: `${legalCopy.en.tabs[doc.key]} — ${base.title.split(" — ")[0]}`,
     description: base.description,
   });
 }

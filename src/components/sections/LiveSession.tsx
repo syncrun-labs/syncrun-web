@@ -1,8 +1,7 @@
 import AnimatedContent from "../reactbits/AnimatedContent";
+import running from "@/public/shots/running.png";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
-
-const RUNNING = "/shots/running.png";
 
 export default function LiveSession() {
   const { t } = useLang();
@@ -13,7 +12,7 @@ export default function LiveSession() {
       <div className="container live__grid">
         <AnimatedContent direction="right" distance={40}>
           <div className="live__visual">
-            <DeviceFrame src={RUNNING} alt="SyncRun 러닝 화면 — 실측 지표" width={288} glow="accent" />
+            <DeviceFrame src={running} alt="SyncRun 러닝 화면 — 실측 지표" width={288} glow="accent" />
           </div>
         </AnimatedContent>
 

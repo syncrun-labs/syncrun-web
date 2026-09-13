@@ -1,8 +1,8 @@
 import { useLang } from "../../i18n/lang";
+import Image from "next/image";
+import wordmark from "@/public/brand/wordmark.png";
 import { COMPANY } from "../../lib/company";
 import { SUPPORT_EMAIL } from "../../lib/contact";
-
-const WORDMARK = "/brand/wordmark.png";
 
 /** 지원·약관·회사 소개는 언어별 경로라 접두를 붙인다. 앵커·외부·mailto는 그대로. */
 function resolve(href: string, base: string): string {
@@ -20,7 +20,7 @@ export default function Footer() {
       <div className="container footer__inner">
         <div className="footer__brand">
           <div className="footer__logo">
-            <img src={WORDMARK} alt="SyncRun" className="footer__wordmark" />
+            <Image src={wordmark} alt="SyncRun" className="footer__wordmark" priority />
           </div>
           <p className="footer__tag">{f.tagline}</p>
         </div>

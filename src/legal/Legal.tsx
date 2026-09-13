@@ -1,6 +1,8 @@
 "use client";
 
 import "../styles/support.css";
+import Image from "next/image";
+import wordmark from "@/public/brand/wordmark.png";
 import "../styles/legal.css";
 
 import Markdown from "./Markdown";
@@ -11,7 +13,6 @@ import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import { LEGAL_DOCS, type LegalDocKey } from "./docs";
 
 const MAILTO = supportMailto("[SyncRun 문의]");
-const WORDMARK = "/brand/wordmark.png";
 
 /**
  * 약관 화면. 어느 문서인지와 본문은 라우트가 정해서 넘긴다 — `/legal/<슬러그>` 하나가 문서 하나다.
@@ -27,7 +28,7 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
       <header className="doc-nav">
         <div className="container doc-nav__inner">
           <a href={HOME} className="doc-nav__brand">
-            <img src={WORDMARK} alt="SyncRun" className="doc-nav__wordmark" />
+            <Image src={wordmark} alt="SyncRun" className="doc-nav__wordmark" priority />
           </a>
           <div className="doc-nav__actions">
             <a href={HOME} className="doc-nav__link">

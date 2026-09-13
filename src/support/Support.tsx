@@ -1,6 +1,8 @@
 "use client";
 
 import "../styles/support.css";
+import Image from "next/image";
+import wordmark from "@/public/brand/wordmark.png";
 
 import LangToggle from "../components/LangToggle";
 import { useLang } from "../i18n/lang";
@@ -9,7 +11,6 @@ import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 
 const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
-const WORDMARK = "/brand/wordmark.png";
 
 export default function Support() {
   const { lang, base } = useLang();
@@ -24,7 +25,7 @@ export default function Support() {
       <header className="doc-nav">
         <div className="container doc-nav__inner">
           <a href={HOME} className="doc-nav__brand">
-            <img src={WORDMARK} alt="SyncRun" className="doc-nav__wordmark" />
+            <Image src={wordmark} alt="SyncRun" className="doc-nav__wordmark" priority />
           </a>
           <div className="doc-nav__actions">
             <a href={HOME} className="doc-nav__link">

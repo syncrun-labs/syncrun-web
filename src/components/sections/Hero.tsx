@@ -1,12 +1,11 @@
 import SplitText from "../reactbits/SplitText";
+import home from "@/public/shots/home.png";
 import GradientText from "../reactbits/GradientText";
 import StarBorder from "../reactbits/StarBorder";
 import AnimatedContent from "../reactbits/AnimatedContent";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
-
-const HOME = "/shots/home.png";
 
 export default function Hero() {
   const { t } = useLang();
@@ -46,7 +45,7 @@ export default function Hero() {
         </div>
 
         <div className="hero__visual">
-          <DeviceFrame src={HOME} alt="SyncRun — 하나의 Start 홈 화면" width={318} priority glow="accent" />
+          <DeviceFrame src={home} alt="SyncRun — 하나의 Start 홈 화면" width={318} priority glow="accent" />
         </div>
       </div>
 
