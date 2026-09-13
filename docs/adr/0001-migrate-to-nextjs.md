@@ -65,10 +65,10 @@ App Router는 `app/[locale]` 세그먼트 + `generateStaticParams` + Metadata AP
 `robots.txt`·`sitemap.xml`·`canonical`·`og:image`만 추가하는 안. 반나절이면 되지만 근본 문제인
 "콘텐츠가 클라이언트에서만 완성된다"와 로케일 URL 부재를 그대로 둔다. 영어 시장 진입에는 미달이다.
 
-## 제약 — 출시된 앱이 참조하는 URL
+## 제약 — 앱 밖에서 참조하는 약관 URL
 
-**다음 세 주소는 절대 깨지면 안 된다.** App Store Connect의 개인정보 처리방침 URL이자,
-이미 배포된 iOS 앱이 여는 주소다 (`syncrun-ios`의 `LegalDocumentView.swift`, `enum LegalLinks`).
+**다음 세 주소를 유지한다.** App Store Connect의 개인정보 처리방침 URL이자,
+`syncrun-ios`가 정식 주소로 선언해 둔 값이다 (`LegalDocumentView.swift`의 `enum LegalLinks`).
 
 ```
 https://www.syncrunlabs.com/legal/terms-of-service
@@ -76,9 +76,14 @@ https://www.syncrunlabs.com/legal/privacy-policy
 https://www.syncrunlabs.com/legal/location-terms
 ```
 
-앱은 심사와 사용자 업데이트를 거치므로 이 주소를 되돌릴 수 없다.
-따라서 **기본 언어(ko)에는 로케일 프리픽스를 붙이지 않는다** (`localePrefix: 'as-needed'`).
+앱 자체는 이 주소를 열지 않는다 — 약관 화면은 번들된 마크다운을 네이티브로 렌더한다
+(`LegalMarkdownView(source: .bundle(...))`). 따라서 앱 바이너리가 이 경로를 붙잡고 있지는 않다.
+그럼에도 유지하는 이유는 App Store Connect에 등록돼 심사에서 열리는 주소이고, 외부 링크와
+검색 색인이 걸려 있으며, 바꿀 이유가 없기 때문이다.
+
+**기본 언어(ko)에는 로케일 프리픽스를 붙이지 않는다** (`localePrefix: 'as-needed'`).
 위 경로는 문자 그대로 유지되고, 영어판만 `/en/legal/<슬러그>`로 추가된다.
+이는 제약이 없더라도 기본 언어에 관해 널리 쓰이는 관례와 같다.
 
 리다이렉트로 우회하지 않는다 — 앱스토어 심사 URL이 리다이렉트를 타는 상황을 만들지 않기 위해서다.
 

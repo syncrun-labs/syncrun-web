@@ -26,8 +26,8 @@ E2E_BASE_URL=<Vercel 프리뷰 URL> npx playwright test legal-urls   # 병합 �
 ## 약관 URL 계약
 
 `/legal/terms-of-service` · `/legal/privacy-policy` · `/legal/location-terms` 는
-App Store Connect의 개인정보 처리방침 URL이자 **이미 배포된 iOS 앱**이 여는 주소다
-(`syncrun-ios`의 `enum LegalLinks`). 앱은 심사와 사용자 업데이트를 거치므로 되돌릴 수 없다.
+App Store Connect에 등록돼 심사에서 열리는 주소이고, `syncrun-ios`가 정식 주소로 선언해 둔 값이다
+(`enum LegalLinks`). 앱 자체는 번들된 마크다운을 렌더하므로 이 주소를 열지는 않는다.
 
 라우팅·로케일 구조를 바꾸기 전에 [ADR 0001](../docs/adr/0001-migrate-to-nextjs.md)의 제약을 먼저 읽는다.
 
