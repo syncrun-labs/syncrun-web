@@ -32,3 +32,9 @@ export const LEGAL_CONTRACT = [
   { path: "/legal/privacy-policy", heading: "싱크런(SyncRun) 개인정보 처리방침" },
   { path: "/legal/location-terms", heading: "싱크런(SyncRun) 위치기반서비스 이용약관" },
 ] as const;
+
+/**
+ * App Store Connect 메타데이터에 거는 주소. 한국어 스토어는 `/`(Marketing)·`/support`(Support),
+ * 영어 스토어는 `/en`·`/en/support`. 등록되는 순간 약관 URL과 같은 급의 계약이 된다.
+ */
+export const STORE_URLS = ["/", "/support", "/en", "/en/support"] as const;
