@@ -17,7 +17,7 @@
     "test:update": "playwright test --update-snapshots",
     "test:report": "playwright show-report",
     "lighthouse": "lhci collect --config=./lighthouserc.cjs",
-    "lighthouse:local": "lhci collect --config=./lighthouserc.cjs --start-server-command='npm run preview -- --port 4173 --strictPort' --start-server-ready-pattern='Local'",
+    "lighthouse:local": "LHCI_BASE_URL=http://localhost:4173 lhci collect --config=./lighthouserc.cjs --start-server-command='npm run preview -- --port 4173 --strictPort' --start-server-ready-pattern='Local'",
     "lighthouse:report": "node scripts/lighthouse-summary.mjs",
     "prepare": "husky"
   },

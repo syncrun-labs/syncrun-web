@@ -47,11 +47,29 @@ if (!files.length) {
 
 // URL 하나에 실행이 여럿이므로 경로로 묶는다.
 const byPath = new Map();
+const redirected = [];
 for (const file of files) {
   const lhr = JSON.parse(readFileSync(join(dir, file), "utf8"));
-  const path = new URL(lhr.finalDisplayedUrl ?? lhr.requestedUrl).pathname;
+  const requested = new URL(lhr.requestedUrl);
+  const final = new URL(lhr.finalDisplayedUrl ?? lhr.requestedUrl);
+
+  // 다른 오리진으로 튕겼으면 우리 사이트를 잰 것이 아니다. Vercel 배포 보호가 켜진 프리뷰는
+  // 로그인 페이지로 302를 보내는데, 그 점수를 성공으로 남기면 표 전체가 거짓이 된다.
+  if (final.origin !== requested.origin) {
+    redirected.push(`${requested.href} → ${final.origin}`);
+    continue;
+  }
+
+  const path = final.pathname;
   if (!byPath.has(path)) byPath.set(path, []);
   byPath.get(path).push(lhr);
+}
+
+if (redirected.length) {
+  console.error("측정 대상이 다른 오리진으로 리다이렉트됐다 — 결과를 신뢰할 수 없다:");
+  for (const line of new Set(redirected)) console.error(`  ${line}`);
+  console.error("배포 보호가 켜진 주소를 겨눴는지 확인한다. 프로덕션은 LHCI_BASE_URL 을 비운다.");
+  process.exit(1);
 }
 
 const rows = [...byPath.entries()]

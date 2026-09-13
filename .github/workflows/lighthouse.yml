@@ -1,9 +1,9 @@
 name: Lighthouse
 
-# Vercel 배포가 끝나면 그 URL을 잰다 — 빌드 산출물이 아니라 실제로 서비스되는 주소를 재야
-# 캐시·압축·CDN이 포함된 값이 나온다. 손으로 다른 주소를 재고 싶을 때는 수동 실행을 쓴다.
+# 수동 실행만 한다. 이 사이트는 성능·SEO에 영향 없는 변경(약관 문안 등)이 대부분이라
+# 배포마다 재면 잡음이 된다. 이전·폰트·이미지처럼 비교가 필요한 시점에 버튼으로 돌린다.
+# 프로덕션이 기본이다 — Vercel 프리뷰는 배포 보호로 302를 반환해 로그인 페이지를 재게 된다.
 on:
-  deployment_status:
   workflow_dispatch:
     inputs:
       url:
@@ -13,16 +13,9 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
-
-concurrency:
-  group: lighthouse-${{ github.event.deployment_status.target_url || inputs.url || 'prod' }}
-  cancel-in-progress: true
 
 jobs:
   measure:
-    # 배포가 성공했을 때만 잰다 — 실패·진행 중 배포를 재면 의미 없는 숫자가 나온다.
-    if: github.event_name == 'workflow_dispatch' || github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,69 +29,24 @@ jobs:
 
       - name: 측정
         env:
-          LHCI_BASE_URL: ${{ github.event.deployment_status.environment_url || inputs.url || 'https://www.syncrunlabs.com' }}
+          LHCI_BASE_URL: ${{ inputs.url || 'https://www.syncrunlabs.com' }}
         run: npm run lighthouse
 
+      # 요약 스크립트가 리다이렉트를 감지하면 0이 아닌 코드로 끝난다 — 엉뚱한 사이트를 잰 결과를
+      # 성공으로 남기지 않는다.
       - name: 표 만들기
-        id: summary
         run: |
           {
             echo "## Lighthouse"
             echo
             node scripts/lighthouse-summary.mjs
-          } > summary.md
-          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: 결과 보관
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-${{ github.run_number }}
           path: .lighthouseci/
           retention-days: 30
           include-hidden-files: true
-
-      # 프리뷰 배포면 그 커밋의 PR을 찾아 표를 남긴다. PR이 없으면(=main 직접 배포) 조용히 넘어간다.
-      - name: PR에 코멘트
-        if: github.event_name == 'deployment_status'
-        uses: actions/github-script@v7
-        continue-on-error: true
-        with:
-          script: |
-            const fs = require('fs');
-            const body = fs.readFileSync('summary.md', 'utf8');
-            const sha = context.payload.deployment.sha;
-
-            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: sha,
-            });
-            const pr = prs.find((p) => p.state === 'open');
-            if (!pr) return;
-
-            // 같은 PR에 표가 쌓이지 않도록 이전 코멘트를 갈아끼운다.
-            const marker = '## Lighthouse';
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number,
-            });
-            const mine = comments.find(
-              (c) => c.user.type === 'Bot' && c.body.startsWith(marker),
-            );
-
-            if (mine) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: mine.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr.number,
-                body,
-              });
-            }
