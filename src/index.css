@@ -1,7 +1,3 @@
-/* Pretendard(OFL) — scripts/prepare-fonts.mjs 가 npm 패키지에서 생성한다. font-display: optional 이라
-   첫 방문은 시스템 폰트, 재방문부터 Pretendard다. 이유는 그 스크립트 주석에. */
-@import "./fonts/pretendard.css";
-
 /* =========================================================================
    SyncRun — 디자인 토큰 (라이트 캔버스 · 시그니처 코랄 · 리퀴드 글래스)
    iOS 앱(SRColor·SRFont·Glass.swift)의 코랄 팔레트를 웹으로 옮긴다.

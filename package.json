@@ -5,10 +5,7 @@
   "type": "module",
   "description": "SyncRun 랜딩페이지 — 맞대면 그 자리에서 함께 뛰는 러닝 앱 (React · React Bits · Liquid Glass)",
   "scripts": {
-    "prepare:fonts": "node scripts/prepare-fonts.mjs",
-    "predev": "npm run prepare:fonts",
     "dev": "next dev",
-    "prebuild": "npm run prepare:fonts",
     "build": "next build",
     "preview": "next start -p 4173",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.test.json --noEmit",
@@ -28,7 +25,6 @@
     "framer-motion": "^11.18.2",
     "next": "^16.3.5",
     "ogl": "^1.0.11",
-    "pretendard": "^1.3.9",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
