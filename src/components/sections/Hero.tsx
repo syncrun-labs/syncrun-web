@@ -6,7 +6,7 @@ import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
 
-const HOME = `${import.meta.env.BASE_URL}shots/home.png`;
+const HOME = "/shots/home.png";
 
 export default function Hero() {
   const { t } = useLang();

@@ -43,11 +43,21 @@ export default function AnimatedContent({
   inView = true,
 }: Props) {
   const skip = useMemo(shouldSkipReveal, []);
-  if (skip) return <div className={className}>{children}</div>;
 
   const init = { opacity: 0, ...offset(direction, distance) };
   const shown = { opacity: 1, x: 0, y: 0 };
   const transition = { type: "spring" as const, stiffness: 120, damping: 20, delay };
+
+  // 서버는 리빌 여부를 모르므로 항상 숨긴 초기 상태를 그린다. 건너뛸 때도 같은 motion.div를 유지해야
+  // 하이드레이션이 서버 DOM을 그대로 채택한 뒤 framer가 스타일을 넘겨받아 즉시 최종 상태로 보낸다.
+  // 일반 div로 바꾸면 React가 서버가 심은 opacity:0 인라인 스타일을 손대지 않아 내용이 영영 안 보인다.
+  if (skip) {
+    return (
+      <motion.div className={className} initial={init} animate={shown} transition={{ duration: 0 }}>
+        {children}
+      </motion.div>
+    );
+  }
 
   if (!inView) {
     return (

@@ -1,3 +1,7 @@
+"use client";
+
+import "../styles/support.css";
+
 import LangToggle from "../components/LangToggle";
 import { useLang } from "../i18n/lang";
 import { supportCopy } from "../i18n/support";
@@ -5,14 +9,15 @@ import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 
 const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
-const HOME = import.meta.env.BASE_URL;
-const LEGAL = `${HOME}legal`;
-const COMPANY_PAGE = `${HOME}company`;
-const WORDMARK = `${HOME}brand/wordmark.png`;
+const WORDMARK = "/brand/wordmark.png";
 
 export default function Support() {
-  const { lang } = useLang();
+  const { lang, base } = useLang();
   const c = supportCopy[lang];
+  // 언어별 경로 — ko는 접두 없음, en은 /en
+  const HOME = base || "/";
+  const LEGAL = `${base}/legal/terms-of-service`;
+  const COMPANY_PAGE = `${base}/company`;
 
   return (
     <>

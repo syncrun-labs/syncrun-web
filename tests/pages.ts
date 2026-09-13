@@ -1,4 +1,4 @@
-/** 공개 페이지 목록 — 시각 회귀와 URL 계약 테스트가 함께 쓴다. */
+/** 공개 페이지 목록 — 언어 접두 없는 형태. 시각 회귀와 URL 계약 테스트가 함께 쓴다. */
 export const PAGES = [
   { name: "landing", path: "/" },
   { name: "support", path: "/support" },
@@ -7,6 +7,18 @@ export const PAGES = [
   { name: "legal-privacy", path: "/legal/privacy-policy" },
   { name: "legal-location", path: "/legal/location-terms" },
 ] as const;
+
+export type Lang = "ko" | "en";
+
+/** 언어는 URL이 정한다 — ko는 접두 없음, en은 `/en`. 프로젝트 이름(`desktop-ko` 등)에서 언어를 읽는다. */
+export function localized(path: string, lang: Lang): string {
+  if (lang === "ko") return path;
+  return path === "/" ? "/en" : `/en${path}`;
+}
+
+export function langOf(projectName: string): Lang {
+  return projectName.endsWith("-en") ? "en" : "ko";
+}
 
 /**
  * App Store Connect에 등록돼 심사에서 열리는 약관 주소 — `syncrun-ios`가 `enum LegalLinks`로

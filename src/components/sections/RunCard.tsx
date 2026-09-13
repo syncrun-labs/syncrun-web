@@ -3,7 +3,7 @@ import GradientText from "../reactbits/GradientText";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
 
-const CARD = `${import.meta.env.BASE_URL}shots/card.png`;
+const CARD = "/shots/card.png";
 
 export default function RunCard() {
   const { t } = useLang();

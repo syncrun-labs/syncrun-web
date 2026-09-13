@@ -4,7 +4,7 @@ import { useLang } from "../../i18n/lang";
 import LangToggle from "../LangToggle";
 import { APP_STORE_URL } from "../../lib/app-store";
 
-const WORDMARK = `${import.meta.env.BASE_URL}brand/wordmark.png`;
+const WORDMARK = "/brand/wordmark.png";
 
 export default function Nav() {
   const { t } = useLang();

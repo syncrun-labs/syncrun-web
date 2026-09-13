@@ -219,9 +219,9 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "약관",
           links: [
-            { label: "이용약관", href: `${LEGAL}#terms` },
-            { label: "개인정보 처리방침", href: `${LEGAL}#privacy` },
-            { label: "위치기반서비스", href: `${LEGAL}#location` },
+            { label: "이용약관", href: `${LEGAL}/terms-of-service` },
+            { label: "개인정보 처리방침", href: `${LEGAL}/privacy-policy` },
+            { label: "위치기반서비스", href: `${LEGAL}/location-terms` },
           ],
         },
         {
@@ -369,9 +369,9 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "Legal",
           links: [
-            { label: "Terms of Service", href: `${LEGAL}#terms` },
-            { label: "Privacy Policy", href: `${LEGAL}#privacy` },
-            { label: "Location Services", href: `${LEGAL}#location` },
+            { label: "Terms of Service", href: `${LEGAL}/terms-of-service` },
+            { label: "Privacy Policy", href: `${LEGAL}/privacy-policy` },
+            { label: "Location Services", href: `${LEGAL}/location-terms` },
           ],
         },
         {

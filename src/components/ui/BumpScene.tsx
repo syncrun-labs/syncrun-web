@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
  * 접점에서 UWB 리플이 번지고 코랄 스파크가 튄다. 다크 섹션 전용.
  * 화면은 실제 홈(Start Hub) 캡처를 쓴다.
  */
-const HOME = `${import.meta.env.BASE_URL}shots/home.png`;
+const HOME = "/shots/home.png";
 
 export default function BumpScene() {
   const reduce = useReducedMotion();

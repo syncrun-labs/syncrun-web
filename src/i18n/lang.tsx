@@ -1,73 +1,49 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+"use client";
+
+import { createContext, useContext, useMemo } from "react";
 import type { ReactNode } from "react";
 import { dict, type Dict, type Lang } from "./dict";
 
-const STORAGE_KEY = "sr-lang";
-
-/** 첫 진입 언어 결정 — 저장된 선택 > 브라우저 로케일. 한국어를 하드 기본값으로 두지 않는다:
- *  navigator.languages에 한국어가 있을 때만 ko, 그 외는 모두 en. */
-function detectLang(): Lang {
-  if (typeof window === "undefined") return "en";
-  try {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved === "ko" || saved === "en") return saved;
-  } catch {
-    /* localStorage 접근 불가(프라이빗 모드 등) — 로케일 감지로 넘어간다 */
-  }
-  const locales =
-    navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
-  return locales.some((l) => l && l.toLowerCase().startsWith("ko")) ? "ko" : "en";
-}
-
-/** 문서 제목·설명. 페이지마다 다르므로 LangProvider가 주입받는다. */
+/** 문서 제목·설명. 페이지마다 다르고, 라우트의 `metadata`가 이 값을 쓴다. */
 export interface PageMeta {
   title: string;
   description: string;
 }
 
+/** 두 언어의 같은 페이지 경로. 토글은 이 짝을 오간다. */
+export interface LangPaths {
+  ko: string;
+  en: string;
+}
+
 interface LangCtx {
   lang: Lang;
   t: Dict;
-  setLang: (l: Lang) => void;
-  toggle: () => void;
+  paths: LangPaths;
+  /** 이 언어의 경로 접두 — ko는 "", en은 "/en". 내부 링크는 `${base}/support` 처럼 만든다. */
+  base: string;
 }
 
 const Ctx = createContext<LangCtx | null>(null);
 
-/** `meta`를 주면 그 페이지의 제목·설명을 쓴다. 없으면 랜딩 카피(dict)의 것을 쓴다. */
+/**
+ * 언어는 URL이 정한다 — `/`가 ko, `/en`이 en. 각 라우트가 자기 `lang`과 두 언어의 경로 짝을 넘긴다.
+ * 브라우저 로케일 감지나 저장된 선택은 없다. 그래야 URL 하나에 내용 하나가 고정되어
+ * 검색엔진이 언어판을 구분하고, 정적 생성 결과가 방문자마다 같다.
+ */
 export function LangProvider({
+  lang,
+  paths,
   children,
-  meta,
 }: {
+  lang: Lang;
+  paths: LangPaths;
   children: ReactNode;
-  meta?: Record<Lang, PageMeta>;
 }) {
-  const [lang, setLangState] = useState<Lang>(detectLang);
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, l);
-    } catch {
-      /* 저장 불가면 세션 내 상태만 유지 */
-    }
-  }, []);
-
-  const toggle = useCallback(() => setLang(lang === "ko" ? "en" : "ko"), [lang, setLang]);
-
-  const t = dict[lang];
-  const pageMeta = meta ? meta[lang] : t.meta;
-
-  // <html lang>·문서 제목·메타 설명을 현재 언어에 맞춘다(SPA라 클라이언트에서 갱신).
-  useEffect(() => {
-    document.documentElement.lang = lang;
-    document.title = pageMeta.title;
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute("content", pageMeta.description);
-  }, [lang, pageMeta]);
-
-  const value = useMemo<LangCtx>(() => ({ lang, t, setLang, toggle }), [lang, t, setLang, toggle]);
-
+  const value = useMemo<LangCtx>(
+    () => ({ lang, t: dict[lang], paths, base: lang === "en" ? "/en" : "" }),
+    [lang, paths],
+  );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

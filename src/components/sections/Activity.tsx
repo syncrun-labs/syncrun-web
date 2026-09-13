@@ -2,7 +2,7 @@ import AnimatedContent from "../reactbits/AnimatedContent";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
 
-const ACTIVITY = `${import.meta.env.BASE_URL}shots/activity.png`;
+const ACTIVITY = "/shots/activity.png";
 
 export default function Activity() {
   const { t } = useLang();

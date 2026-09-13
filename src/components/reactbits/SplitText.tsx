@@ -56,14 +56,8 @@ export default function SplitText({
     return () => io.disconnect();
   }, [skip, inView, once]);
 
-  if (skip) {
-    return (
-      <span className={className} style={{ display: "inline-block" }}>
-        {text}
-      </span>
-    );
-  }
-
+  // 건너뛸 때도 같은 구조를 그린다 — 서버와 클라이언트의 DOM이 같아야 하이드레이션이 맞는다.
+  // 리빌은 effect가 `is-in`을 켜서 끝내고, reduce 환경은 CSS가 `.sr-split-word`를 바로 보이게 한다.
   const units = splitBy === "chars" ? Array.from(text) : text.split(" ");
 
   // 단어 사이에는 실제 공백 텍스트 노드를 둔다 — 이게 줄바꿈 기회가 되어

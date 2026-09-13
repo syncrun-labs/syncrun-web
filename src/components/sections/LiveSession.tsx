@@ -2,7 +2,7 @@ import AnimatedContent from "../reactbits/AnimatedContent";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
 
-const RUNNING = `${import.meta.env.BASE_URL}shots/running.png`;
+const RUNNING = "/shots/running.png";
 
 export default function LiveSession() {
   const { t } = useLang();

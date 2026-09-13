@@ -47,10 +47,13 @@ export default function DeviceFrame({
       <motion.div
         className="device__stage"
         style={active ? { rotateY: rotY, rotateX: rotX, y } : undefined}
-        initial={skip || reduce ? false : { opacity: 0, y: 60, rotateX: 10 }}
+        // 서버는 숨긴 초기 상태를 그린다. 건너뛰거나 reduce면 `initial={false}`가 아니라 즉시 최종 상태로
+        // animate 해야 한다 — false로 두면 서버가 심은 opacity:0 인라인 스타일이 그대로 남는다.
+        initial={{ opacity: 0, y: 60, rotateX: 10 }}
+        animate={skip || reduce ? { opacity: 1, y: 0, rotateX: 0 } : undefined}
         whileInView={skip || reduce ? undefined : { opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        transition={skip || reduce ? { duration: 0 } : { duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
         <div
           className="device__frame"
