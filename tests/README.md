@@ -39,8 +39,8 @@ App Store Connect에 등록돼 심사에서 열리는 주소이고, `syncrun-ios
 - `Aurora`는 WebGL 루프 대신 `uTime` 고정 프레임만 그린다
 - 스냅 스크롤이 꺼져 풀페이지 캡처가 온전히 잡힌다
 
-언어는 `locale`이 정한다 — `detectLang()`이 `navigator.languages`를 읽고, 새 컨텍스트에는
-`localStorage('sr-lang')`가 없어 로케일이 그대로 첫 언어가 된다.
+언어는 URL이 정한다 — `-ko` 프로젝트는 `/…`, `-en` 프로젝트는 `/en/…`을 방문한다.
+스냅샷 이름은 언어와 무관하게 같고 프로젝트별 디렉터리가 기준 이미지를 가른다.
 
 캡처 전에 페이지 끝까지 훑는다. `loading="lazy"` 이미지는 뷰포트에 들어와야 로드되는데
 풀페이지 캡처는 뷰포트 밖도 찍기 때문이다.
@@ -57,6 +57,9 @@ App Store Connect에 등록돼 심사에서 열리는 주소이고, `syncrun-ios
 git switch main && npm run test:update   # 기준 뜨기
 git switch <작업 브랜치> && npm test      # 비교
 ```
+
+기준을 뜰 때는 **각 경로가 제 페이지를 내는지** 먼저 확인한다. 정적 서버가 SPA 폴백을 하면
+`/support`·`/company`가 랜딩으로 잡혀 기준선이 조용히 오염된다 — 페이지 높이가 전부 같으면 의심한다.
 
 기준 이미지는 그 작업 동안만 유효하다 — 디자인이 의도적으로 바뀌면 `npm run test:update`로 다시 뜬다.
 
