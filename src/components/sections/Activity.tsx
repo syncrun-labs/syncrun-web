@@ -1,8 +1,7 @@
 import AnimatedContent from "../reactbits/AnimatedContent";
+import activity from "@/public/shots/activity.png";
 import DeviceFrame from "../ui/DeviceFrame";
 import { useLang } from "../../i18n/lang";
-
-const ACTIVITY = `${import.meta.env.BASE_URL}shots/activity.png`;
 
 export default function Activity() {
   const { t } = useLang();
@@ -28,7 +27,7 @@ export default function Activity() {
 
         <AnimatedContent direction="left" distance={40} delay={0.1}>
           <div className="activity__visual">
-            <DeviceFrame src={ACTIVITY} alt="SyncRun 활동 — 이야기 대시보드" width={300} glow="cool" />
+            <DeviceFrame src={activity} alt="SyncRun 활동 — 이야기 대시보드" width={300} glow="cool" />
           </div>
         </AnimatedContent>
       </div>

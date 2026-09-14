@@ -1,18 +1,17 @@
 import { useLang } from "../../i18n/lang";
+import Image from "next/image";
+import wordmark from "@/public/brand/wordmark.png";
 import { COMPANY } from "../../lib/company";
 import { SUPPORT_EMAIL } from "../../lib/contact";
 
-const BASE = import.meta.env.BASE_URL;
-const WORDMARK = `${BASE}brand/wordmark.png`;
-
-/** 지원/약관은 별도 HTML 페이지라 BASE_URL을 붙인다. 앵커·외부·mailto는 그대로. */
-function resolve(href: string): string {
+/** 지원·약관·회사 소개는 언어별 경로라 접두를 붙인다. 앵커·외부·mailto는 그대로. */
+function resolve(href: string, base: string): string {
   if (href.startsWith("#") || href.startsWith("http") || href.startsWith("mailto")) return href;
-  return `${BASE}${href}`;
+  return `${base}/${href}`;
 }
 
 export default function Footer() {
-  const { t, lang } = useLang();
+  const { t, lang, base } = useLang();
   const f = t.footer;
   const c = COMPANY[lang];
 
@@ -21,7 +20,7 @@ export default function Footer() {
       <div className="container footer__inner">
         <div className="footer__brand">
           <div className="footer__logo">
-            <img src={WORDMARK} alt="SyncRun" className="footer__wordmark" />
+            <Image src={wordmark} alt="SyncRun" className="footer__wordmark" priority />
           </div>
           <p className="footer__tag">{f.tagline}</p>
         </div>
@@ -31,7 +30,7 @@ export default function Footer() {
             <div key={c.head} className="footer__col">
               <span className="footer__head mono">{c.head}</span>
               {c.links.map((l) => {
-                const href = resolve(l.href);
+                const href = resolve(l.href, base);
                 const external = href.startsWith("http");
                 return (
                   <a

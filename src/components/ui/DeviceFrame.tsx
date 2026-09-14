@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import Image, { type StaticImageData } from "next/image";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import type { CSSProperties } from "react";
 import { shouldSkipReveal } from "../../lib/reveal";
@@ -18,7 +19,7 @@ export default function DeviceFrame({
   priority = false,
   className = "",
 }: {
-  src: string;
+  src: StaticImageData;
   alt: string;
   width?: number;
   tilt?: boolean;
@@ -47,17 +48,21 @@ export default function DeviceFrame({
       <motion.div
         className="device__stage"
         style={active ? { rotateY: rotY, rotateX: rotX, y } : undefined}
-        initial={skip || reduce ? false : { opacity: 0, y: 60, rotateX: 10 }}
+        // 서버는 숨긴 초기 상태를 그린다. 건너뛰거나 reduce면 `initial={false}`가 아니라 즉시 최종 상태로
+        // animate 해야 한다 — false로 두면 서버가 심은 opacity:0 인라인 스타일이 그대로 남는다.
+        initial={{ opacity: 0, y: 60, rotateX: 10 }}
+        animate={skip || reduce ? { opacity: 1, y: 0, rotateX: 0 } : undefined}
         whileInView={skip || reduce ? undefined : { opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        transition={skip || reduce ? { duration: 0 } : { duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
         <div
           className="device__frame"
           style={float && !reduce ? { animation: "float 8s ease-in-out infinite" } : undefined}
         >
           <div className="device__screen">
-            <img src={src} alt={alt} loading={priority ? "eager" : "lazy"} draggable={false} />
+            {/* 정적 import라 크기를 알고, Vercel이 AVIF/WebP·표시 크기별로 변환해 낸다. 표시 폭은 CSS의 --dev-w 상한을 따른다. */}
+            <Image src={src} alt={alt} priority={priority} sizes={`${width}px`} draggable={false} />
             <span className="device__gloss" aria-hidden="true" />
           </div>
         </div>

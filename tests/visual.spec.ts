@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { PAGES } from "./pages";
+import { PAGES, langOf, localized } from "./pages";
 
 /**
  * 페이지 끝까지 훑어 `loading="lazy"` 이미지를 불러온 뒤 맨 위로 돌아온다.
@@ -25,8 +25,8 @@ async function loadLazyImages(page: Page): Promise<void> {
  */
 test.describe("시각 회귀", () => {
   for (const { name, path } of PAGES) {
-    test(name, async ({ page }) => {
-      await page.goto(path, { waitUntil: "networkidle" });
+    test(name, async ({ page }, testInfo) => {
+      await page.goto(localized(path, langOf(testInfo.project.name)), { waitUntil: "networkidle" });
 
       // 웹폰트(Pretendard)가 들어온 뒤에 찍는다 — 레이아웃이 그 뒤에 확정된다.
       await page.evaluate(() => document.fonts.ready);

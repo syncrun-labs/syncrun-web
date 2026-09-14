@@ -17,10 +17,10 @@ const baseURL = externalTarget ?? `http://localhost:${PORT}`;
  * 즉시 최종 상태로 건너뛰고, Aurora는 `uTime` 고정 프레임만 그리며, 스냅 스크롤이 꺼져
  * 풀페이지 캡처가 온전히 잡힌다.
  *
- * 언어는 `locale`이 정한다 — `LangProvider`의 `detectLang()`이 `navigator.languages`를 읽고,
- * 새 컨텍스트에는 `localStorage('sr-lang')`가 없어 로케일이 그대로 첫 언어가 된다.
+ * 언어는 URL이 정한다 — `-ko` 프로젝트는 `/…`, `-en` 프로젝트는 `/en/…`을 방문한다.
+ * 스냅샷 이름은 언어와 무관하게 같으므로 프로젝트별 디렉터리가 기준 이미지를 가른다.
  *
- * 로컬에서는 개발 서버가 아니라 프로덕션 빌드(`preview`)를 찍는다 — 비교 대상이 배포 산출물이기 때문이다.
+ * 로컬에서는 개발 서버가 아니라 프로덕션 빌드(`next start`)를 찍는다 — 비교 대상이 배포 산출물이기 때문이다.
  */
 export default defineConfig({
   testDir: "./tests",
@@ -80,7 +80,7 @@ export default defineConfig({
   webServer: externalTarget
     ? undefined
     : {
-        command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
+        command: `npm run build && npm run preview`,
         port: PORT,
         reuseExistingServer: !process.env.CI,
         timeout: 180_000,

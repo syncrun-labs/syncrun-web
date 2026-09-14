@@ -35,6 +35,8 @@
   padding: 10px 18px;
   border-radius: 999px;
   font-size: 14px;
+  /* 링크(<a>)가 body의 line-height 1.5를 상속하면 버튼이던 시절보다 4px 커진다. 버튼의 UA 기본값에 맞춘다. */
+  line-height: normal;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--text-secondary);

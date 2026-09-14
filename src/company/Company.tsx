@@ -1,3 +1,10 @@
+"use client";
+
+import "../styles/support.css";
+import Image from "next/image";
+import wordmark from "@/public/brand/wordmark.png";
+import "../styles/company.css";
+
 import LangToggle from "../components/LangToggle";
 import { companyCopy, type CompanyLink } from "../i18n/company";
 import { useLang } from "../i18n/lang";
@@ -5,19 +12,22 @@ import { COMPANY } from "../lib/company";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 
 const EMAIL = SUPPORT_EMAIL;
-const HOME = import.meta.env.BASE_URL;
-const WORDMARK = `${HOME}brand/wordmark.png`;
 
-const HREF: Record<CompanyLink | "mailto", string> = {
-  home: HOME,
-  support: `${HOME}support`,
-  legal: `${HOME}legal`,
-  github: COMPANY.github,
-  mailto: supportMailto("[SyncRun 문의]"),
-};
+/** 언어별 경로 — ko는 접두 없음, en은 /en. 외부·mailto는 언어와 무관. */
+function hrefFor(base: string): Record<CompanyLink | "mailto", string> {
+  return {
+    home: base || "/",
+    support: `${base}/support`,
+    legal: `${base}/legal/terms-of-service`,
+    github: COMPANY.github,
+    mailto: supportMailto("[SyncRun 문의]"),
+  };
+}
 
 export default function Company() {
-  const { lang } = useLang();
+  const { lang, base } = useLang();
+  const HREF = hrefFor(base);
+  const HOME = HREF.home;
   const c = companyCopy[lang];
   const org = COMPANY[lang];
   const mailto = HREF.mailto;
@@ -41,7 +51,7 @@ export default function Company() {
       <header className="doc-nav">
         <div className="container doc-nav__inner">
           <a href={HOME} className="doc-nav__brand">
-            <img src={WORDMARK} alt="SyncRun" className="doc-nav__wordmark" />
+            <Image src={wordmark} alt="SyncRun" className="doc-nav__wordmark" priority />
           </a>
           <div className="doc-nav__actions">
             <a href={HOME} className="doc-nav__link">
@@ -129,7 +139,7 @@ export default function Company() {
             </dl>
             <p className="doc__p">
               {c.business.notePrefix}
-              <a href={`${HREF.legal}#location`} className="doc__inline-link">
+              <a href={`${base}/legal/location-terms`} className="doc__inline-link">
                 {c.business.noteLink}
               </a>
               {c.business.noteSuffix}

@@ -31,10 +31,15 @@ export default function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const skip = useMemo(shouldSkipReveal, []);
-  const [value, setValue] = useState(skip ? to : from);
+  // 서버와 첫 렌더는 from으로 맞추고(하이드레이션), 건너뛰면 effect에서 곧장 to로 보낸다.
+  const [value, setValue] = useState(from);
 
   useEffect(() => {
-    if (skip || !inView) return;
+    if (skip) {
+      setValue(to);
+      return;
+    }
+    if (!inView) return;
     let raf = 0;
     let start = 0;
     const step = (t: number) => {

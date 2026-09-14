@@ -1,79 +1,34 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import "../styles/support.css";
+import Image from "next/image";
+import wordmark from "@/public/brand/wordmark.png";
+import "../styles/legal.css";
+
 import Markdown from "./Markdown";
-import termsSrc from "./docs/terms-of-service.md?raw";
-import privacySrc from "./docs/privacy-policy.md?raw";
-import locationSrc from "./docs/location-terms.md?raw";
 import LangToggle from "../components/LangToggle";
 import { useLang } from "../i18n/lang";
 import { legalCopy } from "../i18n/legal";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
+import { LEGAL_DOCS, type LegalDocKey } from "./docs";
 
-const HOME = import.meta.env.BASE_URL;
 const MAILTO = supportMailto("[SyncRun 문의]");
-const WORDMARK = `${HOME}brand/wordmark.png`;
 
-// 본문은 번역하지 않는다 — 약관 3종은 한국어가 정본이고 앱이 동의를 받는 것도 이 문서다.
-const DOCS = [
-  { key: "terms", source: termsSrc },
-  { key: "privacy", source: privacySrc },
-  { key: "location", source: locationSrc },
-] as const;
-
-type DocKey = (typeof DOCS)[number]["key"];
-
-// 문서별 공개 URL 슬러그 — App Store Connect 개인정보 URL과 앱의 약관 링크가 이 경로(`/legal/<슬러그>`)를 가리킨다.
-const SLUG: Record<DocKey, string> = {
-  terms: "terms-of-service",
-  privacy: "privacy-policy",
-  location: "location-terms",
-};
-const KEY_BY_SLUG: Record<string, DocKey> = {
-  "terms-of-service": "terms",
-  "privacy-policy": "privacy",
-  "location-terms": "location",
-};
-
-// 경로(`/legal/privacy-policy`) 우선, 없으면 레거시 해시(`/legal#privacy`) 폴백으로 표시할 문서를 고른다.
-function keyFromLocation(): DocKey {
-  if (typeof window === "undefined") return "terms";
-  const slug = window.location.pathname.replace(/\/+$/, "").split("/").pop() ?? "";
-  if (KEY_BY_SLUG[slug]) return KEY_BY_SLUG[slug];
-  const hash = window.location.hash.replace("#", "");
-  return DOCS.some((doc) => doc.key === hash) ? (hash as DocKey) : "terms";
-}
-
-export default function Legal() {
-  const { lang } = useLang();
+/**
+ * 약관 화면. 어느 문서인지와 본문은 라우트가 정해서 넘긴다 — `/legal/<슬러그>` 하나가 문서 하나다.
+ * 본문은 번역하지 않는다(한국어가 정본이고 앱이 동의를 받는 문서). 탭은 다른 문서 페이지로 가는 링크다.
+ */
+export default function Legal({ active, source }: { active: LegalDocKey; source: string }) {
+  const { lang, base } = useLang();
   const c = legalCopy[lang];
-  const [active, setActive] = useState<DocKey>(keyFromLocation);
-
-  useEffect(() => {
-    const sync = () => setActive(keyFromLocation());
-    window.addEventListener("popstate", sync);
-    window.addEventListener("hashchange", sync);
-    return () => {
-      window.removeEventListener("popstate", sync);
-      window.removeEventListener("hashchange", sync);
-    };
-  }, []);
-
-  const select = (key: DocKey) => {
-    setActive(key);
-    const path = `${HOME}legal/${SLUG[key]}`;
-    if (window.location.pathname !== path) {
-      history.replaceState(null, "", path);
-    }
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const doc = DOCS.find((item) => item.key === active) ?? DOCS[0];
+  const HOME = base || "/";
 
   return (
     <>
       <header className="doc-nav">
         <div className="container doc-nav__inner">
           <a href={HOME} className="doc-nav__brand">
-            <img src={WORDMARK} alt="SyncRun" className="doc-nav__wordmark" />
+            <Image src={wordmark} alt="SyncRun" className="doc-nav__wordmark" priority />
           </a>
           <div className="doc-nav__actions">
             <a href={HOME} className="doc-nav__link">
@@ -115,22 +70,21 @@ export default function Legal() {
           ) : null}
 
           <div className="legal-tabs" role="tablist" aria-label={c.tabsLabel}>
-            {DOCS.map((item) => (
-              <button
+            {LEGAL_DOCS.map((item) => (
+              <a
                 key={item.key}
-                type="button"
+                href={`${base}/legal/${item.slug}`}
                 role="tab"
                 aria-selected={item.key === active}
                 className={`legal-tab${item.key === active ? " is-active" : ""}`}
-                onClick={() => select(item.key)}
               >
                 {c.tabs[item.key]}
-              </button>
+              </a>
             ))}
           </div>
 
           <article className="legal-doc">
-            <Markdown source={doc.source} />
+            <Markdown source={source} />
           </article>
         </div>
       </main>

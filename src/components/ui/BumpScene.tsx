@@ -1,11 +1,12 @@
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
+import home from "@/public/shots/home.png";
 
 /**
  * BumpScene — 두 iPhone이 상단을 맞대는 순간을 재현한다.
  * 접점에서 UWB 리플이 번지고 코랄 스파크가 튄다. 다크 섹션 전용.
  * 화면은 실제 홈(Start Hub) 캡처를 쓴다.
  */
-const HOME = `${import.meta.env.BASE_URL}shots/home.png`;
 
 export default function BumpScene() {
   const reduce = useReducedMotion();
@@ -20,7 +21,7 @@ export default function BumpScene() {
     <div className="bump-scene" role="img" aria-label="Two iPhones touching to form a running group">
       <motion.div className="bump-scene__phone bump-scene__phone--l" {...sway}>
         <div className="bump-scene__frame">
-          <img src={HOME} alt="" loading="lazy" draggable={false} />
+          <Image src={home} alt="" sizes="260px" draggable={false} />
         </div>
       </motion.div>
 
@@ -33,7 +34,7 @@ export default function BumpScene() {
 
       <motion.div className="bump-scene__phone bump-scene__phone--r" {...swayR}>
         <div className="bump-scene__frame">
-          <img src={HOME} alt="" loading="lazy" draggable={false} />
+          <Image src={home} alt="" sizes="260px" draggable={false} />
         </div>
       </motion.div>
     </div>

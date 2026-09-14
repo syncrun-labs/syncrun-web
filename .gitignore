@@ -35,3 +35,8 @@ pnpm-debug.log*
 
 # Lighthouse CI 산출물
 /.lighthouseci
+
+# Next.js
+/.next
+/out
+next-env.d.ts
