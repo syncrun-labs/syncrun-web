@@ -8,7 +8,7 @@ export default function Features() {
   const f = t.features;
 
   return (
-    <section className="section features snap-chapter" id="features">
+    <section className="section features" id="features">
       <div className="container">
         <div className="section-head section-head--center">
           <h2 className="h2">{f.title}</h2>

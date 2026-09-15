@@ -7,7 +7,7 @@ export default function OneStart() {
   const o = t.oneStart;
 
   return (
-    <section className="section onestart snap-chapter" id="onestart">
+    <section className="section onestart" id="onestart">
       <div className="container onestart__grid">
         <AnimatedContent direction="right" distance={40}>
           <div className="onestart__copy">
