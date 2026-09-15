@@ -636,7 +636,7 @@ html:lang(ko) .landing .h3 {
 
 .footer__tag {
   margin-top: 16px;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.6;
   white-space: pre-line;
@@ -658,7 +658,8 @@ html:lang(ko) .landing .h3 {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-faint);
+  /* 작은 글씨라 4.5:1 이 필요하다 — faint 는 1.61:1 로 한참 못 미친다 */
+  color: var(--text-secondary);
   margin-bottom: 4px;
 }
 
@@ -685,7 +686,7 @@ html:lang(ko) .landing .h3 {
   margin: 0;
   font-size: 12px;
   line-height: 1.7;
-  color: var(--text-faint);
+  color: var(--text-secondary);
   word-break: keep-all;
 }
 
@@ -697,11 +698,11 @@ html:lang(ko) .landing .h3 {
   padding-top: 26px;
   border-top: 1px solid var(--glass-edge);
   font-size: 12px;
-  color: var(--text-faint);
+  color: var(--text-secondary);
 }
 
 .footer__mailto {
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   transition: color 0.2s ease;
 }
 
