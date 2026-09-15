@@ -7,7 +7,7 @@ import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
 
 export default function CTA() {
-  const { t } = useLang();
+  const { t, base } = useLang();
   const c = t.cta;
 
   return (
@@ -43,7 +43,7 @@ export default function CTA() {
                 >
                   {c.ctaPrimary}
                 </StarBorder>
-                <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer" className="btn btn-ghost">
+                <a href={`${base}/support`} className="btn btn-ghost">
                   {c.ctaSecondary}
                 </a>
               </div>

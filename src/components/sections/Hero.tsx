@@ -4,14 +4,18 @@ import GradientText from "../reactbits/GradientText";
 import StarBorder from "../reactbits/StarBorder";
 import AnimatedContent from "../reactbits/AnimatedContent";
 import DeviceFrame from "../ui/DeviceFrame";
+import HeroBackdrop from "../ui/HeroBackdrop";
 import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
 
+/** 히어로 — 블러 영상 위의 다크 섹션. 타이포가 주인공이고 영상은 분위기만 깐다. */
 export default function Hero() {
   const { t } = useLang();
 
   return (
-    <section className="hero" id="top">
+    <section className="hero section--dark" id="top">
+      <HeroBackdrop />
+
       <div className="hero__grid container">
         <div className="hero__copy">
           <h1 className="display hero__title">
@@ -23,7 +27,7 @@ export default function Hero() {
               inView={false}
             />
             <span className="hero__title-line">
-              <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>{t.hero.titleAccent}</GradientText>
+              <GradientText colors={["#FF8A8E", "#DC565B", "#FFB48A"]}>{t.hero.titleAccent}</GradientText>
             </span>
           </h1>
 
@@ -33,11 +37,18 @@ export default function Hero() {
 
           <AnimatedContent direction="up" distance={20} delay={0.28} inView={false}>
             <div className="hero__actions">
-              <StarBorder as="a" href={APP_STORE_URL} target="_blank" rel="noreferrer" color="#FF8A8E">
+              <StarBorder
+                as="a"
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noreferrer"
+                color="#FF8A8E"
+                className="star-border--light"
+              >
                 <AppleGlyph />
                 {t.hero.ctaPrimary}
               </StarBorder>
-              <a href="#onestart" className="btn btn-ghost">
+              <a href="#bump" className="btn btn-ghost">
                 {t.hero.ctaSecondary}
               </a>
             </div>
@@ -49,7 +60,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <a href="#onestart" className="hero__scroll" aria-label={t.hero.scroll}>
+      <a href="#bump" className="hero__scroll" aria-label={t.hero.scroll}>
         <span className="hero__scroll-mouse" aria-hidden="true">
           <span className="hero__scroll-dot" />
         </span>

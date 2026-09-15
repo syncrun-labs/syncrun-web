@@ -25,8 +25,8 @@ export default function App({ lang, paths }: { lang: Lang; paths: LangPaths }) {
         <Nav />
         <main>
           <Hero />
-          <OneStart />
           <Bump />
+          <OneStart />
           <LiveSession />
           <RunCard />
           <Activity />

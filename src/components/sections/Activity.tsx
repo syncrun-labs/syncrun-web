@@ -1,6 +1,7 @@
 import AnimatedContent from "../reactbits/AnimatedContent";
 import activity from "@/public/shots/activity.png";
 import DeviceFrame from "../ui/DeviceFrame";
+import Facts from "../ui/Facts";
 import { useLang } from "../../i18n/lang";
 
 export default function Activity() {
@@ -9,25 +10,18 @@ export default function Activity() {
 
   return (
     <section className="section activity" id="activity">
-      <div className="container activity__grid">
+      <div className="container story">
         <AnimatedContent direction="right" distance={40}>
-          <div className="activity__copy">
+          <div className="story__copy">
             <h2 className="h2">{a.title}</h2>
             <p className="lede">{a.lede}</p>
-            <dl className="fact-list">
-              {a.facts.map((f) => (
-                <div key={f.k} className="fact-list__row">
-                  <dt>{f.k}</dt>
-                  <dd>{f.v}</dd>
-                </div>
-              ))}
-            </dl>
+            <Facts items={a.facts} />
           </div>
         </AnimatedContent>
 
         <AnimatedContent direction="left" distance={40} delay={0.1}>
-          <div className="activity__visual">
-            <DeviceFrame src={activity} alt="SyncRun 활동 — 이야기 대시보드" width={300} glow="cool" />
+          <div className="story__visual">
+            <DeviceFrame src={activity} alt="SyncRun 활동 — 이야기 화면" width={300} glow="cool" />
           </div>
         </AnimatedContent>
       </div>

@@ -1,47 +1,32 @@
 import AnimatedContent from "../reactbits/AnimatedContent";
-import SplitText from "../reactbits/SplitText";
 import GradientText from "../reactbits/GradientText";
-import BumpScene from "../ui/BumpScene";
+import BumpPair from "../ui/BumpPair";
+import Facts from "../ui/Facts";
 import { useLang } from "../../i18n/lang";
 
+/** 맞댐 — 카피 왼쪽, 두 폰이 가까워지는 장면 오른쪽. 장면은 자기 등장을 스스로 맡는다. */
 export default function Bump() {
   const { t } = useLang();
   const b = t.bump;
 
   return (
-    <section className="section bump section--dark" id="bump">
-      <div className="bump__glow" aria-hidden="true" />
-      <div className="container bump__grid">
+    <section className="section bump" id="bump">
+      <div className="container story">
         <AnimatedContent direction="right" distance={40}>
-          <div className="bump__copy">
-            <h2 className="h2 bump__title">
-              <SplitText text={b.titleTop} splitBy="words" />
+          <div className="story__copy">
+            <h2 className="h2">
+              {b.titleTop}
               <br />
-              <GradientText colors={["#FF8A8E", "#DC565B", "#FFB48A"]}>{b.titleAccent}</GradientText>
+              <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>{b.titleAccent}</GradientText>
             </h2>
-            <p className="lede bump__lede">{b.lede}</p>
-
-            <dl className="bump__stats">
-              {b.stats.map((s) => (
-                <div className="bump__stat" key={s.label}>
-                  <dt className="bump__stat-v tabular">
-                    {s.value}
-                    <em>{s.unit}</em>
-                  </dt>
-                  <dd className="bump__stat-k">{s.label}</dd>
-                </div>
-              ))}
-            </dl>
-
-            <p className="bump__note">{b.note}</p>
+            <p className="lede">{b.lede}</p>
+            <Facts items={b.facts} />
           </div>
         </AnimatedContent>
 
-        <AnimatedContent direction="left" distance={40} delay={0.1}>
-          <div className="bump__visual">
-            <BumpScene />
-          </div>
-        </AnimatedContent>
+        <div className="story__visual">
+          <BumpPair />
+        </div>
       </div>
     </section>
   );

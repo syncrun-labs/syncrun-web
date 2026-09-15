@@ -65,7 +65,7 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    **액센트는 코랄 하나로 통일한다** — 로고의 겹친 두 '맞댐' 원 색이자 iOS `SRColor.accentCore`다.
    (레거시 `--cobalt*` 변수는 코랄로 매핑된 **별칭**일 뿐 — 지원/약관 페이지 호환용. 파란색은 쓰지 않는다.)
    **밝은 바탕이 기본이고 검정은 주 액션(iOS 라이트의 Start 버튼)과 대비 패널로 섞는다.** 다크 시네마틱 섹션은
-   `.section--dark`로 토큰을 뒤집는다(맞댐·CTA 두 곳). 코랄은 강조·러너 '나'에 쓰고 넓은 채움엔 쓰지 않는다.
+   `.section--dark`로 토큰을 뒤집는다(히어로·CTA 두 곳). 히어로는 블러 영상 위의 다크 섹션이다 — `docs/adr/0002`. 코랄은 강조·러너 '나'에 쓰고 넓은 채움엔 쓰지 않는다.
    러닝 수치는 항상 `tabular-nums`.
 3. **AI 티 나는 장식을 쓰지 않는다.** ① 카드마다 아이콘 하나씩 얹기 ② 점(•)+대문자 모노 eyebrow 라벨
    ③ 문구를 둥근 알약(chip)에 담아 나열하기 — 이 세 패턴은 전부 금지다. 위계는 타이포(큰 숫자·제목)와
@@ -110,10 +110,13 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
 - **모션 정책**: 모션은 뷰포트 진입 리빌(`AnimatedContent`·`SplitText`)과 `DeviceFrame`의 미세한 스크롤 틸트뿐이다.
   **핀 고정·스크롤 스크러빙·스냅 스크롤은 쓰지 않는다** — 사용자가 페이지 제어권을 잃는 순간 고장으로 느끼고, 전정 민감 방문자에게는 불편이다.
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
-- `src/components/reactbits/` — React Bits 계열(Aurora·SplitText·SpotlightCard·StarBorder 등) + `reactbits.css`.
-- `src/components/ui/` — 실캡처 목업(`DeviceFrame`: 베젤+스크린샷+스크롤 3D 틸트, `BumpScene`: 두 폰 맞댐+UWB 리플) + `ui.css`.
-- `src/components/sections/` — 랜딩 섹션(Nav·Hero·OneStart·Bump[다크]·LiveSession·RunCard·Activity·Features·CTA[다크]·Footer). `App.tsx`가 조립한다.
-- `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running·me). `public/brand/` — 로고(wordmark·icon).
+- `src/components/reactbits/` — React Bits 계열(Aurora·SplitText·StarBorder 등) + `reactbits.css`.
+- `src/components/ui/` — 실캡처 목업과 제품 장면(`DeviceFrame`: 베젤+스크린샷+스크롤 3D 틸트, `HeroBackdrop`: 블러 영상 배경,
+  `BumpPair`: 두 폰이 가까워지고 인원이 1→2, `Facts`: 아이콘 없는 번호 목록) + `ui.css`.
+- `src/components/sections/` — 랜딩 섹션(Nav·Hero[다크·영상]·Bump·OneStart·LiveSession·RunCard·Activity·Features·CTA[다크]·Footer). `App.tsx`가 조립한다.
+- `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running). `public/brand/` — 로고(wordmark·icon).
+- `public/hero/` — 히어로 배경 루프 영상(mp4·webm)과 포스터. `scripts/hero-video.sh`가 원본 클립에서 만든다(크로스페이드 루프·블러를
+  인코딩 단계에서 굽는다). 해시가 없는 정적 파일이라 교체할 때 버전 접미(`.v1`)를 올린다.
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
 - `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`가 문서형 레이아웃.

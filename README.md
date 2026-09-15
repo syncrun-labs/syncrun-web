@@ -18,14 +18,14 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 - **팔레트**: 밝은 중립 바탕 + **잉크 검정 `#0B0B0F`**(본문·주 액션) + **시그니처 코랄 `#DC565B`** 단일 액센트. iOS 라이트의 Start 버튼이 검정이듯 주 액션은 검정으로 두어 밝은 화면에 또렷하게 섞는다. 러너 팔레트 8색은 참가자 경로·아바타와 짧은 액센트 바에 쓴다. (`src/index.css`의 `:root`)
 - **글래스**: `Glass.swift`의 `srGlass`(ultraThin material + 대각 헤어라인)을 밝은 반투명 흰 표면 + `backdrop-filter` + 대각 스페큘러 하이라이트로 재현 → `.glass`.
 - **타이포**: 시스템 폰트 스택 — 라틴은 SF Pro, 한국어는 기기의 한글 서체. 웹폰트를 넣지 않는다. 한글 제목은 자간을 0 근처에 두고(`html:lang(ko)`) 위계는 굵기와 크기로 만든다. 러닝 수치는 항상 `tabular-nums`.
-- **모션**: SRMotion spring 감성(`--ease-spring`). 뷰포트 진입 리빌과 `DeviceFrame`의 미세한 스크롤 틸트가 전부다 — 핀 고정·스크롤 스크러빙·스냅 스크롤은 쓰지 않는다.
+- **모션**: SRMotion spring 감성(`--ease-spring`). 뷰포트 진입 리빌과 `DeviceFrame`의 미세한 스크롤 틸트가 전부다 — 핀 고정·스크롤 스크러빙·스냅 스크롤은 쓰지 않는다. 히어로 배경은 미리 블러를 구운 음소거 루프 영상이고, reduced-motion에서는 포스터만 보인다(`docs/adr/0002`).
 
 새 색·폰트를 임의로 추가하지 않는다. iOS 앱의 토큰이 바뀌면 여기 CSS 변수도 함께 맞춘다.
 
 ## React Bits 컴포넌트
 
 `src/components/reactbits/` — SyncRun 토큰에 맞춰 손질한 판:
-`Aurora`(WebGL 오로라) · `SplitText` · `ShinyText` · `GradientText` · `SpotlightCard` · `StarBorder` · `ClickSpark` · `AnimatedContent`.
+`Aurora`(WebGL 오로라) · `SplitText` · `ShinyText` · `GradientText` · `StarBorder` · `ClickSpark` · `AnimatedContent`.
 
 장식 레이어(WebGL 등)는 `SafeBoundary`로 감싸 실패해도 페이지 전체가 죽지 않고 CSS 폴백만 남긴다.
 `prefers-reduced-motion` 사용자와 `?reveal=all`(정적 QA)에서는 리빌 게이팅을 건너뛰고 콘텐츠를 즉시 보여준다.
@@ -66,13 +66,15 @@ src/
   lib/company.ts           사업자 정보 상수(약관과 같은 값) — 회사 소개·랜딩 푸터가 함께 읽는다
   components/
     reactbits/             React Bits 계열 컴포넌트 + reactbits.css
-    ui/                    실캡처 목업 — DeviceFrame(베젤+스크린샷+스크롤 틸트) · BumpScene + ui.css
-    sections/              Nav · Hero · OneStart · Bump · LiveSession · RunCard · Activity · Features · CTA · Footer
+    ui/                    DeviceFrame(베젤+스크린샷+스크롤 틸트) · HeroBackdrop(블러 영상 배경) · BumpPair(맞댐 장면) · Facts(번호 목록) + ui.css
+    sections/              Nav · Hero · Bump · OneStart · LiveSession · RunCard · Activity · Features · CTA · Footer
     LangToggle.tsx         KO/EN 전환 — 상대 언어의 같은 페이지로 가는 링크
   i18n/                    dict.ts(랜딩) · support.ts · company.ts · legal.ts · lang.tsx(LangProvider)
   support/ · company/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
   styles/                  sections.css(랜딩 레이아웃) · support.css · company.css · legal.css
 public/shots/              iOS 시뮬레이터 실캡처 — next/image 정적 import로 쓴다
+public/hero/               히어로 배경 루프 영상·포스터 — scripts/hero-video.sh가 만든다
+docs/adr/                  아키텍처 결정 기록
 ```
 
 ## 개발

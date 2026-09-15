@@ -11,9 +11,9 @@ export default function Nav() {
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
 
   const links = [
-    { label: t.nav.how, href: "#onestart" },
+    { label: t.nav.bump, href: "#bump" },
+    { label: t.nav.oneStart, href: "#onestart" },
     { label: t.nav.card, href: "#card" },
-    { label: t.nav.activity, href: "#activity" },
     { label: t.nav.features, href: "#features" },
   ];
 

@@ -69,39 +69,6 @@
   }
 }
 
-/* SpotlightCard ---------------------------------------------------------- */
-.spotlight-card {
-  position: relative;
-  overflow: hidden;
-  --mx: 50%;
-  --my: 0px;
-}
-
-.spotlight-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    360px circle at var(--mx) var(--my),
-    var(--spotlight, rgba(82, 100, 232, 0.28)),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.spotlight-card:hover::after {
-  opacity: 1;
-}
-
-.spotlight-card > * {
-  position: relative;
-  z-index: 1;
-}
-
 /* StarBorder ------------------------------------------------------------- */
 .star-border {
   position: relative;
@@ -156,7 +123,7 @@
 /* 어두운 패널 위에 놓일 때 — 흰 알약 + 잉크 글씨로 뒤집는다 */
 .star-border--light .star-border__inner {
   background: #ffffff;
-  color: var(--ink);
+  color: #0b0b0f; /* 다크 섹션에서도 흰 알약 위 글자는 잉크색 */
   box-shadow: inset 0 0 0 1px rgba(11, 11, 15, 0.08);
 }
 
