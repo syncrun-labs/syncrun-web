@@ -1,55 +1,36 @@
-import Aurora from "../reactbits/Aurora";
-import SafeBoundary from "../reactbits/SafeBoundary";
-import StarBorder from "../reactbits/StarBorder";
-import SplitText from "../reactbits/SplitText";
 import AnimatedContent from "../reactbits/AnimatedContent";
 import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
 
+/**
+ * CTA — 다크 전폭 밴드. 히어로와 짝을 이뤄 페이지를 다크로 닫는다.
+ * 떠 있는 둥근 패널이 아니라 화면을 가로지르는 띠다 — 마지막에 한 번 더 어두워지는 리듬이 있어야 한다.
+ */
 export default function CTA() {
-  const { t } = useLang();
+  const { t, base } = useLang();
   const c = t.cta;
 
   return (
-    <section className="section cta" id="download">
-      <div className="container">
-        <div className="cta__panel">
-          <div className="cta__aurora">
-            <SafeBoundary>
-              <Aurora colorStops={["#FF6B70", "#DC565B", "#7E2528"]} amplitude={1.1} blend={0.6} speed={0.3} />
-            </SafeBoundary>
-            <div className="cta__aurora-fade" />
+    <section className="section section--dark cta" id="cta">
+      <div className="container cta__inner">
+        <AnimatedContent direction="up" distance={24}>
+          <h2 className="h2 cta__title">
+            {c.title.map((line, i) => (
+              <span className={`cta__line${i === c.title.length - 1 ? " cta__line--accent" : ""}`} key={line}>
+                {line}
+              </span>
+            ))}
+          </h2>
+          <p className="lede cta__lede">{c.lede}</p>
+          <div className="cta__actions">
+            <a href={APP_STORE_URL} target="_blank" rel="noreferrer" className="btn btn-primary">
+              {c.ctaPrimary}
+            </a>
+            <a href={`${base}/support`} className="btn btn-ghost cta__help">
+              {c.ctaSecondary}
+            </a>
           </div>
-
-          <div className="cta__content">
-            <h2 className="display cta__title">
-              <SplitText text={c.titleTop} splitBy="words" />
-              <br />
-              <span className="cta__title-accent">{c.titleAccent}</span>
-            </h2>
-            <AnimatedContent direction="up" distance={20} delay={0.15}>
-              <p className="lede cta__lede">{c.lede}</p>
-            </AnimatedContent>
-            <AnimatedContent direction="up" distance={20} delay={0.28}>
-              <div className="cta__actions">
-                <StarBorder
-                  as="a"
-                  href={APP_STORE_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  speed="4s"
-                  color="#FF8A8E"
-                  className="star-border--light"
-                >
-                  {c.ctaPrimary}
-                </StarBorder>
-                <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer" className="btn btn-ghost">
-                  {c.ctaSecondary}
-                </a>
-              </div>
-            </AnimatedContent>
-          </div>
-        </div>
+        </AnimatedContent>
       </div>
     </section>
   );

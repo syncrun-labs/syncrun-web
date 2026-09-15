@@ -17,20 +17,24 @@ export default function DeviceFrame({
   float = true,
   glow = "accent",
   priority = false,
+  enter = true,
   className = "",
 }: {
   src: StaticImageData;
   alt: string;
-  width?: number;
+  /** 표시 폭. 숫자면 px 상한(78vw까지 줄어든다), 문자열이면 CSS 길이 그대로. */
+  width?: number | string;
   tilt?: boolean;
   float?: boolean;
   glow?: "accent" | "cool" | "none";
   priority?: boolean;
+  /** false면 자체 등장 없이 바로 보인다 — 바깥 요소가 등장을 맡을 때. */
+  enter?: boolean;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const skip = shouldSkipReveal();
+  const skip = shouldSkipReveal() || !enter;
   const active = tilt && !reduce;
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -40,7 +44,8 @@ export default function DeviceFrame({
   const rotX = useTransform(smooth, [0, 0.5, 1], [7, 0.5, -6]);
   const y = useTransform(smooth, [0, 1], [46, -46]);
 
-  const style = { "--dev-w": `min(${width}px, 78vw)` } as CSSProperties;
+  const style = { "--dev-w": typeof width === "number" ? `min(${width}px, 78vw)` : width } as CSSProperties;
+  const sizes = typeof width === "number" ? `${width}px` : "50vw";
 
   return (
     <div ref={ref} className={`device device--glow-${glow} ${className}`} style={style}>
@@ -62,7 +67,7 @@ export default function DeviceFrame({
         >
           <div className="device__screen">
             {/* 정적 import라 크기를 알고, Vercel이 AVIF/WebP·표시 크기별로 변환해 낸다. 표시 폭은 CSS의 --dev-w 상한을 따른다. */}
-            <Image src={src} alt={alt} priority={priority} sizes={`${width}px`} draggable={false} />
+            <Image src={src} alt={alt} priority={priority} sizes={sizes} draggable={false} />
             <span className="device__gloss" aria-hidden="true" />
           </div>
         </div>

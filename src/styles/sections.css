@@ -2,6 +2,68 @@
    섹션 레이아웃 & 스타일 (애플식 라이트 캔버스 · 코랄)
    ========================================================================= */
 
+/* ------------------------------------------------- 랜딩 전용 타이포 · 컨테이너 */
+/* `.container` · `.h2` · `.lede` · `html:lang(ko)` 제목 규칙은 지원·약관·회사 소개도 같이 쓴다.
+   전역에서 바꾸면 문서형 페이지까지 흔들리므로 랜딩 안으로만 좁힌다. */
+.landing {
+  --maxw: 1200px;
+}
+
+/* 한글 디스플레이는 자간을 조이지 않는다 — 글자상자가 꽉 차 있어 좁히면 뭉친다.
+   토스 normal · 우아한형제들 -0.004em 이 같은 판단이다. */
+html:lang(ko) .landing h1,
+html:lang(ko) .landing h2,
+html:lang(ko) .landing h3 {
+  letter-spacing: 0;
+  line-height: 1.24;
+}
+
+/* 한 줄 7~12자 기준으로 역산한 크기. 줄폭 = (한글수 × 0.865 + 공백수 × 0.263) × 크기 —
+   1440에서 56px이면 "그 자리에서 함께" 8자가 약 400px 이라 어떤 컬럼에서도 깨지지 않는다.
+   Apple SD Gothic Neo 에는 800 굵기가 없어 700 으로 둔다. */
+html:lang(ko) .landing .display {
+  font-size: clamp(2rem, 3.9vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.22;
+}
+
+html:lang(ko) .landing .h2 {
+  font-size: clamp(1.65rem, 3.05vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.24;
+}
+
+html:lang(ko) .landing .h3 {
+  font-size: clamp(1.3rem, 1.9vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.32;
+}
+
+/* 라틴도 같이 내려 두 언어의 리듬을 맞춘다 */
+.landing .display {
+  font-size: clamp(2.2rem, 4.2vw, 3.7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+.landing .h2 {
+  font-size: clamp(1.8rem, 3.2vw, 2.9rem);
+  letter-spacing: -0.022em;
+  line-height: 1.14;
+}
+
+.landing .h3 {
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
 /* ------------------------------------------------------------------- Nav */
 .nav {
   position: fixed;
@@ -105,122 +167,128 @@
 }
 
 /* ------------------------------------------------------------------ Hero */
+/* 스크롤이 배경 프레임을 넘기는 다크 히어로.
+   스테이지는 sticky 로 붙어 있고 마디는 일반 흐름으로 그 위를 지나간다 —
+   마디가 히어로의 높이를 정하고, 그 높이에서 뷰포트를 뺀 만큼이 스크러빙 구간이다. */
 .hero {
   position: relative;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: calc(var(--nav-h) + 30px);
-  padding-bottom: 96px;
-  overflow: hidden;
+  background: #08080b;
+  overflow: clip;
 }
 
-.hero__grid {
+.hero__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hero__poster,
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 캔버스는 첫 프레임을 그린 뒤에야 포스터 위를 덮는다 — 그 전에는 빈 검정이 보이면 안 된다 */
+.hero__canvas {
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+/* 루프의 평균 휘도가 이미 낮다. 글자 뒤만 눌러 주고 가장자리 영상은 살려 둔다 —
+   세게 깔면 배경을 쓰는 이유가 없어진다. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(62% 48% at 50% 50%, rgba(6, 6, 9, 0.66), transparent 78%),
+    linear-gradient(180deg, rgba(6, 6, 9, 0.62) 0%, transparent 20%, transparent 78%, rgba(6, 6, 9, 0.66) 100%);
+}
+
+/* 스테이지 위로 끌어올려 겹친다 */
+.hero__beats {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 1.02fr 0.98fr;
+  margin-top: -100svh;
+}
+
+.hero__beat {
+  min-height: 92svh;
+  display: flex;
   align-items: center;
-  gap: clamp(24px, 5vw, 80px);
-  width: 100%;
+  justify-content: center;
+}
+
+.hero__copy {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero__title {
-  margin: 0 0 8px;
+  margin: 0;
   max-width: 100%;
-  font-size: clamp(2.6rem, 7.4vw, 5.8rem);
 }
 
-.hero__title-line {
+/* 줄바꿈은 카피가 배열로 정한다 — 자동에 맡기면 화면폭마다 다른 자리에서 깨진다 */
+.hero__line {
   display: block;
-  max-width: 100%;
+  white-space: nowrap;
+}
+
+.hero__line--accent {
+  color: var(--accent-bright);
 }
 
 .hero__lede {
+  margin-top: 20px;
   max-width: 30em;
-  margin-top: 22px;
+  color: rgba(255, 255, 255, 0.74);
+  /* 마디 설명은 자동 줄바꿈이되 줄 길이를 고르게 — 제목과 달리 한 줄 글자수가 고정이 아니다 */
+  text-wrap: balance;
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 36px;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 34px;
 }
 
-.hero__visual {
-  display: grid;
-  place-items: center;
-}
-
-/* 스크롤 큐 — 텍스트 없이 마우스형 인디케이터 */
-.hero__scroll {
-  position: absolute;
-  bottom: 26px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-}
-
-.hero__scroll-mouse {
-  display: block;
-  width: 22px;
-  height: 34px;
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 1.6px var(--text-tertiary);
-  position: relative;
-}
-
-.hero__scroll-dot {
-  position: absolute;
-  left: 50%;
-  top: 7px;
-  width: 3px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--accent-core);
-  transform: translateX(-50%);
-  animation: scroll-dot 1.8s ease-in-out infinite;
-}
-
-@keyframes scroll-dot {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 0);
+/* 축소 모션에서는 스크러빙이 없다. 긴 스크롤 구간을 유지할 이유가 사라지므로
+   히어로를 한 화면으로 접고 포스터가 세 마디 뒤에 그대로 깔리게 한다. */
+@media (prefers-reduced-motion: reduce) {
+  /* 마디가 위에서부터 쌓이므로 고정 내비 아래로 첫 마디를 내린다 */
+  .hero {
+    padding-top: calc(var(--nav-h) + 20px);
   }
-  30% {
-    opacity: 1;
+  .hero__stage {
+    position: absolute;
+    inset: 0;
+    height: 100%;
   }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, 12px);
+  .hero__beats {
+    margin-top: 0;
   }
-}
-
-@media (max-width: 900px) {
-  .hero__grid {
-    grid-template-columns: 1fr;
-    text-align: center;
+  .hero__beat {
+    min-height: 0;
+    padding-block: clamp(52px, 8vw, 92px);
   }
-  .hero__lede {
-    margin-inline: auto;
-  }
-  .hero__actions {
-    justify-content: center;
-  }
-  .hero__visual {
-    margin-top: 28px;
-  }
-  .hero__scroll {
+  .hero__canvas {
     display: none;
   }
 }
 
 /* ----------------------------------------------------------- section head */
 .section-head {
-  max-width: 40rem;
-  margin-bottom: 56px;
+  max-width: 34rem;
+  margin-bottom: 52px;
 }
 
 .section-head--center {
@@ -229,123 +297,197 @@
 }
 
 .section-head__lede {
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
-/* --------------------------------------------------- split story layouts */
-.onestart__grid,
-.bump__grid,
-.live__grid,
-.card__grid,
-.activity__grid {
+/* --------------------------------------------------- 좌우 분할 스토리 레이아웃 */
+/* 섹션마다 좌우를 뒤집어 지그재그가 되게 한다 */
+.story {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: clamp(32px, 6vw, 96px);
+  gap: clamp(32px, 6vw, 88px);
 }
 
-.onestart__copy .h2,
-.live__copy .h2,
-.card__copy .h2,
-.activity__copy .h2,
-.bump__copy .h2 {
-  margin-top: 0;
+.story--flip .story__visual {
+  order: -1;
+}
+
+.story__copy .lede {
+  margin-top: 18px;
+  max-width: 32em;
+  text-wrap: pretty;
+}
+
+.story__visual {
+  display: grid;
+  place-items: center;
+}
+
+@media (max-width: 900px) {
+  .story {
+    grid-template-columns: 1fr;
+  }
+  .story--flip .story__visual {
+    order: 0;
+  }
+  .story__visual {
+    margin-bottom: 8px;
+  }
+}
+
+/* ---------------------------------------------------------------- Facts */
+/* 같은 목록이 페이지마다 같은 모양으로 반복되면 그 반복이 먼저 읽힌다.
+   번호(01·02·03)는 맞댐과 러닝 카드 두 곳에만 주고, 나머지는 색 규칙선만 쓴다. */
+.facts {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  display: grid;
+}
+
+.facts__item {
+  padding: 18px 0;
+  border-top: 1px solid var(--glass-edge);
+}
+
+.facts__k {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.facts__v {
+  margin: 5px 0 0;
+  font-size: 15px;
+  line-height: 1.66;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+/* 번호형 — 숫자 아래 짧은 바가 항목 색이다 */
+.facts--numbered .facts__item {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 14px;
+}
+
+.facts--numbered .facts__n {
+  grid-row: 1 / span 2;
+  padding-top: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.facts--numbered .facts__n::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 3px;
+  margin-top: 9px;
+  border-radius: 999px;
+  background: var(--bar, var(--accent-core));
+}
+
+/* 담백형 — 번호 없이 제목 위 짧은 규칙선 */
+.facts--plain .facts__item {
+  border-top: none;
+  padding-top: 0;
+}
+
+.facts--plain .facts__k::before {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin-bottom: 13px;
+  border-radius: 999px;
+  background: var(--bar, var(--accent-core));
+}
+
+.facts--2col {
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(28px, 5vw, 64px);
+}
+
+.facts--3col {
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: clamp(24px, 4vw, 56px);
+}
+
+@media (max-width: 860px) {
+  .facts--3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .facts--2col {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* --------------------------------------------------------------- OneStart */
-.onestart__accent {
-  font-weight: 700;
-}
-
-.onestart__list {
+/* 버튼 3상태를 나란히. 앱의 Start 버튼이 상태에 따라 무엇으로 보이는지가 이 섹션의 전부다 */
+.states {
   list-style: none;
   padding: 0;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 3vw, 34px);
+  max-width: 880px;
 }
 
-.onestart__list li {
-  position: relative;
-  padding-left: 30px;
-  color: var(--text-secondary);
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.onestart__tick {
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  box-shadow: inset 0 0 0 1.5px var(--accent-core);
-}
-
-.onestart__tick::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
-  background: var(--accent-core);
-}
-
-.onestart__demo {
+.states__item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
 }
 
-.morph {
+.states__capsule {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 10px;
+  padding: 11px 12px;
+  border-radius: 999px;
   width: 100%;
 }
 
-.morph__tag {
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-}
-
-.morph__capsule {
+.states__avatars {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 999px;
-  width: min(340px, 92%);
+  flex: none;
 }
 
-.morph__avatar {
-  width: 34px;
-  height: 34px;
+.states__avatar {
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
   box-shadow: 0 0 0 2px var(--bg-base);
 }
 
-.morph__avatars {
-  display: flex;
+/* 인원 뱃지 — 결성되면 붙는다 */
+.states__count {
+  min-width: 26px;
+  height: 26px;
+  padding-inline: 7px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  flex: none;
 }
 
-.morph__pill {
+.states__pill {
   flex: 1;
-  height: 44px;
+  height: 42px;
   border-radius: 999px;
   display: grid;
   place-items: center;
@@ -355,342 +497,110 @@
   font-size: 15px;
 }
 
-.morph__arrow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  color: var(--accent);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+.states__tag {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
-.morph__arrow svg {
-  width: 40px;
+.onestart__facts {
+  margin-top: clamp(48px, 7vw, 80px);
 }
 
-/* ------------------------------------------------------------------ Bump */
-.bump {
-  overflow: hidden;
+@media (max-width: 760px) {
+  .states {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+  }
 }
 
-.bump__glow {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(46% 40% at 76% 32%, rgba(220, 86, 91, 0.4), transparent 62%),
-    radial-gradient(40% 40% at 12% 82%, rgba(255, 107, 112, 0.2), transparent 66%);
+/* -------------------------------------------------------------- Run Card */
+/* 이 제품이 남기는 결과물이라 좌우로 쪼개지 않고 전폭 중앙에 크게 세운다 */
+.card__stage {
+  display: grid;
+  place-items: center;
+  margin-block: clamp(8px, 2vw, 24px) clamp(44px, 6vw, 72px);
 }
 
-.bump__grid {
-  position: relative;
-  z-index: 1;
-}
-
-.bump__title {
+.card__facts {
   margin-top: 0;
 }
 
-.bump__lede {
-  margin-top: 22px;
-  max-width: 32em;
-}
-
-.bump__stats {
-  display: flex;
-  gap: clamp(28px, 5vw, 56px);
-  margin-top: 36px;
-}
-
-.bump__stat-v {
-  font-size: clamp(2.6rem, 5vw, 3.6rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: #fff;
-}
-
-.bump__stat-v em {
-  font-size: 0.42em;
-  font-style: normal;
-  font-weight: 600;
-  color: var(--accent-bright);
-  margin-left: 4px;
-}
-
-.bump__stat-k {
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--text-tertiary);
-}
-
-.bump__note {
-  margin-top: 30px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  max-width: 30em;
-  padding-left: 16px;
-  border-left: 2px solid var(--accent-core);
-}
-
-.bump__visual {
+/* 두 번째 마디 — 남는다에서 쌓인다로 */
+.card__archive {
   display: grid;
-  place-items: center;
-}
-
-/* -------------------------------------------------- Live / Card / Activity */
-.live__visual,
-.card__visual,
-.activity__visual {
-  display: grid;
-  place-items: center;
-}
-
-.live__facts,
-.fact-list {
-  margin-top: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.live__fact,
-.fact-list__row {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 16px;
-  padding: 16px 0;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(32px, 6vw, 88px);
+  margin-top: clamp(72px, 10vw, 128px);
+  padding-top: clamp(56px, 7vw, 88px);
   border-top: 1px solid var(--glass-edge);
 }
 
-.live__fact dt,
-.fact-list__row dt {
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--ink);
+.card__archive-copy .lede {
+  margin-top: 16px;
+  max-width: 32em;
+  text-wrap: pretty;
 }
 
-.live__fact dd,
-.fact-list__row dd {
-  color: var(--text-secondary);
-  font-size: 15px;
+.card__archive-visual {
+  display: grid;
+  place-items: center;
 }
 
-/* 카드 편집 옵션 — 알약 대신 옅은 점선형 인라인 목록 */
-.card__edits {
-  list-style: none;
-  padding: 0;
-  margin-top: 26px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 14px;
-  color: var(--text-tertiary);
-}
-
-.card__edit {
-  display: inline-flex;
-  align-items: center;
-}
-
-.card__edit:not(:last-child)::after {
-  content: "|";
-  margin: 0 12px;
-  color: var(--text-faint);
-  font-weight: 300;
-}
-
-@media (max-width: 880px) {
-  .onestart__grid,
-  .bump__grid,
-  .live__grid,
-  .card__grid,
-  .activity__grid {
+@media (max-width: 900px) {
+  .card__archive {
     grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .onestart__list,
-  .bump__stats {
-    justify-content: center;
-    text-align: left;
-  }
-  .onestart__list {
-    max-width: 30em;
-    margin-inline: auto;
-  }
-  .bump__note {
-    margin-inline: auto;
-    text-align: left;
-  }
-  .live__facts,
-  .fact-list {
-    text-align: left;
-    max-width: 34em;
-    margin-inline: auto;
-  }
-  .card__edits {
-    justify-content: center;
-  }
-  .live__visual,
-  .card__visual,
-  .activity__visual,
-  .bump__visual,
-  .onestart__demo {
-    order: -1;
-    margin-bottom: 24px;
-  }
-}
-
-@media (max-width: 560px) {
-  .live__fact,
-  .fact-list__row {
-    grid-template-columns: 1fr;
-    gap: 4px;
   }
 }
 
 /* -------------------------------------------------------------- Features */
-.features__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+.features .facts {
+  margin-top: 0;
 }
 
-.feature-cell {
-  height: 100%;
-}
-
-.feature--wide {
-  grid-column: span 2;
-}
-
-.feature {
-  position: relative;
-  padding: 24px;
-  border-radius: 24px;
-  height: 100%;
-}
-
-/* 러너 색 짧은 액센트 바 — 알약 태그 대신, 위계는 타이포로 */
-.feature__accent {
-  display: block;
-  width: 34px;
-  height: 4px;
-  border-radius: 999px;
-  margin-bottom: 24px;
-}
-
-.feature__title {
-  font-size: 19px;
-  letter-spacing: -0.03em;
-  margin-bottom: 8px;
-}
-
-.feature__body {
-  color: var(--text-secondary);
-  font-size: 14.5px;
-  line-height: 1.6;
-  max-width: 34em;
-}
-
-/* 태블릿 — 3열→2열로 한 단계 거쳐 좁아진다 */
-@media (max-width: 880px) {
-  .features__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .feature--wide {
-    grid-column: span 2;
-  }
-}
-
-@media (max-width: 560px) {
-  .features__grid {
-    grid-template-columns: 1fr;
-  }
-  .feature--wide {
-    grid-column: span 1;
-  }
+.features .facts__item {
+  padding-block: 20px;
 }
 
 /* ------------------------------------------------------------------- CTA */
-.cta__panel {
-  position: relative;
-  overflow: hidden;
-  border-radius: 40px;
-  padding: clamp(52px, 8vw, 104px) clamp(28px, 6vw, 84px);
+/* 히어로와 짝을 이루는 다크 전폭 밴드. 떠 있는 둥근 패널이 아니다 */
+.cta {
   text-align: center;
-  color: #fff;
-  background: linear-gradient(165deg, #17131a, #0a080c);
-  box-shadow:
-    0 44px 90px -44px rgba(30, 10, 14, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.cta__aurora {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.82;
-}
-
-.cta__aurora > div {
-  width: 100%;
-  height: 100%;
-}
-
-.cta__aurora-fade {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(75% 90% at 50% 8%, transparent, rgba(10, 8, 12, 0.62) 88%);
-}
-
-.cta__content {
-  position: relative;
-  z-index: 1;
+.cta__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .cta__title {
-  margin: 0 0 4px;
+  margin: 0;
   color: #fff;
 }
 
-.cta__title-accent {
-  background: linear-gradient(90deg, #ff9aa0, #ffc29a);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.cta__line {
+  display: block;
+  white-space: nowrap;
+}
+
+.cta__line--accent {
+  color: var(--accent-bright);
 }
 
 .cta__lede {
   margin-top: 16px;
-  max-width: 27em;
-  color: rgba(255, 255, 255, 0.74);
+  max-width: 30em;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .cta__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   justify-content: center;
-  margin-top: 36px;
-}
-
-.cta__actions .btn-ghost {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
-}
-
-.cta__actions .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 0 0 1.5px var(--accent-bright);
-  color: #fff;
+  margin-top: 34px;
 }
 
 /* ---------------------------------------------------------------- Footer */

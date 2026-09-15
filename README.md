@@ -7,7 +7,7 @@
 ## 스택
 
 Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). 애니메이션은
-[framer-motion](https://www.framer.com/motion/), 오로라 배경은 [ogl](https://github.com/oframe/ogl) WebGL 셰이더.
+[framer-motion](https://www.framer.com/motion/). 히어로 배경은 스크롤이 프레임을 넘기는 캔버스 시퀀스다.
 **전 페이지가 빌드 타임 정적 생성(SSG)이다** — API Route·서버 액션은 없다.
 UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 손으로 조립했다.
 
@@ -25,7 +25,7 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 ## React Bits 컴포넌트
 
 `src/components/reactbits/` — SyncRun 토큰에 맞춰 손질한 판:
-`Aurora`(WebGL 오로라) · `SplitText` · `ShinyText` · `GradientText` · `SpotlightCard` · `StarBorder` · `ClickSpark` · `AnimatedContent`.
+`AnimatedContent`(뷰포트 진입 리빌) · `ClickSpark` · `SafeBoundary`(장식 레이어 에러 바운더리).
 
 장식 레이어(WebGL 등)는 `SafeBoundary`로 감싸 실패해도 페이지 전체가 죽지 않고 CSS 폴백만 남긴다.
 `prefers-reduced-motion` 사용자와 `?reveal=all`(정적 QA)에서는 리빌 게이팅을 건너뛰고 콘텐츠를 즉시 보여준다.
@@ -66,8 +66,8 @@ src/
   lib/company.ts           사업자 정보 상수(약관과 같은 값) — 회사 소개·랜딩 푸터가 함께 읽는다
   components/
     reactbits/             React Bits 계열 컴포넌트 + reactbits.css
-    ui/                    실캡처 목업 — DeviceFrame(베젤+스크린샷+스크롤 틸트) · BumpScene + ui.css
-    sections/              Nav · Hero · OneStart · Bump · LiveSession · RunCard · Activity · Features · CTA · Footer
+    ui/                    DeviceFrame(베젤+실캡처) · HeroScrub(스크롤 구동 프레임 배경) · BumpPair · Facts + ui.css
+    sections/              Nav · Hero(스크러빙) · OneStart · Bump · LiveSession · RunCard · Features · CTA · Footer
     LangToggle.tsx         KO/EN 전환 — 상대 언어의 같은 페이지로 가는 링크
   i18n/                    dict.ts(랜딩) · support.ts · company.ts · legal.ts · lang.tsx(LangProvider)
   support/ · company/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
