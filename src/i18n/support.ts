@@ -50,7 +50,7 @@ export const supportCopy: Record<Lang, SupportCopy> = {
           q: "폰을 맞대도 그룹이 만들어지지 않아요",
           a: [
             "맞댐은 UWB(초광대역) 칩이 있는 iPhone끼리만 동작합니다. iPhone 11 이후 모델(SE 제외)이 여기 해당하고, 그 밖의 기기에서는 맞댐이 나타나지 않습니다.",
-            "두 사람 모두 앱의 홈 화면에 있어야 하고, 두 기기를 20cm 안쪽으로 0.4초 정도 붙인 채 유지하면 자동으로 같은 세션에 들어갑니다. 흔들거나 부딪칠 필요는 없습니다.",
+            "두 사람 모두 앱의 홈 화면에 있어야 하고, 두 기기를 1m 안쪽으로 모아 잠깐 유지하면 자동으로 같은 세션에 들어갑니다. 가까이 붙일수록 빨리 잡힙니다. 흔들거나 부딪칠 필요는 없습니다.",
             "처음 맞댈 때 뜨는 '근처 기기'와 '로컬 네트워크' 권한을 모두 허용해야 합니다. 실수로 거절했다면 iOS 설정 > SyncRun에서 다시 켤 수 있습니다.",
             "카운트다운이 시작된 뒤에는 새로 합류할 수 없습니다. 출발 전 홈 화면에서 맞대 주세요.",
           ],
@@ -218,7 +218,7 @@ export const supportCopy: Record<Lang, SupportCopy> = {
           q: "Tapping phones doesn’t create a group",
           a: [
             "Tap-to-pair works only between iPhones that have the ultra-wideband (UWB) chip — iPhone 11 and later, except the SE. On other devices the pairing never appears.",
-            "Both people need to be on the app’s home screen. Hold the two phones within 20 cm of each other for about 0.4 seconds and you join the same session automatically. There is no need to shake or bump them.",
+            "Both people need to be on the app’s home screen. Bring the two phones within a metre of each other and hold them there for a moment, and you join the same session automatically — the closer they are, the faster it catches. There is no need to shake or bump them.",
             "The first time you pair, allow both the Nearby Devices and Local Network prompts. If one was declined by accident, turn it back on in iOS Settings > SyncRun.",
             "Nobody can join after the countdown starts. Pair from the home screen before you set off.",
           ],
