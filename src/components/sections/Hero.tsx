@@ -11,7 +11,7 @@ export default function Hero() {
   const { t } = useLang();
 
   return (
-    <section className="hero snap-chapter" id="top">
+    <section className="hero" id="top">
       <div className="hero__grid container">
         <div className="hero__copy">
           <h1 className="display hero__title">

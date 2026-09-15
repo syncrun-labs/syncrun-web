@@ -58,6 +58,9 @@
     -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Pretendard Variable", Pretendard,
     "Apple SD Gothic Neo", "Helvetica Neue", system-ui, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, "Menlo", "Consolas", monospace;
+  /* 한국어 제목용 — 한글 서체를 앞에 두어 제목 안의 라틴도 같은 계열로 나온다. 웹폰트는 없다 */
+  --font-sans-ko:
+    "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
 
   --maxw: 1000px;
   --gutter: clamp(20px, 5vw, 64px);
@@ -84,23 +87,6 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-h);
-}
-
-/* 풀페이지 스냅 스크롤 — 데스크톱에서 각 챕터가 한 화면에 물린다.
-   모바일(<860px)·reduced-motion에서는 끄고 일반 스크롤로 둔다. */
-@media (min-width: 860px) and (prefers-reduced-motion: no-preference) {
-  html.snap {
-    scroll-snap-type: y mandatory;
-  }
-  html.snap .snap-chapter {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-  /* 마지막 스냅 챕터(CTA) 뒤 footer는 스냅 대상이 아니라 mandatory가 그 지점에서
-     더 못 내려가게 막는다 — footer 끝을 스냅 지점으로 잡아 끝까지 스크롤을 열어준다 */
-  html.snap .footer {
-    scroll-snap-align: end;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -138,26 +124,35 @@ body {
   background-attachment: fixed;
 }
 
-/* 한국어는 라틴보다 자간을 넉넉히 — 좁아 보이는 문제 해소(Pretendard 기준) */
+/* 한글은 글자상자가 라틴보다 꽉 차서 자간을 좁히면 뭉친다 — 0 근처에 두고 위계는 굵기·크기로 만든다.
+   제목은 한글 우선 스택을 써서 그 안의 라틴("하나의 Start")이 한글과 같은 계열로 나온다.
+   Apple SD Gothic Neo는 가변 서체가 아니라 굵기는 실제로 있는 400·600·700·800만 쓴다. */
 html:lang(ko) body {
   letter-spacing: 0;
-}
-html:lang(ko) .display {
-  letter-spacing: -0.015em;
-  line-height: 1.08;
-}
-html:lang(ko) .h2 {
-  letter-spacing: -0.014em;
-  line-height: 1.16;
 }
 html:lang(ko) h1,
 html:lang(ko) h2,
 html:lang(ko) h3 {
-  letter-spacing: -0.012em;
+  font-family: var(--font-sans-ko);
+  letter-spacing: -0.005em;
+  line-height: 1.22;
+}
+html:lang(ko) .display {
+  font-size: clamp(2.5rem, 6.4vw, 5.2rem);
+  font-weight: 800;
+  letter-spacing: -0.008em;
+  line-height: 1.14;
+}
+html:lang(ko) .h2 {
+  font-size: clamp(1.85rem, 4.1vw, 3.1rem);
+  font-weight: 700;
+  letter-spacing: -0.006em;
+  line-height: 1.2;
 }
 html:lang(ko) .lede,
 html:lang(ko) p {
   letter-spacing: 0;
+  line-height: 1.65;
 }
 
 img,
@@ -210,12 +205,6 @@ body::after {
   padding-block: clamp(88px, 12vw, 168px);
 }
 
-/* 스냅 챕터 — 큰 스토리 섹션에만 붙인다 */
-.snap-chapter {
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-}
-
 /* 다크 시네마틱 섹션 — 밝은 페이지 속 극적 대비. 토큰을 다크로 뒤집는다 */
 .section--dark {
   color-scheme: dark;
@@ -259,7 +248,7 @@ h1,
 h2,
 h3 {
   font-weight: 700;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   line-height: 1.04;
   text-wrap: balance;
   color: var(--ink);
@@ -269,8 +258,8 @@ h3 {
 .display {
   font-size: clamp(2.9rem, 8.2vw, 6.4rem);
   font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.96;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
 }
 
 .h2 {
@@ -443,9 +432,17 @@ h3 {
   }
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
+/* 보조기술에는 읽히고 화면에서만 숨긴다 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ------------------------------------------------ 언어 전환 (랜딩·문서형 공용) */

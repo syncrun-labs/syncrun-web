@@ -67,7 +67,6 @@ export default function SplitText({
     nodes.push(
       <span
         key={`w${i}`}
-        aria-hidden="true"
         className={`sr-split-word${active ? " is-in" : ""}`}
         style={{ animationDelay: `${delay + i * stagger}s` }}
       >
@@ -77,9 +76,12 @@ export default function SplitText({
     if (splitBy === "words" && i < units.length - 1) nodes.push(" ");
   });
 
+  // 바깥 span은 generic role이라 aria-label을 붙일 수 없다 — 원문은 시각적으로만 숨긴 span이 읽히고,
+  // 쪼갠 조각들은 보조기술에서 통째로 숨긴다.
   return (
-    <span ref={ref} className={className} aria-label={text} style={{ display: "inline-block" }}>
-      {nodes}
+    <span ref={ref} className={className} style={{ display: "inline-block" }}>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">{nodes}</span>
     </span>
   );
 }
