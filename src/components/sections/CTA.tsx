@@ -11,7 +11,7 @@ export default function CTA() {
   const c = t.cta;
 
   return (
-    <section className="section cta snap-chapter" id="download">
+    <section className="section cta" id="download">
       <div className="container">
         <div className="cta__panel">
           <div className="cta__aurora">

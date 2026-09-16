@@ -104,14 +104,15 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   **약관 본문(`src/legal/docs/*.md`)은 번역하지 않는다** — 한국어가 정본이고 앱이 동의를 받는 문서다. 영어 화면에서는 그 사실과 요지를 알리는 안내만 띄운다.
 - **이미지는 `next/image`에 정적 import로 넘긴다** (`import home from "@/public/shots/home.png"`) — 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
   모바일 랜딩 기준 이미지 합계가 2,100KB에서 100KB가 됐다. `<img>`를 직접 쓰지 않는다(린트가 막는다).
-- **리빌 컴포넌트는 SSR을 전제로 쓴다** (`AnimatedContent`·`SplitText`·`CountUp`·`DeviceFrame`). 서버는 건너뛰기 여부를 모르므로
+- **리빌 컴포넌트는 SSR을 전제로 쓴다** (`AnimatedContent`·`SplitText`·`DeviceFrame`). 서버는 건너뛰기 여부를 모르므로
   숨긴 초기 상태를 그리고, 건너뛸 때도 **같은 motion 요소를 유지**하며 즉시 최종 상태로 animate 한다. 일반 요소로 바꾸면 React가
   서버가 심은 `opacity:0` 인라인 스타일을 손대지 않아 내용이 영영 안 보인다.
-- **스냅 스크롤**: `App`이 `html.snap`을 붙이고, 스토리 섹션에 `.snap-chapter`. reduced-motion·모바일에선 미디어쿼리로 끈다.
+- **모션 정책**: 모션은 뷰포트 진입 리빌(`AnimatedContent`·`SplitText`)과 `DeviceFrame`의 미세한 스크롤 틸트뿐이다.
+  **핀 고정·스크롤 스크러빙·스냅 스크롤은 쓰지 않는다** — 사용자가 페이지 제어권을 잃는 순간 고장으로 느끼고, 전정 민감 방문자에게는 불편이다.
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
-- `src/components/reactbits/` — React Bits 계열(Aurora·SplitText·SpotlightCard·StarBorder·CountUp 등) + `reactbits.css`.
-- `src/components/ui/` — 실캡처 목업(`DeviceFrame`: 베젤+스크린샷+스크롤 3D 틸트, `BumpScene`: 두 폰 맞댐+UWB 리플, `BrandMark`) + `ui.css`.
-- `src/components/sections/` — 랜딩 섹션(Nav·Hero·OneStart·Bump[다크]·LiveSession·RunCard·Activity·Stats·Features·CTA[다크]·Footer). `App.tsx`가 조립한다.
+- `src/components/reactbits/` — React Bits 계열(Aurora·SplitText·SpotlightCard·StarBorder 등) + `reactbits.css`.
+- `src/components/ui/` — 실캡처 목업(`DeviceFrame`: 베젤+스크린샷+스크롤 3D 틸트, `BumpScene`: 두 폰 맞댐+UWB 리플) + `ui.css`.
+- `src/components/sections/` — 랜딩 섹션(Nav·Hero·OneStart·Bump[다크]·LiveSession·RunCard·Activity·Features·CTA[다크]·Footer). `App.tsx`가 조립한다.
 - `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running·me). `public/brand/` — 로고(wordmark·icon).
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
 - `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.

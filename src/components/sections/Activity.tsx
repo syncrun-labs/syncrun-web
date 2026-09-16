@@ -8,7 +8,7 @@ export default function Activity() {
   const a = t.activity;
 
   return (
-    <section className="section activity snap-chapter" id="activity">
+    <section className="section activity" id="activity">
       <div className="container activity__grid">
         <AnimatedContent direction="right" distance={40}>
           <div className="activity__copy">

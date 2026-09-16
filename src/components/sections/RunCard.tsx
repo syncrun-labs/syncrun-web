@@ -9,7 +9,7 @@ export default function RunCard() {
   const c = t.card;
 
   return (
-    <section className="section card snap-chapter" id="card">
+    <section className="section card" id="card">
       <div className="container card__grid">
         <AnimatedContent direction="right" distance={40}>
           <div className="card__visual">

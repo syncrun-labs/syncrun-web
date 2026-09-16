@@ -8,7 +8,7 @@ export default function LiveSession() {
   const l = t.live;
 
   return (
-    <section className="section live snap-chapter" id="live">
+    <section className="section live" id="live">
       <div className="container live__grid">
         <AnimatedContent direction="right" distance={40}>
           <div className="live__visual">

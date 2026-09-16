@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
 import { motion, useScroll, useSpring } from "framer-motion";
@@ -8,16 +7,8 @@ import { APP_STORE_URL } from "../../lib/app-store";
 
 export default function Nav() {
   const { t } = useLang();
-  const [condensed, setCondensed] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
-
-  useEffect(() => {
-    const onScroll = () => setCondensed(window.scrollY > 60);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const links = [
     { label: t.nav.how, href: "#onestart" },
@@ -27,7 +18,7 @@ export default function Nav() {
   ];
 
   return (
-    <header className={`nav ${condensed ? "nav--condensed" : ""}`}>
+    <header className="nav">
       <motion.span className="nav__progress" style={{ scaleX: progress }} aria-hidden="true" />
       <div className="nav__inner container">
         <div className="nav__bar">

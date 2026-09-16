@@ -9,7 +9,7 @@ export default function Bump() {
   const b = t.bump;
 
   return (
-    <section className="section bump section--dark snap-chapter" id="bump">
+    <section className="section bump section--dark" id="bump">
       <div className="bump__glow" aria-hidden="true" />
       <div className="container bump__grid">
         <AnimatedContent direction="right" distance={40}>
