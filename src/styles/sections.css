@@ -167,9 +167,10 @@ html:lang(ko) .landing .h3 {
 }
 
 /* ------------------------------------------------------------------ Hero */
-/* 스크롤이 배경 프레임을 넘기는 다크 히어로.
-   스테이지는 sticky 로 붙어 있고 마디는 일반 흐름으로 그 위를 지나간다 —
-   마디가 히어로의 높이를 정하고, 그 높이에서 뷰포트를 뺀 만큼이 스크러빙 구간이다. */
+/* 스크롤이 배경 프레임을 넘기고 카피는 제자리에서 떴다 지는 다크 히어로.
+   **기본 상태는 스크러빙이 아니다** — 서버가 낸 HTML 은 세 마디가 그냥 쌓인 한 화면짜리
+   섹션이고, `HeroScrub` 이 `hero--scrub` 을 붙일 때만 무대가 길어진다.
+   축소 모션·`?reveal=all`·데이터 절약·JS 실패가 전부 이 기본 상태로 떨어진다. */
 .hero {
   position: relative;
   background: #08080b;
@@ -177,23 +178,30 @@ html:lang(ko) .landing .h3 {
 }
 
 .hero__stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
+  position: relative;
+}
+
+.hero__backdrop,
+.hero__poster,
+.hero__canvas,
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__backdrop {
   z-index: 0;
+  overflow: hidden;
 }
 
 .hero__poster,
 .hero__canvas {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 캔버스는 첫 프레임을 그린 뒤에야 포스터 위를 덮는다 — 그 전에는 빈 검정이 보이면 안 된다 */
+/* 캔버스는 첫 프레임을 그린 뒤에야 포스터 위를 덮는다 — 그 전에 빈 검정이 보이면 안 된다 */
 .hero__canvas {
   opacity: 0;
   transition: opacity 0.4s var(--ease-out);
@@ -202,25 +210,21 @@ html:lang(ko) .landing .h3 {
 /* 루프의 평균 휘도가 이미 낮다. 글자 뒤만 눌러 주고 가장자리 영상은 살려 둔다 —
    세게 깔면 배경을 쓰는 이유가 없어진다. */
 .hero__scrim {
-  position: absolute;
-  inset: 0;
   background:
     radial-gradient(62% 48% at 50% 50%, rgba(6, 6, 9, 0.66), transparent 78%),
     linear-gradient(180deg, rgba(6, 6, 9, 0.62) 0%, transparent 20%, transparent 78%, rgba(6, 6, 9, 0.66) 100%);
 }
 
-/* 스테이지 위로 끌어올려 겹친다 */
 .hero__beats {
   position: relative;
   z-index: 1;
-  margin-top: -100svh;
 }
 
 .hero__beat {
-  min-height: 92svh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-block: clamp(52px, 8vw, 92px);
 }
 
 .hero__copy {
@@ -261,28 +265,37 @@ html:lang(ko) .landing .h3 {
   margin-top: 34px;
 }
 
-/* 축소 모션에서는 스크러빙이 없다. 긴 스크롤 구간을 유지할 이유가 사라지므로
-   히어로를 한 화면으로 접고 포스터가 세 마디 뒤에 그대로 깔리게 한다. */
-@media (prefers-reduced-motion: reduce) {
-  /* 마디가 위에서부터 쌓이므로 고정 내비 아래로 첫 마디를 내린다 */
-  .hero {
-    padding-top: calc(var(--nav-h) + 20px);
-  }
-  .hero__stage {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-  }
-  .hero__beats {
-    margin-top: 0;
-  }
-  .hero__beat {
-    min-height: 0;
-    padding-block: clamp(52px, 8vw, 92px);
-  }
-  .hero__canvas {
-    display: none;
-  }
+/* ---- 스크러빙이 켜진 상태 ---- */
+/* 무대가 한 화면에 머물고, 남은 높이가 통째로 스크롤 구간이 된다.
+   마디는 같은 자리에 겹쳐 두고 투명도로 교차한다 — 화면을 따라 흘러가지 않는다. */
+.hero--scrub {
+  height: 300svh;
+}
+
+.hero--scrub .hero__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.hero--scrub .hero__beats {
+  position: absolute;
+  inset: 0;
+}
+
+.hero--scrub .hero__beat {
+  position: absolute;
+  inset: 0;
+  padding-block: 0;
+  opacity: 0;
+  will-change: opacity, transform;
+  /* 보이지 않는 마디의 링크가 눌리지 않게. 보이는 동안만 JS 가 visibility 를 되돌린다 */
+  pointer-events: none;
+}
+
+.hero--scrub .hero__beat a {
+  pointer-events: auto;
 }
 
 /* ----------------------------------------------------------- section head */
