@@ -207,12 +207,12 @@ html:lang(ko) .landing .h3 {
   transition: opacity 0.4s var(--ease-out);
 }
 
-/* 루프의 평균 휘도가 이미 낮다. 글자 뒤만 눌러 주고 가장자리 영상은 살려 둔다 —
-   세게 깔면 배경을 쓰는 이유가 없어진다. */
+/* 프레임 자체를 어둡게 구웠으므로(`BRIGHT=-0.16`) 스크림은 글자 뒤만 살짝 눌러 준다.
+   여기까지 세게 깔면 배경을 쓰는 이유가 없어진다. */
 .hero__scrim {
   background:
-    radial-gradient(62% 48% at 50% 50%, rgba(6, 6, 9, 0.66), transparent 78%),
-    linear-gradient(180deg, rgba(6, 6, 9, 0.62) 0%, transparent 20%, transparent 78%, rgba(6, 6, 9, 0.66) 100%);
+    radial-gradient(62% 48% at 50% 50%, rgba(6, 6, 9, 0.46), transparent 78%),
+    linear-gradient(180deg, rgba(6, 6, 9, 0.5) 0%, transparent 20%, transparent 80%, rgba(6, 6, 9, 0.5) 100%);
 }
 
 .hero__beats {
