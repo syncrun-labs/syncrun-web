@@ -223,25 +223,24 @@ body::after {
 }
 
 /* ---------------------------------------------------------- typography */
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-family: var(--font-mono);
-  font-size: 12px;
+/* 문서형 페이지(지원·약관)의 갈래 라벨.
+   점(•) + 대문자 모노 eyebrow 는 쓰지 않는다 — 위계는 짧은 색 바와 타이포로 만든다. */
+.doc__kicker {
+  display: block;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--accent);
 }
 
-.eyebrow::before {
+.doc__kicker::before {
   content: "";
-  width: 6px;
-  height: 6px;
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin-bottom: 12px;
   border-radius: 999px;
-  background: currentColor;
-  box-shadow: 0 0 12px var(--accent-glow);
+  background: var(--accent-core);
 }
 
 h1,

@@ -1,59 +1,63 @@
-import SplitText from "../reactbits/SplitText";
-import home from "@/public/shots/home.png";
-import GradientText from "../reactbits/GradientText";
-import StarBorder from "../reactbits/StarBorder";
 import AnimatedContent from "../reactbits/AnimatedContent";
-import DeviceFrame from "../ui/DeviceFrame";
+import SafeBoundary from "../reactbits/SafeBoundary";
+import HeroScrub from "../ui/HeroScrub";
 import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
 
+/**
+ * Hero — 스크롤이 배경 프레임을 넘기는 다크 섹션.
+ *
+ * 세 마디가 일반 흐름으로 쌓이고, 배경 스테이지는 그 뒤에 sticky 로 붙어 있다. 스크롤 진행도가
+ * 프레임 인덱스를 움직여 배경의 서사(달려온다 → 만나서 맞댄다 → 함께 간다)가 마디와 같이 간다.
+ * 스크롤을 가로채지 않는다 — 되감으면 배경도 같이 되감긴다.
+ *
+ * 제목의 줄바꿈은 카피가 배열로 들고 있다. 한글 디스플레이를 자동 줄바꿈에 맡기면
+ * 화면폭마다 다른 자리에서 깨진다.
+ */
 export default function Hero() {
   const { t } = useLang();
+  const h = t.hero;
 
   return (
-    <section className="hero" id="top">
-      <div className="hero__grid container">
-        <div className="hero__copy">
-          <h1 className="display hero__title">
-            <SplitText
-              text={t.hero.titleTop}
-              splitBy="words"
-              className="hero__title-line"
-              stagger={0.06}
-              inView={false}
-            />
-            <span className="hero__title-line">
-              <GradientText colors={["#DC565B", "#FF8A8E", "#DC565B"]}>{t.hero.titleAccent}</GradientText>
-            </span>
-          </h1>
+    <section className="hero section--dark" id="top">
+      {/* 배경이 죽어도 마디는 읽혀야 한다 — 실패하면 섹션의 잉크 바탕만 남는다 */}
+      <SafeBoundary>
+        <HeroScrub alt={h.backdropAlt} />
+      </SafeBoundary>
 
-          <AnimatedContent direction="up" distance={20} delay={0.15} inView={false}>
-            <p className="lede hero__lede">{t.hero.lede}</p>
-          </AnimatedContent>
+      <div className="hero__beats">
+        {h.beats.map((b, i) => {
+          const Title = i === 0 ? "h1" : "h2";
+          return (
+            <div className="hero__beat" key={b.h.join()}>
+              <div className="container hero__copy">
+                <AnimatedContent direction="up" distance={22} inView={i > 0}>
+                  <Title className="display hero__title">
+                    {b.h.map((line, j) => (
+                      <span className={`hero__line${b.accent === j ? " hero__line--accent" : ""}`} key={line}>
+                        {line}
+                      </span>
+                    ))}
+                  </Title>
+                  <p className="lede hero__lede">{b.p}</p>
 
-          <AnimatedContent direction="up" distance={20} delay={0.28} inView={false}>
-            <div className="hero__actions">
-              <StarBorder as="a" href={APP_STORE_URL} target="_blank" rel="noreferrer" color="#FF8A8E">
-                <AppleGlyph />
-                {t.hero.ctaPrimary}
-              </StarBorder>
-              <a href="#onestart" className="btn btn-ghost">
-                {t.hero.ctaSecondary}
-              </a>
+                  {i === h.beats.length - 1 && (
+                    <div className="hero__actions">
+                      <a href={APP_STORE_URL} target="_blank" rel="noreferrer" className="btn btn-primary">
+                        <AppleGlyph />
+                        {h.ctaPrimary}
+                      </a>
+                      <a href="#onestart" className="btn btn-ghost">
+                        {h.ctaSecondary}
+                      </a>
+                    </div>
+                  )}
+                </AnimatedContent>
+              </div>
             </div>
-          </AnimatedContent>
-        </div>
-
-        <div className="hero__visual">
-          <DeviceFrame src={home} alt="SyncRun — 하나의 Start 홈 화면" width={318} priority glow="accent" />
-        </div>
+          );
+        })}
       </div>
-
-      <a href="#onestart" className="hero__scroll" aria-label={t.hero.scroll}>
-        <span className="hero__scroll-mouse" aria-hidden="true">
-          <span className="hero__scroll-dot" />
-        </span>
-      </a>
     </section>
   );
 }

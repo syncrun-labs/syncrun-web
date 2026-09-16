@@ -84,101 +84,78 @@
   mix-blend-mode: screen;
 }
 
-/* ---------------------------------------------------------- BumpScene */
-.bump-scene {
+/* ---------------------------------------------------------- BumpPair */
+.bump-pair {
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
-  perspective: 1500px;
-  min-height: clamp(360px, 46vw, 520px);
+  align-items: flex-end;
+  padding-top: 118px;
+  min-height: clamp(380px, 46vw, 560px);
 }
 
-.bump-scene__phone {
+.bump-pair__phone {
   position: relative;
   z-index: 1;
 }
 
-.bump-scene__phone--l {
-  transform: rotateY(26deg) rotate(-7deg);
-  transform-origin: right center;
-  margin-right: -3%;
+/* 바깥 아래 모서리를 축으로 기울어 위쪽이 서로 닿는다 */
+.bump-pair__phone--l {
+  transform-origin: 100% 100%;
 }
 
-.bump-scene__phone--r {
-  transform: rotateY(-26deg) rotate(7deg);
-  transform-origin: left center;
-  margin-left: -3%;
+.bump-pair__phone--r {
+  transform-origin: 0% 100%;
 }
 
-.bump-scene__frame {
-  width: clamp(146px, 20vw, 214px);
-  aspect-ratio: 1206 / 2622;
-  border-radius: 30px;
-  padding: 6px;
-  background: linear-gradient(158deg, #42434e, #0c0d13 62%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-    inset 0 0 0 4px #08080c,
-    0 34px 64px -26px rgba(0, 0, 0, 0.7);
-  overflow: hidden;
-}
-
-.bump-scene__frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  border-radius: 24px;
-}
-
-.bump-scene__contact {
+.bump-pair__count {
   position: absolute;
-  z-index: 3;
+  top: 0;
   left: 50%;
-  top: 34%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.bump-scene__ripple {
+/* 1과 2가 같은 칸에 겹친다 — 2는 절대 위치로 1 위에 놓인다 */
+.bump-pair__n {
+  position: relative;
+  display: block;
+  font-size: clamp(3.2rem, 6.6vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.bump-pair__digit {
+  display: block;
+}
+
+.bump-pair__digit--2 {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 130px;
-  height: 130px;
-  margin: -65px 0 0 -65px;
+  inset: 0;
+}
+
+.bump-pair__bar {
+  width: 34px;
+  height: 4px;
   border-radius: 999px;
-  border: 2px solid var(--accent-bright);
-  opacity: 0;
-  animation: ripple-out 3s ease-out infinite;
+  background: var(--accent-core);
 }
 
-.bump-scene__ripple--2 {
-  animation-delay: 1s;
-}
-
-.bump-scene__ripple--3 {
-  animation-delay: 2s;
-}
-
-.bump-scene__spark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 18px;
-  height: 18px;
-  margin: -9px 0 0 -9px;
-  border-radius: 999px;
-  background: var(--accent-bright);
-  box-shadow: 0 0 26px 7px var(--accent-glow);
-  animation: pulse-dot 1.7s ease-in-out infinite;
+.bump-pair__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 @media (max-width: 560px) {
-  .bump-scene__phone--l {
-    transform: rotateY(20deg) rotate(-6deg);
-  }
-  .bump-scene__phone--r {
-    transform: rotateY(-20deg) rotate(6deg);
+  .bump-pair {
+    padding-top: 100px;
   }
 }

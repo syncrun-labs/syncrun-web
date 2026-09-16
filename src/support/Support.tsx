@@ -45,7 +45,7 @@ export default function Support() {
       <main className="doc">
         <div className="container">
           <section className="doc__head">
-            <span className="eyebrow">Support</span>
+            <span className="doc__kicker">Support</span>
             <h1 className="doc__title">{c.head.title}</h1>
             <p className="lede doc__lede">{c.head.lede}</p>
             <p className="doc__meta mono">{c.head.requirements}</p>

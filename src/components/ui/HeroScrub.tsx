@@ -1,0 +1,241 @@
+import { useEffect, useRef } from "react";
+import NextImage from "next/image";
+import poster from "@/public/hero/poster.webp";
+import manifest from "@/public/hero/manifest.json";
+import { shouldSkipReveal } from "../../lib/reveal";
+
+/**
+ * HeroScrub — 스크롤이 프레임을 넘기는 히어로 배경.
+ *
+ * 블러를 구운 프레임 시퀀스(`public/hero/seq/`)를 캔버스에 그리고, 히어로 안에서의 스크롤
+ * 진행도를 프레임 인덱스에 직접 매핑한다. `<video>` 를 쓰지 않는 이유는 디코더가 키프레임
+ * 사이를 뛰지 못해 스크롤 위치에 맞는 프레임을 정확히 짚을 수 없기 때문이다(docs/adr/0003).
+ *
+ * 매끈함은 셋이 같이 만든다:
+ *   1) 스크롤 이벤트가 아니라 rAF 루프에서 그리고 진행도를 감쇠시킨다 — 입력이 거칠어도 화면은 이어진다
+ *   2) 감쇠된 진행도는 소수점 프레임 위치를 주므로 인접 두 장을 소수부만큼 겹쳐 그린다
+ *   3) 로더가 진행 방향을 먼저 채우고, 성긴 키프레임을 고정해 확 감아도 근처 장이 잡힌다
+ *
+ * 포스터는 항상 깔려 있다 — 시퀀스가 오기 전, 축소 모션, 데이터 절약, 로드 실패 어디서나 이 그림이 남는다.
+ * 스크롤을 가로채지 않는다. 네이티브 스크롤이고 역방향도 그대로 돈다.
+ *
+ * 스테이지는 `position: sticky` 라 진행도의 기준은 자기 자신이 아니라 조상 `.hero` 다.
+ */
+
+const FRAMES = manifest.frames;
+const LAST = FRAMES - 1;
+
+const TAU = 0.075; // 감쇠 시상수(초). 클수록 무겁다
+const SNAP = 0.08; // 이보다 멀리 튀면 감쇠 없이 바로 붙는다
+const BLEND_MIN = 0.04; // 이 정도 소수부부터 다음 장을 섞는다
+const AHEAD = 40;
+const BEHIND = 10;
+const MAX_INFLIGHT = 10;
+const KEY_STRIDE = 12;
+const DECODE_TIMEOUT = 50; // decode() 가 이 안에 안 오면 그냥 진행한다
+const MAX_DPR = 2;
+
+const frameSrc = (i: number) => `/hero/seq/f-${String(i).padStart(4, "0")}.webp`;
+
+export default function HeroScrub({ alt }: { alt: string }) {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    const canvas = canvasRef.current;
+    if (!stage || !canvas) return;
+
+    // 진행도의 기준은 스크롤 구간을 가진 히어로다. 스테이지는 그 안에 붙어 있을 뿐이다.
+    const hero = stage.closest<HTMLElement>(".hero");
+    if (!hero) return;
+
+    // 축소 모션·QA·데이터 절약에서는 시퀀스를 아예 받지 않는다. 포스터가 그대로 남는다.
+    if (shouldSkipReveal()) return;
+    const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (nav.connection?.saveData) return;
+
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return;
+
+    let alive = true;
+
+    /* ── 로더 ─────────────────────────────────────────────── */
+    const cache = new Map<number, HTMLImageElement>();
+    const inflight = new Set<number>();
+    const failed = new Set<number>();
+    // 전 구간에 걸친 성긴 키프레임. 확 감아도 근처 장이 잡히도록 캐시에서 빼지 않는다.
+    const pinned = new Set<number>();
+    for (let i = 0; i <= LAST; i += KEY_STRIDE) pinned.add(i);
+    pinned.add(LAST);
+
+    const load = (i: number) => {
+      if (i < 0 || i > LAST) return;
+      if (cache.has(i) || inflight.has(i) || failed.has(i)) return;
+      if (inflight.size >= MAX_INFLIGHT) return;
+      inflight.add(i);
+      const img = document.createElement("img");
+      img.decoding = "async";
+      img.src = frameSrc(i);
+      // decode() 가 문서에 붙지 않은 이미지에서 영영 resolve 되지 않는 브라우저가 있다.
+      // 짧은 타임아웃과 경주시켜 로더가 통째로 멈추지 않게 한다.
+      const settle = () => {
+        inflight.delete(i);
+        if (!alive) return;
+        if (img.naturalWidth) cache.set(i, img);
+        else failed.add(i);
+      };
+      const decoded = img.decode ? img.decode() : Promise.resolve();
+      Promise.race([decoded, new Promise((r) => setTimeout(r, DECODE_TIMEOUT))]).then(settle, settle);
+    };
+
+    let fillCursor = 0;
+    const pump = (center: number, forward: boolean) => {
+      const step = forward ? 1 : -1;
+      const ahead = forward ? AHEAD : BEHIND;
+      const behind = forward ? BEHIND : AHEAD;
+      for (let d = 0; d <= ahead; d++) load(center + d * step);
+      for (let d = 1; d <= behind; d++) load(center - d * step);
+      for (const k of pinned) load(k);
+      // 급한 요청이 없으면 유휴 대역으로 전체를 채운다 — 한 번 다 받으면 어떻게 감아도 끊기지 않는다
+      let guard = 0;
+      while (inflight.size < MAX_INFLIGHT && guard++ < FRAMES) {
+        load(fillCursor);
+        fillCursor = (fillCursor + 1) % FRAMES;
+      }
+    };
+
+    /** i 에서 가장 가까운, 이미 받아둔 프레임 */
+    const nearest = (i: number): HTMLImageElement | null => {
+      const c = Math.max(0, Math.min(LAST, Math.round(i)));
+      const hit = cache.get(c);
+      if (hit) return hit;
+      for (let d = 1; d <= FRAMES; d++) {
+        const a = cache.get(c - d);
+        if (a) return a;
+        const b = cache.get(c + d);
+        if (b) return b;
+      }
+      return null;
+    };
+
+    /* ── 캔버스 ───────────────────────────────────────────── */
+    let cw = 0;
+    let ch = 0;
+    let dirty = true; // 캔버스 크기를 바꾸면 내용이 지워진다 — 다시 그리게 표시한다
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      if (!w || !h) return;
+      const nw = Math.round(w * dpr);
+      const nh = Math.round(h * dpr);
+      if (canvas.width === nw && canvas.height === nh) return;
+      canvas.width = nw;
+      canvas.height = nh;
+      cw = nw;
+      ch = nh;
+      dirty = true;
+    };
+
+    /** cover 로 그린다 — 비율이 달라도 잘려 채워진다 */
+    const paint = (img: HTMLImageElement, alpha: number) => {
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      if (!iw || !ih || !cw || !ch) return;
+      const s = Math.max(cw / iw, ch / ih);
+      const dw = iw * s;
+      const dh = ih * s;
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+      ctx.globalAlpha = 1;
+    };
+
+    /* ── 진행도 ───────────────────────────────────────────── */
+    /** 히어로 안에서의 스크롤 진행도 0..1 — 스테이지가 붙어 있는 구간이 전부다 */
+    const target = () => {
+      const r = hero.getBoundingClientRect();
+      const range = r.height - window.innerHeight;
+      if (range <= 0) return 0;
+      return Math.max(0, Math.min(1, -r.top / range));
+    };
+
+    let cur = target();
+    let last = performance.now();
+    let drawn = -1;
+    let raf = 0;
+    let shown = false;
+
+    const tick = (now: number) => {
+      if (!alive) return;
+      raf = requestAnimationFrame(tick);
+
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+
+      const t = target();
+      const gap = t - cur;
+      // 감쇠는 지수적으로 — 프레임 간격이 흔들려도 같은 무게가 된다
+      cur = Math.abs(gap) > SNAP ? t : cur + gap * (1 - Math.exp(-dt / TAU));
+
+      resize();
+
+      const pos = cur * LAST;
+      const i0 = Math.floor(pos);
+      const frac = pos - i0;
+      const forward = gap >= 0;
+
+      const a = nearest(i0);
+      if (!a) {
+        pump(i0, forward);
+        return;
+      }
+
+      // 위치가 실질적으로 같고 다시 그릴 이유도 없으면 건너뛴다
+      const key = Math.round(pos * 100);
+      if (dirty || key !== drawn) {
+        drawn = key;
+        dirty = false;
+        paint(a, 1);
+        // 사이를 알파로 메운다 — 정확한 두 장이 다 캐시에 있을 때만.
+        // 멀리 떨어진 장을 섞으면 잔상이 된다.
+        if (frac > BLEND_MIN && cache.get(i0) === a) {
+          const b = cache.get(i0 + 1);
+          if (b) paint(b, frac);
+        }
+        if (!shown) {
+          shown = true;
+          canvas.style.opacity = "1";
+        }
+      }
+
+      pump(i0, forward);
+    };
+
+    resize();
+    pump(0, true);
+    raf = requestAnimationFrame(tick);
+
+    const onResize = () => resize();
+    window.addEventListener("resize", onResize, { passive: true });
+
+    return () => {
+      alive = false;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+      cache.clear();
+      inflight.clear();
+    };
+  }, []);
+
+  return (
+    // 배경이지만 제품의 이야기를 담고 있어 장식으로 숨기지 않는다 — 한 장의 그림으로 읽힌다.
+    <div className="hero__stage" ref={stageRef} role="img" aria-label={alt}>
+      {/* 포스터는 항상 깔려 있다. 캔버스는 첫 프레임을 그린 뒤에야 위를 덮는다. */}
+      <NextImage src={poster} alt="" fill sizes="100vw" priority className="hero__poster" aria-hidden="true" />
+      <canvas className="hero__canvas" ref={canvasRef} aria-hidden="true" />
+      <div className="hero__scrim" />
+    </div>
+  );
+}

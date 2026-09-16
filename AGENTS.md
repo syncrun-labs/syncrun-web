@@ -5,7 +5,7 @@ SyncRun 랜딩페이지. 맞대면 그 자리에서 함께 뛰는 러닝 앱 [sy
 
 ## 스택
 
-Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). framer-motion(모션·스크롤 구동 3D 디바이스 회전) · ogl(WebGL 오로라).
+Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). framer-motion(모션·스크롤 구동 3D 디바이스 회전).
 **전 페이지가 빌드 타임 정적 생성(SSG)이다** — API Route·서버 액션은 없다.
 UI 프레임워크 없음 — iOS 앱의 토큰을 CSS 변수로 옮겨 직접 조립한다.
 i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/en). 제품 목업은 iOS 시뮬레이터 **실캡처**를 아이폰 베젤에 담는다(`public/shots/`).
@@ -104,16 +104,23 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   **약관 본문(`src/legal/docs/*.md`)은 번역하지 않는다** — 한국어가 정본이고 앱이 동의를 받는 문서다. 영어 화면에서는 그 사실과 요지를 알리는 안내만 띄운다.
 - **이미지는 `next/image`에 정적 import로 넘긴다** (`import home from "@/public/shots/home.png"`) — 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
   모바일 랜딩 기준 이미지 합계가 2,100KB에서 100KB가 됐다. `<img>`를 직접 쓰지 않는다(린트가 막는다).
-- **리빌 컴포넌트는 SSR을 전제로 쓴다** (`AnimatedContent`·`SplitText`·`DeviceFrame`). 서버는 건너뛰기 여부를 모르므로
+- **리빌 컴포넌트는 SSR을 전제로 쓴다** (`AnimatedContent`·`DeviceFrame`·`BumpPair`). 서버는 건너뛰기 여부를 모르므로
   숨긴 초기 상태를 그리고, 건너뛸 때도 **같은 motion 요소를 유지**하며 즉시 최종 상태로 animate 한다. 일반 요소로 바꾸면 React가
   서버가 심은 `opacity:0` 인라인 스타일을 손대지 않아 내용이 영영 안 보인다.
-- **모션 정책**: 모션은 뷰포트 진입 리빌(`AnimatedContent`·`SplitText`)과 `DeviceFrame`의 미세한 스크롤 틸트뿐이다.
-  **핀 고정·스크롤 스크러빙·스냅 스크롤은 쓰지 않는다** — 사용자가 페이지 제어권을 잃는 순간 고장으로 느끼고, 전정 민감 방문자에게는 불편이다.
+- **모션 정책**: 뷰포트 진입 리빌(`AnimatedContent`) · `DeviceFrame`의 미세한 스크롤 틸트 ·
+  **히어로의 스크롤 구동 프레임 스크러빙**(`HeroScrub`, `docs/adr/0003`)이 전부다.
+  **스크롤을 가로채지 않는다** — 스테이지는 `position: sticky`고 마디는 일반 흐름으로 그 위를 지나가므로
+  네이티브 스크롤이 그대로 돌고 역방향도 된다. 스냅 스크롤은 쓰지 않는다.
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
-- `src/components/reactbits/` — React Bits 계열(Aurora·SplitText·SpotlightCard·StarBorder 등) + `reactbits.css`.
-- `src/components/ui/` — 실캡처 목업(`DeviceFrame`: 베젤+스크린샷+스크롤 3D 틸트, `BumpScene`: 두 폰 맞댐+UWB 리플) + `ui.css`.
-- `src/components/sections/` — 랜딩 섹션(Nav·Hero·OneStart·Bump[다크]·LiveSession·RunCard·Activity·Features·CTA[다크]·Footer). `App.tsx`가 조립한다.
-- `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running·me). `public/brand/` — 로고(wordmark·icon).
+- `src/components/reactbits/` — `AnimatedContent`(리빌) · `ClickSpark` · `SafeBoundary` 셋만 남았다.
+- `src/components/ui/` — 실캡처 목업과 제품 장면(`DeviceFrame`: 베젤+스크린샷+스크롤 3D 틸트,
+  `HeroScrub`: 스크롤 구동 프레임 배경, `BumpPair`: 두 폰이 가까워지고 인원이 1→2, `Facts`: 아이콘 없는 목록) + `ui.css`.
+- `src/components/sections/` — 랜딩 섹션(Nav·Hero[다크·스크러빙]·OneStart·Bump·LiveSession·RunCard·Features·CTA[다크]·Footer).
+  `App.tsx`가 조립하고 전체를 `.landing`으로 감싼다 — **랜딩 타이포·컨테이너 폭은 그 안으로만 좁힌다.**
+  `.container`·`.h2`·`.lede`·`html:lang(ko)` 제목 규칙을 지원·약관·회사 소개가 같이 쓰기 때문이다.
+- `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running). `public/brand/` — 로고(wordmark·icon).
+- `public/hero/` — 히어로 배경 프레임 시퀀스(`seq/` 316장 · 2.7MB)와 포스터 · `manifest.json`.
+  `scripts/hero-frames.sh`가 원본 클립에서 만든다 — 워터마크를 잘라내고 블러·톤을 인코딩 단계에서 굽는다.
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
 - `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`가 문서형 레이아웃.
