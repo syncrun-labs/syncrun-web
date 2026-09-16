@@ -10,7 +10,7 @@
 # 블러와 톤은 인코딩 단계에서 굽는다. 런타임 filter: blur() 는 프레임마다 비싸고,
 # 블러가 구워진 프레임은 고주파 성분이 없어 WebP 가 8KB 로 떨어진다(선명한 원본은 29KB).
 #
-#   SRC=<클립 폴더> OUT=<출력 폴더> [FPS=12] [W=960] [SIGMA=5] sh scripts/hero-frames.sh
+#   SRC=<클립 폴더> OUT=<출력 폴더> [FPS=12] [W=960] [SIGMA=11] [SAT=0.86] sh scripts/hero-frames.sh
 #
 # 산출물: <OUT>/seq/f-0000.webp … · <OUT>/poster.webp · <OUT>/manifest.json
 set -eu
@@ -19,7 +19,12 @@ set -eu
 FPS="${FPS:-12}"
 W="${W:-960}"
 H="${H:-624}"
-SIGMA="${SIGMA:-5}"
+# 블러는 분위기 장치일 뿐 아니라 장소를 지우는 장치이기도 하다 — 원본은 금문교이고
+# 제품은 한국 러닝 앱이라("한강에서도" 같은 카피) 다리가 특정되면 안 된다.
+# sigma 11 부터 "황혼의 다리"로 일반화되고, 맞댐 순간의 두 폰은 그대로 읽힌다.
+SIGMA="${SIGMA:-11}"
+# 붉은 주탑이 장소를 가장 크게 가리킨다 — 채도를 한 번 더 눌러 지운다.
+SAT="${SAT:-0.86}"
 WORK="$OUT/.work"
 rm -rf "$WORK" "$OUT/seq"
 mkdir -p "$WORK" "$OUT/seq"
@@ -48,7 +53,7 @@ ffmpeg -v error -y -i "$WORK/n1.mp4" -i "$WORK/n2.mp4" -i "$WORK/n3.mp4" -filter
   -map "[v]" -c:v libx264 -crf 12 -preset fast "$WORK/seq.mp4"
 
 # 3) 노이즈 제거 → 가우시안 블러 → 살짝 어둡게
-ffmpeg -v error -y -i "$WORK/seq.mp4" -vf "hqdn3d=3:3:6:6,gblur=sigma=$SIGMA,eq=brightness=-0.03:saturation=0.92" \
+ffmpeg -v error -y -i "$WORK/seq.mp4" -vf "hqdn3d=3:3:6:6,gblur=sigma=$SIGMA,eq=brightness=-0.03:saturation=$SAT" \
   -c:v libx264 -crf 12 -preset fast "$WORK/graded.mp4"
 
 # 4) 프레임 추출 → WebP. 블러 프레임이라 q65 와 q50 의 용량 차이가 없다 — q65 를 쓴다
