@@ -45,7 +45,7 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
       <main className="doc">
         <div className="container">
           <section className="doc__head">
-            <span className="eyebrow">Legal</span>
+            <span className="doc__kicker">Legal</span>
             <h1 className="doc__title">{c.head.title}</h1>
             <p className="lede doc__lede">{c.head.lede}</p>
           </section>
