@@ -1,6 +1,6 @@
-/* 약관 페이지의 골격 카피 — 한국어/영어. **문서 본문은 번역하지 않는다.**
-   약관 3종은 한국어가 정본이고 앱이 동의를 받는 것도 그 문서다. 영어로 오는 이용자를 위해
-   페이지 골격과 "정본은 한국어"라는 안내만 영어로 둔다. */
+/* 약관 페이지의 골격 카피 — 한국어/영어.
+   약관 3종은 한국어가 정본이고, 영어는 편의를 위한 번역이다(허브 `legal/*.en.md`).
+   영어 페이지는 영어 전문을 보여 주며, 정본이 한국어라는 사실은 문서 머리와 이 안내가 함께 밝힌다. */
 
 import type { Lang } from "./dict";
 import type { PageMeta } from "./lang";
@@ -44,7 +44,7 @@ export const legalCopy: Record<Lang, LegalCopy> = {
     meta: {
       title: "SyncRun Terms & Policies",
       description:
-        "SyncRun terms of service, privacy policy and location-based service terms. Published in Korean, which is the governing version.",
+        "SyncRun terms of service, privacy policy and location-based service terms in English. The Korean version is the governing original.",
     },
     nav: { home: "Home", support: "Support" },
     head: {
@@ -59,10 +59,10 @@ export const legalCopy: Record<Lang, LegalCopy> = {
     },
     notice: {
       paragraphs: [
-        "These documents are published in Korean. The Korean text is the governing version and the one the app asks you to agree to.",
+        "This English text is a translation provided for your convenience. The Korean version is the authoritative original and the one the app asks you to agree to; if the two differ, the Korean version governs.",
         "In short: location is collected to measure your runs and is shared live only with the runners in your session; heart rate is collected only with separate consent; runs are stored on your device first and synced to your account; and you can delete your account and every run at any time from Me > Account > Delete account.",
       ],
-      askPrefix: "If you need any part of these documents explained in English, email ",
+      askPrefix: "If any part of these documents is unclear, email ",
       askMiddle: ". Business and contact information in English is on the ",
       askLink: "About page",
       askSuffix: ".",
