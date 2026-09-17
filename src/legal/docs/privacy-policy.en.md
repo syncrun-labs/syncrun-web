@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.4 |
-| Effective date | 16 September 2026 |
-| Last amended | 16 September 2026 |
+| Document version | v1.5 |
+| Effective date | 17 October 2026 |
+| Last amended | 17 September 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -63,10 +63,19 @@ Where a user selects "Hide My Email" on signing in, a private relay address crea
 | Run record | Run title | Generated automatically and editable by the user | Required |
 | Location information | Live latitude and longitude during a run | Collected automatically by device GPS | Required |
 | Location information | Latitude and longitude while waiting to bump (while the group formation screen is open) | Collected automatically by device GPS | Required |
+| Run record | Run card background photo | Chosen by the user in the Photos app | Optional |
 | Sensitive information | Heart rate (average heart rate) | Collected via HealthKit from Apple Watch or heart-rate-capable earbuds | Optional |
 | Technical information | Push token (APNs device token) | Collected automatically when notification permission is granted | Optional |
+| Usage record | Consent history (item consented to, document version, time of consent or withdrawal) | Recorded automatically on the consent screen | Required |
+| Usage record | App settings (voice guidance, privacy defaults, step-distance calibration factor, notices read, list sorting and statistics period) | Set by the user and calculated automatically during runs | Required |
 
 The route stored on the server as part of a run record consists of coordinates normalised to values between 0 and 1; actual latitude and longitude are not stored on the server. Place names are recorded only at the neighbourhood (dong) level. Users cannot lower these standards in settings.
+
+A run card background photo is collected only where the user chooses one in the Photos app, and is kept with that run record. The purpose is to keep the card intact if you change device or delete and reinstall the app. If you do not choose a photo, none is collected, and not choosing one places no restriction on any other feature.
+
+Consent history records, item by item, which version of which legal document you consented to, or withdrew consent from, and when. It is retained in order to confirm that the consents required by the Personal Information Protection Act and the Act on the Protection and Use of Location Information were actually obtained, and to determine who must be asked for what again when the documents are amended. Entries accumulate rather than being overwritten, so withdrawals of consent are also retained.
+
+The step-distance calibration factor is a multiplier updated each run in order to reconcile the distance measured by steps with actual distance travelled where the location signal has been lost. The value itself is a number between 0.75 and 1.25 and is not used as body-related information.
 
 ### 3. How live location information is processed
 
@@ -119,6 +128,9 @@ The Company does not process any unique identifying information under Article 24
 | Account information (Apple sign-in identifier, email address, user ID, device identifier) | Until withdrawal of membership |
 | Profile information (name, profile photo) | Until withdrawal of membership |
 | Run records (distance, time, pace, cadence, elevation, splits, normalised route, place name, title) | Until withdrawal of membership |
+| Run card background photos | Until withdrawal of membership, deletion of that record, or removal of the photo by the user |
+| Consent history (item, document version, time) | Until withdrawal of membership |
+| App settings (including the step-distance calibration factor) | Until withdrawal of membership |
 | Heart rate (average heart rate) | Until withdrawal of membership |
 | Push token (APNs) | Until withdrawal of membership or withdrawal of notification permission |
 | Live latitude and longitude during a run | Erased immediately when the session ends (held only in server memory, not stored in a database) |
@@ -164,7 +176,7 @@ The Company does not process any unique identifying information under Article 24
 
 | Trustee | Entrusted work | Server location | Retention and use period |
 | --- | --- | --- | --- |
-| Google Cloud Korea, LLC | Operation of server infrastructure (application server and database) and data storage | Republic of Korea (Seoul) | Until withdrawal of membership or termination of the entrustment agreement |
+| Google Cloud Korea, LLC | Operation of server infrastructure (application server, database and image store) and data storage | Republic of Korea (Seoul) | Until withdrawal of membership or termination of the entrustment agreement |
 | Apple Inc. | Sending push notifications (APNs), Sign in with Apple authentication | United States | Until withdrawal of membership or termination of the entrustment agreement |
 
 2. When concluding an entrustment agreement, the Company specifies in the contract or other document, in accordance with Article 26 of the Personal Information Protection Act, matters such as the prohibition on processing personal information beyond the purpose of the entrusted work, technical and administrative safeguards, restrictions on sub-entrustment, supervision of the trustee, and liability including compensation for damage, and supervises whether the trustee processes personal information safely.
@@ -206,7 +218,8 @@ Where personal information becomes unnecessary — because the retention period 
 1. The Company uses the device (local storage) as the primary store, and servers as a store for backup, multi-device synchronisation and assembly of group run results.
 2. On withdrawal of membership, the account and data on the server are deleted first, followed by the profile, profile photo, run records and synchronisation metadata stored on the device.
 3. Deletion of an individual run record is handled by a soft delete followed by the creation of a deletion marker (tombstone) propagated to all devices on the same account, so that a record deleted on one device does not reappear on another.
-4. Information that must be preserved for a period under the law is moved to a separate database or location, retained for the preservation period, and then destroyed.
+4. A run card background photo is **deleted from the store immediately**, even where the record itself remains as a deletion marker. The same applies where the user removes the photo from the card and on withdrawal of membership. The photo store keeps no earlier versions and no retention window from which a deleted object could be restored.
+5. Information that must be preserved for a period under the law is moved to a separate database or location, retained for the preservation period, and then destroyed.
 
 ### 2. Destruction method
 
@@ -353,7 +366,9 @@ In accordance with Article 22-2 of the Act on Promotion of Information and Commu
 
 ### 3. Processing of photos
 
-Images loaded through the Photos permission are used only on the device and are not transmitted to the servers. However, a profile photo set by the user is backed up to the servers so that it can be restored on reinstallation or re-sign-in and shown to companions.
+Of the images loaded through the Photos permission, **only those the user sets as a profile photo or as a run card background** are kept on the servers. A profile photo is kept so that it can be restored on reinstallation or re-sign-in and shown to companions; a card background photo is kept so that the card survives a change of device or a reinstallation. No other image leaves the device.
+
+A card background photo is provided only to the person who created that record, and not to other users. If the user removes the photo from the card, it is also deleted from the store.
 
 ### 4. How to withdraw permissions
 
@@ -363,7 +378,7 @@ Users may change or withdraw each access permission at any time in iOS Settings 
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 10 September 2026.
+1. This Privacy Policy applies from 17 October 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -371,6 +386,7 @@ Users may change or withdraw each access permission at any time in iOS Settings 
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
+| v1.5 | 17 October 2026 | Reflects the retention in the account of run card background photos, consent history and app settings |
 | v1.4 | 16 September 2026 | Change of server infrastructure trustee and country of storage (Seoul, Republic of Korea); correction of transfer-abroad details |
 | v1.3 | 10 September 2026 | Statement of the operating entity and business information, and the name of the personal information protection officer |
 | v1.0–v1.2 | 6 August 2026 – 28 August 2026 | Establishment and amendments during the free beta test period |
@@ -379,7 +395,7 @@ Users may change or withdraw each access permission at any time in iOS Settings 
 
 ## Addendum
 
-This Privacy Policy takes effect on 16 September 2026 and replaces the previous Policy (effective 10 September 2026).
+This Privacy Policy takes effect on 17 October 2026 and replaces the previous Policy (effective 16 September 2026).
 
 ---
 
