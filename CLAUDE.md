@@ -101,7 +101,9 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   카피는 페이지마다 한 파일이다 — `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `legal.ts`.
   **랜딩 카피만 `useLang().t`로 오고, 문서형 페이지는 `useLang().lang`으로 자기 카피 객체를 고른다** — 한 파일에 다 넣으면 dict가 감당이 안 된다.
   내부 링크는 `useLang().base`(ko `""` · en `"/en"`)를 앞에 붙인다. `components/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
-  **약관 본문(`src/legal/docs/*.md`)은 번역하지 않는다** — 한국어가 정본이고 앱이 동의를 받는 문서다. 영어 화면에서는 그 사실과 요지를 알리는 안내만 띄운다.
+  **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다** — 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
+  **한국어가 정본이고 영어는 편의 번역이다** — 앱이 동의를 받는 것은 한국어 문서이며, 그 사실을 문서 머리와 페이지 안내가 함께 밝힌다.
+  영어판을 두는 이유는 앱이 영문 이름으로 영문 스토어에 나가 있어서다(GDPR 투명성·CCPA 고지 언어 기준).
 - **이미지는 `next/image`에 정적 import로 넘긴다** (`import home from "@/public/shots/home.png"`) — 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
   모바일 랜딩 기준 이미지 합계가 2,100KB에서 100KB가 됐다. `<img>`를 직접 쓰지 않는다(린트가 막는다).
 - **리빌 컴포넌트는 SSR을 전제로 쓴다** (`AnimatedContent`·`DeviceFrame`·`BumpPair`). 서버는 건너뛰기 여부를 모르므로
@@ -124,7 +126,7 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
 - `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`가 문서형 레이아웃.
-  **`src/legal/docs/*.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 원문이 개정되면 그대로 복사해 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
+  **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
 - `src/styles/sections.css` — 섹션 레이아웃 · 반응형.
 
 ## 배포

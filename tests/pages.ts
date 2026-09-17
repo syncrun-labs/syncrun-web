@@ -25,12 +25,25 @@ export function langOf(projectName: string): Lang {
  * 정식 주소로 선언해 둔 값이기도 하다. 경로와 문서의 짝을 고정으로 지킨다.
  * 자세한 배경은 `docs/adr/0001-migrate-to-nextjs.md`.
  *
- * 본문은 번역하지 않으므로(한국어가 정본) 제목은 화면 언어와 무관하게 같다.
+ * 언어마다 다른 판을 낸다 — 한국어가 정본이고 영어는 편의 번역이다. 제목으로 어느 판이
+ * 나왔는지까지 본다: 영어 주소가 한국어 전문을 내면 영어 이용자가 읽지 못하는 문서에 동의하게 된다.
  */
 export const LEGAL_CONTRACT = [
-  { path: "/legal/terms-of-service", heading: "싱크런(SyncRun) 서비스 이용약관" },
-  { path: "/legal/privacy-policy", heading: "싱크런(SyncRun) 개인정보 처리방침" },
-  { path: "/legal/location-terms", heading: "싱크런(SyncRun) 위치기반서비스 이용약관" },
+  {
+    path: "/legal/terms-of-service",
+    heading: { ko: "싱크런(SyncRun) 서비스 이용약관", en: "SyncRun Terms of Service" },
+  },
+  {
+    path: "/legal/privacy-policy",
+    heading: { ko: "싱크런(SyncRun) 개인정보 처리방침", en: "SyncRun Privacy Policy" },
+  },
+  {
+    path: "/legal/location-terms",
+    heading: {
+      ko: "싱크런(SyncRun) 위치기반서비스 이용약관",
+      en: "SyncRun Location-Based Services Terms",
+    },
+  },
 ] as const;
 
 /**

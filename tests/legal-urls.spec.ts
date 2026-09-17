@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { LEGAL_CONTRACT, STORE_URLS } from "./pages";
+import { langOf, LEGAL_CONTRACT, localized, STORE_URLS } from "./pages";
 
 /**
  * 약관 URL 계약 — 세 주소가 각각 제 문서를 200으로 낸다.
@@ -7,11 +7,13 @@ import { LEGAL_CONTRACT, STORE_URLS } from "./pages";
  */
 test.describe("약관 URL 계약", () => {
   for (const { path, heading } of LEGAL_CONTRACT) {
-    test(`${path} 는 "${heading}" 을 낸다`, async ({ page }) => {
-      const response = await page.goto(path);
-      expect(response?.status(), `${path} 가 200이어야 한다`).toBe(200);
+    test(`${path} 는 그 언어의 문서를 낸다`, async ({ page }, testInfo) => {
+      const lang = langOf(testInfo.project.name);
+      const url = localized(path, lang);
+      const response = await page.goto(url);
+      expect(response?.status(), `${url} 가 200이어야 한다`).toBe(200);
 
-      await expect(page.locator("article.legal-doc h1")).toHaveText(heading);
+      await expect(page.locator("article.legal-doc h1")).toHaveText(heading[lang]);
       await expect(page.getByRole("tab", { selected: true })).toBeVisible();
     });
   }

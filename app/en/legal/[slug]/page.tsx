@@ -35,7 +35,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   if (!doc) notFound();
   return (
     <LangProvider lang="en" paths={pathPair(`/legal/${slug}`)}>
-      <Legal active={doc.key} source={readLegalDoc(doc.slug)} />
+      <Legal active={doc.key} source={readLegalDoc(doc.slug, "en")} />
     </LangProvider>
   );
 }
