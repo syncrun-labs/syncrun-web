@@ -5,7 +5,7 @@ Playwright로 두 가지를 지킨다.
 | 파일 | 무엇 |
 |---|---|
 | `legal-urls.spec.ts` | **약관 URL 계약** — 세 주소가 각각 제 문서를 200으로 낸다 |
-| `visual.spec.ts` | **시각 회귀** — 6개 페이지 × 데스크톱·모바일 × ko·en 풀페이지 비교 |
+| `visual.spec.ts` | **시각 회귀** — 7개 페이지 × 데스크톱·모바일 × ko·en 풀페이지 비교 |
 
 ```bash
 npm test              # 검증

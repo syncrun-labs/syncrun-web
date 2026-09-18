@@ -39,6 +39,7 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 | `/`               | 랜딩 — 제품 소개                                                         | Marketing URL           |
 | `/support`        | 지원 — 문의처 · FAQ · 권한 안내 · 계정 삭제 안내                         | Support URL             |
 | `/company`        | 회사 소개 — 제품 · 현황 · 기술 · **사업자 정보**                         | —                       |
+| `/account/delete` | 계정 삭제 안내 — 앱 내 탈퇴 경로 · 지워지는 것 · 이메일 요청             | — (Google Play 계정 삭제 URL) |
 | `/legal/<슬러그>` | 약관 3종 전문 — `privacy-policy` · `terms-of-service` · `location-terms` | Privacy Policy URL      |
 
 영어판은 같은 구조가 `/en` 아래에 있다(`/en`·`/en/support`가 영어 스토어에 걸린다).
@@ -55,7 +56,7 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 
 ```
 app/
-  (ko)/                    / · /support · /company · /legal/[slug] — 한국어(접두 없음)
+  (ko)/                    / · /support · /company · /account/delete · /legal/[slug] — 한국어(접두 없음)
   en/                      같은 구조의 영어판 — /en 아래
   sitemap.ts · robots.ts   색인 장치
 src/
@@ -69,9 +70,9 @@ src/
     ui/                    DeviceFrame(베젤+실캡처) · HeroScrub(스크롤 구동 프레임 배경) · BumpPair · Facts + ui.css
     sections/              Nav · Hero(스크러빙) · OneStart · Bump · LiveSession · RunCard · Features · CTA · Footer
     LangToggle.tsx         KO/EN 전환 — 상대 언어의 같은 페이지로 가는 링크
-  i18n/                    dict.ts(랜딩) · support.ts · company.ts · legal.ts · lang.tsx(LangProvider)
-  support/ · company/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
-  styles/                  sections.css(랜딩 레이아웃) · support.css · company.css · legal.css
+  i18n/                    dict.ts(랜딩) · support.ts · company.ts · account.ts · legal.ts · lang.tsx(LangProvider)
+  support/ · company/ · account/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
+  styles/                  sections.css(랜딩 레이아웃) · support.css · company.css · account.css · legal.css
 public/shots/              iOS 시뮬레이터 실캡처 — next/image 정적 import로 쓴다
 ```
 
