@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { LEGAL_DOCS } from "@/src/legal/docs";
 import { LANGS, SITE_ORIGIN, langPath } from "@/src/site/config";
 
-const PAGES = ["/", "/support", "/company", ...LEGAL_DOCS.map((d) => `/legal/${d.slug}`)];
+const PAGES = ["/", "/support", "/company", "/account/delete", ...LEGAL_DOCS.map((d) => `/legal/${d.slug}`)];
 
 /** 언어 × 페이지 전부. 각 항목이 hreflang 짝을 갖는다. */
 export default function sitemap(): MetadataRoute.Sitemap {

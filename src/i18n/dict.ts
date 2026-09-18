@@ -73,6 +73,7 @@ export interface Dict {
 const SUPPORT = "support";
 const LEGAL = "legal";
 const COMPANY_PAGE = "company";
+const ACCOUNT_DELETE = "account/delete";
 
 export const dict: Record<Lang, Dict> = {
   ko: {
@@ -222,6 +223,7 @@ export const dict: Record<Lang, Dict> = {
             { label: "회사 소개", href: `${COMPANY_PAGE}` },
             { label: "지원 · 도움말", href: `${SUPPORT}` },
             { label: "권한 안내", href: `${SUPPORT}#permissions` },
+            { label: "계정 삭제 안내", href: `${ACCOUNT_DELETE}` },
             { label: "문의", href: supportMailto("[SyncRun 문의]") },
           ],
         },
@@ -407,6 +409,7 @@ export const dict: Record<Lang, Dict> = {
             { label: "About us", href: `${COMPANY_PAGE}` },
             { label: "Support · Help", href: `${SUPPORT}` },
             { label: "Permissions", href: `${SUPPORT}#permissions` },
+            { label: "Delete your account", href: `${ACCOUNT_DELETE}` },
             { label: "Contact", href: supportMailto("[SyncRun]") },
           ],
         },
