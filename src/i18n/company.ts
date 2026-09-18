@@ -27,6 +27,7 @@ export interface CompanyCopy {
       name: string;
       ceo: string;
       bizNo: string;
+      lbsFilingNo: string;
       address: string;
       industry: string;
       form: string;
@@ -95,8 +96,12 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
           what: "App Store 정식 출시 — SyncRun 1.0.0, iOS 18.0 이상, 무료",
         },
         {
+          when: "2026.09",
+          what: "위치기반서비스사업 신고 수리 — 방송미디어통신위원회 신고번호 제1589호",
+        },
+        {
           when: "다음",
-          what: "위치기반서비스사업 신고 · 실제 러닝에서 나오는 것들을 앱에 반영",
+          what: "실제 러닝에서 나오는 것들을 앱에 반영",
         },
       ],
     },
@@ -130,15 +135,16 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
         name: "상호",
         ceo: "대표자",
         bizNo: "사업자등록번호",
+        lbsFilingNo: "위치기반서비스사업 신고번호",
         address: "사업장 주소",
         industry: "업태 · 종목",
         form: "사업 형태",
         contact: "문의",
       },
       notePrefix:
-        "서비스는 전부 무상으로 제공되어 통신판매업 신고 대상이 아닙니다. 위치기반서비스사업 신고는 준비 중이며, 신고번호를 받는 대로 ",
+        "서비스는 전부 무상으로 제공되어 통신판매업 신고 대상이 아닙니다. 위치기반서비스사업은 2026년 9월 18일 방송미디어통신위원회에 신고번호 제1589호로 수리되었으며, ",
       noteLink: "위치기반서비스 이용약관",
-      noteSuffix: " 제16조에 기재하고 공지합니다.",
+      noteSuffix: " 제16조에 기재되어 있습니다.",
     },
     contact: {
       label: "연락",
@@ -208,8 +214,12 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
           what: "Released on the App Store — SyncRun 1.0.0, iOS 18.0 or later, free",
         },
         {
+          when: "2026.09",
+          what: "Location-based service provider filing accepted — Korea Media and Communications Commission filing no. 1589",
+        },
+        {
           when: "Next",
-          what: "Location-based service provider filing · shipping what real runs teach us",
+          what: "Shipping what real runs teach us",
         },
       ],
     },
@@ -243,15 +253,16 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
         name: "Legal name",
         ceo: "Representative",
         bizNo: "Business registration no.",
+        lbsFilingNo: "Location-based service filing no.",
         address: "Registered address",
         industry: "Industry",
         form: "Entity type",
         contact: "Contact",
       },
       notePrefix:
-        "The service is provided free of charge, so it is not subject to mail-order business registration. The location-based service provider filing is in preparation; once the filing number is issued we will record it in Article 16 of the ",
+        "The service is provided free of charge, so it is not subject to mail-order business registration. The location-based service provider filing was accepted by the Korea Media and Communications Commission on 18 September 2026 as filing no. 1589, and is recorded in Article 16 of the ",
       noteLink: "Location-Based Service Terms",
-      noteSuffix: " and announce it.",
+      noteSuffix: ".",
     },
     contact: {
       label: "Contact",

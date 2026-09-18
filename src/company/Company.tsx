@@ -37,6 +37,7 @@ export default function Company() {
     { k: c.business.labels.name, v: org.legalName },
     { k: c.business.labels.ceo, v: lang === "ko" ? org.ceo : `${org.ceo}, ${org.ceoLabel}` },
     { k: c.business.labels.bizNo, v: org.bizNo },
+    { k: c.business.labels.lbsFilingNo, v: org.lbsFilingNo },
     {
       k: c.business.labels.address,
       v: lang === "ko" ? `(${org.postalCode}) ${org.address}` : `${org.address} ${org.postalCode}`,

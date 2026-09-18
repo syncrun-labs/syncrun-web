@@ -17,6 +17,7 @@ const PATHS = [
   "/",
   "/support",
   "/company",
+  "/account/delete",
   "/legal/terms-of-service",
   "/legal/privacy-policy",
   "/legal/location-terms",

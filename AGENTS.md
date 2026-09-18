@@ -85,10 +85,11 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
 
 ## 구조
 
-- **라우트는 `app/`에 있고 언어가 URL을 가른다** — `app/(ko)`가 `/` · `/support` · `/company` · `/legal/[slug]`,
+- **라우트는 `app/`에 있고 언어가 URL을 가른다** — `app/(ko)`가 `/` · `/support` · `/company` · `/account/delete` · `/legal/[slug]`,
   `app/en`이 같은 구조를 `/en` 아래에. `<html lang>`이 언어마다 달라 루트 레이아웃이 둘이고 껍데기(`src/site/RootHtml.tsx`)를 공유한다.
   **ko에는 접두를 붙이지 않는다** — `/legal/<슬러그>` 3종이 App Store Connect에 등록된 주소다(`docs/adr/0001`).
   `/`는 App Store Connect의 Marketing URL, `/support`는 Support URL. 영어 스토어에는 `/en`·`/en/support`를 건다.
+  `/account/delete`는 Google Play Data safety의 계정 삭제 안내 URL이다 — 본문은 플랫폼 이름 없이 앱 내 탈퇴 경로와 이메일 요청 경로만 적는다.
   각 `page.tsx`는 얇다 — `src/site/metadata.ts`의 `buildMetadata()`로 제목·설명·canonical·hreflang(ko/en/x-default)·og를 만들고
   기존 컴포넌트에 `lang`을 넘긴다. `app/sitemap.ts`·`app/robots.ts`가 색인 장치.
   지원 페이지의 사실관계(맞댐 조건·권한 문구·계정 삭제 경로)는 syncrun-ios의 `project.yml`과 앱 화면을 따른다.
@@ -96,9 +97,9 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   값은 `src/lib/company.ts` 한 곳에 두고 랜딩 푸터도 그 상수를 읽는다. 약관이 개정되면 이 상수를 함께 본다.
 - **약관은 슬러그마다 정적 페이지다.** `src/legal/docs.ts`가 키·슬러그 목록(라우트의 `generateStaticParams`와 화면 탭이 같이 본다),
   `src/legal/read.ts`가 서버에서 원문을 읽어 `Legal`에 넘긴다 — 마크다운은 클라이언트 번들에 들어가지 않는다. `/legal`은 이용약관으로 308.
-- **i18n**(`src/i18n/`): **네 페이지 전부 ko/en이다.** 언어는 URL이 정하고 라우트가 `LangProvider`에 `lang`과 두 언어의 경로 짝(`paths`)을 넘긴다.
+- **i18n**(`src/i18n/`): **다섯 페이지 전부 ko/en이다.** 언어는 URL이 정하고 라우트가 `LangProvider`에 `lang`과 두 언어의 경로 짝(`paths`)을 넘긴다.
   브라우저 로케일 감지나 저장된 선택은 **없다** — URL 하나에 내용 하나가 고정되어야 검색엔진이 언어판을 구분한다.
-  카피는 페이지마다 한 파일이다 — `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `legal.ts`.
+  카피는 페이지마다 한 파일이다 — `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `account.ts` · `legal.ts`.
   **랜딩 카피만 `useLang().t`로 오고, 문서형 페이지는 `useLang().lang`으로 자기 카피 객체를 고른다** — 한 파일에 다 넣으면 dict가 감당이 안 된다.
   내부 링크는 `useLang().base`(ko `""` · en `"/en"`)를 앞에 붙인다. `components/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
   **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다** — 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
@@ -124,8 +125,8 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
 - `public/hero/` — 히어로 배경 프레임 시퀀스(`seq/` 316장 · 2.7MB)와 포스터 · `manifest.json`.
   `scripts/hero-frames.sh`가 원본 클립에서 만든다 — 워터마크를 잘라내고 블러·톤을 인코딩 단계에서 굽는다.
   **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
-- `src/support/`·`src/legal/`·`src/company/` — 지원·약관·회사 소개 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
-  `src/styles/support.css`·`legal.css`·`company.css`가 문서형 레이아웃.
+- `src/support/`·`src/legal/`·`src/company/`·`src/account/` — 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
+  `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
 - `src/styles/sections.css` — 섹션 레이아웃 · 반응형.
 

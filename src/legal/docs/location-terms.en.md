@@ -2,7 +2,7 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.4 |
+| Document version | v1.5 |
 | Effective date | 24 October 2026 |
 | Last amended | 18 September 2026 |
 
@@ -75,7 +75,7 @@ Matters not specified in these Terms are governed by the Location Information Ac
    - Recipient of the location information
    - Method of collection, use or provision of location information
 
-3. From the time the Company completes the location-based service business filing under Article 16, the Company will record and preserve the records described in paragraph 2 automatically, provide a means of access to them, and give notice of that fact. As at the effective date of these Terms, such records are not being kept.
+3. The Company is building the capability to record and preserve the records described in paragraph 2 automatically in its location information system and to provide a means of access to them; when it takes effect, the Company will give notice of that fact and the effective date and update this Article. As at the effective date of these Terms, such records are not being kept.
 
 4. These records are used only to respond to a request for access or notification by the subject of personal location information (Article 8) and to prevent misuse of location information.
 
@@ -133,14 +133,14 @@ Under Article 24 of the Location Information Act, you have the following rights.
 1. Withdrawal of consent (Article 24(1))
 
    - You may withdraw all or part of your consent to the collection, use and provision of personal location information at any time.
-   - You may withdraw by turning off SyncRun's location access in the device settings (iOS: Settings > SyncRun > Location; Android: Settings > Apps > SyncRun > Permissions > Location), or by withdrawing your membership from the Me tab in the app.
+   - You may withdraw by turning off location access for SyncRun in your device settings (iOS: Settings > SyncRun > Location; Android: Settings > Apps > SyncRun > Permissions > Location), or by withdrawing your membership from the Me tab in the app.
    - To withdraw consent to third-party provision only, turn off live location sharing in the app settings or on the map screen during a run.
    - Where consent is withdrawn, the Company destroys the collected personal location information and the records confirming use and provision without delay. This does not apply to records already recorded and preserved under Article 16(2) of the Location Information Act before the withdrawal.
 
 2. Request for temporary suspension (Article 24(2))
 
    - You may at any time request temporary suspension of the collection, use and provision of personal location information. The Company does not refuse such a request and maintains the technical means to give effect to it.
-   - You make the request by turning on the pause of location collection in the settings on the Me tab of the app; in that case, location collection is suspended both during a run and while waiting to bump. Staying off the group formation screen without starting a run, and turning off location access in the device settings, have the same effect.
+   - You make the request by turning on the pause of location collection in the settings on the Me tab of the app; in that case, location collection is suspended both during a run and while waiting to bump. Staying off the group formation screen without starting a run, and turning off location access in your device settings, have the same effect.
    - While location collection is suspended, bump partners cannot be found and group formation does not occur. Solo running continues to be measured on a step basis and records are still saved.
 
 3. Request for access or notification (Article 24(3))
@@ -263,14 +263,16 @@ Under Article 24 of the Location Information Act, you have the following rights.
 | Form of operation | Sole proprietorship |
 | Service launch date | 9 September 2026 (App Store release) |
 | Contact · location information manager | contact@syncrunlabs.com |
-| Location-based service business filing number | Not yet filed |
+| Location-based service business filing number | No. 1589 (accepted 18 September 2026) |
 
 1. Because the Service collects personal location information and provides it to other participants of the same running session, it is subject to the location-based service business filing requirement under Article 9 of the Location Information Act.
 
-2. As at the effective date of these Terms, the Company has not completed that filing. Under Article 9-2 of the Location Information Act, the Company will file with the Korea Communications Commission within one month of the date the Service launched (9 September 2026), and will record the filing number and acceptance date in this Article and give notice once received.
+2. The Company filed its small-business location-based service business notification with the Korea Media and Communications Commission under Article 9(1) and Article 9-2 of the Location Information Act, and the filing was accepted on 18 September 2026 as filing No. 1589. The type of business filed is "location-based services provided through a mobile application".
+
+3. If any filed particular changes — such as the business name, address, representative or location information manager — the Company will file an amendment and update this Article.
 
 ---
 
 ## Addendum
 
-These Terms take effect on 24 October 2026 and replace the previous Terms (effective 10 September 2026).
+These Terms take effect on 24 October 2026 and replace the previous Terms (effective 25 September 2026).
