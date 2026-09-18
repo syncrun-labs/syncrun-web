@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.3 |
-| Effective date | 10 September 2026 |
-| Last amended | 10 September 2026 |
+| Document version | v1.4 |
+| Effective date | 24 October 2026 |
+| Last amended | 18 September 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -14,7 +14,7 @@ These Terms set out the rights, obligations and responsibilities between SyncRun
 
 ## Article 1 (Purpose)
 
-These Terms set out the rights, obligations and responsibilities between the Company and the subject of personal location information, and other necessary matters, in connection with the location-based services of the iOS running application SyncRun (the "Service").
+These Terms set out the rights, obligations and responsibilities between the Company and the subject of personal location information, and other necessary matters, in connection with the location-based services of the iOS and Android running application SyncRun (the "Service").
 
 ---
 
@@ -44,7 +44,7 @@ Matters not specified in these Terms are governed by the Location Information Ac
 
 ## Article 4 (How Personal Location Information Is Collected and Used)
 
-1. The Company collects personal location information through the GPS and related sensors built into your iOS device.
+1. The Company collects personal location information through the GPS and related sensors built into your device.
 
 2. The Company collects and uses personal location information only in the following two cases. In any other state, the Service does not collect your location.
 
@@ -133,14 +133,14 @@ Under Article 24 of the Location Information Act, you have the following rights.
 1. Withdrawal of consent (Article 24(1))
 
    - You may withdraw all or part of your consent to the collection, use and provision of personal location information at any time.
-   - You may withdraw by turning off location access in iOS Settings > SyncRun > Location, or by withdrawing your membership from the Me tab in the app.
+   - You may withdraw by turning off SyncRun's location access in the device settings (iOS: Settings > SyncRun > Location; Android: Settings > Apps > SyncRun > Permissions > Location), or by withdrawing your membership from the Me tab in the app.
    - To withdraw consent to third-party provision only, turn off live location sharing in the app settings or on the map screen during a run.
    - Where consent is withdrawn, the Company destroys the collected personal location information and the records confirming use and provision without delay. This does not apply to records already recorded and preserved under Article 16(2) of the Location Information Act before the withdrawal.
 
 2. Request for temporary suspension (Article 24(2))
 
    - You may at any time request temporary suspension of the collection, use and provision of personal location information. The Company does not refuse such a request and maintains the technical means to give effect to it.
-   - You make the request by turning on the pause of location collection in the settings on the Me tab of the app; in that case, location collection is suspended both during a run and while waiting to bump. Staying off the group formation screen without starting a run, and turning off location access in iOS Settings, have the same effect.
+   - You make the request by turning on the pause of location collection in the settings on the Me tab of the app; in that case, location collection is suspended both during a run and while waiting to bump. Staying off the group formation screen without starting a run, and turning off location access in the device settings, have the same effect.
    - While location collection is suspended, bump partners cannot be found and group formation does not occur. Solo running continues to be measured on a step basis and records are still saved.
 
 3. Request for access or notification (Article 24(3))
@@ -273,4 +273,4 @@ Under Article 24 of the Location Information Act, you have the following rights.
 
 ## Addendum
 
-These Terms take effect on 10 September 2026 and replace the previous Terms (effective 28 August 2026).
+These Terms take effect on 24 October 2026 and replace the previous Terms (effective 10 September 2026).

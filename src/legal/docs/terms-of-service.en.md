@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.3 |
-| Effective date | 10 September 2026 |
-| Last amended | 10 September 2026 |
+| Document version | v1.4 |
+| Effective date | 24 October 2026 |
+| Last amended | 18 September 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -14,15 +14,15 @@
 
 ### Article 1 (Purpose)
 
-These Terms set out the basic matters — the rights, obligations and responsibilities between SyncRun Labs (the "Company") and members, and the conditions and procedures for use — in connection with the use of the iOS running application SyncRun and all related services (the "Service").
+These Terms set out the basic matters — the rights, obligations and responsibilities between SyncRun Labs (the "Company") and members, and the conditions and procedures for use — in connection with the use of the iOS and Android running application SyncRun and all related services (the "Service").
 
 ### Article 2 (Definitions)
 
 The terms used in these Terms are defined as follows.
 
-1. "Service" means the iOS application SyncRun provided by the Company and all services related to it.
+1. "Service" means the iOS and Android application SyncRun provided by the Company and all services related to it.
 2. "Member" means a person who agrees to these Terms, enters into a service agreement with the Company, and uses the Service.
-3. "Account" means the information the Company assigns for identifying a member and enabling use of the Service (Apple sign-in identifier, user ID and the like).
+3. "Account" means the information the Company assigns for identifying a member and enabling use of the Service (Apple sign-in identifier or Google sign-in identifier, user ID and the like).
 4. "Run record" means data such as distance, time, pace, cadence, elevation gain, 1 km splits, route, place name, heart rate and run title, measured and saved by a member using the Service.
 5. "Bump" means the act of tapping phones together with another user so that a group to run with is formed through proximity determination using near-field wireless communication (UWB).
 6. "Running session" or "session" means the unit in which a group formed through a bump runs together.
@@ -55,7 +55,7 @@ Terms not defined here follow the relevant laws and general commercial practice.
 
 2. The Service does not distinguish between signing up and signing in. If the account is being used for the first time, an account is created on the spot; if it is an existing account, the member is signed in to that account.
 
-3. The only method of applying is Sign in with Apple. No path is provided for signing up or signing in with an email address and password, and accordingly there is no procedure for setting or resetting a password.
+3. The methods of applying are Continue with Apple (Sign in with Apple) and Continue with Google (Sign in with Google). An account signed in with Apple and an account signed in with Google are separate accounts and are not linked into one, even where the email address is the same. No path is provided for signing up or signing in with an email address and password, and accordingly there is no procedure for setting or resetting a password.
 
 4. On joining, members must agree to these Terms, the Privacy Policy and the Location-Based Services Terms.
 
@@ -108,6 +108,8 @@ The Company provides the following services.
 5. Heart rate recording: measurement and recording of heart rate via Apple Watch or heart-rate-capable earbuds, and saving workouts to the Health (HealthKit) app
 6. Notifications: push notifications such as the last-runner alert and inactivity check
 7. Any other service the Company develops or provides to members through partnerships
+
+The heart rate recording service in item 5 is provided only in the iOS app and is not provided in the Android app.
 
 ### Article 9 (Service Hours)
 
@@ -352,4 +354,4 @@ Members may not assign or gift their rights to use the Service or their contract
 
 ## Addendum
 
-These Terms take effect on 10 September 2026 and replace the previous Terms (effective 28 August 2026).
+These Terms take effect on 24 October 2026 and replace the previous Terms (effective 10 September 2026).
