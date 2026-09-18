@@ -208,9 +208,9 @@ The Company does not process any unique identifying information under Article 24
 | Recipient | Google LLC |
 | Contact | https://support.google.com/policies/contact/general_privacy_form |
 | Country of transfer | United States |
-| Time and method of transfer | Transmitted from time to time over the information and communications network (HTTPS) at the time of sign-in and of sending notifications |
-| Items transferred | On sign-in: Google sign-in identifier, email address and name; on sending notifications: push token (FCM registration token) |
-| Purpose of use | Sign in with Google authentication, sending push notifications |
+| Time and method of transfer | Transmitted from time to time over the information and communications network (HTTPS) at the time of sending notifications |
+| Items transferred | Push token (FCM registration token) |
+| Purpose of use | Sending push notifications |
 | Retention and use period | Until withdrawal of membership or termination of the entrustment agreement |
 
 3. The above transfer abroad constitutes entrustment of processing and storage of personal information necessary for the performance of a contract concluded with the data subject under Article 28-8(1)3 of the Personal Information Protection Act, and is made without separate consent by disclosing its content in this Policy in accordance with that subparagraph and Article 29-8 of the Enforcement Decree of that Act.
