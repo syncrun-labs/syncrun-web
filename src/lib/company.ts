@@ -5,7 +5,7 @@
  * 여기를 바꾼다.
  *
  * 주소는 약관과 같이 도로명까지만 적는다. 사업장이 자택이라 공개 범위를 좁힌 것이고,
- * 방송통신위원회 신고서·사업자등록증에는 전체 주소가 들어간다.
+ * 방송미디어통신위원회 신고서·사업자등록증에는 전체 주소가 들어간다.
  */
 export const COMPANY = {
   ko: {
@@ -14,6 +14,7 @@ export const COMPANY = {
     ceo: "이창목",
     ceoLabel: "대표",
     bizNo: "656-09-03142",
+    lbsFilingNo: "제1589호 (2026년 9월 18일 수리)",
     address: "경상북도 경산시 대학로8길 32",
     postalCode: "38659",
     industry: "정보통신업 · 응용 소프트웨어 개발 및 공급업",
@@ -26,6 +27,7 @@ export const COMPANY = {
     ceo: "Changmok Lee",
     ceoLabel: "Founder & CEO",
     bizNo: "656-09-03142",
+    lbsFilingNo: "No. 1589 (accepted 18 September 2026)",
     address: "32, Daehak-ro 8-gil, Gyeongsan-si, Gyeongsangbuk-do, Republic of Korea",
     postalCode: "38659",
     industry: "Information & communications · Application software development and supply",
