@@ -1,15 +1,14 @@
-import AnimatedContent from "../reactbits/AnimatedContent";
-import SafeBoundary from "../reactbits/SafeBoundary";
 import HeroScrub from "../ui/HeroScrub";
 import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
 
 /**
- * Hero — 스크롤이 배경 프레임을 넘기는 다크 섹션.
+ * Hero — 스크롤이 배경 프레임을 넘기고 카피가 제자리에서 떴다 지는 다크 섹션.
  *
- * 세 마디가 일반 흐름으로 쌓이고, 배경 스테이지는 그 뒤에 sticky 로 붙어 있다. 스크롤 진행도가
- * 프레임 인덱스를 움직여 배경의 서사(달려온다 → 만나서 맞댄다 → 함께 간다)가 마디와 같이 간다.
- * 스크롤을 가로채지 않는다 — 되감으면 배경도 같이 되감긴다.
+ * 세 마디는 무대(`.hero__stage`) 안에 있다. 기본 상태에서는 그냥 위에서 아래로 쌓인
+ * 한 화면짜리 섹션이고, `HeroScrub` 이 마운트되며 `hero--scrub` 을 붙일 때만 무대가 길어지고
+ * 마디가 같은 자리에서 겹쳐 교차한다 — 그래서 축소 모션·`?reveal=all`·JS 실패에서도
+ * 카피가 온전히 읽힌다.
  *
  * 제목의 줄바꿈은 카피가 배열로 들고 있다. 한글 디스플레이를 자동 줄바꿈에 맡기면
  * 화면폭마다 다른 자리에서 깨진다.
@@ -20,18 +19,15 @@ export default function Hero() {
 
   return (
     <section className="hero section--dark" id="top">
-      {/* 배경이 죽어도 마디는 읽혀야 한다 — 실패하면 섹션의 잉크 바탕만 남는다 */}
-      <SafeBoundary>
+      <div className="hero__stage">
         <HeroScrub alt={h.backdropAlt} />
-      </SafeBoundary>
 
-      <div className="hero__beats">
-        {h.beats.map((b, i) => {
-          const Title = i === 0 ? "h1" : "h2";
-          return (
-            <div className="hero__beat" key={b.h.join()}>
-              <div className="container hero__copy">
-                <AnimatedContent direction="up" distance={22} inView={i > 0}>
+        <div className="hero__beats">
+          {h.beats.map((b, i) => {
+            const Title = i === 0 ? "h1" : "h2";
+            return (
+              <div className="hero__beat" key={b.h.join()}>
+                <div className="container hero__copy">
                   <Title className="display hero__title">
                     {b.h.map((line, j) => (
                       <span className={`hero__line${b.accent === j ? " hero__line--accent" : ""}`} key={line}>
@@ -52,11 +48,11 @@ export default function Hero() {
                       </a>
                     </div>
                   )}
-                </AnimatedContent>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
