@@ -3,8 +3,8 @@
 | Item | Detail |
 | --- | --- |
 | Document version | v1.6 |
-| Effective date | 24 October 2026 |
-| Last amended | 17 September 2026 |
+| Effective date | 20 September 2026 |
+| Last amended | 20 September 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -390,7 +390,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 24 October 2026.
+1. This Privacy Policy applies from 20 September 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -398,8 +398,8 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
-| v1.6 | 24 October 2026 | Reflects the items collected, trustees, transfers abroad and app access permissions arising from Google sign-in and the Android app |
-| v1.5 | 17 October 2026 | Reflects the retention in the account of run card background photos, consent history and app settings |
+| v1.6 | 20 September 2026 | Reflects the items collected, trustees, transfers abroad and app access permissions arising from Google sign-in and the Android app, and includes the content of v1.5, which it replaced before that version took effect |
+| v1.5 | Replaced by v1.6 before taking effect | Reflects the retention in the account of run card background photos, consent history and app settings (announced 17 September 2026; absorbed into v1.6 before its effective date) |
 | v1.4 | 16 September 2026 | Change of server infrastructure trustee and country of storage (Seoul, Republic of Korea); correction of transfer-abroad details |
 | v1.3 | 10 September 2026 | Statement of the operating entity and business information, and the name of the personal information protection officer |
 | v1.0–v1.2 | 6 August 2026 – 28 August 2026 | Establishment and amendments during the free beta test period |
@@ -408,7 +408,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 24 October 2026 and replaces the previous Policy (effective 17 October 2026).
+This Privacy Policy takes effect on 20 September 2026 and replaces the previous Policy (effective 16 September 2026).
 
 ---
 

@@ -3,8 +3,8 @@
 | Item | Detail |
 | --- | --- |
 | Document version | v1.5 |
-| Effective date | 24 October 2026 |
-| Last amended | 18 September 2026 |
+| Effective date | 20 September 2026 |
+| Last amended | 20 September 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -275,4 +275,4 @@ Under Article 24 of the Location Information Act, you have the following rights.
 
 ## Addendum
 
-These Terms take effect on 24 October 2026 and replace the previous Terms (effective 25 September 2026).
+These Terms take effect on 20 September 2026 and replace the previous Terms (effective 10 September 2026).
