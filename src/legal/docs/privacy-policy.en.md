@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.6 |
-| Effective date | 20 September 2026 |
-| Last amended | 20 September 2026 |
+| Document version | v1.7 |
+| Effective date | 30 September 2026 |
+| Last amended | 30 September 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -25,7 +25,7 @@ The Company processes personal information for the following purposes. Personal 
 3. Measurement, storage and synchronisation of run records: measurement and storage of distance, time, pace, cadence, elevation, route and the like, synchronisation of records across multiple devices on the same account, and creation of run cards
 4. Formation and conduct of group runs: group formation by tapping phones together (UWB proximity determination), connection between users waiting nearby to bump (finding a partner), real-time relay of location, distance and pace among participants of the same session, and assembly of group run results
 5. Sending notifications: push notifications necessary for the conduct of a run, such as the last-runner alert and inactivity check
-6. Recording health and exercise information: measurement of heart rate during a run and its reflection in run records, and, where the user chooses, saving workouts to the Health (HealthKit) app
+6. Recording health and exercise information: measurement of heart rate during a run and its reflection in run records
 7. Ensuring service stability: responding to service failures, backup, and responding to security incidents
 
 ---
@@ -58,19 +58,23 @@ Where a user selects "Hide My Email" when using Sign in with Apple, a private re
 
 | Category | Item | Method of collection | Required |
 | --- | --- | --- | --- |
-| Run record | Distance, time, pace, cadence, elevation gain, 1 km splits | Generated automatically from device sensors and GPS during a run | Required |
+| Run record | Distance, time, pace, cadence, elevation gain, 1 km splits, start time | Generated automatically from device sensors and GPS during a run | Required |
+| Run record | Measurement samples taken every 5 seconds during a run (elapsed time, cumulative distance, cadence, altitude) | Generated automatically from device sensors and GPS during a run | Required |
 | Run record | Route (normalised 0–1 coordinates) | Location measured during a run, normalised on the device | Required |
+| Run record | Route coordinates (latitude and longitude passed during the run, with the time of each point) | Generated automatically by device GPS during a run | Required |
 | Run record | Place name (neighbourhood level, result of reverse geocoding) | Reverse geocoding of the run location | Required |
 | Run record | Run title | Generated automatically and editable by the user | Required |
 | Location information | Live latitude and longitude during a run | Collected automatically by device GPS | Required |
 | Location information | Latitude and longitude while waiting to bump (while the group formation screen is open) | Collected automatically by device GPS | Required |
 | Run record | Run card background photo | Chosen by the user in the Photos app | Optional |
-| Sensitive information | Heart rate (average heart rate) | Collected via HealthKit from Apple Watch or heart-rate-capable earbuds | Optional |
+| Sensitive information | Heart rate (samples every 5 seconds during a run, and the average) | Collected via HealthKit from Apple Watch or heart-rate-capable earbuds | Optional |
 | Technical information | Push token (APNs device token or FCM registration token) | Collected automatically when notification permission is granted | Optional |
 | Usage record | Consent history (item consented to, document version, time of consent or withdrawal) | Recorded automatically on the consent screen | Required |
 | Usage record | App settings (voice guidance, privacy defaults, step-distance calibration factor, notices read, list sorting and statistics period) | Set by the user and calculated automatically during runs | Required |
 
-The route stored on the server as part of a run record consists of coordinates normalised to values between 0 and 1; actual latitude and longitude are not stored on the server. Place names are recorded only at the neighbourhood (dong) level. Users cannot lower these standards in settings.
+The route of a run record is stored in two forms: normalised 0–1 coordinates used to draw the card and the list, and the actual route coordinates (latitude and longitude with the time of each point) used to redraw the map. The actual route coordinates are kept with the record so that its map can be restored when the user changes phones or reinstalls the app; they are provided only to the user and never to other users. Map images are not stored on the server; each device draws the map from the coordinates. Place names are recorded only at the neighbourhood (dong) level, and users cannot lower this standard in settings.
+
+The measurement samples taken every 5 seconds during a run are the raw data for showing how pace, cadence and altitude changed over the run in the record detail. They are kept as part of the run record; whether heart rate is included depends on the consent for the sensitive information item below.
 
 A run card background photo is collected only where the user chooses one in the Photos app, and is kept with that run record. The purpose is to keep the card intact if you change device or delete and reinstall the app. If you do not choose a photo, none is collected, and not choosing one places no restriction on any other feature.
 
@@ -105,11 +109,11 @@ The Company processes the following as sensitive information under Article 23 of
 
 | Sensitive item | Purpose | Retention and use period | Basis for collection |
 | --- | --- | --- | --- |
-| Heart rate (health information) | Calculating and storing the average heart rate of a run record, displaying metrics during a run, voice guidance | Until withdrawal of membership | Separate consent of the data subject |
+| Heart rate (health information) | Storing the average heart rate of a run record and heart rate samples taken every 5 seconds during the run, showing heart rate changes in the record detail, displaying metrics during a run, voice guidance | Until withdrawal of membership | Separate consent of the data subject |
 
 - Heart rate is collected only where the user connects an Apple Watch or heart-rate-capable earbuds and grants Health (HealthKit) access.
 - Heart rate is optional; there is no restriction on using other features of the Service if the user has no heart rate device or declines the permission.
-- It is stored on the server as the average heart rate value of the run record.
+- The server stores, as part of the run record, the average heart rate value and the heart rate samples taken every 5 seconds during the run. Samples are taken only while the run is in progress, not while it is paused.
 - Users may withdraw Health access at any time in the device settings.
 
 ### 5. Unique identifying information
@@ -128,11 +132,11 @@ The Company does not process any unique identifying information under Article 24
 | --- | --- |
 | Account information (Apple or Google sign-in identifier, email address, user ID, device identifier) | Until withdrawal of membership |
 | Profile information (name, profile photo) | Until withdrawal of membership |
-| Run records (distance, time, pace, cadence, elevation, splits, normalised route, place name, title) | Until withdrawal of membership |
+| Run records (distance, time, pace, cadence, elevation, splits, start time, 5-second measurement samples, normalised route, actual route coordinates, place name, title) | Until withdrawal of membership or deletion of that record |
 | Run card background photos | Until withdrawal of membership, deletion of that record, or removal of the photo by the user |
 | Consent history (item, document version, time) | Until withdrawal of membership |
 | App settings (including the step-distance calibration factor) | Until withdrawal of membership |
-| Heart rate (average heart rate) | Until withdrawal of membership |
+| Heart rate (average and 5-second samples) | Until withdrawal of membership or deletion of that record |
 | Push token (APNs or FCM) | Until withdrawal of membership or withdrawal of notification permission |
 | Live latitude and longitude during a run | Erased immediately when the session ends (held only in server memory, not stored in a database) |
 | Latitude and longitude while waiting to bump | Erased immediately on leaving the group formation screen; erased automatically within 45 seconds if updates stop (held only in server memory, not stored in a database) |
@@ -281,7 +285,7 @@ In accordance with Article 29 of the Personal Information Protection Act and Art
 
 - Encryption in transit: all communication between the app and the servers is encrypted using HTTPS/WSS.
 - No passwords held: because sign-in is by Sign in with Apple or Sign in with Google only, the Company does not hold users' passwords.
-- Minimisation of location information: live latitude and longitude during a run and while waiting to bump exist only in server memory and are not stored in databases or logs; only normalised coordinates are stored in the archive; and place names are stored only at the neighbourhood level.
+- Minimisation of location information: live latitude and longitude during a run and while waiting to bump exist only in server memory and are not stored in databases or logs. The actual route coordinates kept in a run record are provided only to the owner of that record and never to other users or third parties, and place names are stored only at the neighbourhood level.
 - No advertising identifiers collected: the advertising identifier (IDFA or advertising ID) is not used as a device identifier.
 - Differentiated access rights to the personal information processing system, and access control
 - Retention of access records and prevention of forgery or alteration
@@ -372,7 +376,7 @@ In accordance with Article 22-2 of the Act on Promotion of Information and Commu
 | Permission | Purpose | If not granted |
 | --- | --- | --- |
 | Notifications | Sending notifications needed during a run, such as the last-runner alert and inactivity check | Those notifications cannot be received; other features work normally |
-| Health | Reading heart rate and saving completed runs as workouts | Heart rate is not recorded, but runs can still be measured on the basis of distance and pace. Heart rate is not a prerequisite for any feature |
+| Health | Reading heart rate | Heart rate is not recorded, but runs can still be measured on the basis of distance and pace. Heart rate is not a prerequisite for any feature |
 | Photos | Setting the profile photo and run card background, and saving run card images | The profile photo and card background cannot be set, and cards cannot be saved to the Photos app |
 | Nearby Interaction | Precise distance determination (UWB) when tapping phones together to form a group | Automatic bumping is unavailable. A group can still be formed by requesting to join a nearby waiting user |
 
@@ -390,7 +394,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 20 September 2026.
+1. This Privacy Policy applies from 30 September 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -398,6 +402,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
+| v1.7 | 30 September 2026 | Reflects the retention of actual route coordinates (to restore maps) and 5-second measurement samples in run records, the extension of heart rate processing from the average to samples, and the discontinued saving of workouts to the Health app |
 | v1.6 | 20 September 2026 | Reflects the items collected, trustees, transfers abroad and app access permissions arising from Google sign-in and the Android app, and includes the content of v1.5, which it replaced before that version took effect |
 | v1.5 | Replaced by v1.6 before taking effect | Reflects the retention in the account of run card background photos, consent history and app settings (announced 17 September 2026; absorbed into v1.6 before its effective date) |
 | v1.4 | 16 September 2026 | Change of server infrastructure trustee and country of storage (Seoul, Republic of Korea); correction of transfer-abroad details |
@@ -408,7 +413,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 20 September 2026 and replaces the previous Policy (effective 16 September 2026).
+This Privacy Policy takes effect on 30 September 2026 and replaces the previous Policy (effective 20 September 2026).
 
 ---
 

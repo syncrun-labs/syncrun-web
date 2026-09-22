@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.5 |
-| Effective date | 20 September 2026 |
-| Last amended | 20 September 2026 |
+| Document version | v1.6 |
+| Effective date | 30 September 2026 |
+| Last amended | 30 September 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -56,10 +56,10 @@ Matters not specified in these Terms are governed by the Location Information Ac
    - Live latitude and longitude during a run (for relaying between session participants) and while waiting to bump (for identifying nearby waiting users) exist only in server memory and are not stored in a database. The Company does not record these coordinates in logs either.
    - Live latitude and longitude during a run are erased when the session ends.
    - Latitude and longitude while waiting to bump are erased immediately when you leave the group formation screen or a run begins, and are erased automatically within 45 seconds if updates stop. They are also erased if you close the app or the connection drops.
-   - The route retained in a record after a run is a low-resolution path normalised to values between 0 and 1; it is not actual latitude and longitude.
+   - The route retained in a record after a run takes two forms: a low-resolution path normalised to values between 0 and 1, used to draw the card and the list, and the actual route coordinates (the latitude and longitude passed during the run, with the time of each point), used to redraw the map. The actual route coordinates are stored in the database with that record so that its map can be restored after a device change or reinstall; they are provided only to the owner of the record and never to other users or third parties. Map images are not stored.
    - Place names are stored only at the neighbourhood (dong) level.
 
-4. The normalised route and neighbourhood-level place name retained in a run record are defaults that cannot be lowered in settings.
+4. The route coordinates and neighbourhood-level place name retained in a run record are defaults that cannot be lowered in settings. A run you do not want to leave a route for can be measured without location by temporarily suspending location collection (Article 8(2)).
 
 ---
 
@@ -118,7 +118,7 @@ Matters not specified in these Terms are governed by the Location Information Ac
 | --- | --- |
 | Live latitude and longitude during a run | Erased immediately when the session ends (held only in server memory, not stored in a database) |
 | Latitude and longitude while waiting to bump | Erased immediately on leaving the group formation screen or starting a run; erased automatically within 45 seconds if updates stop (held only in server memory, not stored in a database) |
-| Normalised route in a run record (0–1 coordinates) | Until you withdraw your membership or delete that record |
+| Route in a run record (normalised 0–1 coordinates and actual route coordinates) | Until you withdraw your membership or delete that record |
 | Place name (neighbourhood level) | Until you withdraw your membership or delete that record |
 | Records confirming use and provision of location information | Six months (Article 16(2) of the Location Information Act) |
 
@@ -275,4 +275,4 @@ Under Article 24 of the Location Information Act, you have the following rights.
 
 ## Addendum
 
-These Terms take effect on 20 September 2026 and replace the previous Terms (effective 10 September 2026).
+These Terms take effect on 30 September 2026 and replace the previous Terms (effective 20 September 2026).
