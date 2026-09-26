@@ -18,10 +18,19 @@ export type Crew = [string, string, string, string];
 export interface Dict {
   meta: { title: string; description: string };
   /** 아래의 러닝 도크 — 앱의 러닝 화면 도크처럼 거리·시간이 흐르고, 장(章) 눈금이 목차다. */
-  dock: { chapters: [string, string, string, string, string, string]; km: string; time: string; cta: string; walk: string };
+  dock: {
+    chapters: [string, string, string, string, string, string];
+    km: string;
+    time: string;
+    pace: string;
+    cta: string;
+    walk: string;
+  };
   crew: Crew;
   hero: {
     title: [string, string];
+    /** 오프닝 필름의 네 컷에 한 마디씩 — 합치면 제목이 된다 */
+    beats: [string, string, string, string];
     lede: string;
     ctaPrimary: string;
     ctaSecondary: string;
@@ -40,7 +49,15 @@ export interface Dict {
     btnReady: string;
     photoAlt: string;
   };
-  start: { title: string; lede: string; go: string; photoAlt: string };
+  start: { title: string; lede: string; go: string; replay: string; photoAlt: string };
+  finish: {
+    title: [string, string];
+    lede: string;
+    total: string;
+    /** crew 순서(나·서연·하은·도윤)의 하이라이트. 1인 1개이고 해당 부문이 없으면 빈 문자열 — 억지로 붙이지 않는다 */
+    highlights: [string, string, string, string];
+    stillRunning: string;
+  };
   together: {
     title: [string, string];
     lede: string;
@@ -95,15 +112,17 @@ export const dict: Record<Lang, Dict> = {
         "혼자 뛰면 한 줄, 옆 사람과 폰을 가운데로 모으면 여러 줄. GPS와 걸음으로 거리를 재고, 끝나면 함께 달린 선이 한 장의 카드로 남는 러닝 앱.",
     },
     dock: {
-      chapters: ["출발 전", "모으기", "3 · 2 · 1", "함께", "터널", "카드"],
+      chapters: ["워밍업", "모으기", "3 · 2 · 1", "함께", "터널", "카드"],
       km: "거리",
       time: "시간",
+      pace: "페이스",
       cta: "App Store에서 받기",
       walk: "아래로 스크롤하면 앞으로 달립니다",
     },
     crew: ["나", "서연", "하은", "도윤"],
     hero: {
       title: ["달린 길은 선이 되고,", "같이 달린 길은 겹칩니다."],
+      beats: ["달린 길은", "선이 되고,", "같이 달린 길은", "겹칩니다."],
       lede: "혼자 뛰면 한 줄, 옆 사람과 폰을 모으고 뛰면 여러 줄. 끝나면 그 선이 한 장의 카드로 남습니다.",
       ctaPrimary: "App Store에서 받기",
       ctaSecondary: "어떻게 모이나요",
@@ -137,7 +156,15 @@ export const dict: Record<Lang, Dict> = {
       title: "모두 같은 순간에.",
       lede: "마지막 한 사람이 시작을 누르면 모두의 화면에서 같은 숫자가 돌고, 같은 순간에 출발합니다. 화면을 잠가 두어도 출발 시각은 같습니다.",
       go: "출발",
+      replay: "다시 3 · 2 · 1",
       photoAlt: "젖은 아스팔트 위 흰 선 뒤에 네 사람의 러닝화가 나란히 서 있다",
+    },
+    finish: {
+      title: ["먼저 들어온 사람은", "기다리며 응원합니다."],
+      lede: "종료는 각자 합니다. 먼저 끝낸 화면에는 아직 달리는 사람이 보이고, 마지막 사람이 들어오는 순간 오늘 우리의 합산 거리와 하이라이트가 완성됩니다.",
+      total: "오늘 우리",
+      highlights: ["가장 멀리 달렸어요", "최고 페이스", "가장 꾸준한 페이스", ""],
+      stillRunning: "달리는 중",
     },
     together: {
       title: ["흩어져도,", "같이 뛰는 중입니다."],
@@ -236,15 +263,17 @@ export const dict: Record<Lang, Dict> = {
         "Run alone and it's one line. Bring your phones together and it's several. SyncRun measures with GPS and your steps, and turns the lines you ran together into one card.",
     },
     dock: {
-      chapters: ["Before", "Gather", "3 · 2 · 1", "Together", "Tunnel", "Card"],
+      chapters: ["Warm-up", "Gather", "3 · 2 · 1", "Together", "Tunnel", "Card"],
       km: "Distance",
       time: "Time",
+      pace: "Pace",
       cta: "Download on the App Store",
       walk: "Scroll down to run forward",
     },
     crew: ["Me", "Seoyeon", "Haeun", "Doyun"],
     hero: {
       title: ["Every run leaves a line.", "Run together, and they overlap."],
+      beats: ["Every run", "leaves a line.", "Run together,", "and they overlap."],
       lede: "Run alone and it's one line. Bring your phones together before you start and it's several. When you finish, the lines are already a card.",
       ctaPrimary: "Download on the App Store",
       ctaSecondary: "How to gather",
@@ -278,7 +307,15 @@ export const dict: Record<Lang, Dict> = {
       title: "Everyone starts at once.",
       lede: "When the last person taps Start, every screen counts down together and everyone starts at the same moment, even with the screen locked.",
       go: "Go",
+      replay: "3 · 2 · 1 again",
       photoAlt: "Four pairs of running shoes lined up behind a white line on wet asphalt",
+    },
+    finish: {
+      title: ["Whoever finishes first", "waits and cheers."],
+      lede: "Everyone stops on their own. Those who finish first see who's still running, and when the last runner comes in, today's combined distance and highlights are complete.",
+      total: "Us today",
+      highlights: ["Ran the farthest", "Fastest pace", "Steadiest pace", ""],
+      stillRunning: "Running",
     },
     together: {
       title: ["Spread out,", "still running together."],

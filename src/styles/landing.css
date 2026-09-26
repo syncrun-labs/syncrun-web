@@ -1,0 +1,1847 @@
+/* =========================================================================
+   랜딩 — 워밍업 → 모으기 → 3·2·1 → 달리기(가로) → 카드 → 오늘 저녁
+   섹션마다 흐르는 `--p`(스크롤 진행도), 가로 패널의 `--lp`, 문서 루트의 `--speed`(스크롤 속도)가
+   움직임을 전부 정한다. 활력은 박자(케이던스)와 속도에서 온다 — 장식 입자나 파동은 쓰지 않는다.
+   ========================================================================= */
+
+@property --q {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+:root {
+  --speed: 0;
+  /* 필름 입자 — 합성한 화면을 사진과 같은 결로 묶는다 */
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.landing .line {
+  display: block;
+}
+
+.landing .line--accent {
+  color: var(--accent);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--grain);
+  background-size: 160px;
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+}
+
+/* 어두운 섹션의 버튼 — 흰 주 액션, 어두운 유리 보조 */
+.hero .btn-primary,
+.closing .btn-primary {
+  background: #fff;
+  color: #0b0b0f;
+}
+
+.hero .btn-ghost,
+.closing .btn-ghost {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.hero .h2,
+.gather .h2,
+.count .h2,
+.rp--tunnel .h2,
+.rp--finish .h2,
+.closing .h2 {
+  color: #fff;
+}
+
+/* ------------------------------------------------------------ 1. 워밍업 */
+.hero {
+  position: relative;
+  height: 170vh;
+  background: #050507;
+  color: #fff;
+  --p: 0;
+}
+
+.hero__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* 스크롤이 시작되면 필름이 작아지며 위로 밀려난다 */
+.hero__film {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: translate3d(0, calc(var(--p) * -6%), 0) scale(calc(1 - var(--p) * 0.16));
+  border-radius: calc(var(--p) * 28px);
+  opacity: calc(1 - var(--p) * 0.55);
+  will-change: transform;
+}
+
+.hero__poster,
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 5, 7, 0.78) 0%, rgba(5, 5, 7, 0.3) 55%, rgba(5, 5, 7, 0.1) 100%),
+    linear-gradient(0deg, rgba(5, 5, 7, 0.7) 0%, transparent 40%);
+}
+
+.hero__bars {
+  position: absolute;
+  top: calc(var(--nav-h) + 8px);
+  left: var(--gutter);
+  right: var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.hero__bar {
+  position: relative;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.24);
+  overflow: hidden;
+  --fill: 0;
+}
+
+.hero__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--fill));
+  background: #fff;
+}
+
+.hero__copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(120px, 16vh, 180px);
+  max-width: var(--maxw);
+  /* 필름이 밀려나는 동안 글은 조금 더 빨리 걷힌다 */
+  opacity: calc(1 - var(--p) * 1.6);
+  transform: translate3d(0, calc(var(--p) * -40px), 0);
+}
+
+/* 전체 제목은 문서에 늘 있다. 재생 중에는 박자 마디가 대신 보인다 */
+.hero__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.hero__beats {
+  position: relative;
+  height: 1.3em;
+  font-size: clamp(2.6rem, 7.2vw, 5.6rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+html:lang(ko) .hero__beats {
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* 한 박자에 한 마디 — 아래에서 기울어진 채 치고 들어와 똑바로 선다 */
+.hero__beat {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate3d(0, 55%, 0) skewX(-12deg);
+  filter: blur(6px);
+  transition:
+    opacity 0.16s ease,
+    transform 0.34s cubic-bezier(0.2, 1.4, 0.35, 1),
+    filter 0.24s ease;
+}
+
+.hero__beat--accent {
+  color: var(--accent-bright);
+}
+
+.hero__beat.is-on {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.hero__lede {
+  margin-top: 18px;
+  max-width: 32em;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.hero__cue {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 26px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.hero__cue-arrow {
+  display: inline-block;
+  animation: stride 0.667s ease-in-out infinite alternate;
+}
+
+/* 180spm 의 두 걸음 */
+@keyframes stride {
+  from {
+    transform: translateY(-2px);
+  }
+  to {
+    transform: translateY(4px);
+  }
+}
+
+/* 정지 — 필름 대신 포스터, 박자 대신 제목 */
+.hero.is-still {
+  height: auto;
+}
+
+.hero.is-still .hero__stage {
+  position: relative;
+}
+
+.hero.is-still .hero__film,
+.hero.is-still .hero__copy {
+  opacity: 1;
+  transform: none;
+  border-radius: 0;
+}
+
+.hero.is-still .hero__video,
+.hero.is-still .hero__beats,
+.hero.is-still .hero__bars {
+  display: none;
+}
+
+.hero.is-still .hero__title {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+  font-size: clamp(2rem, 4.4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.22;
+}
+
+/* ------------------------------------------------------------ 2. 모으기 */
+.gather {
+  position: relative;
+  background: #0a0a0d;
+  color: #fff;
+}
+
+.gather__track {
+  height: 280vh;
+  --p: 0;
+}
+
+.gather__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  padding: var(--nav-h) var(--gutter) 88px;
+  max-width: calc(var(--maxw) + 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.gather__copy {
+  padding: 0;
+}
+
+.gather__lede {
+  margin-top: 18px;
+  max-width: 26em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.gather__count {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 30px 0 0;
+}
+
+.gather__count-n {
+  display: inline-block;
+  font-size: clamp(4rem, 8vw, 7rem);
+  font-weight: 800;
+  line-height: 0.9;
+  transform-origin: 30% 80%;
+}
+
+/* 한 명이 붙을 때마다 한 번 튄다 */
+.gather__count-n.is-kick {
+  animation: kick 0.42s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+@keyframes kick {
+  0% {
+    transform: scale(1.35) rotate(-6deg);
+    color: var(--accent-bright);
+  }
+  100% {
+    transform: none;
+    color: #fff;
+  }
+}
+
+.gather__count-label {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.gather__shot {
+  position: relative;
+  margin: 0;
+  justify-self: end;
+  width: min(100%, calc(100svh - var(--nav-h) - 110px));
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #1a1a1d;
+}
+
+.scrub {
+  position: absolute;
+  inset: 0;
+}
+
+.scrub img {
+  object-fit: cover;
+}
+
+.scrub__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.scrub__canvas.is-live {
+  opacity: 1;
+}
+
+.scrub__canvas.is-live.is-settled {
+  opacity: 0;
+}
+
+/* 사진 속 화면 모양대로 자른 층 — 앱 홈이 베젤 밖으로 한 픽셀도 나가지 않는다 */
+.gather__screens {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: url("/scenes/gather-screens.png");
+  mask-image: url("/scenes/gather-screens.png");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  /* 플래시 사진의 광량·대비에 맞춘다 */
+  filter: brightness(0.86) contrast(0.95) saturate(0.9) blur(0.35px);
+}
+
+.gather__screen {
+  position: absolute;
+  container-type: inline-size;
+  transform: translate(-50%, -50%) rotate(var(--rot));
+  /* 꺼진 화면에서 불이 들어오듯 — 커지거나 튀어나오지 않는다 */
+  opacity: 0;
+  filter: brightness(2.2);
+  transition:
+    opacity 0.28s ease,
+    filter 0.6s ease;
+}
+
+.gather__stage[data-on="1"] .gather__screen[data-i="0"],
+.gather__stage[data-on="2"] .gather__screen:is([data-i="0"], [data-i="1"]),
+.gather__stage[data-on="3"] .gather__screen:not([data-i="3"]),
+.gather__stage[data-on="4"] .gather__screen {
+  opacity: 1;
+  filter: none;
+}
+
+/* 화면 유리의 비침 — 사진의 플래시가 유리에 걸린 것처럼 */
+.gather__screens::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    transparent 38%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  pointer-events: none;
+}
+
+.gather__facts {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px clamp(24px, 4vw, 56px);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-top: 8px;
+  padding-bottom: clamp(88px, 11vw, 140px);
+  list-style: none;
+}
+
+.gather__facts li {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.gather__facts strong {
+  font-size: 17px;
+}
+
+.gather__facts span {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+/* ---------------------------------------------------------- 3. 3 · 2 · 1 */
+.count {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  background: #050507;
+  color: #fff;
+}
+
+.count__film {
+  position: absolute;
+  inset: 0;
+}
+
+.count__poster,
+.count__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.count__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(5, 5, 7, 0.3), rgba(5, 5, 7, 0.75)),
+    linear-gradient(180deg, rgba(5, 5, 7, 0.6) 0%, transparent 40%);
+  transition: background 0.6s ease;
+}
+
+.count__numbers {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.count__n {
+  grid-area: 1 / 1;
+  font-size: clamp(12rem, 52vh, 30rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  opacity: 0;
+  text-shadow: 0 10px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* 숫자마다 한 번 때린다 — 앱의 rigid 햅틱처럼 짧고 딱딱하게 */
+.count__n.is-on {
+  animation: hit 1s cubic-bezier(0.15, 1.5, 0.35, 1) both;
+}
+
+@keyframes hit {
+  0% {
+    opacity: 0;
+    transform: scale(1.7);
+    filter: blur(8px);
+  }
+  18% {
+    opacity: 1;
+    transform: scale(0.96);
+    filter: none;
+  }
+  26% {
+    transform: scale(1.02) translateX(-4px);
+  }
+  32% {
+    transform: scale(1) translateX(3px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+.count__copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--nav-h) + 6vh);
+  max-width: var(--maxw);
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 0.4s ease 0.3s,
+    transform 0.6s var(--ease-out) 0.3s;
+}
+
+.count__lede {
+  margin-top: 14px;
+  max-width: 32em;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.count__replay {
+  margin-top: 18px;
+  height: 38px;
+  padding-inline: 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.count__replay:hover {
+  background: var(--accent-core);
+}
+
+.count[data-step="go"] .count__copy,
+.count.is-still .count__copy {
+  opacity: 1;
+  transform: none;
+}
+
+.count[data-step="go"] .count__shade {
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(5, 5, 7, 0.1), rgba(5, 5, 7, 0.55)),
+    linear-gradient(180deg, rgba(5, 5, 7, 0.75) 0%, transparent 45%);
+}
+
+/* 출발 — 네 선이 화면을 가로질러 쏘아진다(다음 구간의 왼쪽 끝으로 이어진다) */
+.count__lanes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 80%;
+  width: 100%;
+  height: 60px;
+  overflow: visible;
+}
+
+.count__lanes line {
+  stroke-width: 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  transition: transform 0.75s cubic-bezier(0.5, 0, 0.1, 1);
+}
+
+.count[data-step="go"] .count__lanes line,
+.count.is-still .count__lanes line {
+  transform: scaleX(1);
+}
+
+/* ----------------------------------------------------- 4. 달리기(가로) */
+.run {
+  position: relative;
+  height: 400vw; /* 자바스크립트가 띠 길이로 다시 잰다 */
+  background: #f2f1ee;
+}
+
+.run__view {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.run__strip {
+  position: relative;
+  display: flex;
+  width: max-content;
+  height: 100%;
+  will-change: transform;
+}
+
+.rp {
+  position: relative;
+  flex: none;
+  height: 100%;
+  overflow: hidden;
+  --lp: 0;
+}
+
+.rp__img {
+  object-fit: cover;
+}
+
+.rp__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rp__copy {
+  position: relative;
+  z-index: 7;
+}
+
+/* 빨리 달릴수록 제목이 앞으로 기운다 */
+.run__title {
+  transform: skewX(calc(var(--speed) * -10deg));
+  transform-origin: 0 100%;
+  transition: transform 0.2s ease-out;
+}
+
+.rp--together {
+  width: 125vw;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: clamp(24px, 4vw, 64px);
+  padding: calc(var(--nav-h) + 7vh) var(--gutter) 0;
+  background: #f2f1ee;
+  color: var(--ink);
+}
+
+.together__lede {
+  margin-top: 18px;
+  max-width: 28em;
+}
+
+.together__shot {
+  position: relative;
+  margin: 0;
+  height: 52vh;
+  height: 52svh;
+  aspect-ratio: 1760 / 1536;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #121214;
+}
+
+.rp--tunnel {
+  width: 110vw;
+  background: #050507;
+  color: #fff;
+}
+
+.rp--tunnel .rp__shade {
+  background:
+    linear-gradient(90deg, rgba(5, 5, 7, 0.84) 0%, rgba(5, 5, 7, 0.34) 42%, transparent 64%),
+    linear-gradient(0deg, rgba(5, 5, 7, 0.45) 0%, transparent 35%);
+}
+
+.tunnel__copy {
+  position: absolute;
+  left: var(--gutter);
+  top: calc(var(--nav-h) + 6vh);
+  max-width: min(520px, 80vw);
+}
+
+.tunnel__lede {
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.rp--finish {
+  width: 100vw;
+  display: flex;
+  align-items: flex-start;
+  padding: calc(var(--nav-h) + 6vh) var(--gutter) 0;
+  background: #0b0b0e;
+  color: #fff;
+}
+
+.finish__copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "title total"
+    "lede list";
+  column-gap: clamp(24px, 5vw, 80px);
+  width: 100%;
+  max-width: var(--maxw);
+}
+
+.finish__copy .h2 {
+  grid-area: title;
+}
+
+.finish__lede {
+  grid-area: lede;
+}
+
+.finish__total {
+  grid-area: total;
+  align-self: end;
+}
+
+.finish__list {
+  grid-area: list;
+}
+
+.finish__lede {
+  margin-top: 16px;
+  max-width: 26em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.finish__total {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 28px 0 0;
+}
+
+.finish__total-label {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.finish__total-km {
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.finish__total-km small {
+  margin-left: 6px;
+  font-size: 0.36em;
+}
+
+.finish__list {
+  display: grid;
+  gap: 0;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.finish__list li {
+  display: grid;
+  grid-template-columns: 90px 90px 1fr;
+  align-items: baseline;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 15px;
+}
+
+.finish__who {
+  font-weight: 600;
+}
+
+.finish__who::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+.finish__km,
+.finish__hl {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.finish__hl {
+  color: var(--accent-bright);
+  font-size: 14px;
+}
+
+.finish__running {
+  grid-column: 2 / -1;
+  grid-row: 1;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* 먼저 들어온 사람부터 기록이 뜨고, 마지막 사람이 들어오면 하이라이트가 붙는다 */
+.rp--finish[data-done="1"] li[data-rank="0"],
+.rp--finish[data-done="2"] li:is([data-rank="0"], [data-rank="1"]),
+.rp--finish[data-done="3"] li:not([data-rank="3"]),
+.rp--finish[data-done="4"] li {
+  --arrived: 1;
+}
+
+.finish__list li {
+  --arrived: 0;
+}
+
+.finish__list li .finish__km {
+  opacity: var(--arrived);
+}
+
+.finish__list li .finish__running {
+  opacity: calc(1 - var(--arrived));
+}
+
+.rp--finish[data-done="4"] .finish__hl {
+  opacity: 1;
+}
+
+/* 선 — 화면 한가운데(지금 달리는 자리)까지만 보인다 */
+.run__ink {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.run__ink svg,
+.run__heads {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+}
+
+.run__heads {
+  z-index: 6;
+}
+
+.run__halo path {
+  fill: none;
+  stroke: rgba(8, 8, 11, 0.42);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.run__solid,
+.run__walk {
+  fill: none;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.run__runner--0 .run__solid,
+.run__runner--0 .run__walk {
+  stroke-width: 5.5;
+}
+
+.run__walk {
+  stroke-dasharray: 1 13;
+}
+
+.run__head {
+  stroke: rgba(8, 8, 11, 0.6);
+  stroke-width: 2.5;
+}
+
+/* 속도선 — 빨리 스크롤할수록 짙어지고 빨리 흐른다 */
+.run__speed {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  opacity: calc(var(--speed) * 0.8);
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0 23px,
+    rgba(255, 255, 255, 0.22) 23px 24px,
+    transparent 24px 61px,
+    rgba(255, 255, 255, 0.12) 61px 62px
+  );
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 30%, transparent 70%, #000 100%);
+  mask-image: linear-gradient(90deg, #000 0%, transparent 30%, transparent 70%, #000 100%);
+  mix-blend-mode: difference;
+  animation: streak 0.35s linear infinite;
+}
+
+@keyframes streak {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 62px;
+  }
+}
+
+/* 정지 — 띠가 세로로 풀린다 */
+.run.is-still {
+  height: auto !important;
+}
+
+.run.is-still .run__view {
+  position: static;
+  height: auto;
+  overflow: visible;
+}
+
+.run.is-still .run__strip {
+  display: block;
+  width: auto;
+  transform: none !important;
+}
+
+.run.is-still .rp {
+  width: auto;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.run.is-still .rp--together {
+  grid-template-columns: minmax(0, 1fr);
+  padding-bottom: 10vh;
+}
+
+.run.is-still .run__speed {
+  display: none;
+}
+
+/* ------------------------------------------------------------ 5. 카드 */
+.card {
+  position: relative;
+  padding-block: clamp(100px, 13vw, 170px);
+  background: var(--bg);
+  --p: 0;
+}
+
+.card__grid {
+  max-width: var(--maxw);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "copy stage"
+    "facts shot";
+  align-items: start;
+  column-gap: clamp(24px, 5vw, 80px);
+  row-gap: clamp(40px, 6vw, 80px);
+}
+
+.card__copy {
+  grid-area: copy;
+  align-self: center;
+}
+
+.card__stage {
+  grid-area: stage;
+}
+
+.card__facts {
+  grid-area: facts;
+}
+
+.card__shot {
+  grid-area: shot;
+  justify-self: center;
+  max-width: 300px;
+}
+
+.card__lede {
+  margin-top: 18px;
+  max-width: 28em;
+}
+
+.card__facts {
+  display: grid;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 30em;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.card__facts li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 8px;
+}
+
+.card__fact-n {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.card__facts strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.card__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 손에 든 카드 — 포인터를 따라 기울고 놓으면 돌아온다 */
+.card__tilt {
+  perspective: 900px;
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 30%;
+}
+
+.card__art {
+  position: relative;
+  width: min(360px, 70vw);
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.5s cubic-bezier(0.2, 1.4, 0.4, 1);
+  filter: drop-shadow(0 30px 50px rgba(126, 37, 40, 0.3));
+  /* 화면에 들어오면 떨어지듯 내려앉는다(--p 가 들어오는 구간) */
+  translate: 0 calc((1 - clamp(0, calc((var(--p) - 0.08) / 0.18), 1)) * -60px);
+  opacity: clamp(0, calc((var(--p) - 0.08) / 0.12), 1);
+  --q: clamp(0, calc((var(--p) - 0.2) / 0.25), 1);
+}
+
+.card__tilt:hover .card__art {
+  transition-duration: 0.15s;
+}
+
+.card__art.is-replay {
+  animation: card-replay 3.2s linear both;
+}
+
+@keyframes card-replay {
+  from {
+    --q: 0;
+  }
+  to {
+    --q: 1;
+  }
+}
+
+.card__art .runcard-art {
+  --p: var(--q);
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.card__glare {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  pointer-events: none;
+  background: radial-gradient(60% 50% at var(--gx) var(--gy), rgba(255, 255, 255, 0.22), transparent 70%);
+  mix-blend-mode: soft-light;
+}
+
+.card__replay {
+  height: 38px;
+  padding-inline: 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: rgba(11, 11, 15, 0.06);
+}
+
+.card__replay:hover {
+  color: var(--accent);
+}
+
+.card__shot {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 1100 / 1466;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #1a1a1d;
+}
+
+.card__photo {
+  object-fit: cover;
+}
+
+.card__phone-mask {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: url("/scenes/after-screen.png");
+  mask-image: url("/scenes/after-screen.png");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  filter: brightness(0.92) contrast(0.94) blur(0.3px);
+}
+
+.card__phone {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  padding: 12% 8%;
+  transform: translate(-50%, -50%) rotate(var(--rot));
+  background: #f4f4f7;
+}
+
+.card__phone .runcard-art {
+  width: 100%;
+  height: auto;
+}
+
+/* ---------------------------------------------------------- 6. 오늘 저녁 */
+.closing {
+  position: relative;
+  min-height: 94vh;
+  min-height: 94svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding-block: 120px clamp(110px, 13vw, 150px);
+  background: #050507;
+  color: #fff;
+}
+
+.closing__film {
+  position: absolute;
+  inset: 0;
+}
+
+.closing__poster,
+.closing__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.closing.is-still .closing__video {
+  display: none;
+}
+
+.closing__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(0deg, rgba(5, 5, 7, 0.86) 0%, rgba(5, 5, 7, 0.2) 60%, rgba(5, 5, 7, 0.4) 100%),
+    linear-gradient(90deg, rgba(5, 5, 7, 0.6) 0%, transparent 60%);
+}
+
+.closing__line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 14px rgba(220, 86, 91, 0.55));
+}
+
+.closing__line path {
+  fill: none;
+  stroke: var(--accent-core);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.6, 0, 0.2, 1);
+}
+
+.closing.is-done .closing__line path {
+  stroke-dashoffset: 0;
+}
+
+.closing__copy {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--maxw);
+}
+
+.closing__lede {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+/* 도크가 푸터를 가리지 않게 여유를 둔다 */
+.landing .footer {
+  padding-bottom: 120px;
+}
+
+.phone-home {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5cqw;
+  padding: 0 7cqw 15cqw;
+  font-family: var(--font-sans);
+}
+
+/* 홈의 지도 — 밤 사진이라 다크 모드 지도다. 길 몇 줄과 물길만, 실제 장소를 그리지 않는다 */
+.phone-home__map {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(104deg, transparent 38%, #3b4048 38.4%, #3b4048 40.6%, transparent 41%),
+    linear-gradient(12deg, transparent 58%, #3b4048 58.4%, #3b4048 60%, transparent 60.4%),
+    linear-gradient(76deg, transparent 70%, #353a42 70.3%, #353a42 71.4%, transparent 71.7%),
+    linear-gradient(-14deg, transparent 24%, #353a42 24.3%, #353a42 25.4%, transparent 25.7%),
+    linear-gradient(150deg, transparent 12%, #1c2f40 12.4%, #1c2f40 26%, transparent 26.4%),
+    radial-gradient(30% 16% at 72% 30%, #1e2e22 0 60%, transparent 62%), #202328;
+}
+
+.phone-home__capsule {
+  position: relative;
+  display: flex;
+  gap: 2cqw;
+  width: 100%;
+  padding: 3.4cqw 4cqw;
+  border-radius: 999px;
+  background: rgba(48, 50, 56, 0.92);
+  box-shadow: 0 2cqw 6cqw rgba(0, 0, 0, 0.3);
+}
+
+.phone-home__avatar {
+  display: none;
+  place-items: center;
+  width: 12cqw;
+  height: 12cqw;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 5.4cqw;
+  font-weight: 700;
+}
+
+.phone-home__avatar[data-i="0"] {
+  display: grid;
+  background: var(--runner-0);
+}
+.phone-home__avatar[data-i="1"] {
+  background: var(--runner-1);
+}
+.phone-home__avatar[data-i="2"] {
+  background: var(--runner-3);
+}
+.phone-home__avatar[data-i="3"] {
+  background: var(--runner-7);
+}
+
+.gather__stage[data-on="2"] .phone-home__avatar[data-i="1"],
+.gather__stage[data-on="3"] .phone-home__avatar:is([data-i="1"], [data-i="2"]),
+.gather__stage[data-on="4"] .phone-home__avatar {
+  display: grid;
+}
+
+.phone-home__btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 15cqw;
+  border-radius: 999px;
+  background: #fff;
+  color: #0b0b0f;
+  font-size: 5.6cqw;
+  font-weight: 600;
+}
+
+.phone-home__ready {
+  display: none;
+  align-items: center;
+  gap: 2.4cqw;
+}
+
+.phone-home__badge {
+  display: grid;
+  place-items: center;
+  min-width: 7.6cqw;
+  height: 7.6cqw;
+  padding-inline: 1.6cqw;
+  border-radius: 999px;
+  background: var(--accent-core);
+  font-size: 4.6cqw;
+}
+
+.gather__stage:is([data-on="2"], [data-on="3"], [data-on="4"]) .phone-home__solo {
+  display: none;
+}
+.gather__stage:is([data-on="2"], [data-on="3"], [data-on="4"]) .phone-home__ready {
+  display: inline-flex;
+}
+.gather__stage[data-on="2"] .phone-home__badge::after {
+  content: "2";
+}
+.gather__stage[data-on="3"] .phone-home__badge::after {
+  content: "3";
+}
+.gather__stage[data-on="4"] .phone-home__badge::after {
+  content: "4";
+}
+
+/* 사진의 꺼진 워치 화면 자리 — 러닝 수치 위로 하이파이브가 잠깐 얹힌다 */
+.watch {
+  position: absolute;
+  left: 55%;
+  top: 45.8%;
+  width: 15.6%;
+  height: 22.5%;
+  container-type: inline-size;
+  transform: translate(-50%, -50%) rotate(9.2deg) scale(0.9);
+  border-radius: 22%;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 22px 2px rgba(255, 255, 255, 0.12);
+}
+
+/* cqw 는 컨테이너 자신의 여백에는 먹지 않는다 — 여백은 안쪽 면에 둔다 */
+.watch__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 9cqw 12cqw;
+  color: #fff;
+  font-family: var(--font-sans);
+}
+
+.watch__cheer {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  top: 6cqw;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 3cqw;
+  align-items: center;
+  padding: 5cqw 6cqw;
+  border-radius: 12cqw;
+  background: #242428;
+  --in: clamp(0, calc((var(--lp) - 0.4) / 0.06), 1);
+  opacity: var(--in);
+  transform: translateY(calc((1 - var(--in)) * -60%));
+}
+
+.watch__dot {
+  width: 7cqw;
+  height: 7cqw;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.watch__who {
+  font-size: 9cqw;
+  font-weight: 700;
+}
+
+.watch__what {
+  grid-column: 1 / -1;
+  margin-top: 1cqw;
+  font-size: 10cqw;
+  font-weight: 700;
+}
+
+.watch__sub {
+  grid-column: 1 / -1;
+  font-size: 6.6cqw;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.watch__km {
+  font-size: 19cqw;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.watch__km small {
+  margin-left: 2cqw;
+  font-size: 8cqw;
+}
+
+.watch__pace {
+  margin-top: 2cqw;
+  font-size: 10cqw;
+  color: var(--runner-7);
+}
+
+.tunnel__hud {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 26px 0 0;
+}
+
+.tunnel__km {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tunnel__km small {
+  margin-left: 6px;
+  font-size: 0.4em;
+}
+
+.tunnel__mode {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.rp--tunnel[data-mode="gps"] .tunnel__mode--steps,
+.rp--tunnel[data-mode="steps"] .tunnel__mode--gps {
+  display: none;
+}
+
+.rp--tunnel[data-mode="steps"] .tunnel__mode--steps {
+  color: var(--runner-1);
+}
+
+/* 경로 한 줄 — pathLength=1 이라 dashoffset 하나가 "어디까지 그렸나"다 */
+.route {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 2;
+  --draw: clamp(0, calc((var(--p, 1) - var(--a, 0)) / var(--d, 1)), 1);
+  stroke-dashoffset: calc(1 - var(--draw) * var(--len, 1));
+}
+
+.runcard-art--still {
+  --p: 1;
+}
+
+.runcard-art__meta {
+  font-size: 11px;
+  fill: rgba(255, 255, 255, 0.86);
+}
+
+.runcard-art__km {
+  font-size: 46px;
+  font-weight: 700;
+  fill: #fff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.runcard-art__unit {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.runcard-art__stat {
+  font-size: 17px;
+  font-weight: 700;
+  fill: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.runcard-art__label,
+.runcard-art__legend {
+  font-size: 9.5px;
+  fill: rgba(255, 255, 255, 0.82);
+}
+
+.runcard-art__mark {
+  font-size: 10px;
+  font-weight: 700;
+  fill: rgba(255, 255, 255, 0.86);
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px var(--gutter);
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.topbar > * {
+  pointer-events: auto;
+}
+
+.topbar__brand {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.topbar .lang-toggle {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  gap: 4px;
+}
+
+.topbar .lang-toggle__opt {
+  color: #fff;
+  background: none;
+  opacity: 0.5;
+  font-weight: 600;
+}
+
+.topbar .lang-toggle__opt.is-active {
+  opacity: 1;
+  background: none;
+  color: #fff;
+  box-shadow: inset 0 -2px 0 #fff;
+  border-radius: 0;
+}
+
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  width: min(980px, calc(100% - 24px));
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  padding: 8px 8px 8px 22px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(14, 14, 18, 0.74);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 18px 40px -18px rgba(0, 0, 0, 0.6);
+  --dock-p: 0;
+}
+
+.dock__stats {
+  display: flex;
+  gap: 20px;
+}
+
+.dock__stat {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.dock__value {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.dock__label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.dock__track {
+  position: relative;
+  min-width: 0;
+}
+
+.dock__bar {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 9px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.dock__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--dock-p));
+  border-radius: inherit;
+  background: var(--accent-core);
+}
+
+.dock__ticks {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dock__tick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 10px;
+  padding: 3px 0 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11.5px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.dock__ticks li:first-child .dock__tick {
+  align-items: flex-start;
+}
+
+.dock__ticks li:last-child .dock__tick {
+  align-items: flex-end;
+}
+
+.dock__tick:hover,
+.dock__tick.is-done {
+  color: #fff;
+}
+
+.dock__tick:focus-visible {
+  outline: 2px solid var(--accent-core);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.dock__tick-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a3a42;
+  box-shadow: 0 0 0 2px rgba(14, 14, 18, 0.9);
+}
+
+.dock__tick.is-done .dock__tick-dot {
+  background: var(--accent-core);
+}
+
+.dock__tick[aria-current] .dock__tick-dot {
+  background: #fff;
+}
+
+.dock__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding-inline: 20px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0b0b0f;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dock__cta:hover {
+  background: var(--accent-core);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------ 반응형 */
+@media (max-width: 860px) {
+  .hero__copy {
+    bottom: 110px;
+  }
+
+  .gather__stage {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 16px;
+    padding-bottom: 96px;
+  }
+
+  .gather__lede {
+    display: none;
+  }
+
+  .gather__count {
+    margin-top: 10px;
+  }
+
+  .gather__count-n {
+    font-size: 3.4rem;
+  }
+
+  .gather__shot {
+    justify-self: center;
+    width: min(100%, 50svh);
+  }
+
+  .gather__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card__grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "copy"
+      "stage"
+      "facts"
+      "shot";
+  }
+
+  .gather__facts {
+    margin-top: 0;
+  }
+
+  .rp--together {
+    width: 200vw;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: calc(var(--gutter) * 2);
+  }
+
+  .together__shot {
+    height: auto;
+    width: 100%;
+  }
+
+  .rp--tunnel {
+    width: 100vw;
+  }
+
+  .rp--finish {
+    width: 100vw;
+  }
+
+  .finish__copy {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "title"
+      "total"
+      "list";
+  }
+
+  .finish__lede {
+    display: none;
+  }
+
+  .finish__list li {
+    grid-template-columns: 70px 76px 1fr;
+  }
+
+  .card__shot {
+    justify-self: center;
+    width: min(80%, 340px);
+  }
+
+  .dock {
+    gap: 12px;
+    padding-left: 16px;
+  }
+
+  .dock__stat--time,
+  .dock__tick-label {
+    display: none;
+  }
+
+  .dock__cta {
+    width: 48px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .dock__cta-label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 모으기는 스크롤 구간 없이 손이 모인 사진 한 장으로 접힌다 */
+  .gather__track {
+    height: auto;
+  }
+
+  .gather__stage {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .gather__facts {
+    margin-top: 0;
+  }
+
+  .hero__cue-arrow,
+  .run__speed {
+    animation: none;
+  }
+
+  .gather__screen,
+  .count__copy,
+  .card__art,
+  .closing__line path {
+    transition: none;
+  }
+}

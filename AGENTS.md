@@ -1,7 +1,7 @@
 # CLAUDE.md — syncrun-web
 
 SyncRun 랜딩페이지. 맞대면 그 자리에서 함께 뛰는 러닝 앱 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
-마케팅 사이트다. 랜딩은 **가로로 흐르는 한 번의 러닝**이다 — 세로 스크롤이 긴 띠를 옮기고, 선 하나가 띠 전체를 가로지른다(`docs/adr/0004`).
+마케팅 사이트다. 랜딩은 **한 번의 러닝**이다 — 저절로 흐르는 워밍업 필름으로 시작해, 모으기 · 3·2·1 · 달리기(이 구간만 가로) · 카드 · 오늘 저녁으로 간다(`docs/adr/0005`).
 
 ## 스택
 
@@ -63,7 +63,7 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    `src/index.css`의 `:root` 토큰(잉크 `#0B0B0F`, **시그니처 코랄 `--accent-core` `#DC565B`**, 러너 팔레트 8색, 글래스 표면)만 쓴다.
    **액센트는 코랄 하나로 통일한다** — 로고의 겹친 두 '맞댐' 원 색이자 iOS `SRColor.accentCore`다.
    (레거시 `--cobalt*` 변수는 코랄로 매핑된 **별칭**일 뿐 — 지원/약관 페이지 호환용. 파란색은 쓰지 않는다.)
-   **랜딩 코스는 밤 패널(사진·검정)과 밝은 패널(`.pnl--light`: 함께·카드)이 번갈아 온다** — 러닝 전·후의 밤과 달리는 동안의 낮이다.
+   **랜딩은 밤 섹션(사진·검정)이 기본이고 밝은 바탕은 "함께"·카드 두 곳이다** — 러닝 전·후의 밤과 달리는 동안의 낮이다.
    문서형 페이지는 밝은 바탕이 기본이고 검정은 주 액션(iOS 라이트의 Start 버튼)이다. 코랄은 강조·러너 '나'에 쓰고 넓은 채움엔 쓰지 않는다.
    러닝 수치는 항상 `tabular-nums`.
 3. **AI 티 나는 장식을 쓰지 않는다.** ① 카드마다 아이콘 하나씩 얹기 ② 점(•)+대문자 모노 eyebrow 라벨
@@ -78,11 +78,14 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    **예외는 `docs/adr/`이다** — 아키텍처 결정 기록(ADR)은 결정 시점을 기록한다. 무엇을 정했는지와 함께
    그때의 맥락·검토한 대안·기각 사유를 남긴다. 결정이 뒤집히면 파일을 고치지 말고 새 번호의 ADR을 쓰고
    이전 것을 "대체됨"으로 표시한다. 구조를 바꾸기 전에 관련 ADR의 제약을 먼저 읽는다.
-5. **장식은 견고하게.** 코스를 가로지르는 선 같은 장식 레이어는 실패해도 본문(패널)이 죽으면 안 된다 —
-   `SafeBoundary`로 감싼다. `prefers-reduced-motion`·`?reveal=all`(`src/lib/reveal.ts`)에서는 **띠가 세로로 풀려**
-   패널이 완성된 모습으로 한 장씩 쌓인다(선은 그리지 않는다). 시각 회귀는 이 상태를 찍는다.
+5. **장식은 견고하게.** 달리기 구간의 선 같은 장식 레이어는 실패해도 본문이 죽으면 안 된다 — `SafeBoundary`로 감싼다.
+   `prefers-reduced-motion`·`?reveal=all`(`src/lib/reveal.ts`)에서는 **모든 섹션이 완성된 한 장으로 정지한다** —
+   필름 대신 포스터, 카운트다운 대신 출발 뒤 모습, 가로 띠 대신 세로로 쌓인 패널. 시각 회귀는 이 상태를 찍는다.
+   **활력은 박자와 속도에서 낸다** — 케이던스(분당 180보)에 맞춘 컷·마디, 스크롤 속도(`--speed`)에 반응하는 페이스·속도선.
+   장식 입자·파동·링은 쓰지 않는다.
 6. **생성 이미지 규칙.** 장면 사진은 생성하되 **얼굴·글자·상표를 넣지 않고, 화면은 꺼진 검정으로** 뽑는다.
-   화면 안의 UI는 생성하지 않고 HTML로 얹는다. 결과에 가짜 글자(라벨·로고)가 보이면 다시 뽑거나 잘라낸다.
+   화면 안의 UI는 생성하지 않고 HTML로 얹되, **사진의 화면 모양을 딴 알파 마스크로 잘라** 베젤 밖으로 나가지 않게 하고
+   필름 입자를 함께 덮는다(발광 그림자·라이트 모드 UI는 밤 사진에서 떠 보인다). 결과에 가짜 글자(라벨·로고)가 보이면 다시 뽑거나 잘라낸다.
    장소가 특정되는 랜드마크도 쓰지 않는다.
 
 ## 구조
@@ -109,25 +112,24 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   영어판을 두는 이유는 앱이 영문 이름으로 영문 스토어에 나가 있어서다(GDPR 투명성·CCPA 고지 언어 기준).
 - **이미지는 `next/image`에 정적 import로 넘긴다** (`import river from "@/public/scenes/river.jpg"`) — 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
   모바일 랜딩 기준 이미지 합계가 2,100KB에서 100KB가 됐다. `<img>`를 직접 쓰지 않는다(린트가 막는다).
-- **코스**(`src/components/course/`): `Course`가 무대·띠·선·프레임 루프, `Panels`가 아홉 패널(출발 전 · 모으기 글/사진 · 3·2·1 ·
-  출발선 · 함께 · 터널 · 카드 · 오늘 저녁), `geometry`가 선의 모양(패널 기준 좌표 → 런타임에 픽셀), `Dock`이 아래 러닝 도크
-  (거리·시간·장 눈금·받기 — 이 페이지의 유일한 내비게이션), `TopBar`가 이름과 언어.
-  **스크롤을 가로채지 않는다** — 무대가 `position: sticky`고 코스 높이를 띠 길이로 맞춰 세로 스크롤 1px이 띠 1px이다.
-  패널마다 `--lp`(0~1, 한가운데 0.5)가 흐르고 패럴랙스·폰 화면·카드 재생이 전부 이 값을 쓴다. React는 스크롤마다 다시 렌더하지 않는다.
-  **사진 속 화면 자리(%)는 사진을 재서 얻은 값이다** — 사진을 바꾸면 `Panels`의 `SCREENS`·`AFTER_PHONE`과 `.watch` 위치를 다시 잰다.
+- **랜딩**(`src/components/landing/`): `Landing`이 섹션을 조립하고 한 루프로 스크롤 속도(`--speed`, 문서 루트)와 도크(거리·페이스·시간·장)를 갱신한다.
+  섹션마다 움직임의 주인이 다르다 — `Hero`(워밍업, 자동 재생 필름 `public/media/reel.mp4`에 케이던스 마디 · 스크롤하면 작아지며 밀려남) ·
+  `Gather`(스크롤로 손이 모이는 프레임 시퀀스 → 원본 사진 + 마스크로 자른 앱 홈) · `Countdown`(화면을 채우면 1초씩 3·2·1, GO에 영상 재생) ·
+  `Run`(이 구간만 가로 — 함께 · 터널 · 도착, 네 선과 머리 점, `runGeometry`) · `Card`(떨어지듯 내려앉고 포인터로 기울어지는 카드) · `Closing`.
+  `Dock`이 아래 러닝 도크(이 페이지의 유일한 내비게이션), `TopBar`가 이름과 언어.
+  **스크롤을 가로채지 않는다** — 고정 구간은 `position: sticky` + 섹션 높이로 만든다(`src/lib/useProgress.ts`의 `--p`, 가로 패널의 `--lp`).
+  React는 스크롤마다 다시 렌더하지 않는다. **사진 속 화면 자리(%)와 마스크는 사진을 재서 얻은 것이다** — 사진을 바꾸면 `Gather`의 `SCREENS`·
+  `Card`의 `PHONE`·`.watch` 위치와 `public/scenes/*-screen(s).png`를 다시 만든다.
 - `src/components/scenes/` — 패널이 쓰는 조각(`RunCardArt`: 앱 단체 카드의 시그니처 배경, `Route`, `crew`: 네 사람·거리·경로 모양).
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
 - `src/components/reactbits/SafeBoundary` — 장식 레이어용 에러 바운더리.
-- `public/scenes/` — 장면 사진(생성)과 **패널 배경 영상의 프레임 시퀀스**(`river`·`gather`·`start`·`tunnel`·`curve/`, 각 61장 + `manifest.json`).
-  영상은 `<video>`가 아니라 `course/ScrubFrames`가 캔버스에 그린다 — 패널의 `--lp` 구간(`from`~`to`)이 첫 장~끝 장이다.
-  시퀀스는 패널이 화면 오른쪽 끝에 닿을 때부터 받고, 포스터 사진이 늘 밑에 깔린다(축소 모션·데이터 절약에서는 사진만).
-  클립은 `scripts/scene-frames.sh`로 뽑는다(`REVERSE=1`은 거꾸로 — 모으기는 "사진에서 손이 빠져나가는" 클립을 뒤집었다).
-  모으기는 영상이 끝나면(`GATHER_SETTLED`) 원본 사진으로 넘어가고 그 위에 폰 화면을 켠다 — 합성 좌표가 원본 사진 기준이라서다.
+- `public/scenes/` — 장면 사진(생성) · 화면 마스크 · **스크롤 구동 영상의 프레임 시퀀스**(`gather`·`tunnel/`, 각 61장 + `manifest.json`,
+  `landing/ScrubFrames`가 캔버스에 그린다 · `scripts/scene-frames.sh`로 뽑는다 · `REVERSE=1`은 거꾸로). `public/media/` — 자동 재생 영상(워밍업 필름·출발선·오늘 저녁).
   `public/brand/` — 로고(wordmark·icon).
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/` — 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
-- `src/styles/course.css` — 코스(띠·패널·선·도크·위 막대)와 반응형·세로 풀림. `src/styles/sections.css` — 랜딩 타이포와 푸터.
+- `src/styles/landing.css` — 랜딩 섹션·도크·위 막대와 반응형·정지 상태. `src/styles/sections.css` — 랜딩 타이포와 푸터.
 
 ## 배포
 
