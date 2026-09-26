@@ -1,0 +1,1242 @@
+/* =========================================================================
+   코스 — 가로로 흐르는 한 번의 러닝
+   무대(course__view)가 붙어 있고 띠(course__strip)가 스크롤만큼 왼쪽으로 민다.
+   패널마다 흐르는 `--lp`(0~1, 한가운데 0.5)가 패널 안의 움직임을 전부 정한다.
+   ========================================================================= */
+
+@property --q {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+.landing .line {
+  display: block;
+}
+
+.landing .line--accent {
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------ 무대 · 띠 */
+.course {
+  position: relative;
+  /* 자바스크립트가 띠 길이로 정확히 다시 잰다. 그전의 대략값 */
+  height: 900vw;
+  background: #07070a;
+}
+
+.course__view {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.course__strip {
+  position: relative;
+  display: flex;
+  width: max-content;
+  height: 100%;
+  will-change: transform;
+}
+
+/* 선 — 화면 한가운데(지금 달리는 자리)까지만 보인다 */
+.course__ink {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* 띠만큼 넓은 그림이다 — 전역 리셋의 max-width:100% 가 화면 폭으로 눌러 버리지 않게 푼다 */
+.course__ink svg,
+.course__heads {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+}
+
+.course__heads {
+  z-index: 6;
+}
+
+.course__halo path {
+  fill: none;
+  stroke: rgba(8, 8, 11, 0.42);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.course__solid,
+.course__walk {
+  fill: none;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.course__runner--0 .course__solid,
+.course__runner--0 .course__walk {
+  stroke-width: 5.5;
+}
+
+/* 터널 안 — 걸음으로 잰 구간 */
+.course__walk {
+  stroke-dasharray: 1 13;
+}
+
+.course__head {
+  stroke: rgba(8, 8, 11, 0.6);
+  stroke-width: 2.5;
+}
+
+/* ---------------------------------------------------------------- 패널 */
+.pnl {
+  position: relative;
+  flex: none;
+  height: 100%;
+  overflow: hidden;
+  color: #fff;
+  background: #07070a;
+  --lp: 0;
+}
+
+.pnl--light {
+  color: var(--ink);
+  background: #f2f1ee;
+}
+
+.pnl__img {
+  object-fit: cover;
+}
+
+/* 사진은 패널보다 조금 넓게 깔고 반대 방향으로 밀어 깊이를 만든다 */
+.pnl__parallax {
+  position: absolute;
+  inset: 0 -7%;
+  transform: translate3d(calc((var(--lp) - 0.5) * -9%), 0, 0);
+  will-change: transform;
+}
+
+.pnl__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pnl__copy {
+  position: relative;
+  z-index: 7;
+}
+
+/* 밤 패널 위의 버튼 — 흰 주 액션, 어두운 유리 보조 */
+.pnl:not(.pnl--light) .btn-primary {
+  background: #fff;
+  color: #0b0b0f;
+}
+
+.pnl:not(.pnl--light) .btn-ghost {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.pnl .h2 {
+  margin: 0;
+}
+
+.pnl:not(.pnl--light) .h2,
+.pnl:not(.pnl--light) .display {
+  color: #fff;
+}
+
+.pnl--photo .lede {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+/* 크기 — 한 줄 글자수에서 역산한다(줄폭 = 한글수 × 0.865 + 공백수 × 0.263) */
+html:lang(ko) .landing .hero__title {
+  font-size: clamp(1.7rem, 3.9vw, 3.5rem);
+}
+
+html:lang(en) .landing .hero__title {
+  font-size: clamp(1.9rem, 3.6vw, 3.3rem);
+}
+
+/* ---------------------------------------------------- 출발 전(히어로) */
+.pnl--hero {
+  width: 100vw;
+}
+
+.pnl--hero .pnl__shade {
+  background:
+    linear-gradient(90deg, rgba(5, 5, 7, 0.82) 0%, rgba(5, 5, 7, 0.4) 50%, rgba(5, 5, 7, 0.1) 80%),
+    linear-gradient(0deg, rgba(5, 5, 7, 0.55) 0%, transparent 30%);
+}
+
+.hero__copy {
+  position: absolute;
+  left: var(--gutter);
+  top: 50%;
+  max-width: min(680px, 80vw);
+  transform: translateY(-58%);
+}
+
+.hero__lede {
+  margin-top: 20px;
+  max-width: 30em;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.hero__hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 40px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.hero__arrow {
+  display: inline-block;
+  animation: hint-run 1.6s var(--ease-out) infinite;
+}
+
+@keyframes hint-run {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(10px);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------- 모으기: 글 */
+.pnl--gtext {
+  width: 46vw;
+  display: flex;
+  align-items: center;
+  background: #0b0b0e;
+}
+
+.gtext__copy {
+  padding: calc(var(--nav-h) + 8px) clamp(24px, 4vw, 64px) 120px;
+}
+
+.gtext__lede {
+  margin-top: 18px;
+  max-width: 26em;
+}
+
+.pnl--gtext .lede {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.gtext__count {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 28px 0 0;
+}
+
+.gtext__count-n {
+  font-size: clamp(3.6rem, 7vw, 6.4rem);
+  font-weight: 700;
+  line-height: 0.9;
+}
+
+.gtext__count-label {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.gtext__facts {
+  display: grid;
+  gap: 10px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 30em;
+}
+
+.gtext__facts strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------ 모으기: 사진 */
+.pnl--gphoto {
+  width: 100vh;
+  width: 100svh;
+  max-width: 72vw;
+}
+
+.gphoto__screen {
+  position: absolute;
+  z-index: 2;
+  container-type: inline-size;
+  transform: translate(-50%, -50%) rotate(var(--rot)) scale(0.9);
+  border-radius: 13% / 6.5%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  box-shadow: 0 0 30px 4px rgba(210, 225, 255, 0.26);
+}
+
+.pnl--gphoto .gphoto__screen[data-i="0"],
+.pnl--gphoto[data-count="2"] .gphoto__screen[data-i="1"],
+.pnl--gphoto[data-count="3"] .gphoto__screen:is([data-i="1"], [data-i="2"]),
+.pnl--gphoto[data-count="4"] .gphoto__screen {
+  opacity: 1;
+}
+
+.phone-home {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5cqw;
+  padding: 0 7cqw 15cqw;
+  font-family: var(--font-sans);
+}
+
+/* 홈의 지도 — 길 몇 줄과 물길. 실제 장소를 그리지 않는다 */
+.phone-home__map {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(104deg, transparent 38%, #fff 38.4%, #fff 40.6%, transparent 41%),
+    linear-gradient(12deg, transparent 58%, #fff 58.4%, #fff 60%, transparent 60.4%),
+    linear-gradient(76deg, transparent 70%, #fff 70.3%, #fff 71.4%, transparent 71.7%),
+    linear-gradient(-14deg, transparent 24%, #fff 24.3%, #fff 25.4%, transparent 25.7%),
+    linear-gradient(150deg, transparent 12%, #cfe3f1 12.4%, #cfe3f1 26%, transparent 26.4%),
+    radial-gradient(30% 16% at 72% 30%, #dcebd6 0 60%, transparent 62%), #eceef1;
+}
+
+.phone-home__capsule {
+  position: relative;
+  display: flex;
+  gap: 2cqw;
+  width: 100%;
+  padding: 3.4cqw 4cqw;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2cqw 6cqw rgba(0, 0, 0, 0.12);
+}
+
+.phone-home__avatar {
+  display: none;
+  place-items: center;
+  width: 12cqw;
+  height: 12cqw;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 5.4cqw;
+  font-weight: 700;
+}
+
+.phone-home__avatar[data-i="0"] {
+  display: grid;
+  background: var(--runner-0);
+}
+.phone-home__avatar[data-i="1"] {
+  background: var(--runner-1);
+}
+.phone-home__avatar[data-i="2"] {
+  background: var(--runner-3);
+}
+.phone-home__avatar[data-i="3"] {
+  background: var(--runner-7);
+}
+
+.pnl--gphoto[data-count="2"] .phone-home__avatar[data-i="1"],
+.pnl--gphoto[data-count="3"] .phone-home__avatar:is([data-i="1"], [data-i="2"]),
+.pnl--gphoto[data-count="4"] .phone-home__avatar {
+  display: grid;
+}
+
+.phone-home__btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 15cqw;
+  border-radius: 999px;
+  background: #0b0b0f;
+  color: #fff;
+  font-size: 5.6cqw;
+  font-weight: 600;
+}
+
+.phone-home__ready {
+  display: none;
+  align-items: center;
+  gap: 2.4cqw;
+}
+
+.phone-home__badge {
+  display: grid;
+  place-items: center;
+  min-width: 7.6cqw;
+  height: 7.6cqw;
+  padding-inline: 1.6cqw;
+  border-radius: 999px;
+  background: var(--accent-core);
+  font-size: 4.6cqw;
+}
+
+.pnl--gphoto:is([data-count="2"], [data-count="3"], [data-count="4"]) .phone-home__solo {
+  display: none;
+}
+.pnl--gphoto:is([data-count="2"], [data-count="3"], [data-count="4"]) .phone-home__ready {
+  display: inline-flex;
+}
+.pnl--gphoto[data-count="2"] .phone-home__badge::after {
+  content: "2";
+}
+.pnl--gphoto[data-count="3"] .phone-home__badge::after {
+  content: "3";
+}
+.pnl--gphoto[data-count="4"] .phone-home__badge::after {
+  content: "4";
+}
+
+/* ---------------------------------------------------------- 3 · 2 · 1 */
+/* 카운트다운이 시간이 아니라 공간에 놓인다 — 스크롤하면 3, 2, 1이 차례로 지나간다 */
+.pnl--count {
+  width: 150vw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+  background: #07070a;
+}
+
+.count__n {
+  font-size: clamp(12rem, 70vh, 44rem);
+  font-size: clamp(12rem, 70svh, 44rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+/* ------------------------------------------------------------ 출발선 */
+.pnl--sphoto {
+  width: 100vw;
+}
+
+.pnl--sphoto .pnl__shade {
+  background:
+    linear-gradient(180deg, rgba(5, 5, 7, 0.82) 0%, rgba(5, 5, 7, 0.3) 45%, rgba(5, 5, 7, 0.1) 70%),
+    linear-gradient(90deg, rgba(5, 5, 7, 0.5) 0%, transparent 60%);
+}
+
+.sphoto__copy {
+  position: absolute;
+  left: var(--gutter);
+  top: calc(var(--nav-h) + 6vh);
+  max-width: min(560px, 80vw);
+}
+
+.sphoto__lede {
+  margin-top: 14px;
+}
+
+/* -------------------------------------------------------------- 함께 */
+.pnl--together {
+  width: 135vw;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: clamp(24px, 4vw, 64px);
+  padding: calc(var(--nav-h) + 6vh) var(--gutter) 0;
+}
+
+.together__lede {
+  margin-top: 18px;
+  max-width: 28em;
+}
+
+.together__legend {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 460px;
+}
+
+.together__legend li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.together__legend li::before {
+  content: "";
+  width: 20px;
+  height: 3px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+.together__who {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.together__shot {
+  position: relative;
+  margin: 0;
+  height: 54vh;
+  height: 54svh;
+  aspect-ratio: 1760 / 1536;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #121214;
+}
+
+/* 사진의 꺼진 워치 화면 자리 — 러닝 수치 위로 하이파이브가 잠깐 얹힌다 */
+.watch {
+  position: absolute;
+  left: 55%;
+  top: 45.8%;
+  width: 15.6%;
+  height: 22.5%;
+  container-type: inline-size;
+  transform: translate(-50%, -50%) rotate(9.2deg) scale(0.9);
+  border-radius: 22%;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 22px 2px rgba(255, 255, 255, 0.12);
+}
+
+/* cqw 는 컨테이너 자신의 여백에는 먹지 않는다 — 여백은 안쪽 면에 둔다 */
+.watch__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 9cqw 12cqw;
+  color: #fff;
+  font-family: var(--font-sans);
+}
+
+.watch__cheer {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  top: 6cqw;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 3cqw;
+  align-items: center;
+  padding: 5cqw 6cqw;
+  border-radius: 12cqw;
+  background: #242428;
+  --in: clamp(0, calc((var(--lp) - 0.42) / 0.06), 1);
+  opacity: var(--in);
+  transform: translateY(calc((1 - var(--in)) * -60%));
+}
+
+.watch__dot {
+  width: 7cqw;
+  height: 7cqw;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.watch__who {
+  font-size: 9cqw;
+  font-weight: 700;
+}
+
+.watch__what {
+  grid-column: 1 / -1;
+  margin-top: 1cqw;
+  font-size: 10cqw;
+  font-weight: 700;
+}
+
+.watch__sub {
+  grid-column: 1 / -1;
+  font-size: 6.6cqw;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.watch__km {
+  font-size: 19cqw;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.watch__km small {
+  margin-left: 2cqw;
+  font-size: 8cqw;
+}
+
+.watch__pace {
+  margin-top: 2cqw;
+  font-size: 10cqw;
+  color: var(--runner-7);
+}
+
+/* -------------------------------------------------------------- 터널 */
+.pnl--tunnel {
+  width: 110vw;
+}
+
+.pnl--tunnel .pnl__shade {
+  background:
+    linear-gradient(90deg, rgba(5, 5, 7, 0.84) 0%, rgba(5, 5, 7, 0.34) 42%, transparent 64%),
+    linear-gradient(0deg, rgba(5, 5, 7, 0.45) 0%, transparent 35%);
+}
+
+.tunnel__copy {
+  position: absolute;
+  left: var(--gutter);
+  top: calc(var(--nav-h) + 6vh);
+  max-width: min(520px, 80vw);
+}
+
+.tunnel__lede {
+  margin-top: 16px;
+}
+
+.tunnel__hud {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 26px 0 0;
+}
+
+.tunnel__km {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tunnel__km small {
+  margin-left: 6px;
+  font-size: 0.4em;
+}
+
+.tunnel__mode {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.pnl--tunnel[data-mode="gps"] .tunnel__mode--steps,
+.pnl--tunnel[data-mode="steps"] .tunnel__mode--gps {
+  display: none;
+}
+
+.pnl--tunnel[data-mode="steps"] .tunnel__mode--steps {
+  color: var(--runner-1);
+}
+
+/* -------------------------------------------------------------- 카드 */
+.pnl--card {
+  width: 140vw;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 0.8fr);
+  align-items: start;
+  gap: clamp(24px, 4vw, 64px);
+  padding: calc(var(--nav-h) + 6vh) var(--gutter) 0;
+}
+
+.card__lede {
+  margin-top: 18px;
+  max-width: 28em;
+}
+
+.card__facts {
+  display: grid;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 30em;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.card__facts li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 8px;
+}
+
+.card__fact-n {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.card__facts strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.card__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* 화면 한가운데에 가까워지면 한 번 그려지고, [다시 그리기]는 --q 를 처음부터 다시 흘린다 */
+.card__art {
+  height: 58vh;
+  height: 58svh;
+  aspect-ratio: 3 / 4;
+  --q: clamp(0, calc((var(--lp) - 0.3) / 0.2), 1);
+  filter: drop-shadow(0 30px 50px rgba(126, 37, 40, 0.28));
+}
+
+.card__art.is-replay {
+  animation: card-replay 3.2s linear both;
+}
+
+@keyframes card-replay {
+  from {
+    --q: 0;
+  }
+  to {
+    --q: 1;
+  }
+}
+
+.card__art .runcard-art {
+  --p: var(--q);
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.card__replay {
+  height: 38px;
+  padding-inline: 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: rgba(11, 11, 15, 0.06);
+}
+
+.card__replay:hover {
+  color: var(--accent);
+}
+
+.card__shot {
+  position: relative;
+  margin: 0;
+  height: 50vh;
+  height: 50svh;
+  aspect-ratio: 1100 / 1466;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #1a1a1d;
+}
+
+.card__phone {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  padding: 12% 7%;
+  transform: translate(-50%, -50%) rotate(var(--rot)) scale(0.93);
+  border-radius: 12% / 6%;
+  background: #f4f4f7;
+  box-shadow: 0 0 24px 2px rgba(255, 255, 255, 0.2);
+}
+
+.card__phone .runcard-art {
+  width: 100%;
+  height: auto;
+}
+
+/* 경로 한 줄 — pathLength=1 이라 dashoffset 하나가 "어디까지 그렸나"다 */
+.route {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 2;
+  --draw: clamp(0, calc((var(--p, 1) - var(--a, 0)) / var(--d, 1)), 1);
+  stroke-dashoffset: calc(1 - var(--draw) * var(--len, 1));
+}
+
+.runcard-art--still {
+  --p: 1;
+}
+
+.runcard-art__meta {
+  font-size: 11px;
+  fill: rgba(255, 255, 255, 0.86);
+}
+
+.runcard-art__km {
+  font-size: 46px;
+  font-weight: 700;
+  fill: #fff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.runcard-art__unit {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.runcard-art__stat {
+  font-size: 17px;
+  font-weight: 700;
+  fill: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.runcard-art__label,
+.runcard-art__legend {
+  font-size: 9.5px;
+  fill: rgba(255, 255, 255, 0.82);
+}
+
+.runcard-art__mark {
+  font-size: 10px;
+  font-weight: 700;
+  fill: rgba(255, 255, 255, 0.86);
+}
+
+/* ---------------------------------------------------------- 오늘 저녁 */
+.pnl--cta {
+  width: 100vw;
+}
+
+.pnl--cta .pnl__shade {
+  background:
+    linear-gradient(0deg, rgba(5, 5, 7, 0.86) 0%, rgba(5, 5, 7, 0.2) 60%, rgba(5, 5, 7, 0.4) 100%),
+    linear-gradient(90deg, rgba(5, 5, 7, 0.6) 0%, transparent 60%);
+}
+
+.cta__line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 14px rgba(220, 86, 91, 0.55));
+}
+
+.cta__path {
+  fill: none;
+  stroke: var(--accent-core);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: calc(1 - clamp(0, calc((var(--lp) - 0.3) / 0.22), 1));
+}
+
+.cta__copy {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 140px;
+  max-width: min(560px, 84vw);
+}
+
+.cta__lede {
+  margin-top: 14px;
+}
+
+/* ------------------------------------------------------------ 위 · 아래 */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px var(--gutter);
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.topbar > * {
+  pointer-events: auto;
+}
+
+.topbar__brand {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.topbar .lang-toggle {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  gap: 4px;
+}
+
+.topbar .lang-toggle__opt {
+  color: #fff;
+  background: none;
+  opacity: 0.5;
+  font-weight: 600;
+}
+
+.topbar .lang-toggle__opt.is-active {
+  opacity: 1;
+  background: none;
+  color: #fff;
+  box-shadow: inset 0 -2px 0 #fff;
+  border-radius: 0;
+}
+
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  width: min(980px, calc(100% - 24px));
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  padding: 8px 8px 8px 22px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(14, 14, 18, 0.74);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 18px 40px -18px rgba(0, 0, 0, 0.6);
+  --dock-p: 0;
+}
+
+.dock__stats {
+  display: flex;
+  gap: 20px;
+}
+
+.dock__stat {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.dock__value {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.dock__label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.dock__track {
+  position: relative;
+  min-width: 0;
+}
+
+.dock__bar {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 9px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.dock__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--dock-p));
+  border-radius: inherit;
+  background: var(--accent-core);
+}
+
+.dock__ticks {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dock__tick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 10px;
+  padding: 3px 0 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11.5px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.dock__ticks li:first-child .dock__tick {
+  align-items: flex-start;
+}
+
+.dock__ticks li:last-child .dock__tick {
+  align-items: flex-end;
+}
+
+.dock__tick:hover,
+.dock__tick.is-done {
+  color: #fff;
+}
+
+.dock__tick:focus-visible {
+  outline: 2px solid var(--accent-core);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.dock__tick-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a3a42;
+  box-shadow: 0 0 0 2px rgba(14, 14, 18, 0.9);
+}
+
+.dock__tick.is-done .dock__tick-dot {
+  background: var(--accent-core);
+}
+
+.dock__tick[aria-current] .dock__tick-dot {
+  background: #fff;
+}
+
+.dock__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding-inline: 20px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0b0b0f;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dock__cta:hover {
+  background: var(--accent-core);
+  color: #fff;
+}
+
+/* 코스가 끝나면 도크가 푸터를 가리지 않게 푸터 아래에 여유를 둔다 */
+.landing .footer {
+  padding-bottom: 120px;
+}
+
+/* ------------------------------------------------------------ 반응형 */
+@media (max-width: 860px) {
+  html:lang(ko) .landing .hero__title {
+    font-size: clamp(1.6rem, 7.2vw, 3rem);
+  }
+
+  html:lang(en) .landing .hero__title {
+    font-size: clamp(1.7rem, 7.6vw, 3rem);
+  }
+
+  .hero__copy {
+    top: calc(var(--nav-h) + 40px);
+    transform: none;
+    max-width: calc(100vw - 2 * var(--gutter));
+  }
+
+  .pnl--hero .pnl__shade {
+    background: linear-gradient(180deg, rgba(5, 5, 7, 0.86) 0%, rgba(5, 5, 7, 0.5) 50%, rgba(5, 5, 7, 0.3) 100%);
+  }
+
+  .pnl--gtext {
+    width: 100vw;
+  }
+
+  .gtext__copy {
+    padding-inline: var(--gutter);
+  }
+
+  .gtext__facts {
+    display: none;
+  }
+
+  .pnl--gphoto {
+    max-width: none;
+  }
+
+  .pnl--count {
+    width: 150vw;
+  }
+
+  .count__n {
+    font-size: clamp(8rem, 44vh, 20rem);
+  }
+
+  .pnl--together {
+    width: 200vw;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: calc(var(--gutter) * 2);
+  }
+
+  .together__legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .together__shot {
+    height: auto;
+    width: 100%;
+  }
+
+  .pnl--tunnel {
+    width: 100vw;
+  }
+
+  .pnl--card {
+    width: 250vw;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: calc(var(--gutter) * 2);
+  }
+
+  .card__art {
+    height: 52svh;
+  }
+
+  .card__shot {
+    height: 44svh;
+  }
+
+  .dock {
+    gap: 14px;
+    padding-left: 18px;
+  }
+
+  .dock__stat--time,
+  .dock__tick-label {
+    display: none;
+  }
+
+  .dock__cta {
+    width: 48px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .dock__cta-label {
+    display: none;
+  }
+}
+
+/* 축소 모션·정적 QA — 띠가 세로로 풀린다. 선은 그리지 않는다 */
+.course.is-still {
+  height: auto !important;
+}
+
+.course.is-still .course__view {
+  position: static;
+  height: auto;
+  overflow: visible;
+}
+
+.course.is-still .course__strip {
+  display: block;
+  width: auto;
+  transform: none !important;
+}
+
+.course.is-still .pnl {
+  width: auto;
+  max-width: none;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.course.is-still .pnl--gphoto {
+  width: min(100vw, 100svh);
+  height: min(100vw, 100svh);
+  min-height: 0;
+  margin-inline: auto;
+}
+
+.course.is-still .pnl--count {
+  min-height: 60svh;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.course.is-still .count__n {
+  font-size: clamp(6rem, 22vw, 16rem);
+}
+
+.course.is-still .pnl--together,
+.course.is-still .pnl--card {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  padding-bottom: 12vh;
+}
+
+.course.is-still .course__ink,
+.course.is-still .course__heads,
+.course.is-still .hero__hint {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__arrow {
+    animation: none;
+  }
+
+  .gphoto__screen {
+    transition: none;
+  }
+}
