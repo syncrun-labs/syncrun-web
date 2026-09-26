@@ -1,14 +1,14 @@
 # CLAUDE.md — syncrun-web
 
 SyncRun 랜딩페이지. 맞대면 그 자리에서 함께 뛰는 러닝 앱 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
-리퀴드 글래스 감성을 [React Bits](https://reactbits.dev) 컴포넌트로 웹에 옮긴 마케팅 사이트다.
+마케팅 사이트다. 랜딩은 **한 번의 러닝**이다 — 저절로 흐르는 워밍업 필름으로 시작해, 모으기 · 3·2·1 · 달리기(이 구간만 가로) · 카드 · 오늘 저녁으로 간다(`docs/adr/0005`).
 
 ## 스택
 
-Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). framer-motion(모션·스크롤 구동 3D 디바이스 회전).
+Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). 랜딩의 움직임은 라이브러리 없이 rAF 한 루프와 CSS 변수로 한다.
 **전 페이지가 빌드 타임 정적 생성(SSG)이다** — API Route·서버 액션은 없다.
 UI 프레임워크 없음 — iOS 앱의 토큰을 CSS 변수로 옮겨 직접 조립한다.
-i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/en). 제품 목업은 iOS 시뮬레이터 **실캡처**를 아이폰 베젤에 담는다(`public/shots/`).
+i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/en). 장면 사진은 생성 이미지이고, 사진 속 폰·워치 화면에 앱 UI를 HTML로 얹는다(`public/scenes/`).
 
 ## 명령어
 
@@ -30,7 +30,6 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
 
 서식은 **Prettier가 전담한다** — 손으로 맞추지 말고 `npm run format`을 돌린다.
 `src/legal/docs/`는 포맷 대상이 아니다(허브 사본이라 원문과 바이트로 같아야 한다).
-`src/components/reactbits/`는 최신 훅 규칙 셋이 경고로 낮춰져 있다(관용구라 지금 고치지 않는다).
 
 ## 필수 규칙
 
@@ -64,8 +63,8 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    `src/index.css`의 `:root` 토큰(잉크 `#0B0B0F`, **시그니처 코랄 `--accent-core` `#DC565B`**, 러너 팔레트 8색, 글래스 표면)만 쓴다.
    **액센트는 코랄 하나로 통일한다** — 로고의 겹친 두 '맞댐' 원 색이자 iOS `SRColor.accentCore`다.
    (레거시 `--cobalt*` 변수는 코랄로 매핑된 **별칭**일 뿐 — 지원/약관 페이지 호환용. 파란색은 쓰지 않는다.)
-   **밝은 바탕이 기본이고 검정은 주 액션(iOS 라이트의 Start 버튼)과 대비 패널로 섞는다.** 다크 시네마틱 섹션은
-   `.section--dark`로 토큰을 뒤집는다(맞댐·CTA 두 곳). 코랄은 강조·러너 '나'에 쓰고 넓은 채움엔 쓰지 않는다.
+   **랜딩은 밤 섹션(사진·검정)이 기본이고 밝은 바탕은 "함께"·카드 두 곳이다** — 러닝 전·후의 밤과 달리는 동안의 낮이다.
+   문서형 페이지는 밝은 바탕이 기본이고 검정은 주 액션(iOS 라이트의 Start 버튼)이다. 코랄은 강조·러너 '나'에 쓰고 넓은 채움엔 쓰지 않는다.
    러닝 수치는 항상 `tabular-nums`.
 3. **AI 티 나는 장식을 쓰지 않는다.** ① 카드마다 아이콘 하나씩 얹기 ② 점(•)+대문자 모노 eyebrow 라벨
    ③ 문구를 둥근 알약(chip)에 담아 나열하기 — 이 세 패턴은 전부 금지다. 위계는 타이포(큰 숫자·제목)와
@@ -79,9 +78,15 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    **예외는 `docs/adr/`이다** — 아키텍처 결정 기록(ADR)은 결정 시점을 기록한다. 무엇을 정했는지와 함께
    그때의 맥락·검토한 대안·기각 사유를 남긴다. 결정이 뒤집히면 파일을 고치지 말고 새 번호의 ADR을 쓰고
    이전 것을 "대체됨"으로 표시한다. 구조를 바꾸기 전에 관련 ADR의 제약을 먼저 읽는다.
-5. **장식은 견고하게.** WebGL·애니메이션 같은 장식 레이어는 실패해도 페이지 본문이 죽으면 안 된다 —
-   `SafeBoundary`로 감싸고, `prefers-reduced-motion`에서는 리빌 게이팅을 건너뛰어 콘텐츠를 즉시 보여준다
-   (`src/lib/reveal.ts`). `?reveal=all`은 정적 QA용으로 모든 리빌을 즉시 표시한다.
+5. **장식은 견고하게.** 달리기 구간의 선 같은 장식 레이어는 실패해도 본문이 죽으면 안 된다 — `SafeBoundary`로 감싼다.
+   `prefers-reduced-motion`·`?reveal=all`(`src/lib/reveal.ts`)에서는 **모든 섹션이 완성된 한 장으로 정지한다** —
+   필름 대신 포스터, 카운트다운 대신 출발 뒤 모습, 가로 띠 대신 세로로 쌓인 패널. 시각 회귀는 이 상태를 찍는다.
+   **활력은 박자와 속도에서 낸다** — 케이던스(분당 180보)에 맞춘 컷·마디, 스크롤 속도(`--speed`)에 반응하는 페이스·속도선.
+   장식 입자·파동·링은 쓰지 않는다.
+6. **생성 이미지 규칙.** 장면 사진은 생성하되 **얼굴·글자·상표를 넣지 않고, 화면은 꺼진 검정으로** 뽑는다.
+   화면 안의 UI는 생성하지 않고 HTML로 얹되, **사진의 화면 모양을 딴 알파 마스크로 잘라** 베젤 밖으로 나가지 않게 하고
+   필름 입자를 함께 덮는다(발광 그림자·라이트 모드 UI는 밤 사진에서 떠 보인다). 결과에 가짜 글자(라벨·로고)가 보이면 다시 뽑거나 잘라낸다.
+   장소가 특정되는 랜드마크도 쓰지 않는다.
 
 ## 구조
 
@@ -105,30 +110,26 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다** — 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
   **한국어가 정본이고 영어는 편의 번역이다** — 앱이 동의를 받는 것은 한국어 문서이며, 그 사실을 문서 머리와 페이지 안내가 함께 밝힌다.
   영어판을 두는 이유는 앱이 영문 이름으로 영문 스토어에 나가 있어서다(GDPR 투명성·CCPA 고지 언어 기준).
-- **이미지는 `next/image`에 정적 import로 넘긴다** (`import home from "@/public/shots/home.png"`) — 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
+- **이미지는 `next/image`에 정적 import로 넘긴다** (`import river from "@/public/scenes/river.jpg"`) — 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
   모바일 랜딩 기준 이미지 합계가 2,100KB에서 100KB가 됐다. `<img>`를 직접 쓰지 않는다(린트가 막는다).
-- **리빌 컴포넌트는 SSR을 전제로 쓴다** (`AnimatedContent`·`DeviceFrame`·`BumpPair`). 서버는 건너뛰기 여부를 모르므로
-  숨긴 초기 상태를 그리고, 건너뛸 때도 **같은 motion 요소를 유지**하며 즉시 최종 상태로 animate 한다. 일반 요소로 바꾸면 React가
-  서버가 심은 `opacity:0` 인라인 스타일을 손대지 않아 내용이 영영 안 보인다.
-- **모션 정책**: 뷰포트 진입 리빌(`AnimatedContent`) · `DeviceFrame`의 미세한 스크롤 틸트 ·
-  **히어로의 스크롤 구동 프레임 스크러빙**(`HeroScrub`, `docs/adr/0003`)이 전부다.
-  **스크롤을 가로채지 않는다** — 스테이지는 `position: sticky`고 마디는 일반 흐름으로 그 위를 지나가므로
-  네이티브 스크롤이 그대로 돌고 역방향도 된다. 스냅 스크롤은 쓰지 않는다.
+- **랜딩**(`src/components/landing/`): `Landing`이 섹션을 조립하고 한 루프로 스크롤 속도(`--speed`, 문서 루트)와 도크(거리·페이스·시간·장)를 갱신한다.
+  섹션마다 움직임의 주인이 다르다 — `Hero`(워밍업, 자동 재생 필름 `public/media/reel.mp4`에 케이던스 마디 · 스크롤하면 작아지며 밀려남) ·
+  `Gather`(스크롤로 손이 모이는 프레임 시퀀스 → 원본 사진 + 마스크로 자른 앱 홈) · `Countdown`(화면을 채우면 1초씩 3·2·1, GO에 영상 재생) ·
+  `Run`(이 구간만 가로 — 함께 · 터널 · 도착, 네 선과 머리 점, `runGeometry`) · `Card`(떨어지듯 내려앉고 포인터로 기울어지는 카드) · `Closing`.
+  `Dock`이 아래 러닝 도크(이 페이지의 유일한 내비게이션), `TopBar`가 이름과 언어.
+  **스크롤을 가로채지 않는다** — 고정 구간은 `position: sticky` + 섹션 높이로 만든다(`src/lib/useProgress.ts`의 `--p`, 가로 패널의 `--lp`).
+  React는 스크롤마다 다시 렌더하지 않는다. **사진 속 화면 자리(%)와 마스크는 사진을 재서 얻은 것이다** — 사진을 바꾸면 `Gather`의 `SCREENS`·
+  `Card`의 `PHONE`·`.watch` 위치와 `public/scenes/*-screen(s).png`를 다시 만든다.
+- `src/components/scenes/` — 패널이 쓰는 조각(`RunCardArt`: 앱 단체 카드의 시그니처 배경, `Route`, `crew`: 네 사람·거리·경로 모양).
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
-- `src/components/reactbits/` — `AnimatedContent`(리빌) · `ClickSpark` · `SafeBoundary` 셋만 남았다.
-- `src/components/ui/` — 실캡처 목업과 제품 장면(`DeviceFrame`: 베젤+스크린샷+스크롤 3D 틸트,
-  `HeroScrub`: 스크롤 구동 프레임 배경, `BumpPair`: 두 폰이 가까워지고 인원이 1→2, `Facts`: 아이콘 없는 목록) + `ui.css`.
-- `src/components/sections/` — 랜딩 섹션(Nav·Hero[다크·스크러빙]·OneStart·Bump·LiveSession·RunCard·Features·CTA[다크]·Footer).
-  `App.tsx`가 조립하고 전체를 `.landing`으로 감싼다 — **랜딩 타이포·컨테이너 폭은 그 안으로만 좁힌다.**
-  `.container`·`.h2`·`.lede`·`html:lang(ko)` 제목 규칙을 지원·약관·회사 소개가 같이 쓰기 때문이다.
-- `public/shots/` — iOS 시뮬레이터 실캡처(home·activity·card·running). `public/brand/` — 로고(wordmark·icon).
-- `public/hero/` — 히어로 배경 프레임 시퀀스(`seq/` 316장 · 2.7MB)와 포스터 · `manifest.json`.
-  `scripts/hero-frames.sh`가 원본 클립에서 만든다 — 워터마크를 잘라내고 블러·톤을 인코딩 단계에서 굽는다.
-  **새 스크린샷은 iPhone 17 Pro 시뮬레이터에서 Release 빌드로 캡처한다**(Debug는 홈에 개발용 칩이 뜬다). 지역은 서울(뚝섬)로 맞춘다.
+- `src/components/reactbits/SafeBoundary` — 장식 레이어용 에러 바운더리.
+- `public/scenes/` — 장면 사진(생성) · 화면 마스크 · **스크롤 구동 영상의 프레임 시퀀스**(`gather`·`tunnel/`, 각 61장 + `manifest.json`,
+  `landing/ScrubFrames`가 캔버스에 그린다 · `scripts/scene-frames.sh`로 뽑는다 · `REVERSE=1`은 거꾸로). `public/media/` — 자동 재생 영상(워밍업 필름·출발선·오늘 저녁).
+  `public/brand/` — 로고(wordmark·icon).
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/` — 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
-- `src/styles/sections.css` — 섹션 레이아웃 · 반응형.
+- `src/styles/landing.css` — 랜딩 섹션·도크·위 막대와 반응형·정지 상태. `src/styles/sections.css` — 랜딩 타이포와 푸터.
 
 ## 배포
 
