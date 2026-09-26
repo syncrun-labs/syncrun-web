@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { buildGeometry, yAt, type Anchor, type Geometry, type PanelKey } from "./geometry";
-import { Panels } from "./Panels";
+import { GATHER_SETTLED, Panels } from "./Panels";
 import Dock, { type DockHandle } from "./Dock";
 import TopBar from "./TopBar";
+import { scrubbers } from "./scrub";
 import SafeBoundary from "../reactbits/SafeBoundary";
 import { CREW_KM, CREW_ON_DARK } from "../scenes/crew";
 import { shouldSkipReveal } from "../../lib/reveal";
@@ -53,7 +54,10 @@ export default function Course() {
       stillRef.current = true;
       course.classList.add("is-still");
       panels.forEach((p) => p.style.setProperty("--lp", "1"));
-      if (gphoto) gphoto.dataset.count = "4";
+      if (gphoto) {
+        gphoto.dataset.count = "4";
+        gphoto.dataset.settled = "true";
+      }
       if (countRef.current) countRef.current.textContent = "4";
       if (tunnel) tunnel.dataset.mode = "steps";
       if (tunnelKmRef.current) tunnelKmRef.current.textContent = (CREW_KM[0] * 0.7).toFixed(2);
@@ -98,7 +102,10 @@ export default function Course() {
         const b = boxes.get(p.dataset.panel as PanelKey)!;
         const lp = Math.min(1, Math.max(0, (vw - (b.x - sx)) / (vw + b.w)));
         p.style.setProperty("--lp", lp.toFixed(4));
+        scrubbers.get(p)?.(lp);
         if (p === gphoto) {
+          const settled = lp >= GATHER_SETTLED ? "true" : "false";
+          if (p.dataset.settled !== settled) p.dataset.settled = settled;
           const n = String(1 + JOIN.filter((a) => lp >= a).length);
           if (p.dataset.count !== n) {
             p.dataset.count = n;

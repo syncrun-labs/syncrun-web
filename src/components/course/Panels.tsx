@@ -6,9 +6,15 @@ import start from "@/public/scenes/start.jpg";
 import wrist from "@/public/scenes/wrist.jpg";
 import tunnel from "@/public/scenes/tunnel.jpg";
 import after from "@/public/scenes/after.jpg";
-import curve from "@/public/scenes/curve.jpg";
+import curveEnd from "@/public/scenes/curve-end.jpg";
 import AppleGlyph from "../scenes/AppleGlyph";
 import RunCardArt from "../scenes/RunCardArt";
+import ScrubFrames from "./ScrubFrames";
+import riverSeq from "@/public/scenes/river/manifest.json";
+import startSeq from "@/public/scenes/start/manifest.json";
+import tunnelSeq from "@/public/scenes/tunnel/manifest.json";
+import curveSeq from "@/public/scenes/curve/manifest.json";
+import gatherSeq from "@/public/scenes/gather/manifest.json";
 import { CREW_KM, CREW_ON_LIGHT } from "../scenes/crew";
 import { useLang } from "../../i18n/lang";
 import { APP_STORE_URL } from "../../lib/app-store";
@@ -28,6 +34,9 @@ const SCREENS = [
   { cx: 81.3, cy: 45.0, w: 15.0, h: 31.0, rot: -101 },
   { cx: 18.9, cy: 58.1, w: 15.2, h: 32.2, rot: 77.8 },
 ] as const;
+
+/** 모으기 영상이 끝나 손이 멈추는 지점(--lp). 폰 화면은 이 뒤에만 켜진다 — 코스가 같은 값을 쓴다 */
+export const GATHER_SETTLED = 0.38;
 
 /** 러닝 직후 사진 속 폰 화면 */
 const AFTER_PHONE = { cx: 72.4, cy: 52.7, w: 33.5, h: 56.3, rot: 12.1 } as const;
@@ -71,7 +80,16 @@ export function Panels({
       {/* ── 출발 전 ─────────────────────────────── */}
       <section className="pnl pnl--hero pnl--photo" data-panel="hero" id="top">
         <div className="pnl__parallax">
-          <Image src={river} alt={t.hero.photoAlt} fill priority sizes="130vw" className="pnl__img" />
+          {/* 첫 화면에서 --lp 는 0.5 에서 시작한다(패널 왼쪽 끝이 화면 왼쪽) — 나가는 동안 앞으로 걷는다 */}
+          <ScrubFrames
+            name="river"
+            frames={riverSeq.frames}
+            from={0.5}
+            to={0.95}
+            poster={river}
+            alt={t.hero.photoAlt}
+            priority
+          />
         </div>
         <div className="pnl__shade" aria-hidden="true" />
         <div className="pnl__copy hero__copy">
@@ -119,7 +137,17 @@ export function Panels({
 
       {/* ── 모으기: 사진 ───────────────────────── */}
       <section className="pnl pnl--gphoto" data-panel="gphoto" data-count="1">
-        <Image src={gather} alt={t.gather.photoAlt} fill sizes="100vh" className="pnl__img gphoto__img" />
+        {/* 손이 가장자리에서 들어와 멈추면(GATHER_SETTLED) 원본 사진으로 넘어가고, 그 위에 폰 화면이 켜진다 */}
+        <ScrubFrames
+          name="gather"
+          frames={gatherSeq.frames}
+          from={0.12}
+          to={GATHER_SETTLED}
+          settle
+          poster={gather}
+          alt={t.gather.photoAlt}
+          sizes="100vh"
+        />
         {SCREENS.map((s, i) => (
           <div key={i} className="gphoto__screen" data-i={i} style={place(s)} aria-hidden="true">
             <PhoneHome btnSolo={t.gather.btnSolo} btnReady={t.gather.btnReady} names={t.crew} />
@@ -139,7 +167,15 @@ export function Panels({
       {/* ── 출발선 ─────────────────────────────── */}
       <section className="pnl pnl--sphoto pnl--photo" data-panel="sphoto">
         <div className="pnl__parallax">
-          <Image src={start} alt={t.start.photoAlt} fill sizes="130vw" className="pnl__img" />
+          {/* 패널이 한가운데를 지날 즈음 사람들이 선을 따라 뛰어나간다 */}
+          <ScrubFrames
+            name="start"
+            frames={startSeq.frames}
+            from={0.3}
+            to={0.62}
+            poster={start}
+            alt={t.start.photoAlt}
+          />
         </div>
         <div className="pnl__shade" aria-hidden="true" />
         <div className="pnl__copy sphoto__copy">
@@ -188,7 +224,14 @@ export function Panels({
       {/* ── 터널 ──────────────────────────────── */}
       <section className="pnl pnl--tunnel pnl--photo" data-panel="tunnel" data-mode="gps">
         <div className="pnl__parallax">
-          <Image src={tunnel} alt={t.tunnel.photoAlt} fill sizes="130vw" className="pnl__img" />
+          <ScrubFrames
+            name="tunnel"
+            frames={tunnelSeq.frames}
+            from={0.15}
+            to={0.85}
+            poster={tunnel}
+            alt={t.tunnel.photoAlt}
+          />
         </div>
         <div className="pnl__shade" aria-hidden="true" />
         <div className="pnl__copy tunnel__copy">
@@ -246,11 +289,13 @@ export function Panels({
       {/* ── 오늘 저녁 ─────────────────────────── */}
       <section className="pnl pnl--cta pnl--photo" data-panel="cta" id="cta">
         <div className="pnl__parallax">
-          <Image src={curve} alt="" fill sizes="130vw" className="pnl__img" />
+          {/* 마지막 패널은 코스 끝에서 --lp 가 0.5 에 멈춘다. 영상이 먼저 끝나고, 멈춘 마지막 장 위에 코랄 선이 그어진다.
+              포스터가 마지막 장인 이유다 — 세로로 풀린 정적 상태에서도 선이 길 위에 맞는다 */}
+          <ScrubFrames name="curve" frames={curveSeq.frames} from={0.05} to={0.34} poster={curveEnd} alt="" />
         </div>
         <div className="pnl__shade" aria-hidden="true" />
         <svg className="cta__line" viewBox="0 0 1000 562.5" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <path d="M640 600 C636 490 618 410 572 352 S468 284 392 256" pathLength={1} className="cta__path" />
+          <path d="M722 575 C690 500 650 430 606 360 S548 280 516 250" pathLength={1} className="cta__path" />
         </svg>
         <div className="pnl__copy cta__copy">
           <h2 className="h2">

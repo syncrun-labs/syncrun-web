@@ -128,6 +128,34 @@
   will-change: transform;
 }
 
+/* 영상 배경 — 포스터 사진 위에 캔버스가 첫 장을 그리는 순간부터 덮는다 */
+.scrub {
+  position: absolute;
+  inset: 0;
+}
+
+.scrub__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scrub__canvas.is-live {
+  opacity: 1;
+}
+
+.scrub__canvas.is-live.is-settled {
+  opacity: 0;
+}
+
+/* 손이 멈추기 전에는 어떤 화면도 켜지 않는다 */
+.pnl--gphoto:not([data-settled="true"]) .gphoto__screen {
+  opacity: 0 !important;
+}
+
 .pnl__shade {
   position: absolute;
   inset: 0;
@@ -853,11 +881,13 @@ html:lang(en) .landing .hero__title {
     linear-gradient(90deg, rgba(5, 5, 7, 0.6) 0%, transparent 60%);
 }
 
+/* 영상과 같은 상자·같은 패럴랙스를 탄다 — 선이 영상 마지막 장의 길 위에 맞는다 */
 .cta__line {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  inset: 0 -7%;
+  width: 114%;
   height: 100%;
+  transform: translate3d(calc((var(--lp) - 0.5) * -9%), 0, 0);
   filter: drop-shadow(0 0 14px rgba(220, 86, 91, 0.55));
 }
 
@@ -867,7 +897,8 @@ html:lang(en) .landing .hero__title {
   stroke-width: 7;
   stroke-linecap: round;
   stroke-dasharray: 1 2;
-  stroke-dashoffset: calc(1 - clamp(0, calc((var(--lp) - 0.3) / 0.22), 1));
+  /* 마지막 패널이라 --lp 가 0.5 를 넘지 못한다 — 영상이 끝난(0.34) 뒤 그 안에서 다 그린다 */
+  stroke-dashoffset: calc(1 - clamp(0, calc((var(--lp) - 0.34) / 0.14), 1));
 }
 
 .cta__copy {

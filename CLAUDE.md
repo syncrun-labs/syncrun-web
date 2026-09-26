@@ -118,7 +118,12 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
 - `src/components/scenes/` — 패널이 쓰는 조각(`RunCardArt`: 앱 단체 카드의 시그니처 배경, `Route`, `crew`: 네 사람·거리·경로 모양).
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
 - `src/components/reactbits/SafeBoundary` — 장식 레이어용 에러 바운더리.
-- `public/scenes/` — 장면 사진 7장(생성). `public/brand/` — 로고(wordmark·icon).
+- `public/scenes/` — 장면 사진(생성)과 **패널 배경 영상의 프레임 시퀀스**(`river`·`gather`·`start`·`tunnel`·`curve/`, 각 61장 + `manifest.json`).
+  영상은 `<video>`가 아니라 `course/ScrubFrames`가 캔버스에 그린다 — 패널의 `--lp` 구간(`from`~`to`)이 첫 장~끝 장이다.
+  시퀀스는 패널이 화면 오른쪽 끝에 닿을 때부터 받고, 포스터 사진이 늘 밑에 깔린다(축소 모션·데이터 절약에서는 사진만).
+  클립은 `scripts/scene-frames.sh`로 뽑는다(`REVERSE=1`은 거꾸로 — 모으기는 "사진에서 손이 빠져나가는" 클립을 뒤집었다).
+  모으기는 영상이 끝나면(`GATHER_SETTLED`) 원본 사진으로 넘어가고 그 위에 폰 화면을 켠다 — 합성 좌표가 원본 사진 기준이라서다.
+  `public/brand/` — 로고(wordmark·icon).
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/` — 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
