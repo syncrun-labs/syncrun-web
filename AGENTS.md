@@ -1,4 +1,6 @@
-# CLAUDE.md — syncrun-web
+# AGENTS.md — syncrun-web
+
+> 이 문서가 원본이다. `CLAUDE.md`는 `@AGENTS.md` 한 줄로 이 파일을 불러오기만 한다 — 규칙을 고칠 때는 여기를 고친다.
 
 SyncRun 랜딩페이지. 맞대면 그 자리에서 함께 뛰는 러닝 앱 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
 리퀴드 글래스 감성을 [React Bits](https://reactbits.dev) 컴포넌트로 웹에 옮긴 마케팅 사이트다.
