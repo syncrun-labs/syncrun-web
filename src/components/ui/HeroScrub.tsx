@@ -5,25 +5,44 @@ import manifest from "@/public/hero/manifest.json";
 import { shouldSkipReveal } from "../../lib/reveal";
 
 /**
- * HeroScrub — 스크롤이 프레임을 넘기는 히어로 배경.
+ * HeroScrub — 스크롤이 배경 프레임을 넘기고, 카피는 제자리에서 떴다 진다.
  *
- * 블러를 구운 프레임 시퀀스(`public/hero/seq/`)를 캔버스에 그리고, 히어로 안에서의 스크롤
- * 진행도를 프레임 인덱스에 직접 매핑한다. `<video>` 를 쓰지 않는 이유는 디코더가 키프레임
- * 사이를 뛰지 못해 스크롤 위치에 맞는 프레임을 정확히 짚을 수 없기 때문이다(docs/adr/0003).
+ * 무대는 `position: sticky` 로 한 화면에 머물고, 스크롤 진행도가 (1) 프레임 인덱스와
+ * (2) 마디 카피의 투명도를 같이 움직인다. 카피가 화면을 따라 흘러가지 않고 같은 자리에서
+ * 교차하는 것이 핵심이다 — 영상이 넘어가면서 글자가 등장한다(docs/adr/0003).
  *
- * 매끈함은 셋이 같이 만든다:
- *   1) 스크롤 이벤트가 아니라 rAF 루프에서 그리고 진행도를 감쇠시킨다 — 입력이 거칠어도 화면은 이어진다
- *   2) 감쇠된 진행도는 소수점 프레임 위치를 주므로 인접 두 장을 소수부만큼 겹쳐 그린다
- *   3) 로더가 진행 방향을 먼저 채우고, 성긴 키프레임을 고정해 확 감아도 근처 장이 잡힌다
+ * `<video>` 를 쓰지 않는 이유는 디코더가 키프레임 사이를 뛰지 못해 스크롤 위치에 맞는 프레임을
+ * 정확히 짚을 수 없기 때문이다. 블러를 구운 프레임은 고주파 성분이 없어 장당 8KB다.
  *
- * 포스터는 항상 깔려 있다 — 시퀀스가 오기 전, 축소 모션, 데이터 절약, 로드 실패 어디서나 이 그림이 남는다.
+ * **기본 상태는 스크러빙이 아니다.** 서버가 낸 HTML 은 세 마디가 그냥 쌓인 한 화면짜리 다크
+ * 섹션이고, 이 컴포넌트가 마운트되어 `hero--scrub` 클래스를 붙일 때만 무대가 길어진다.
+ * 그래서 축소 모션·`?reveal=all`·데이터 절약·JS 실패 어디서나 카피가 온전히 읽힌다.
+ *
  * 스크롤을 가로채지 않는다. 네이티브 스크롤이고 역방향도 그대로 돈다.
- *
- * 스테이지는 `position: sticky` 라 진행도의 기준은 자기 자신이 아니라 조상 `.hero` 다.
  */
 
 const FRAMES = manifest.frames;
 const LAST = FRAMES - 1;
+
+/* 스크롤 진행도(p) → 프레임 위치(f). 둘 다 0..1 이라 프레임 수가 바뀌어도 그대로 선다.
+   원본 클립의 서사와 맞춰 둔다 — 달려온다 → 만난다 → 폰을 모은다 → 함께 간다.
+   `f` 가 같은 구간은 정지(hold)다. 프레임은 멈추고 스크롤만 흘러 카피를 읽을 시간이 생긴다. */
+const TIMELINE: { p: [number, number]; f: [number, number] }[] = [
+  { p: [0.0, 0.24], f: [0.0, 0.3] }, // 달려온다
+  { p: [0.24, 0.34], f: [0.3, 0.476] }, // 만난다
+  { p: [0.34, 0.46], f: [0.476, 0.622] }, // 폰을 모은다 — 느리게
+  { p: [0.46, 0.58], f: [0.622, 0.622] }, // 정지 — 맞댐
+  { p: [0.58, 0.82], f: [0.622, 0.952] }, // 함께 간다
+  { p: [0.82, 1.0], f: [0.952, 1.0] }, // 마무리
+];
+
+/* 마디 카피의 등장·퇴장 구간 [인 시작, 인 끝, 아웃 시작, 아웃 끝].
+   첫 마디는 첫 화면부터 떠 있어야 하고, 마지막 마디는 끝까지 남는다(CTA 가 그 안에 있다). */
+const CUES: [number, number, number, number][] = [
+  [-1, -0.5, 0.22, 0.3],
+  [0.33, 0.42, 0.6, 0.68],
+  [0.71, 0.8, 2, 3],
+];
 
 const TAU = 0.075; // 감쇠 시상수(초). 클수록 무겁다
 const SNAP = 0.08; // 이보다 멀리 튀면 감쇠 없이 바로 붙는다
@@ -37,6 +56,21 @@ const MAX_DPR = 2;
 
 const frameSrc = (i: number) => `/hero/seq/f-${String(i).padStart(4, "0")}.webp`;
 
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
+const ramp = (v: number, a: number, b: number) => (b === a ? (v >= b ? 1 : 0) : clamp01((v - a) / (b - a)));
+
+/** 진행도를 타임라인에 태워 프레임 위치(0..1)로 */
+function framePos(p: number): number {
+  for (const seg of TIMELINE) {
+    const [p0, p1] = seg.p;
+    if (p <= p1 || seg === TIMELINE[TIMELINE.length - 1]) {
+      const t = p1 === p0 ? 1 : clamp01((p - p0) / (p1 - p0));
+      return seg.f[0] + (seg.f[1] - seg.f[0]) * t;
+    }
+  }
+  return 1;
+}
+
 export default function HeroScrub({ alt }: { alt: string }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -46,17 +80,22 @@ export default function HeroScrub({ alt }: { alt: string }) {
     const canvas = canvasRef.current;
     if (!stage || !canvas) return;
 
-    // 진행도의 기준은 스크롤 구간을 가진 히어로다. 스테이지는 그 안에 붙어 있을 뿐이다.
+    // 진행도의 기준은 스크롤 구간을 가진 히어로다. 무대는 그 안에 붙어 있을 뿐이다.
     const hero = stage.closest<HTMLElement>(".hero");
     if (!hero) return;
 
-    // 축소 모션·QA·데이터 절약에서는 시퀀스를 아예 받지 않는다. 포스터가 그대로 남는다.
+    // 축소 모션·QA·데이터 절약에서는 스크러빙을 켜지 않는다. 쌓인 카피가 그대로 남는다.
     if (shouldSkipReveal()) return;
     const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
     if (nav.connection?.saveData) return;
 
     const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
+
+    const beats = Array.from(hero.querySelectorAll<HTMLElement>(".hero__beat"));
+
+    // 여기서부터 무대가 길어진다 — 이 클래스가 붙어야 sticky·절대배치가 산다
+    hero.classList.add("hero--scrub");
 
     let alive = true;
 
@@ -153,12 +192,12 @@ export default function HeroScrub({ alt }: { alt: string }) {
     };
 
     /* ── 진행도 ───────────────────────────────────────────── */
-    /** 히어로 안에서의 스크롤 진행도 0..1 — 스테이지가 붙어 있는 구간이 전부다 */
+    /** 히어로 안에서의 스크롤 진행도 0..1 — 무대가 붙어 있는 구간이 전부다 */
     const target = () => {
       const r = hero.getBoundingClientRect();
       const range = r.height - window.innerHeight;
       if (range <= 0) return 0;
-      return Math.max(0, Math.min(1, -r.top / range));
+      return clamp01(-r.top / range);
     };
 
     let cur = target();
@@ -166,6 +205,19 @@ export default function HeroScrub({ alt }: { alt: string }) {
     let drawn = -1;
     let raf = 0;
     let shown = false;
+
+    /** 마디 카피 — 같은 자리에서 떴다 진다. 화면을 따라 흘러가지 않는다. */
+    const cue = (p: number) => {
+      beats.forEach((el, i) => {
+        const c = CUES[i];
+        if (!c) return;
+        const o = ramp(p, c[0], c[1]) * (1 - ramp(p, c[2], c[3]));
+        el.style.opacity = o.toFixed(3);
+        el.style.transform = `translate3d(0, ${((1 - o) * 14).toFixed(1)}px, 0)`;
+        // 보이지 않는 마디는 탭 순서에서도 빠진다
+        el.style.visibility = o < 0.02 ? "hidden" : "visible";
+      });
+    };
 
     const tick = (now: number) => {
       if (!alive) return;
@@ -180,8 +232,9 @@ export default function HeroScrub({ alt }: { alt: string }) {
       cur = Math.abs(gap) > SNAP ? t : cur + gap * (1 - Math.exp(-dt / TAU));
 
       resize();
+      cue(cur);
 
-      const pos = cur * LAST;
+      const pos = framePos(cur) * LAST;
       const i0 = Math.floor(pos);
       const frac = pos - i0;
       const forward = gap >= 0;
@@ -192,7 +245,6 @@ export default function HeroScrub({ alt }: { alt: string }) {
         return;
       }
 
-      // 위치가 실질적으로 같고 다시 그릴 이유도 없으면 건너뛴다
       const key = Math.round(pos * 100);
       if (dirty || key !== drawn) {
         drawn = key;
@@ -214,6 +266,7 @@ export default function HeroScrub({ alt }: { alt: string }) {
     };
 
     resize();
+    cue(cur);
     pump(0, true);
     raf = requestAnimationFrame(tick);
 
@@ -224,6 +277,12 @@ export default function HeroScrub({ alt }: { alt: string }) {
       alive = false;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
+      hero.classList.remove("hero--scrub");
+      for (const el of beats) {
+        el.style.opacity = "";
+        el.style.transform = "";
+        el.style.visibility = "";
+      }
       cache.clear();
       inflight.clear();
     };
@@ -231,7 +290,7 @@ export default function HeroScrub({ alt }: { alt: string }) {
 
   return (
     // 배경이지만 제품의 이야기를 담고 있어 장식으로 숨기지 않는다 — 한 장의 그림으로 읽힌다.
-    <div className="hero__stage" ref={stageRef} role="img" aria-label={alt}>
+    <div className="hero__backdrop" ref={stageRef} role="img" aria-label={alt}>
       {/* 포스터는 항상 깔려 있다. 캔버스는 첫 프레임을 그린 뒤에야 위를 덮는다. */}
       <NextImage src={poster} alt="" fill sizes="100vw" priority className="hero__poster" aria-hidden="true" />
       <canvas className="hero__canvas" ref={canvasRef} aria-hidden="true" />
