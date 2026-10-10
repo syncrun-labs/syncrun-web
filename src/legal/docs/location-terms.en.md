@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.6 |
-| Effective date | 30 September 2026 |
-| Last amended | 30 September 2026 |
+| Document version | v1.7 |
+| Effective date | 17 October 2026 |
+| Last amended | 10 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -75,7 +75,7 @@ Matters not specified in these Terms are governed by the Location Information Ac
    - Recipient of the location information
    - Method of collection, use or provision of location information
 
-3. The Company is building the capability to record and preserve the records described in paragraph 2 automatically in its location information system and to provide a means of access to them; when it takes effect, the Company will give notice of that fact and the effective date and update this Article. As at the effective date of these Terms, such records are not being kept.
+3. From 17 October 2026 the Company records and preserves the records described in paragraph 2 automatically in its location information system, and destroys records whose retention period has passed without delay. A personal location information subject may, under Article 8, request access to or notification of the records concerning them through the contact address (contact@syncrunlabs.com), and the Company responds without delay.
 
 4. These records are used only to respond to a request for access or notification by the subject of personal location information (Article 8) and to prevent misuse of location information.
 
@@ -275,4 +275,4 @@ Under Article 24 of the Location Information Act, you have the following rights.
 
 ## Addendum
 
-These Terms take effect on 30 September 2026 and replace the previous Terms (effective 20 September 2026).
+These Terms take effect on 17 October 2026 and replace the previous Terms (effective 30 September 2026).

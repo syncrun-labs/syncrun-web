@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.4 |
-| Effective date | 20 September 2026 |
-| Last amended | 20 September 2026 |
+| Document version | v1.5 |
+| Effective date | 17 October 2026 |
+| Last amended | 10 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -28,6 +28,8 @@ The terms used in these Terms are defined as follows.
 6. "Running session" or "session" means the unit in which a group formed through a bump runs together.
 7. "Run card" means the image-format output that the Service generates from a run record a member has completed.
 8. "Posting" means any information a member posts or registers while using the Service, such as name, profile photo, run title and run card background image.
+9. "Paid service" means a subscription service, other than the services the Company provides free of charge, that a member uses for a fee.
+10. "App marketplace operator" means an operator, such as the Apple App Store or Google Play, that distributes and sells the Service and paid services and processes payment for them.
 
 Terms not defined here follow the relevant laws and general commercial practice.
 
@@ -107,7 +109,8 @@ The Company provides the following services.
 4. Run card creation and sharing: creation of image cards from run records, and sharing
 5. Heart rate recording: measurement and recording of heart rate via Apple Watch or heart-rate-capable earbuds, and saving workouts to the Health (HealthKit) app
 6. Notifications: push notifications such as the last-runner alert and inactivity check
-7. Any other service the Company develops or provides to members through partnerships
+7. Paid services: the subscription services set out in Chapter 3-2
+8. Any other service the Company develops or provides to members through partnerships
 
 The heart rate recording service in item 5 is provided only in the iOS app and is not provided in the Android app.
 
@@ -140,6 +143,62 @@ The heart rate recording service in item 5 is provided only in the iOS app and i
 3. Members may view, edit and delete their own run records at any time. Deleted run records cannot be recovered, so the decision should be made carefully.
 
 4. The Company is not responsible for loss of run records arising from causes not attributable to the Company, such as loss, failure or reset of a device, deletion of the app, or member error.
+
+---
+
+## Chapter 3-2 Paid Services
+
+### Article 11-2 (Types and Scope of Paid Services)
+
+1. The Company provides subscription paid services (such as SyncRun Plus and SyncRun Crew) that renew automatically on a monthly or yearly basis.
+
+2. The name of each paid service, the features and scope it makes available, its price and its period are shown on the purchase screen in the app and in the app marketplace operator's product information. Members can review these before purchase, and some paid features can be previewed before purchase.
+
+3. The Company may add features to paid services. Where it changes the scope of a paid service in a way unfavourable to members, it gives notice under Article 10(1).
+
+### Article 11-3 (Payment and Sale)
+
+1. Paid services are purchased as in-app subscriptions through the app marketplace operator, which handles payment, billing and receipts. The Company does not collect or keep members' payment method information.
+
+2. Prices of paid services include value-added tax, and prices may differ by country or region according to the app marketplace operator's policy and exchange rates.
+
+3. Paid services are linked to the member's account. A member can restore purchases on another device with the same app marketplace account and continue to use the paid service.
+
+### Article 11-4 (Automatic Renewal and Cancellation)
+
+1. A paid service renews automatically for the same period at the price then in effect until the member cancels it. To avoid being charged for the next period, the member must cancel at least 24 hours before the current period ends.
+
+2. Members can cancel at any time in the subscription management screen provided by the app marketplace operator (on iOS, in the device's Settings app or through "Manage subscription" in the app). After cancellation, the member can continue to use the paid service until the end of the period already paid for.
+
+3. Deleting the account, signing out or deleting the app does not cancel a paid service. The member must cancel separately under paragraph 2; a subscription that is not cancelled may continue to be renewed by the app marketplace operator.
+
+4. Members can switch from one paid service to another by the method the app marketplace operator provides, and any proration of charges follows the app marketplace operator's policy.
+
+### Article 11-5 (Price Changes)
+
+1. The Company may change the prices of paid services. Where it raises the price that applies to existing subscribers, it announces this in the in-app notices at least 30 days before it applies and obtains the member's consent in accordance with the app marketplace operator's policy.
+
+2. A member who purchased a paid service at a discounted price, such as a launch price, keeps that price for as long as the subscription continues without interruption. If the member cancels and buys again after the period has ended, the price at the time of the new purchase applies.
+
+### Article 11-6 (Withdrawal and Refunds)
+
+1. Paid services are digital content under Article 17(2)(5) of the Act on Consumer Protection in Electronic Commerce; because use begins at the moment of purchase, withdrawal of the purchase may be restricted. The Company states this on the purchase screen and lets members preview paid features before purchase, so that the exercise of the right of withdrawal is not obstructed.
+
+2. Refunds for paid services follow the app marketplace operator's refund policy and procedure. On iOS, refunds can be requested through Apple's Report a Problem page (reportaproblem.apple.com) or Apple Support.
+
+3. Where a member could not use a paid service properly for a reason attributable to the Company, the Company cooperates so that a refund is made through the app marketplace operator, or takes other necessary measures such as extending the period of use.
+
+### Article 11-7 (Purchases by Minors)
+
+1. Where a member under 19 purchases a paid service without the consent of a legal representative, the member or the legal representative may cancel the purchase in accordance with relevant laws.
+
+2. Where the app marketplace operator provides a parental purchase approval feature, the paid service does not start while approval is pending and starts when approval is given.
+
+### Article 11-8 (Run Records and Run Cards After a Paid Service Ends)
+
+1. Even after the period of a paid service ends or the paid service is cancelled, the member's run records and their storage, backup and synchronisation remain as they are.
+
+2. Run cards that the member styled with paid features and saved while using the paid service remain exactly as saved after the period ends, and can be saved again or shared. Choosing a paid feature anew, however, is possible only while using the paid service.
 
 ---
 
@@ -300,7 +359,7 @@ The heart rate recording service in item 5 is provided only in the iOS app and i
 
 8. The Company is not responsible for the content of postings placed on the Service by members, including their reliability and accuracy.
 
-9. The Company is not liable in relation to the use of services provided free of charge, unless relevant laws provide otherwise.
+9. The Company is not liable in relation to the use of services provided free of charge, unless relevant laws provide otherwise. Paid services are governed by relevant laws and these Terms.
 
 ---
 
@@ -346,7 +405,7 @@ Members may not assign or gift their rights to use the Service or their contract
 | Service launch date | 9 September 2026 (App Store release) |
 | Contact · personal information protection officer · location information manager | contact@syncrunlabs.com |
 
-1. The Service is provided entirely free of charge with no paid sales, and is therefore not subject to the mail-order business filing requirement under the Act on Consumer Protection in Electronic Commerce.
+1. As a simplified taxpayer under the Value-Added Tax Act, the Company is exempt from the mail-order business filing requirement under the Act on Consumer Protection in Electronic Commerce, in accordance with the Notice on Exemption Criteria for Mail-Order Business Filing.
 
 2. Matters concerning the location-based service business filing are set out in Article 16 of the Location-Based Services Terms.
 
@@ -354,4 +413,4 @@ Members may not assign or gift their rights to use the Service or their contract
 
 ## Addendum
 
-These Terms take effect on 20 September 2026 and replace the previous Terms (effective 10 September 2026).
+These Terms take effect on 17 October 2026 and replace the previous Terms (effective 20 September 2026).
