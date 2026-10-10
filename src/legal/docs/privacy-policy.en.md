@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.7 |
-| Effective date | 30 September 2026 |
-| Last amended | 30 September 2026 |
+| Document version | v1.8 |
+| Effective date | 17 October 2026 |
+| Last amended | 10 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -27,6 +27,7 @@ The Company processes personal information for the following purposes. Personal 
 5. Sending notifications: push notifications necessary for the conduct of a run, such as the last-runner alert and inactivity check
 6. Recording health and exercise information: measurement of heart rate during a run and its reflection in run records
 7. Ensuring service stability: responding to service failures, backup, and responding to security incidents
+8. Providing paid services: checking subscription status, restoring purchases, providing features according to the subscribed service, and prompting updates of unsupported app versions
 
 ---
 
@@ -71,6 +72,8 @@ Where a user selects "Hide My Email" when using Sign in with Apple, a private re
 | Technical information | Push token (APNs device token or FCM registration token) | Collected automatically when notification permission is granted | Optional |
 | Usage record | Consent history (item consented to, document version, time of consent or withdrawal) | Recorded automatically on the consent screen | Required |
 | Usage record | App settings (voice guidance, privacy defaults, step-distance calibration factor, notices read, list sorting and statistics period) | Set by the user and calculated automatically during runs | Required |
+| Subscription information | Subscription product, purchase time, expiry time, original transaction identifier, purchase environment (production or test) | Collected from transaction information signed by the app marketplace operator when a paid service is purchased or renewed | Required when using a paid service |
+| Technical information | App version, platform (iOS or Android) | Sent automatically when the app makes requests to the server | Required |
 
 The route of a run record is stored in two forms: normalised 0–1 coordinates used to draw the card and the list, and the actual route coordinates (latitude and longitude with the time of each point) used to redraw the map. The actual route coordinates are kept with the record so that its map can be restored when the user changes phones or reinstalls the app; they are provided only to the user and never to other users. Map images are not stored on the server; each device draws the map from the coordinates. Place names are recorded only at the neighbourhood (dong) level, and users cannot lower this standard in settings.
 
@@ -79,6 +82,8 @@ The measurement samples taken every 5 seconds during a run are the raw data for 
 A run card background photo is collected only where the user chooses one in the Photos app, and is kept with that run record. The purpose is to keep the card intact if you change device or delete and reinstall the app. If you do not choose a photo, none is collected, and not choosing one places no restriction on any other feature.
 
 Consent history records, item by item, which version of which legal document you consented to, or withdrew consent from, and when. It is retained in order to confirm that the consents required by the Personal Information Protection Act and the Act on the Protection and Use of Location Information were actually obtained, and to determine who must be asked for what again when the documents are amended. Entries accumulate rather than being overwritten, so withdrawals of consent are also retained.
+
+Subscription information is obtained from transaction information signed by the app marketplace operator (such as Apple), and is used to confirm which account a purchased subscription belongs to and to provide features according to the subscribed service. Because payment is processed by the app marketplace operator, the Company does not collect payment method information such as card numbers, and payment and receipt records are kept by the app marketplace operator.
 
 The step-distance calibration factor is a multiplier updated each run in order to reconcile the distance measured by steps with actual distance travelled where the location signal has been lost. The value itself is a number between 0.75 and 1.25 and is not used as body-related information.
 
@@ -136,11 +141,12 @@ The Company does not process any unique identifying information under Article 24
 | Run card background photos | Until withdrawal of membership, deletion of that record, or removal of the photo by the user |
 | Consent history (item, document version, time) | Until withdrawal of membership |
 | App settings (including the step-distance calibration factor) | Until withdrawal of membership |
+| Subscription information (subscription product, purchase time, expiry time, original transaction identifier, purchase environment) | Until withdrawal of membership |
 | Heart rate (average and 5-second samples) | Until withdrawal of membership or deletion of that record |
 | Push token (APNs or FCM) | Until withdrawal of membership or withdrawal of notification permission |
 | Live latitude and longitude during a run | Erased immediately when the session ends (held only in server memory, not stored in a database) |
 | Latitude and longitude while waiting to bump | Erased immediately on leaving the group formation screen; erased automatically within 45 seconds if updates stop (held only in server memory, not stored in a database) |
-| Records confirming use and provision of location information | Six months (Article 16(2) of the Act on the Protection and Use of Location Information). The time from which these are recorded is set out in Article 5 of the Location-Based Services Terms |
+| Records confirming use and provision of location information | Six months (Article 16(2) of the Act on the Protection and Use of Location Information) |
 
 3. Where preservation is required under the following laws, the information is retained for the corresponding period.
 
@@ -394,7 +400,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 30 September 2026.
+1. This Privacy Policy applies from 17 October 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -402,6 +408,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
+| v1.8 | 17 October 2026 | Reflects the processing purpose, subscription information items and retention period for paid services (in-app subscriptions), the purpose of using app version information, and the start of recording of records confirming use and provision of location information |
 | v1.7 | 30 September 2026 | Reflects the retention of actual route coordinates (to restore maps) and 5-second measurement samples in run records, the extension of heart rate processing from the average to samples, and the discontinued saving of workouts to the Health app |
 | v1.6 | 20 September 2026 | Reflects the items collected, trustees, transfers abroad and app access permissions arising from Google sign-in and the Android app, and includes the content of v1.5, which it replaced before that version took effect |
 | v1.5 | Replaced by v1.6 before taking effect | Reflects the retention in the account of run card background photos, consent history and app settings (announced 17 September 2026; absorbed into v1.6 before its effective date) |
@@ -413,7 +420,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 30 September 2026 and replaces the previous Policy (effective 20 September 2026).
+This Privacy Policy takes effect on 17 October 2026 and replaces the previous Policy (effective 30 September 2026).
 
 ---
 
