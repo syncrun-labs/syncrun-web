@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.5 |
-| Effective date | 17 October 2026 |
-| Last amended | 10 October 2026 |
+| Document version | v1.6 |
+| Effective date | 20 October 2026 |
+| Last amended | 13 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -110,7 +110,9 @@ The Company provides the following services.
 5. Heart rate recording: measurement and recording of heart rate via Apple Watch or heart-rate-capable earbuds, and saving workouts to the Health (HealthKit) app
 6. Notifications: push notifications such as the last-runner alert and inactivity check
 7. Paid services: the subscription services set out in Chapter 3-2
-8. Any other service the Company develops or provides to members through partnerships
+8. Crews: forming a crew with members who have run together, and viewing attendance and run results together within the crew (Article 11-9)
+9. Importing and exporting run records: importing run records from other apps or files, and exporting the member's own run records as files
+10. Any other service the Company develops or provides to members through partnerships
 
 The heart rate recording service in item 5 is provided only in the iOS app and is not provided in the Android app.
 
@@ -199,6 +201,18 @@ The heart rate recording service in item 5 is provided only in the iOS app and i
 1. Even after the period of a paid service ends or the paid service is cancelled, the member's run records and their storage, backup and synchronisation remain as they are.
 
 2. Run cards that the member styled with paid features and saved while using the paid service remain exactly as saved after the period ends, and can be saved again or shared. Choosing a paid feature anew, however, is possible only while using the paid service.
+
+### Article 11-9 (Crews)
+
+1. A crew is a group formed by a member subscribed to SyncRun Crew (the "crew leader") with members who have run together. A member joins a crew by accepting a join request after tapping phones together, and may leave at any time.
+
+2. Attendance at running sessions formed among members of the same crew is recorded automatically, and the results are posted to the crew dashboard, where members of the same crew can see them.
+
+3. The crew leader manages the crew dashboard and may appoint one deputy leader to help manage it. Only the crew leader may delete the crew or appoint the deputy leader.
+
+4. When the crew leader's SyncRun Crew period ends, the crew becomes read-only: its records and dashboard can still be viewed, but attendance recording and management stop. If any crew member subscribes to SyncRun Crew, that member may take over the crew as the new crew leader.
+
+5. Matters concerning personal information processed in crews are set out in the Privacy Policy.
 
 ---
 
@@ -413,4 +427,4 @@ Members may not assign or gift their rights to use the Service or their contract
 
 ## Addendum
 
-These Terms take effect on 17 October 2026 and replace the previous Terms (effective 20 September 2026).
+These Terms take effect on 20 October 2026 and replace the previous Terms (effective 17 October 2026).
