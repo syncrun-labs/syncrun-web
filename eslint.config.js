@@ -16,6 +16,7 @@ export default tseslint.config(
       "tests/__screenshots__",
       "next-env.d.ts",
       "public/admin",
+      "admin",
     ],
   },
   {
