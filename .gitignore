@@ -25,6 +25,8 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+# 운영 사이트 빌드 설정 — API 주소와 구글 웹 클라이언트 ID뿐이라 공개 값이다
+!admin/.env.production
 
 # playwright
 /test-results
