@@ -1,0 +1,640 @@
+/* ---------- 틀 ---------- */
+.shell {
+  min-height: 100vh;
+  padding: 16px 16px 80px;
+}
+
+.topbar {
+  position: sticky;
+  top: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 8px 8px 16px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  font: 700 17px/1 var(--font);
+}
+
+.mock-badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: 600 11px/1 var(--font);
+}
+
+.topnav {
+  display: flex;
+  gap: 4px;
+  margin-left: 12px;
+}
+
+.topnav a {
+  padding: 9px 14px;
+  border-radius: 999px;
+  color: var(--text-2);
+  text-decoration: none;
+  font: 500 15px/1 var(--font);
+  transition: background var(--dur-quick) ease-out;
+}
+
+.topnav a:hover {
+  background: var(--inset-fill);
+}
+
+.topnav a.active {
+  background: var(--primary-fill);
+  color: var(--on-primary);
+}
+
+.topbar-me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.topbar-name {
+  color: var(--text-2);
+  font: var(--font-caption);
+}
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.page-head {
+  margin-bottom: 24px;
+}
+
+.page-head h1 {
+  margin: 8px 0 6px;
+  font: var(--font-title);
+  letter-spacing: -0.02em;
+}
+
+.page-head p {
+  margin: 0;
+  color: var(--text-2);
+}
+
+/* ---------- 로그인 ---------- */
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.login-card {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: min(380px, 100%);
+  padding: 40px 28px 32px;
+  text-align: center;
+}
+
+.login-card h1 {
+  margin: 8px 0 0;
+  font: var(--font-title);
+}
+
+.login-card p {
+  margin: 0 0 18px;
+  color: var(--text-2);
+}
+
+.login-error {
+  color: var(--destructive);
+  font: var(--font-caption);
+}
+
+/* ---------- 홈 ---------- */
+.home-hero {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  max-width: 680px;
+  margin: 40px auto 56px;
+  text-align: center;
+}
+
+.home-hero h1 {
+  margin: 0;
+  font: 700 44px/1.1 var(--font);
+  letter-spacing: -0.03em;
+}
+
+.home-hero > p {
+  margin: 0 0 18px;
+  color: var(--text-2);
+}
+
+.home-search {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  text-align: left;
+}
+
+.home-actions {
+  margin-top: 18px;
+}
+
+.section-head h2,
+.panel h2 {
+  margin: 0 0 14px;
+  font: var(--font-headline);
+}
+
+.list-card {
+  padding: 10px;
+}
+
+.campaign-list,
+.recipient-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.campaign-row {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-row);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--dur-quick) ease-out;
+}
+
+.campaign-row:hover {
+  background: var(--accent-soft);
+}
+
+.campaign-row-main {
+  display: grid;
+  min-width: 0;
+}
+
+.campaign-row-title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campaign-row-sub,
+.campaign-row-stats {
+  font: var(--font-caption);
+  color: var(--text-2);
+}
+
+.campaign-row-stats strong {
+  color: var(--text);
+}
+
+.empty {
+  padding: 28px;
+  margin: 0;
+  text-align: center;
+  color: var(--text-2);
+}
+
+.empty a {
+  color: var(--accent);
+}
+
+.list-skeleton {
+  display: grid;
+  gap: 6px;
+}
+
+.row-skeleton {
+  height: 60px;
+  border-radius: var(--radius-row);
+}
+
+/* ---------- 패널 · 입력 ---------- */
+.panel {
+  padding: 22px;
+}
+
+.panel + .panel {
+  margin-top: 16px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-head h2 {
+  margin: 0;
+}
+
+.panel-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.field-head {
+  display: flex;
+  justify-content: space-between;
+  font: 500 14px/1 var(--font);
+  color: var(--text-2);
+}
+
+.field input,
+.field textarea,
+.input-inline,
+.inline-number input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--inset-fill);
+  box-shadow: inset 0 0 0 0.8px var(--hairline);
+  outline: 0;
+  resize: vertical;
+  transition: box-shadow var(--dur-quick) ease-out;
+}
+
+.field input:focus,
+.field textarea:focus,
+.input-inline:focus,
+.inline-number input:focus {
+  box-shadow:
+    inset 0 0 0 1px var(--accent),
+    0 0 0 3px var(--accent-soft);
+}
+
+.field.has-error input,
+.field.has-error textarea {
+  box-shadow: inset 0 0 0 1px var(--destructive);
+}
+
+.counter.is-over,
+.error {
+  color: var(--destructive);
+}
+
+.error {
+  font: normal 500 13px/1.3 var(--font);
+}
+
+.hint {
+  margin: 12px 0 0;
+  color: var(--text-3);
+  font: var(--font-caption);
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--inset-fill);
+}
+
+.segmented button {
+  position: relative;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font: 500 14px/1 var(--font);
+  cursor: pointer;
+  transition: background var(--dur-quick) ease-out;
+}
+
+.segmented button.is-on {
+  background: var(--bg-base);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+}
+
+.segmented .dot {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--destructive);
+}
+
+/* ---------- 조건 ---------- */
+.segment {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.segment-field {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+
+.segment-label {
+  display: grid;
+  padding-top: 8px;
+  font: 500 14px/1.2 var(--font);
+  color: var(--text-2);
+}
+
+.segment-label small {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+.segment-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.inline-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-2);
+  font: var(--font-caption);
+}
+
+.inline-number input {
+  width: 72px;
+  padding: 8px 10px;
+}
+
+.input-inline {
+  width: auto;
+  padding: 8px 12px;
+}
+
+.dash {
+  color: var(--text-3);
+}
+
+.audience {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+  color: var(--text-2);
+}
+
+.audience strong {
+  color: var(--text);
+  font-size: 20px;
+}
+
+.recipient {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-row);
+}
+
+.recipient-main {
+  display: grid;
+  min-width: 0;
+}
+
+.recipient-main small {
+  color: var(--text-2);
+  font: var(--font-caption);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipient-search {
+  position: relative;
+  z-index: 4;
+}
+
+.recipients > .search {
+  position: relative;
+  z-index: 4;
+  margin-bottom: 16px;
+}
+
+/* ---------- 작성 ---------- */
+.compose-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.sticky {
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: 16px;
+}
+
+.send-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.send-panel .segmented {
+  justify-self: start;
+}
+
+.phone {
+  padding: 18px 14px 22px;
+  border-radius: 34px;
+  background:
+    radial-gradient(120% 80% at 20% 0%, #4a5b7a 0%, transparent 60%),
+    radial-gradient(100% 90% at 100% 100%, #7e2528 0%, transparent 55%), #12131a;
+}
+
+.phone-time {
+  margin: 4px 0 16px;
+  text-align: center;
+  color: #fff;
+  font: 600 44px/1 var(--font-rounded);
+}
+
+.phone .banner {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 22px;
+  color: #fff;
+  background: rgb(255 255 255 / 0.18);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3);
+}
+
+.banner-text {
+  min-width: 0;
+}
+
+.banner-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.banner-title {
+  font: 600 15px/1.3 var(--font);
+  overflow-wrap: anywhere;
+}
+
+.banner-body {
+  font: 400 15px/1.3 var(--font);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- 상세 ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.stat {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+}
+
+.stat-label {
+  color: var(--text-2);
+  font: var(--font-caption);
+}
+
+.stat-value {
+  font: 700 34px/1 var(--font-rounded);
+}
+
+.stat-sub {
+  color: var(--text-3);
+  font: var(--font-caption);
+}
+
+.stat.is-accent .stat-value {
+  color: var(--accent);
+}
+
+.campaign-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 12px 16px;
+  margin: 0 0 18px;
+}
+
+.facts dt {
+  color: var(--text-2);
+  font: var(--font-caption);
+  padding-top: 2px;
+}
+
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.facts code {
+  font:
+    13px/1.4 ui-monospace,
+    SFMono-Regular,
+    monospace;
+  color: var(--text-2);
+}
+
+.empty-page {
+  padding: 80px 0;
+  text-align: center;
+}
+
+/* ---------- 좁은 화면 ---------- */
+@media (max-width: 860px) {
+  .compose-grid,
+  .campaign-grid {
+    grid-template-columns: 1fr;
+  }
+  .sticky {
+    position: static;
+  }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .shell {
+    padding: 12px 16px 64px;
+  }
+  .topbar {
+    flex-wrap: wrap;
+    top: 12px;
+    border-radius: 24px;
+    padding: 10px 12px;
+  }
+  .topnav {
+    order: 3;
+    width: 100%;
+    margin: 0;
+    overflow-x: auto;
+  }
+  .topbar-name {
+    display: none;
+  }
+  .home-hero h1 {
+    font-size: 34px;
+  }
+  .campaign-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .segment-field {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .segment-label {
+    padding-top: 0;
+  }
+}

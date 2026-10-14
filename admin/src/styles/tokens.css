@@ -1,0 +1,97 @@
+/*
+ * iOS 앱 SyncRun/DesignSystem 의 토큰을 그대로 옮긴 값이다(SRColor · SRFont · SRMotion).
+ * 화면 코드는 색 · 글꼴 · 모션을 직접 쓰지 않고 이 변수만 쓴다.
+ */
+:root {
+  color-scheme: light dark;
+
+  --bg-base: #ffffff;
+  --bg-elevated: #f5f5f7;
+  --bg-surface: #fbfbfd;
+  --primary-fill: #0b0b0f;
+  --on-primary: #ffffff;
+  --accent: #d23d42;
+  --accent-core: #dc565b;
+  --accent-soft: rgb(220 86 91 / 0.14);
+  --accent-glow: rgb(220 86 91 / 0.5);
+  --text: #0b0b0f;
+  --text-2: rgb(11 11 15 / 0.6);
+  --text-3: rgb(11 11 15 / 0.38);
+  --hairline: rgb(11 11 15 / 0.12);
+  --success: #30d158;
+  --warn: #ffb340;
+  --destructive: #ff3b30;
+
+  --glass-fill: rgb(255 255 255 / 0.62);
+  --glass-rim: rgb(255 255 255 / 0.85);
+  --glass-shadow: 0 12px 40px rgb(11 11 15 / 0.1), 0 2px 8px rgb(11 11 15 / 0.06);
+  --inset-fill: rgb(11 11 15 / 0.05);
+  --pattern-ink: rgb(11 11 15 / 0.06);
+
+  --font: -apple-system, "SF Pro Text", "SF Pro", system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-rounded: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+  --font-title: 700 34px/1.15 var(--font);
+  --font-headline: 600 22px/1.25 var(--font);
+  --font-body: 400 17px/1.45 var(--font);
+  --font-caption: 400 13px/1.4 var(--font);
+
+  --spring: cubic-bezier(0.2, 0.9, 0.25, 1);
+  --spring-bouncy: cubic-bezier(0.3, 1.35, 0.4, 1);
+  --dur: 350ms;
+  --dur-slow: 500ms;
+  --dur-quick: 200ms;
+
+  --radius-card: 24px;
+  --radius-row: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-base: #0b0b0f;
+    --bg-elevated: #16161c;
+    --bg-surface: #20222c;
+    --primary-fill: #ffffff;
+    --on-primary: #0b0b0f;
+    --accent: #ff8a8e;
+    --text: #ffffff;
+    --text-2: rgb(255 255 255 / 0.6);
+    --text-3: rgb(255 255 255 / 0.38);
+    --hairline: rgb(255 255 255 / 0.12);
+
+    --glass-fill: rgb(32 34 44 / 0.55);
+    --glass-rim: rgb(255 255 255 / 0.14);
+    --glass-shadow: 0 12px 40px rgb(0 0 0 / 0.45), 0 2px 8px rgb(0 0 0 / 0.3);
+    --inset-fill: rgb(255 255 255 / 0.07);
+    --pattern-ink: rgb(255 255 255 / 0.05);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text);
+  font: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}

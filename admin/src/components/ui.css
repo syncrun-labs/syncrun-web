@@ -1,0 +1,194 @@
+.pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: 999px;
+  font: 600 17px/1 var(--font);
+  cursor: pointer;
+  transition:
+    transform var(--dur-quick) var(--spring-bouncy),
+    opacity var(--dur-quick) ease-out,
+    background var(--dur-quick) ease-out;
+}
+
+.pill:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.pill:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.pill[aria-busy="true"] {
+  opacity: 1;
+}
+
+.pill-primary {
+  background: var(--primary-fill);
+  color: var(--on-primary);
+}
+
+.pill-glass {
+  background: var(--glass-fill);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim),
+    inset 0 0 0 1px var(--hairline);
+  color: var(--text);
+}
+
+.pill-quiet {
+  min-height: 40px;
+  padding: 0 16px;
+  background: var(--inset-fill);
+  color: var(--text);
+  font-size: 15px;
+}
+
+.pill-danger {
+  min-height: 40px;
+  padding: 0 16px;
+  background: transparent;
+  color: var(--destructive);
+  box-shadow: inset 0 0 0 1px var(--destructive);
+  font-size: 15px;
+}
+
+.pill-label.is-loading {
+  visibility: hidden;
+}
+
+.pill-spinner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 칩 — SRChip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--inset-fill);
+  box-shadow: inset 0 0 0 0.8px var(--hairline);
+  font: 500 14px/1 var(--font);
+  cursor: pointer;
+  transition: background var(--dur-quick) ease-out;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--primary-fill);
+  color: var(--on-primary);
+  box-shadow: none;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 13px/1 var(--font);
+  white-space: nowrap;
+}
+
+.status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-draft {
+  color: var(--text-2);
+}
+.status-scheduled {
+  color: var(--warn);
+}
+.status-sending {
+  color: var(--accent);
+}
+.status-sent {
+  color: var(--success);
+}
+.status-canceled {
+  color: var(--text-3);
+}
+
+/* 토스트 — SRToast: 아래 가운데 유리 캡슐 */
+.toast-host {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 50;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 14px 22px;
+  border-radius: 999px;
+  font: 500 15px/1.3 var(--font);
+  animation: sr-drop var(--dur) var(--spring) both;
+}
+
+.toast-error {
+  color: var(--destructive);
+}
+
+/* 확인 시트 */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: end center;
+  padding: 16px;
+  background: rgb(0 0 0 / 0.25);
+  animation: sr-fade-in var(--dur-quick) ease-out;
+}
+
+.sheet {
+  width: min(480px, 100%);
+  padding: 28px 24px 20px;
+  margin-bottom: 8vh;
+  animation: sr-drop var(--dur) var(--spring) both;
+}
+
+.sheet h2 {
+  margin: 0 0 8px;
+  font: var(--font-headline);
+}
+
+.sheet p {
+  margin: 0 0 20px;
+  color: var(--text-2);
+}
+
+.sheet-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
