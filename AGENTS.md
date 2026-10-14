@@ -139,6 +139,8 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   계약을 흉내 내는 메모리 구현(`MockApiClient`)에 함께 넣는다. 운영자 토큰은 메모리에만 둔다.
   **`admin/`을 고치면 `npm run admin:verify`를 돌리고, 그 결과 `public/admin/`을 같은 커밋에 싣는다** — Vercel은 `admin/`을 빌드하지 않는다.
   `admin/`은 이 레포의 lint · tsc 대상이 아니다(자기 oxlint · vitest). 랜딩 어디에도 `/admin` 링크를 두지 않는다.
+  `admin:build`는 운영 서버(`api.syncrunlabs.com`)와 서버 `GOOGLE_CLIENT_IDS`의 웹 클라이언트로 빌드한다 — 두 값은 비밀이 아니고 `admin/.env.production`에 있다.
+  구글 콘솔에서 그 웹 클라이언트의 승인된 자바스크립트 출처에 `https://www.syncrunlabs.com`이 있어야 로그인 버튼이 동작한다. 서버 없이 화면만 볼 때는 `admin:dev`(모의 API · 개발 로그인).
 
 ## 배포
 
