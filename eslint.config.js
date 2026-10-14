@@ -8,7 +8,15 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [".next", "dist", "test-results", "playwright-report", "tests/__screenshots__", "next-env.d.ts"],
+    ignores: [
+      ".next",
+      "dist",
+      "test-results",
+      "playwright-report",
+      "tests/__screenshots__",
+      "next-env.d.ts",
+      "public/admin",
+    ],
   },
   {
     files: ["**/*.{ts,tsx}"],
