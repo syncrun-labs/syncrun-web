@@ -11,7 +11,7 @@
     "test": "vitest run",
     "preview": "vite preview",
     "verify": "npm run lint && npm test && npm run build",
-    "build:web": "tsc -b && VITE_API_MOCK=1 vite build --base /admin/ --outDir ../public/admin --emptyOutDir"
+    "build:web": "tsc -b && vite build --base /admin/ --outDir ../public/admin --emptyOutDir"
   },
   "dependencies": {
     "react": "^19.2.8",
