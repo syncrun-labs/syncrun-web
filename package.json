@@ -19,7 +19,11 @@
     "lighthouse": "lhci collect --config=./lighthouserc.cjs",
     "lighthouse:local": "LHCI_BASE_URL=http://localhost:4173 lhci collect --config=./lighthouserc.cjs --start-server-command='npm run preview -- --port 4173 --strictPort' --start-server-ready-pattern='Local'",
     "lighthouse:report": "node scripts/lighthouse-summary.mjs",
-    "prepare": "husky"
+    "prepare": "husky",
+    "admin:dev": "npm --prefix admin run dev:mock",
+    "admin:test": "npm --prefix admin test",
+    "admin:build": "npm --prefix admin run build:web",
+    "admin:verify": "npm --prefix admin run lint && npm --prefix admin test && npm run admin:build"
   },
   "dependencies": {
     "framer-motion": "^11.18.2",

@@ -98,4 +98,4 @@ Vercel이 `main` 병합 시 프로덕션을, 브랜치 푸시 시 프리뷰를 �
 - iOS 앱: [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)
 - 백엔드: [syncrun-server](https://github.com/syncrun-labs/syncrun-server)
 
-기여 규칙은 [CLAUDE.md](CLAUDE.md)(= [AGENTS.md](AGENTS.md)).
+기여 규칙은 [AGENTS.md](AGENTS.md).

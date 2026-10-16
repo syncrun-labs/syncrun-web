@@ -1,7 +1,9 @@
-# CLAUDE.md — syncrun-web
+# AGENTS.md — syncrun-web
+
+> 이 문서가 원본이다. `CLAUDE.md`는 `@AGENTS.md` 한 줄로 이 파일을 불러오기만 한다 — 규칙을 고칠 때는 여기를 고친다.
 
 SyncRun 랜딩페이지. 맞대면 그 자리에서 함께 뛰는 러닝 앱 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
-마케팅 사이트다. 랜딩은 **한 번의 러닝**이다 — 저절로 흐르는 워밍업 필름으로 시작해, 모으기 · 3·2·1 · 달리기(이 구간만 가로) · 카드 · 오늘 저녁으로 간다(`docs/adr/0005`).
+마케팅 사이트다. 랜딩은 **한 번의 러닝**이다 — 저절로 흐르는 워밍업 필름으로 시작해, 모으기 · 3·2·1 · 달리기(이 구간만 가로) · 카드 · 오늘 저녁으로 간다(`docs/adr/0006`).
 
 ## 스택
 
@@ -23,6 +25,8 @@ npm run verify        # lint + format:check + build — 커밋 전 한 방
 npm test              # Playwright — 시각 회귀 · 약관 URL 계약
 npm run lighthouse    # Lighthouse 측정 (LHCI_BASE_URL 로 대상 지정, 기본 프로덕션)
 npm run lighthouse:report   # 측정 결과를 표로
+npm run admin:dev     # 운영 사이트(admin/) 개발 서버 — 서버 없이 모의 API로
+npm run admin:verify  # 운영 사이트 lint + test + public/admin/ 빌드
 ```
 
 **변경 후 필수 검증**: `npm run verify`가 통과해야 한다.
@@ -130,6 +134,14 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
 - `src/styles/landing.css` — 랜딩 섹션·도크·위 막대와 반응형·정지 상태. `src/styles/sections.css` — 랜딩 타이포와 푸터.
+- **`admin/` — 운영 사이트 소스**(`docs/adr/0004`). 운영자가 이용자에게 안내 알림을 보내는 독립 Vite + React 앱으로,
+  `/admin`으로 나간다. 요구사항은 허브 `FR-OPS-02` · `03` · `04`, 서버와 주고받는 규격은 허브 `contracts/api-contract.md` §21이고
+  `admin/src/api/types.ts`가 그 절을 옮긴 것이다. 서버 호출은 `ApiClient` 하나로만 한다 — 실제(`HttpApiClient`)와
+  계약을 흉내 내는 메모리 구현(`MockApiClient`)에 함께 넣는다. 운영자 토큰은 메모리에만 둔다.
+  **`admin/`을 고치면 `npm run admin:verify`를 돌리고, 그 결과 `public/admin/`을 같은 커밋에 싣는다** — Vercel은 `admin/`을 빌드하지 않는다.
+  `admin/`은 이 레포의 lint · tsc 대상이 아니다(자기 oxlint · vitest). 랜딩 어디에도 `/admin` 링크를 두지 않는다.
+  `admin:build`는 운영 서버(`api.syncrunlabs.com`)와 서버 `GOOGLE_CLIENT_IDS`의 웹 클라이언트로 빌드한다 — 두 값은 비밀이 아니고 `admin/.env.production`에 있다.
+  구글 콘솔에서 그 웹 클라이언트의 승인된 자바스크립트 출처에 `https://www.syncrunlabs.com`이 있어야 로그인 버튼이 동작한다. 서버 없이 화면만 볼 때는 `admin:dev`(모의 API · 개발 로그인).
 
 ## 배포
 

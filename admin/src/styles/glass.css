@@ -1,0 +1,96 @@
+/*
+ * 유리 표면 — iOS Glass.swift 의 규칙을 따른다.
+ * 유리는 겹치지 않는다: .glass 안의 요소는 .glass-inset 으로 한 단계만 띄운다.
+ */
+.glass {
+  background: var(--glass-fill);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim),
+    inset 0 0 0 1px var(--hairline),
+    var(--glass-shadow);
+}
+
+.glass-card {
+  border-radius: var(--radius-card);
+}
+
+.glass-capsule {
+  border-radius: 999px;
+}
+
+.glass-inset {
+  background: var(--inset-fill);
+  box-shadow: inset 0 0 0 0.8px var(--hairline);
+}
+
+/* 앱 홈의 흑백 지도 자리 — 같은 톤의 옅은 등고선 */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(60% 50% at 70% 10%, var(--accent-soft), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cg fill='none' stroke='%23808088' stroke-width='1'%3E%3Cpath d='M-20 120 C 80 60 160 180 260 120 S 420 40 500 110'/%3E%3Cpath d='M-20 170 C 90 110 170 230 270 170 S 430 90 500 160'/%3E%3Cpath d='M-20 260 C 70 210 180 320 280 250 S 410 190 500 250'/%3E%3Cpath d='M-20 330 C 100 280 170 390 290 320 S 420 270 500 330'/%3E%3Cpath d='M-20 410 C 80 370 190 460 300 400 S 430 350 500 410'/%3E%3Ccircle cx='360' cy='300' r='38'/%3E%3Ccircle cx='360' cy='300' r='70'/%3E%3Ccircle cx='110' cy='60' r='26'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:
+    auto,
+    480px 480px;
+  opacity: 1;
+}
+
+.ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg-base);
+  opacity: 0.9;
+}
+
+/* 검색 결과가 위에서 떨어지듯 하나씩 */
+@keyframes sr-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sr-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sr-shimmer {
+  from {
+    background-position: -200px 0;
+  }
+  to {
+    background-position: 200px 0;
+  }
+}
+
+.sr-drop {
+  animation: sr-drop var(--dur) var(--spring) both;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--inset-fill) 0, var(--hairline) 40%, var(--inset-fill) 80%);
+  background-size: 400px 100%;
+  animation: sr-shimmer 1.2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sr-drop,
+  .skeleton {
+    animation: none;
+  }
+}
