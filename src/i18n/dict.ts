@@ -1,5 +1,6 @@
-/* 랜딩 카피 — 한국어/영어. 제품 메시지는 syncrun 허브의 현재 사실을 따른다.
-   구조: dict[lang].<섹션>.<키>. 컴포넌트는 useLang()의 t로 접근한다. */
+/* 랜딩 카피 — 한국어/영어. 제품 메시지는 syncrun 허브의 현재 사실(requirements.md)을 따른다.
+   구조: dict[lang].<장면>.<키>. 컴포넌트는 useLang()의 t로 접근한다.
+   제목은 줄 단위 배열이다 — 한글 디스플레이의 줄바꿈을 자동에 맡기지 않는다. */
 
 import { supportMailto } from "../lib/contact";
 
@@ -11,54 +12,82 @@ export interface Fact {
   v: string;
 }
 
-/** 히어로의 한 마디. 제목은 줄 단위 배열이다 — 한글 줄바꿈을 자동에 맡기지 않는다. */
-export interface Beat {
-  h: string[];
-  /** 코랄로 낼 줄의 인덱스. 없으면 전부 흰색이다. */
-  accent?: number;
-  p: string;
-}
+/** 장면마다 함께 달리는 네 사람. 순서가 러너 팔레트 순서다(0 = 나). */
+export type Crew = [string, string, string, string];
 
 export interface Dict {
   meta: { title: string; description: string };
-  nav: { oneStart: string; bump: string; card: string; features: string; cta: string };
+  /** 아래의 러닝 도크 — 앱의 러닝 화면 도크처럼 거리·시간이 흐르고, 장(章) 눈금이 목차다. */
+  dock: {
+    chapters: [string, string, string, string, string, string];
+    km: string;
+    time: string;
+    pace: string;
+    cta: string;
+    walk: string;
+  };
+  crew: Crew;
   hero: {
-    beats: [Beat, Beat, Beat];
+    title: [string, string];
+    /** 오프닝 필름의 네 컷에 한 마디씩 — 합치면 제목이 된다 */
+    beats: [string, string, string, string];
+    lede: string;
     ctaPrimary: string;
     ctaSecondary: string;
-    /** 배경 시퀀스가 무엇을 보여주는지 — 장식이지만 설명은 남긴다. */
-    backdropAlt: string;
+    /** 경로 아래의 누적 거리 — 혼자일 때와 모였을 때 라벨이 다르다. */
+    hudSolo: string;
+    hudGroup: string;
+    photoAlt: string;
   };
-  oneStart: {
-    title: string;
-    lede: string;
-    facts: Fact[];
-    /** 버튼 3상태. 앱과 같다 — 혼자 [시작] · 결성 [준비] · 마지막 주자 [시작]. */
-    states: { tag: string; btn: string; count?: string }[];
-  };
-  bump: {
-    title: string;
+  gather: {
+    title: [string, string];
     lede: string;
     countLabel: string;
-    alt: string;
     facts: Fact[];
+    /** 폰 화면 속 홈의 주 버튼 — 혼자 [러닝 시작] · 모이면 [준비]. 앱과 같다. */
+    btnSolo: string;
+    btnReady: string;
+    photoAlt: string;
   };
-  live: { title: string; lede: string; alt: string; facts: Fact[] };
+  start: { title: string; lede: string; go: string; replay: string; photoAlt: string };
+  finish: {
+    title: [string, string];
+    lede: string;
+    total: string;
+    /** crew 순서(나·서연·하은·도윤)의 하이라이트. 1인 1개이고 해당 부문이 없으면 빈 문자열 — 억지로 붙이지 않는다 */
+    highlights: [string, string, string, string];
+    stillRunning: string;
+  };
+  together: {
+    title: [string, string];
+    lede: string;
+    /** 워치에 뜨는 응원 — 보낸 사람 이름 뒤에 붙는다. */
+    cheer: string;
+    cheerSub: string;
+    photoAlt: string;
+    spreadAlt: string;
+  };
+  tunnel: {
+    title: [string, string];
+    lede: string;
+    gps: string;
+    steps: string;
+    photoAlt: string;
+  };
   card: {
-    title: string;
+    title: [string, string];
     lede: string;
-    cardAlt: string;
-    activityAlt: string;
     facts: Fact[];
-    /** 기록 아카이브 — 카드 섹션 안의 두 번째 마디. */
-    archive: { title: string; body: string };
+    /** 카드 안의 글자 — 앱의 단체 카드와 같은 자리에 같은 항목만 둔다. */
+    date: string;
+    together: string;
+    pace: string;
+    runners: string;
+    replay: string;
+    photoAlt: string;
+    cardAlt: string;
   };
-  features: {
-    title: string;
-    lede: string;
-    items: { title: string; body: string; runner: number }[];
-  };
-  cta: { title: string[]; lede: string; ctaPrimary: string; ctaSecondary: string };
+  cta: { title: [string, string]; lede: string; ctaPrimary: string; ctaSecondary: string };
   footer: {
     tagline: string;
     cols: { head: string; links: { label: string; href: string }[] }[];
@@ -78,143 +107,120 @@ const ACCOUNT_DELETE = "account/delete";
 export const dict: Record<Lang, Dict> = {
   ko: {
     meta: {
-      title: "SyncRun — 맞대면, 그 자리에서 함께 뛴다",
+      title: "SyncRun — 달린 길은 선이 된다",
       description:
-        "거리와 페이스를 추정 없이 재는 러닝 앱. 옆 사람과 폰을 가까이 모으면 그 자리에서 함께 뛸 그룹이 만들어지고, 그날의 러닝은 한 장의 카드로 남습니다.",
+        "혼자 뛰면 한 줄, 옆 사람과 폰을 가운데로 모으면 여러 줄. GPS와 걸음으로 거리를 재고, 끝나면 함께 달린 선이 한 장의 카드로 남는 러닝 앱.",
     },
-    nav: { oneStart: "하나의 Start", bump: "맞댐", card: "러닝 카드", features: "기능", cta: "App Store" },
+    dock: {
+      chapters: ["워밍업", "모으기", "3 · 2 · 1", "함께", "터널", "카드"],
+      km: "거리",
+      time: "시간",
+      pace: "페이스",
+      cta: "App Store에서 받기",
+      walk: "아래로 스크롤하면 앞으로 달립니다",
+    },
+    crew: ["나", "서연", "하은", "도윤"],
     hero: {
-      beats: [
-        {
-          h: ["오늘의 러닝을,", "정확하게"],
-          p: "GPS와 걸음을 함께 읽어 거리·페이스·고도·케이던스를 추정 없이 잽니다.",
-        },
-        {
-          h: ["맞대면,", "그 자리에서 함께"],
-          accent: 1,
-          p: "옆 사람과 폰을 가까이 모으면 함께 뛸 그룹이 만들어집니다. 방도, 초대 링크도, 친구 추가도 없이.",
-        },
-        {
-          h: ["그리고 한 장으로", "남는다"],
-          p: "러닝이 끝나는 순간 카드는 이미 완성돼 있습니다. 함께 뛴 사람마다 다른 색의 경로가 겹쳐 그려집니다.",
-        },
-      ],
+      title: ["달린 길은 선이 되고,", "같이 달린 길은 겹칩니다."],
+      beats: ["달린 길은", "선이 되고,", "같이 달린 길은", "겹칩니다."],
+      lede: "혼자 뛰면 한 줄, 옆 사람과 폰을 모으고 뛰면 여러 줄. 끝나면 그 선이 한 장의 카드로 남습니다.",
       ctaPrimary: "App Store에서 받기",
-      ctaSecondary: "어떻게 뛰나요",
-      backdropAlt: "황혼의 물가를 달리던 두 러너가 만나 폰을 가까이 모으고 다시 함께 달려간다",
+      ctaSecondary: "어떻게 모이나요",
+      hudSolo: "오늘 나",
+      hudGroup: "오늘 우리",
+      photoAlt: "밤의 강변 산책로. 가로등이 젖은 길을 비추고 멀리 다리 불빛이 이어진다",
     },
-    oneStart: {
-      title: "버튼은 하나다",
-      lede: "혼자 뛸지 같이 뛸지 고르는 화면도, 토글도 없습니다. 같은 자리의 같은 버튼이 이름과 인원만 바꿉니다.",
-      states: [
-        { tag: "혼자", btn: "시작" },
-        { tag: "맞대면", btn: "준비", count: "2" },
-        { tag: "마지막 주자", btn: "시작", count: "5" },
-      ],
-      facts: [
-        {
-          k: "그냥 누르면 혼자",
-          v: "목표도 코스도 전부 선택이고 기본값은 그냥 달리기입니다. 누르면 3·2·1 뒤에 출발합니다.",
-        },
-        {
-          k: "맞대면 인원이 붙는다",
-          v: "결성되면 버튼이 준비로 바뀌고, 누를 때마다 카운터가 차오릅니다. 누가 준비됐는지 서로 보입니다.",
-        },
-        {
-          k: "마지막 한 사람이 시작",
-          v: "한 명만 남으면 그 사람의 버튼이 다시 시작이 되고, 전원이 같은 순간에 출발합니다.",
-        },
-      ],
-    },
-    bump: {
-      title: "그 자리에서 우리가 된다",
-      lede:
-        "함께 뛸 사람과 폰을 가까이 모으세요. 가까이 댄 사람만 우리가 되고, 인원이 하나씩 올라갑니다. 흔들거나 부딪칠 필요는 없습니다.",
+    gather: {
+      title: ["폰을 가운데로 모으면,", "그 자리에서 한 팀."],
+      lede: "함께 뛸 사람과 폰을 1m 안으로 모으세요. 1초 남짓 머물면 그룹이 되고, 모은 사람 수만큼 인원이 올라갑니다. 흔들거나 부딪칠 필요는 없습니다.",
       countLabel: "함께 뛸 사람",
-      alt: "두 iPhone이 가까워지면 함께 뛸 사람이 1에서 2가 된다",
       facts: [
         {
-          k: "가까이 댄 사람만",
-          v: "200명이 뛰는 한강에서도 옆에서 폰을 모은 사람만 합류합니다. 모르는 러너가 섞이지 않습니다.",
+          k: "모은 사람만 들어온다",
+          v: "200명이 뛰는 강변에서도 폰을 모은 사람만 합류합니다. 옆을 스쳐 가는 폰은 들어오지 않습니다.",
         },
         {
           k: "2명부터 30명까지",
-          v: "이미 결성된 그룹에 한 명이 더 대면 그대로 합류하고, 두 그룹이 대면 하나로 합쳐집니다.",
+          v: "이미 모인 그룹에 한 명이 더 모으면 그대로 합류하고, 두 그룹이 모으면 하나가 됩니다.",
         },
         {
-          k: "안 되면 합류 요청",
-          v: "정밀 거리 측정이 안 되는 기기거나 8초 동안 결성되지 않으면 합류 요청이 열립니다. 상대가 수락해야 들어옵니다.",
+          k: "혼자면 그냥 시작",
+          v: "아무와도 모으지 않았다면 같은 버튼이 혼자 뛰는 시작 버튼입니다. 고를 모드가 따로 없습니다.",
         },
       ],
+      btnSolo: "러닝 시작",
+      btnReady: "준비",
+      photoAlt: "위에서 내려다본 네 사람의 손이 폰을 원 가운데로 모으고 있다",
     },
-    live: {
-      title: "달리는 동안, 서로가 보인다",
-      lede: "함께 뛰는 사람들의 위치와 페이스가 같은 순간 흐릅니다. 지도 위에서 서로가 어디쯤인지 보입니다.",
-      alt: "러닝 화면 — 거리와 평균·현재 페이스, 케이던스와 고도",
-      facts: [
-        {
-          k: "실시간 위치·페이스",
-          v: "서로의 위치가 지도 위에서 함께 흐르고, 그룹 거리와 평균 페이스가 위에 고정됩니다.",
-        },
-        { k: "하이파이브", v: "달리다 동료를 탭하면 상대의 손목에 진동으로 전해집니다." },
-        { k: "흩어져도 괜찮다", v: "각자의 속도로 벌어져도 하나의 세션입니다. 따라잡으라고 재촉하지 않습니다." },
-        { k: "끊겨도 잃지 않는다", v: "연결이 끊겨도 기록은 그대로 쌓이고, 다시 붙으면 세션이 복원됩니다." },
-      ],
+    start: {
+      title: "모두 같은 순간에.",
+      lede: "마지막 한 사람이 시작을 누르면 모두의 화면에서 같은 숫자가 돌고, 같은 순간에 출발합니다. 화면을 잠가 두어도 출발 시각은 같습니다.",
+      go: "출발",
+      replay: "다시 3 · 2 · 1",
+      photoAlt: "젖은 아스팔트 위 흰 선 뒤에 네 사람의 러닝화가 나란히 서 있다",
+    },
+    finish: {
+      title: ["먼저 들어온 사람은", "기다리며 응원합니다."],
+      lede: "종료는 각자 합니다. 먼저 끝낸 화면에는 아직 달리는 사람이 보이고, 마지막 사람이 들어오는 순간 오늘 우리의 합산 거리와 하이라이트가 완성됩니다.",
+      total: "오늘 우리",
+      highlights: ["가장 멀리 달렸어요", "최고 페이스", "가장 꾸준한 페이스", ""],
+      stillRunning: "달리는 중",
+    },
+    together: {
+      title: ["흩어져도,", "같이 뛰는 중입니다."],
+      lede: "페이스가 달라 멀어져도 그룹은 그대로입니다. 달리는 동안 서로의 거리와 페이스가 보이고, 이름을 한 번 누르면 그 사람 손목에 하이파이브가 닿습니다.",
+      cheer: "하이파이브",
+      cheerSub: "함께 달리며 보냄",
+      photoAlt: "달리는 중인 손목의 워치에 동료가 보낸 하이파이브가 떠 있다",
+      spreadAlt: "같은 곳에서 출발한 네 선이 각자의 속도로 벌어져 서로 다른 거리에서 멈춘다",
+    },
+    tunnel: {
+      title: ["신호가 끊겨도,", "선은 이어집니다."],
+      lede: "지하차도나 고가 아래처럼 위치 신호가 약한 곳에서는 배운 보폭으로 걸음이 거리를 이어받습니다. 신호가 돌아와도 거리가 한꺼번에 몰려 들어오지 않아 페이스가 튀지 않습니다.",
+      gps: "위치로 재는 중",
+      steps: "걸음으로 재는 중",
+      photoAlt: "주황색 조명이 늘어선 지하차도 입구와 젖은 바닥",
     },
     card: {
-      title: "끝나면, 이미 만들어져 있다",
-      lede: "러닝이 끝나는 순간 카드는 완성돼 있습니다. 개인용과 단체용을 따로 만들지 않고 한 장만 남깁니다.",
-      cardAlt: "러닝 카드 — 함께 뛴 다섯 사람의 경로가 각자의 색으로 겹쳐 그려져 있다",
-      activityAlt: "활동 화면 — 지금까지 이어 온 거리와 함께 만든 러닝",
+      title: ["끝나면,", "카드는 이미 있습니다."],
+      lede: "러닝을 마치는 순간 카드는 완성돼 있습니다. 고를 템플릿도, 꾸밀 단계도 없습니다. 같이 뛴 사람마다 다른 색 선이 겹치고, 모두의 거리를 합친 숫자가 함께 남습니다.",
       facts: [
         {
-          k: "배경은 셋 중 하나",
-          v: "시그니처 색, 내 사진, 지도. 사진은 내 기기에만 남고 다른 사람에게는 시그니처로 보입니다.",
+          k: "열 때마다 선이 다시 그려진다",
+          v: "카드를 열면 출발점부터 경로가 한 번 그려집니다. 먼저 끝낸 사람의 선이 먼저 도착합니다.",
         },
-        { k: "내 경로만, 또는 전원의 경로", v: "함께 뛴 사람마다 다른 색으로 겹쳐 그립니다." },
-        { k: "요소를 직접 옮긴다", v: "숫자와 경로의 자리를 손으로 잡습니다. 간단하게도, 자세하게도." },
-      ],
-      archive: {
-        title: "그리고 쌓인다",
-        body: "지금까지 이어 온 거리, 함께 만든 러닝, 평균 페이스와 심박까지 한 화면에 모입니다. 솔로와 함께를 나눠 돌아보고, 각 기록은 다시 한 장의 카드로 열립니다.",
-      },
-    },
-    features: {
-      title: "러닝에 필요한 나머지",
-      lede: "함께 뛰는 순간 밖에서도, 러닝을 이어 가는 데 필요한 것들.",
-      items: [
         {
-          title: "실측 러닝 지표",
-          body: "GPS와 걸음을 함께 읽어 거리·페이스·고도·케이던스를 추정 없이 측정합니다.",
-          runner: 0,
+          k: "기본 카드에는 지도가 없다",
+          v: "기본 배경은 브랜드 색 위에 경로 모양만 남깁니다. 사진이나 지도로 바꿀 수 있고, 장소는 동 단위까지만 적힙니다.",
         },
-        { title: "Apple Watch", body: "손목에서 시작하고 심박을 함께 기록합니다.", runner: 5 },
         {
-          title: "라이브 액티비티 · 위젯",
-          body: "잠금 화면과 다이내믹 아일랜드에서 러닝 현황을 확인합니다.",
-          runner: 3,
+          k: "스토리 규격 영상으로",
+          v: "경로가 그려지는 모습을 9:16 영상으로 내보내 바로 올릴 수 있습니다.",
         },
-        { title: "건강 앱 연동", body: "완료한 러닝을 건강 앱으로 내보냅니다.", runner: 7 },
-        { title: "음성 코치", body: "페이스와 구간을 목소리로 짚어 줍니다.", runner: 1 },
-        { title: "경로 리플레이", body: "달린 길을 다시 재생하며 그날의 러닝을 돌아봅니다.", runner: 2 },
       ],
+      date: "9. 24. (목)",
+      together: "오늘 우리",
+      pace: "평균 페이스",
+      runners: "러너",
+      replay: "다시 그리기",
+      photoAlt: "러닝을 마치고 편의점 앞에 앉아 폰으로 카드를 보는 손",
+      cardAlt: "코랄 배경의 단체 러닝 카드. 네 사람의 경로가 색별로 겹쳐 있고 합산 거리 16.40km가 적혀 있다",
     },
     cta: {
-      title: ["오늘도,", "달릴까요"],
-      lede: "옆에 누가 있으면 같이, 없으면 혼자. 버튼은 어느 쪽이든 하나입니다.",
+      title: ["오늘 저녁,", "한 줄 긋고 오세요."],
+      lede: "App Store에서 무료로 받을 수 있습니다. iPhone · iOS 18 이상.",
       ctaPrimary: "App Store에서 받기",
       ctaSecondary: "도움이 필요하면",
     },
     footer: {
-      tagline: "맞대면 그 자리에서\n함께 뛰는 러닝 앱.",
+      tagline: "달린 길은 선이 되고,\n같이 달린 길은 겹친다.",
       cols: [
         {
           head: "제품",
           links: [
-            { label: "하나의 Start", href: "#onestart" },
-            { label: "맞댐", href: "#bump" },
+            { label: "모으기", href: "#gather" },
+            { label: "함께 출발", href: "#start" },
             { label: "러닝 카드", href: "#card" },
-            { label: "기능", href: "#features" },
           ],
         },
         {
@@ -252,155 +258,120 @@ export const dict: Record<Lang, Dict> = {
 
   en: {
     meta: {
-      title: "SyncRun — Bump. And you’re running together.",
+      title: "SyncRun — Every run leaves a line",
       description:
-        "A running app that measures distance and pace for real. Hold your iPhone near the person beside you and a running group forms on the spot, and the run stays as one card.",
+        "Run alone and it's one line. Bring your phones together and it's several. SyncRun measures with GPS and your steps, and turns the lines you ran together into one card.",
     },
-    nav: { oneStart: "One Start", bump: "Bump", card: "Run Card", features: "Features", cta: "App Store" },
+    dock: {
+      chapters: ["Warm-up", "Gather", "3 · 2 · 1", "Together", "Tunnel", "Card"],
+      km: "Distance",
+      time: "Time",
+      pace: "Pace",
+      cta: "Download on the App Store",
+      walk: "Scroll down to run forward",
+    },
+    crew: ["Me", "Seoyeon", "Haeun", "Doyun"],
     hero: {
-      beats: [
-        {
-          h: ["Today’s run,", "measured for real"],
-          p: "GPS and step data read together for distance, pace, elevation and cadence — never estimated.",
-        },
-        {
-          h: ["Bump, and you’re", "running together"],
-          accent: 1,
-          p: "Hold your iPhone near the person beside you and a group forms. No rooms, no invite links, no friend requests.",
-        },
-        {
-          h: ["And it stays", "as one card"],
-          p: "By the time the run ends, the card is already made. Each runner’s route is drawn in their own color, layered together.",
-        },
-      ],
+      title: ["Every run leaves a line.", "Run together, and they overlap."],
+      beats: ["Every run", "leaves a line.", "Run together,", "and they overlap."],
+      lede: "Run alone and it's one line. Bring your phones together before you start and it's several. When you finish, the lines are already a card.",
       ctaPrimary: "Download on the App Store",
-      ctaSecondary: "How it works",
-      backdropAlt:
-        "Two runners meet on a waterfront at dusk, hold their phones close together, and run on side by side",
+      ctaSecondary: "How to gather",
+      hudSolo: "Me today",
+      hudGroup: "Us today",
+      photoAlt: "A riverside path at night, street lights on wet asphalt and bridge lights in the distance",
     },
-    oneStart: {
-      title: "There is one button",
-      lede:
-        "No screen and no toggle for choosing solo or group. The same button in the same place only changes its label and headcount.",
-      states: [
-        { tag: "Solo", btn: "Start" },
-        { tag: "Bumped", btn: "Ready", count: "2" },
-        { tag: "Last runner", btn: "Start", count: "5" },
-      ],
+    gather: {
+      title: ["Bring your phones together,", "and you're a crew."],
+      lede: "Hold your phones within a meter of each other. After about a second you're grouped, and the count goes up with every person who joins. No shaking, no tapping phones.",
+      countLabel: "Running together",
       facts: [
         {
-          k: "Tap it and you run solo",
-          v: "Goals and courses are all optional; the default is simply to run. Tap, and you leave after 3·2·1.",
+          k: "Only the phones you gather",
+          v: "Even on a riverside with two hundred runners, only the phones held together join. Someone jogging past stays out.",
         },
         {
-          k: "Bump and the headcount grows",
-          v: "Once a group forms the button turns into Ready, and the counter fills as people tap. Everyone sees who is set.",
+          k: "Two to thirty people",
+          v: "One more person can join a group that's already formed, and two groups that gather become one.",
         },
         {
-          k: "The last person starts it",
-          v: "When one person is left, their button turns back into Start and everyone leaves in the same instant.",
+          k: "Alone? Just start",
+          v: "If you didn't gather with anyone, the same button starts a solo run. There's no mode to pick.",
         },
       ],
+      btnSolo: "Start run",
+      btnReady: "Ready",
+      photoAlt: "Seen from above, four hands bring their phones toward the center of a circle",
     },
-    bump: {
-      title: "You become a group on the spot",
-      lede:
-        "Hold your phone close to your running partner’s. Only the people you bring close become your group, and the headcount ticks up one at a time. No shaking, no tapping.",
-      countLabel: "Running with you",
-      alt: "Two iPhones move together and the headcount goes from 1 to 2",
-      facts: [
-        {
-          k: "Only the people beside you",
-          v: "Among two hundred runners on the riverside, only the one who brought their phone close joins. Strangers never slip in.",
-        },
-        {
-          k: "From 2 up to 30",
-          v: "Bring one more person close to a formed group and they join as is; bring two groups together and they merge into one.",
-        },
-        {
-          k: "Join request as a fallback",
-          v: "On a phone without precise distance measurement, or if nothing forms within 8 seconds, a join request opens. The other person has to accept.",
-        },
-      ],
+    start: {
+      title: "Everyone starts at once.",
+      lede: "When the last person taps Start, every screen counts down together and everyone starts at the same moment, even with the screen locked.",
+      go: "Go",
+      replay: "3 · 2 · 1 again",
+      photoAlt: "Four pairs of running shoes lined up behind a white line on wet asphalt",
     },
-    live: {
-      title: "While you run, you see each other",
-      lede: "Everyone’s location and pace stream in the same moment. You can see where each person is on one map.",
-      alt: "Running screen — distance with average and current pace, cadence and elevation",
-      facts: [
-        {
-          k: "Live location and pace",
-          v: "Everyone’s position flows on one map, with group distance and average pace pinned on top.",
-        },
-        { k: "High five", v: "Tap a partner while you run and it lands as a buzz on their wrist." },
-        {
-          k: "Spreading out is fine",
-          v: "Run at your own pace and it is still one session. Nobody is nudged to catch up.",
-        },
-        {
-          k: "A drop loses nothing",
-          v: "Your record keeps building through a disconnect, and the session is restored when it reattaches.",
-        },
-      ],
+    finish: {
+      title: ["Whoever finishes first", "waits and cheers."],
+      lede: "Everyone stops on their own. Those who finish first see who's still running, and when the last runner comes in, today's combined distance and highlights are complete.",
+      total: "Us today",
+      highlights: ["Ran the farthest", "Fastest pace", "Steadiest pace", ""],
+      stillRunning: "Running",
+    },
+    together: {
+      title: ["Spread out,", "still running together."],
+      lede: "Different paces pull you apart, but the group stays. You see each other's distance and pace, and one tap on a name sends a high five to their wrist.",
+      cheer: "High five",
+      cheerSub: "Sent while running",
+      photoAlt: "A high five from a teammate on the watch of a runner mid-stride",
+      spreadAlt: "Four lines leave the same point, spread out at their own speeds and stop at different distances",
+    },
+    tunnel: {
+      title: ["Lose the signal,", "keep the line."],
+      lede: "Where GPS drops out, under a bridge or through an underpass, your steps carry the distance using the stride SyncRun has learned. When the signal returns, the distance doesn't arrive in one lump, so your pace doesn't spike.",
+      gps: "Measuring by GPS",
+      steps: "Measuring by steps",
+      photoAlt: "The entrance of an underpass lined with orange lights, the floor wet",
     },
     card: {
-      title: "When you stop, it is already made",
-      lede:
-        "By the time the run ends, the card is finished. One card — never separate personal and group versions.",
-      cardAlt: "A running card — five runners’ routes layered, each in their own color",
-      activityAlt: "Activity screen — the distance carried so far and the runs made together",
+      title: ["When you finish,", "the card is already made."],
+      lede: "No template to pick, nothing to set up. Each runner gets their own color, and everyone's distance adds up on one card.",
       facts: [
         {
-          k: "One of three backdrops",
-          v: "Signature color, your own photo, or the map. Photos stay on your phone; everyone else sees the signature.",
+          k: "The lines redraw every time",
+          v: "Open the card and the route draws once from the start. Whoever finished first arrives first.",
         },
         {
-          k: "Your route, or everyone’s",
-          v: "Each runner’s route is drawn in their own color, layered together.",
+          k: "No map by default",
+          v: "The default card keeps only the shape of the route on the brand color. Switch to a photo or a map if you want, and places are shown only down to the neighborhood.",
         },
-        { k: "Move the pieces yourself", v: "Place the numbers and the route by hand. Simple, or detailed." },
+        {
+          k: "Ready for Stories",
+          v: "Export the route drawing itself as a 9:16 video and post it right away.",
+        },
       ],
-      archive: {
-        title: "And it adds up",
-        body: "The distance you’ve carried this far, the runs you made together, average pace and heart rate — gathered into one screen. Look back at solo and together separately, and open any record as a card again.",
-      },
-    },
-    features: {
-      title: "Everything else a run needs",
-      lede: "Beyond the moment you run together, everything you need to keep running.",
-      items: [
-        {
-          title: "Measured run metrics",
-          body: "GPS and step data read together for distance, pace, elevation and cadence — never estimated.",
-          runner: 0,
-        },
-        { title: "Apple Watch", body: "Start from your wrist and record heart rate alongside.", runner: 5 },
-        {
-          title: "Live Activity · Widgets",
-          body: "Check your run from the Lock Screen and Dynamic Island.",
-          runner: 3,
-        },
-        { title: "Health app", body: "Export finished runs to the Health app.", runner: 7 },
-        { title: "Voice coach", body: "Pace and splits called out in your ear.", runner: 1 },
-        { title: "Route replay", body: "Play the path back and revisit that day’s run.", runner: 2 },
-      ],
+      date: "Thu, Sep 24",
+      together: "Us today",
+      pace: "Avg pace",
+      runners: "Runners",
+      replay: "Draw again",
+      photoAlt: "Hands of a runner sitting outside a convenience store after a run, looking at the card on a phone",
+      cardAlt: "A coral group run card. Four routes overlap in different colors with a combined 16.40 km",
     },
     cta: {
-      title: ["Shall we run", "today?"],
-      lede: "Together if someone’s beside you, solo if not. Either way there is one button.",
+      title: ["Go draw a line", "tonight."],
+      lede: "Free on the App Store. iPhone, iOS 18 or later.",
       ctaPrimary: "Download on the App Store",
-      ctaSecondary: "Need a hand?",
+      ctaSecondary: "Need help?",
     },
     footer: {
-      tagline: "Bump, and run together\non the spot.",
+      tagline: "Every run leaves a line.\nRun together, and they overlap.",
       cols: [
         {
           head: "Product",
           links: [
-            { label: "One Start", href: "#onestart" },
-            { label: "Bump", href: "#bump" },
-            { label: "Run Card", href: "#card" },
-            { label: "Features", href: "#features" },
+            { label: "Gather", href: "#gather" },
+            { label: "Start together", href: "#start" },
+            { label: "Run card", href: "#card" },
           ],
         },
         {
