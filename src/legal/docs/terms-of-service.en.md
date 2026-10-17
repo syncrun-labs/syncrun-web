@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.6 |
-| Effective date | 20 October 2026 |
-| Last amended | 13 October 2026 |
+| Document version | v1.7 |
+| Effective date | 24 October 2026 |
+| Last amended | 17 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -214,6 +214,20 @@ The heart rate recording service in item 5 is provided only in the iOS app and i
 
 5. Matters concerning personal information processed in crews are set out in the Privacy Policy.
 
+### Article 11-10 (Free Trial)
+
+1. The Company may offer a trial that lets members use a paid service free of charge for a set period (the "free trial"). The length of the free trial and the paid services it applies to are shown on the app's purchase screen and in the app market operator's product information.
+
+2. The free trial is offered only once per member. The Company may decline to offer a free trial to a member who has already used one, and may restrict repeated use of the free trial through different app market operators or devices.
+
+3. During the free trial, all features of the relevant paid service are available.
+
+4. When the free trial ends, it converts to the paid service. The member's consent to the conversion is obtained through the procedure provided by the app market operator (such as email, push notification or an in-app consent screen), and it does not convert to a paid service if the member does not consent.
+
+5. A member may cancel during the free trial on the subscription management screen in Article 11-4(2); if cancelled, it will not convert to a paid service when the free trial ends. The member may continue to use the rest of the free trial period.
+
+6. A member who starts a free trial on the app's purchase screen is deemed to have agreed to the free trial conditions shown on that screen.
+
 ---
 
 ## Chapter 4 Obligations of Members
@@ -413,7 +427,7 @@ Members may not assign or gift their rights to use the Service or their contract
 | Representative | Changmok Lee |
 | Business registration number | 656-09-03142 |
 | Business address | 32 Daehak-ro 8-gil, Gyeongsan-si, Gyeongsangbuk-do, Republic of Korea |
-| Business type · category | Information and communications · development and supply of application software |
+| Business type · category | Information and communication · Wholesale and retail trade / Application software publishing · Electronic commerce via internet |
 | Service name | SyncRun |
 | Form of operation | Sole proprietorship |
 | Service launch date | 9 September 2026 (App Store release) |
@@ -427,4 +441,4 @@ Members may not assign or gift their rights to use the Service or their contract
 
 ## Addendum
 
-These Terms take effect on 20 October 2026 and replace the previous Terms (effective 17 October 2026).
+These Terms take effect on 24 October 2026 and replace the previous Terms (effective 20 October 2026).
