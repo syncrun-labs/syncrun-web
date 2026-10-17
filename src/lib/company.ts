@@ -17,7 +17,7 @@ export const COMPANY = {
     lbsFilingNo: "제1589호 (2026년 9월 18일 수리)",
     address: "경상북도 경산시 대학로8길 32",
     postalCode: "38659",
-    industry: "정보통신업 · 응용 소프트웨어 개발 및 공급업",
+    industry: "정보통신업 · 도매 및 소매업 / 응용 소프트웨어 개발 및 공급업 · 전자상거래 소매업",
     form: "개인사업자",
     founded: "2026년 설립",
   },
@@ -30,7 +30,8 @@ export const COMPANY = {
     lbsFilingNo: "No. 1589 (accepted 18 September 2026)",
     address: "32, Daehak-ro 8-gil, Gyeongsan-si, Gyeongsangbuk-do, Republic of Korea",
     postalCode: "38659",
-    industry: "Information & communications · Application software development and supply",
+    industry:
+      "Information and communication · Wholesale and retail trade / Application software publishing · Electronic commerce via internet",
     form: "Sole proprietorship",
     founded: "Founded 2026",
   },
