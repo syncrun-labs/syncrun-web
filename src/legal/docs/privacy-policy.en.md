@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.9 |
-| Effective date | 20 October 2026 |
-| Last amended | 13 October 2026 |
+| Document version | v1.10 |
+| Effective date | 27 October 2026 |
+| Last amended | 20 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -182,7 +182,8 @@ The Company does not process any unique identifying information under Article 24
 | --- | --- | --- | --- | --- |
 | Participants of the same running session | To see one another's location and progress during a group run | Live location (latitude and longitude), distance, pace, name and profile photo during the run | Relayed in real time while the group run session is in progress | Provision stops when the session ends |
 | Users waiting nearby to bump | To identify each other as bump partners and, where automatic formation does not occur, to request and accept joining | Display name and profile photo (location and distance are not provided) | While both users have the group formation screen open | Provision stops immediately on leaving the screen |
-| Members of the same crew | Running the crew (checking attendance and run results, crew recaps and rankings) | Display name, profile photo, role in the crew, attendance at crew sessions and a summary of run results (distance, time, pace) (routes and locations are not provided) | On the crew dashboard, from when the user accepts joining the crew | Provision stops on leaving the crew or deletion of the crew |
+| Members of the same crew | Running the crew (checking attendance, crew recaps and rankings) | Display name, profile photo, role in the crew, attendance at crew sessions and the average distance of all attendees of that session, rank, attendance count and distance where the user is in the top 10 of the crew recap ranking, the attendance count where the user has the most attendance, and, to the other person only, the number of crew sessions run together where the two have run the most crew sessions together (results of individual sessions, routes and locations are not provided) | On the crew dashboard and recap, from when the user accepts joining the crew | Provision stops on leaving the crew or deletion of the crew |
+| Crew leader and deputy leader of the same crew | Managing the crew (correcting attendance, deciding which crew a session run by more than one crew belongs to) | The items provided to crew members above, together with a summary of run results for each crew session (distance, time, pace) and crew attendance count (routes and locations are not provided) | On the crew dashboard, from when the user accepts joining the crew | Provision stops on leaving the crew or deletion of the crew |
 
 3. The above provision to third parties is limited as follows.
 
@@ -191,6 +192,7 @@ The Company does not process any unique identifying information under Article 24
 - Display name and profile photo while waiting to bump are provided only to nearby users who, like the user, have the group formation screen open. Nothing is provided if only one side is waiting, and location and distance are never provided. Provision stops immediately on leaving the screen.
 - Users can turn off sharing of live location and metrics at any time in the app settings or on the map screen during a run. Doing so does not affect the measurement and saving of their own run records.
 - Information is provided to crew members only for crews the user has accepted joining, and only results run in that crew's sessions. Runs outside the crew and imported records are not provided, and nothing is provided after the user leaves the crew.
+- Run results for each crew session (distance, time, pace) and crew attendance counts are provided only to the crew leader and deputy leader, who need them to correct attendance and manage the crew, and are not provided to other crew members. Other crew members see the average distance of all attendees for each session.
 - Where the Company provides personal location information to a third party, it notifies the subject of personal location information of the recipient, the date and time, and the purpose of provision, in accordance with Article 19(3) of the Act on the Protection and Use of Location Information.
 
 4. The Company does not provide or sell users' personal information to third parties for advertising or marketing purposes.
@@ -416,7 +418,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 20 October 2026.
+1. This Privacy Policy applies from 27 October 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -424,6 +426,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
+| v1.10 | 27 October 2026 | Narrows what is provided to members of the same crew — results of individual crew sessions and attendance counts go only to the crew leader and deputy leader, rankings show only the top 10, and the most frequent running pair is shown only to those two people |
 | v1.9 | 20 October 2026 | Reflects running crews (crew information items and provision to members of the same crew), importing run records (reading workouts and routes from the Health app) and heart rate zone calculation (maximum heart rate or year of birth) |
 | v1.8 | 17 October 2026 | Reflects the processing purpose, subscription information items and retention period for paid services (in-app subscriptions), the purpose of using app version information, and the start of recording of records confirming use and provision of location information |
 | v1.7 | 30 September 2026 | Reflects the retention of actual route coordinates (to restore maps) and 5-second measurement samples in run records, the extension of heart rate processing from the average to samples, and the discontinued saving of workouts to the Health app |
@@ -437,7 +440,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 20 October 2026 and replaces the previous Policy (effective 17 October 2026).
+This Privacy Policy takes effect on 27 October 2026 and replaces the previous Policy (effective 20 October 2026).
 
 ---
 
