@@ -1,0 +1,20 @@
+/* 크루 초대 링크 페이지 — 문서 페이지의 머리와 목록을 쓰고, 큰 버튼 하나를 둔다. */
+
+.crew-join__inner {
+  max-width: 560px;
+}
+
+.crew-join__open {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.crew-join__steps {
+  margin-bottom: 16px;
+}
+
+.crew-join__store {
+  display: inline-flex;
+}
