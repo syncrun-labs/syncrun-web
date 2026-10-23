@@ -20,14 +20,19 @@ const nextConfig: NextConfig = {
     return [
       { source: "/admin", destination: "/admin/index.html" },
       { source: "/admin/:path*", destination: "/admin/index.html" },
+      // 크루 초대 링크 — 토큰마다 페이지를 만들지 않고 한 페이지가 주소에서 토큰을 읽는다.
+      { source: "/crew/join/:token", destination: "/crew/join" },
+      { source: "/en/crew/join/:token", destination: "/en/crew/join" },
     ];
   },
-  // 운영 사이트는 검색에 잡히지 않는다. robots.txt에 적으면 경로를 알리게 되므로 응답 헤더로 막는다.
+  // 운영 사이트와 크루 초대 링크는 검색에 잡히지 않는다. robots.txt에 적으면 경로를 알리게 되므로 응답 헤더로 막는다.
   async headers() {
     const noindex = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
     return [
       { source: "/admin", headers: noindex },
       { source: "/admin/:path*", headers: noindex },
+      { source: "/crew/:path*", headers: noindex },
+      { source: "/en/crew/:path*", headers: noindex },
     ];
   },
 };
