@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.10 |
-| Effective date | 27 October 2026 |
-| Last amended | 20 October 2026 |
+| Document version | v1.11 |
+| Effective date | 30 October 2026 |
+| Last amended | 23 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -28,7 +28,7 @@ The Company processes personal information for the following purposes. Personal 
 6. Recording health and exercise information: measurement of heart rate during a run and its reflection in run records, and calculating, displaying and giving voice guidance on heart rate zones
 7. Ensuring service stability: responding to service failures, backup, and responding to security incidents
 8. Providing paid services: checking subscription status, restoring purchases, providing features according to the subscribed service, and prompting updates of unsupported app versions
-9. Running crews: forming and joining crews, recording attendance at crew sessions, posting run results to the crew dashboard, and providing crew recaps and rankings
+9. Running crews: forming and joining crews (including join requests through invite links and their approval), recording attendance at crew sessions, posting run results to the crew dashboard, and providing crew recaps and rankings
 10. Importing and exporting run records: importing and saving run records from other apps or files chosen by the user, and exporting the user's own run records as files
 
 ---
@@ -76,7 +76,7 @@ Where a user selects "Hide My Email" when using Sign in with Apple, a private re
 | Usage record | App settings (voice guidance, privacy defaults, step-distance calibration factor, notices read, list sorting and statistics period) | Set by the user and calculated automatically during runs | Required |
 | Subscription information | Subscription product, purchase time, expiry time, original transaction identifier, purchase environment (production or test) | Collected from transaction information signed by the app marketplace operator when a paid service is purchased or renewed | Required when using a paid service |
 | Technical information | App version, platform (iOS or Android) | Sent automatically when the app makes requests to the server | Required |
-| Crew information | Crews belonged to, role in the crew (crew leader, deputy leader or member), time of joining and leaving, attendance records for crew sessions, crew name and regular run schedule (entered by the crew leader) | Generated automatically when the user accepts joining a crew or uses a crew; entered by the crew leader | Required when using crews |
+| Crew information | Crews belonged to, role in the crew (crew leader, deputy leader or member), time of joining and leaving, attendance records for crew sessions, crew name and regular run schedule (entered by the crew leader), crew join requests (the crew asked to join and the time of the request) | Generated automatically when the user accepts joining a crew, asks to join through an invite link or uses a crew; entered by the crew leader | Required when using crews |
 | Run records | Imported run records (workouts and routes from the Health app, contents of GPX or TCX files chosen by the user) | When the user runs an import | Optional |
 | Usage records | Maximum heart rate or year of birth (to calculate heart rate zones) | Entered by the user | Optional |
 
@@ -90,7 +90,7 @@ Consent history records, item by item, which version of which legal document you
 
 Subscription information is obtained from transaction information signed by the app marketplace operator (such as Apple), and is used to confirm which account a purchased subscription belongs to and to provide features according to the subscribed service. Because payment is processed by the app marketplace operator, the Company does not collect payment method information such as card numbers, and payment and receipt records are kept by the app marketplace operator.
 
-Crew information arises only where the user personally accepts joining a crew. It does not arise if the user does not join a crew, and not joining a crew places no restriction on the use of other features. The crew dashboard does not show information about people who ran along but are not crew members (guests); it shows only their number.
+Crew information arises only where the user personally accepts joining a crew or personally asks to join through an invite link. A join request is deleted when the crew leader or deputy leader approves or declines it, or 14 days after it is made. It does not arise if the user does not join a crew, and not joining a crew places no restriction on the use of other features. The crew dashboard does not show information about people who ran along but are not crew members (guests); it shows only their number.
 
 Imported run records are collected only where the user personally runs an import, and are saved as the user's own run records. Imported records are not used for crew attendance or crew rankings. Where an imported workout contains heart rate, it is processed according to the consent for the sensitive information item below. Exporting run records as files only creates a file on the user's device, and the Company collects no new information by doing so.
 
@@ -155,6 +155,7 @@ The Company does not process any unique identifying information under Article 24
 | Subscription information (subscription product, purchase time, expiry time, original transaction identifier, purchase environment) | Until withdrawal of membership |
 | Heart rate (average and 5-second samples) | Until withdrawal of membership or deletion of that record |
 | Crew information (membership, role, time of joining, attendance records, crew name, regular run schedule) | Until leaving the crew, deletion of the crew, or withdrawal of membership |
+| Crew join requests | Until approved or declined, or 14 days after the request (or until withdrawal of membership, if earlier) |
 | Imported run records | Until withdrawal of membership or deletion of that record |
 | Maximum heart rate or year of birth | Until withdrawal of membership or deletion by the user |
 | Push token (APNs or FCM) | Until withdrawal of membership or withdrawal of notification permission |
@@ -184,6 +185,8 @@ The Company does not process any unique identifying information under Article 24
 | Users waiting nearby to bump | To identify each other as bump partners and, where automatic formation does not occur, to request and accept joining | Display name and profile photo (location and distance are not provided) | While both users have the group formation screen open | Provision stops immediately on leaving the screen |
 | Members of the same crew | Running the crew (checking attendance, crew recaps and rankings) | Display name, profile photo, role in the crew, attendance at crew sessions and the average distance of all attendees of that session, rank, attendance count and distance where the user is in the top 10 of the crew recap ranking, the attendance count where the user has the most attendance, and, to the other person only, the number of crew sessions run together where the two have run the most crew sessions together (results of individual sessions, routes and locations are not provided) | On the crew dashboard and recap, from when the user accepts joining the crew | Provision stops on leaving the crew or deletion of the crew |
 | Crew leader and deputy leader of the same crew | Managing the crew (correcting attendance, deciding which crew a session run by more than one crew belongs to) | The items provided to crew members above, together with a summary of run results for each crew session (distance, time, pace) and crew attendance count (routes and locations are not provided) | On the crew dashboard, from when the user accepts joining the crew | Provision stops on leaving the crew or deletion of the crew |
+| Crew leader and deputy leader of the crew the user asked to join | Deciding whether to approve the join request | Display name, profile photo, and whether the user has finished a group run with that crew leader or deputy leader | On the crew management screen, from when the user asks to join through an invite link | Provision stops on approval or decline, or 14 days after the request (once approved, provision continues as provision to crew members above) |
+| People who open an invite link given out by the crew leader or deputy leader | Confirming which crew the invitation is for | Display name of the crew leader or deputy leader who created the link, crew name, number of crew members | When the link is opened, from when the crew leader or deputy leader creates the link and gives it out | Provision stops when a new link is created, the link is turned off, or 14 days after the link is created |
 
 3. The above provision to third parties is limited as follows.
 
@@ -191,6 +194,7 @@ The Company does not process any unique identifying information under Article 24
 - They are provided only while the run is in progress, and stop immediately when the session ends.
 - Display name and profile photo while waiting to bump are provided only to nearby users who, like the user, have the group formation screen open. Nothing is provided if only one side is waiting, and location and distance are never provided. Provision stops immediately on leaving the screen.
 - Users can turn off sharing of live location and metrics at any time in the app settings or on the map screen during a run. Doing so does not affect the measurement and saving of their own run records.
+- The display name and profile photo of a user who asks to join through an invite link are provided only to that crew's leader and deputy leader. Until the request is approved, crew members' information is not provided to the requesting user, and the requesting user's information is not provided to other crew members.
 - Information is provided to crew members only for crews the user has accepted joining, and only results run in that crew's sessions. Runs outside the crew and imported records are not provided, and nothing is provided after the user leaves the crew.
 - Run results for each crew session (distance, time, pace) and crew attendance counts are provided only to the crew leader and deputy leader, who need them to correct attendance and manage the crew, and are not provided to other crew members. Other crew members see the average distance of all attendees for each session.
 - Where the Company provides personal location information to a third party, it notifies the subject of personal location information of the recipient, the date and time, and the purpose of provision, in accordance with Article 19(3) of the Act on the Protection and Use of Location Information.
@@ -418,7 +422,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 27 October 2026.
+1. This Privacy Policy applies from 30 October 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -426,7 +430,8 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
-| v1.10 | 27 October 2026 | Narrows what is provided to members of the same crew — results of individual crew sessions and attendance counts go only to the crew leader and deputy leader, rankings show only the top 10, and the most frequent running pair is shown only to those two people |
+| v1.11 | 30 October 2026 | Reflects crew invite links — join requests received through a link (crew information items and retention period), and provision to the crew leader and deputy leader of the crew asked to join and to people who open the link, and includes the content of v1.10, which it replaced before that version took effect |
+| v1.10 | Replaced by v1.11 before taking effect | Narrows what is provided to members of the same crew — results of individual crew sessions and attendance counts go only to the crew leader and deputy leader, rankings show only the top 10, and the most frequent running pair is shown only to those two people (announced 20 October 2026; absorbed into v1.11 before its effective date) |
 | v1.9 | 20 October 2026 | Reflects running crews (crew information items and provision to members of the same crew), importing run records (reading workouts and routes from the Health app) and heart rate zone calculation (maximum heart rate or year of birth) |
 | v1.8 | 17 October 2026 | Reflects the processing purpose, subscription information items and retention period for paid services (in-app subscriptions), the purpose of using app version information, and the start of recording of records confirming use and provision of location information |
 | v1.7 | 30 September 2026 | Reflects the retention of actual route coordinates (to restore maps) and 5-second measurement samples in run records, the extension of heart rate processing from the average to samples, and the discontinued saving of workouts to the Health app |
@@ -440,7 +445,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 27 October 2026 and replaces the previous Policy (effective 20 October 2026).
+This Privacy Policy takes effect on 30 October 2026 and replaces the previous Policy (effective 20 October 2026).
 
 ---
 
