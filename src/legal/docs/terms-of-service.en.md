@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.8 |
-| Effective date | 30 October 2026 |
-| Last amended | 23 October 2026 |
+| Document version | v1.9 |
+| Effective date | 3 November 2026 |
+| Last amended | 27 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -24,7 +24,7 @@ The terms used in these Terms are defined as follows.
 2. "Member" means a person who agrees to these Terms, enters into a service agreement with the Company, and uses the Service.
 3. "Account" means the information the Company assigns for identifying a member and enabling use of the Service (Apple sign-in identifier or Google sign-in identifier, user ID and the like).
 4. "Run record" means data such as distance, time, pace, cadence, elevation gain, 1 km splits, route, place name, heart rate and run title, measured and saved by a member using the Service.
-5. "Bump" means the act of tapping phones together with another user so that a group to run with is formed through proximity determination using near-field wireless communication (UWB).
+5. "Bump" means the act of tapping phones together with another user so that a group to run with is formed through proximity determination using near-field wireless communication (UWB), including the case where the member sends a join request to a user waiting nearby and that user accepts it to form the group.
 6. "Running session" or "session" means the unit in which a group formed through a bump runs together.
 7. "Run card" means the image-format output that the Service generates from a run record a member has completed.
 8. "Posting" means any information a member posts or registers while using the Service, such as name, profile photo, run title and run card background image.
@@ -170,7 +170,7 @@ The heart rate recording service in item 5 is provided only in the iOS app and i
 
 1. A paid service renews automatically for the same period at the price then in effect until the member cancels it. To avoid being charged for the next period, the member must cancel at least 24 hours before the current period ends.
 
-2. Members can cancel at any time in the subscription management screen provided by the app marketplace operator (on iOS, in the device's Settings app or through "Manage subscription" in the app). After cancellation, the member can continue to use the paid service until the end of the period already paid for.
+2. Members can cancel at any time in the subscription management screen provided by the app marketplace operator (on iOS, in the device's Settings app or through "Manage subscription" in the app; on Android, in the Google Play app under "Payments & subscriptions" > "Subscriptions"). After cancellation, the member can continue to use the paid service until the end of the period already paid for.
 
 3. Deleting the account, signing out or deleting the app does not cancel a paid service. The member must cancel separately under paragraph 2; a subscription that is not cancelled may continue to be renewed by the app marketplace operator.
 
@@ -186,7 +186,7 @@ The heart rate recording service in item 5 is provided only in the iOS app and i
 
 1. Paid services are digital content under Article 17(2)(5) of the Act on Consumer Protection in Electronic Commerce; because use begins at the moment of purchase, withdrawal of the purchase may be restricted. The Company states this on the purchase screen and lets members preview paid features before purchase, so that the exercise of the right of withdrawal is not obstructed.
 
-2. Refunds for paid services follow the app marketplace operator's refund policy and procedure. On iOS, refunds can be requested through Apple's Report a Problem page (reportaproblem.apple.com) or Apple Support.
+2. Refunds for paid services follow the app marketplace operator's refund policy and procedure. On iOS, refunds can be requested through Apple's Report a Problem page (reportaproblem.apple.com) or Apple Support; on Android, through the Google Play order history or the Google Play Help Center.
 
 3. Where a member could not use a paid service properly for a reason attributable to the Company, the Company cooperates so that a refund is made through the app marketplace operator, or takes other necessary measures such as extending the period of use.
 
@@ -445,4 +445,4 @@ Members may not assign or gift their rights to use the Service or their contract
 
 ## Addendum
 
-These Terms take effect on 30 October 2026 and replace the previous Terms (effective 20 October 2026). The amendment scheduled to take effect on 24 October 2026 (v1.7, announced on 17 October 2026) is replaced by these Terms before taking effect, and its content is included in these Terms.
+These Terms take effect on 3 November 2026 and replace the previous Terms (effective 30 October 2026).

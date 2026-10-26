@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.11 |
-| Effective date | 30 October 2026 |
-| Last amended | 23 October 2026 |
+| Document version | v1.12 |
+| Effective date | 3 November 2026 |
+| Last amended | 27 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -74,7 +74,7 @@ Where a user selects "Hide My Email" when using Sign in with Apple, a private re
 | Technical information | Push token (APNs device token or FCM registration token) | Collected automatically when notification permission is granted | Optional |
 | Usage record | Consent history (item consented to, document version, time of consent or withdrawal) | Recorded automatically on the consent screen | Required |
 | Usage record | App settings (voice guidance, privacy defaults, step-distance calibration factor, notices read, list sorting and statistics period) | Set by the user and calculated automatically during runs | Required |
-| Subscription information | Subscription product, purchase time, expiry time, original transaction identifier, purchase environment (production or test) | Collected from transaction information signed by the app marketplace operator when a paid service is purchased or renewed | Required when using a paid service |
+| Subscription information | Subscription product, purchase time, expiry time, original transaction identifier (the original transaction ID on the App Store, the purchase token on Google Play), purchase environment (production or test) | Collected when a paid service is purchased or renewed, from transaction information signed by the app marketplace operator (App Store), or from purchase information that the Company's servers look up from the app marketplace operator with the purchase token (Google Play) | Required when using a paid service |
 | Technical information | App version, platform (iOS or Android) | Sent automatically when the app makes requests to the server | Required |
 | Crew information | Crews belonged to, role in the crew (crew leader, deputy leader or member), time of joining and leaving, attendance records for crew sessions, crew name and regular run schedule (entered by the crew leader), crew join requests (the crew asked to join and the time of the request) | Generated automatically when the user accepts joining a crew, asks to join through an invite link or uses a crew; entered by the crew leader | Required when using crews |
 | Run records | Imported run records (workouts and routes from the Health app, contents of GPX or TCX files chosen by the user) | When the user runs an import | Optional |
@@ -88,7 +88,7 @@ A run card background photo is collected only where the user chooses one in the 
 
 Consent history records, item by item, which version of which legal document you consented to, or withdrew consent from, and when. It is retained in order to confirm that the consents required by the Personal Information Protection Act and the Act on the Protection and Use of Location Information were actually obtained, and to determine who must be asked for what again when the documents are amended. Entries accumulate rather than being overwritten, so withdrawals of consent are also retained.
 
-Subscription information is obtained from transaction information signed by the app marketplace operator (such as Apple), and is used to confirm which account a purchased subscription belongs to and to provide features according to the subscribed service. Because payment is processed by the app marketplace operator, the Company does not collect payment method information such as card numbers, and payment and receipt records are kept by the app marketplace operator.
+Subscription information is obtained, on the App Store, from transaction information signed by Apple and, on Google Play, from purchase information that the Company's servers look up from Google Play with the purchase token passed on by the app. It is used to confirm which account a purchased subscription belongs to and to provide features according to the subscribed service. Changes in subscription status such as renewal, cancellation and refund are received through notifications that the app marketplace operator sends to the Company's servers. At purchase, the app also passes to the app marketplace operator a random identifier created for each account to link the purchase to the member's account; this value cannot be used to identify the member. Because payment is processed by the app marketplace operator, the Company does not collect payment method information such as card numbers, and payment and receipt records are kept by the app marketplace operator.
 
 Crew information arises only where the user personally accepts joining a crew or personally asks to join through an invite link. A join request is deleted when the crew leader or deputy leader approves or declines it, or 14 days after it is made. It does not arise if the user does not join a crew, and not joining a crew places no restriction on the use of other features. The crew dashboard does not show information about people who ran along but are not crew members (guests); it shows only their number.
 
@@ -406,11 +406,14 @@ In accordance with Article 22-2 of the Act on Promotion of Information and Commu
 | Notifications | Sending notifications needed during a run, such as the last-runner alert and inactivity check | Those notifications cannot be received; other features work normally |
 | Health | Reading heart rate; reading workouts and routes to import run records | Heart rate is not recorded and workouts cannot be imported from the Health app, but runs can still be measured on the basis of distance and pace. Heart rate is not a prerequisite for any feature |
 | Photos | Setting the profile photo and run card background, and saving run card images | The profile photo and card background cannot be set, and cards cannot be saved to the Photos app |
+| Camera | Taking a photo to use as a run card background | A card background cannot be taken with the camera, but a saved photo can still be chosen |
 | Nearby Interaction | Precise distance determination (UWB) when tapping phones together to form a group | Automatic bumping is unavailable. A group can still be formed by requesting to join a nearby waiting user |
+
+The Health and Nearby Interaction permissions are requested only on iOS. On Android, photos are chosen with the device's photo picker, so the Photos permission is not requested.
 
 ### 3. Processing of photos
 
-Of the images loaded through the Photos permission, only those the user sets as a profile photo or as a run card background are kept on the servers. A profile photo is kept so that it can be restored on reinstallation or re-sign-in and shown to companions; a card background photo is kept so that the card survives a change of device or a reinstallation. No other image leaves the device.
+Of the images loaded through the Photos permission or the device's photo picker, or taken with the camera, only those the user sets as a profile photo or as a run card background are kept on the servers. A profile photo is kept so that it can be restored on reinstallation or re-sign-in and shown to companions; a card background photo is kept so that the card survives a change of device or a reinstallation. No other image leaves the device.
 
 A card background photo is provided only to the person who created that record, and not to other users. If the user removes the photo from the card, it is also deleted from the store.
 
@@ -422,7 +425,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 30 October 2026.
+1. This Privacy Policy applies from 3 November 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -430,6 +433,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
+| v1.12 | 3 November 2026 | Reflects the collection method of subscription information for Google Play subscription sales (purchase token look-up and status-change notifications) and the passing of an account-linking identifier, adds the camera permission (taking run card backgrounds), and states which permissions are requested on each platform |
 | v1.11 | 30 October 2026 | Reflects crew invite links — join requests received through a link (crew information items and retention period), and provision to the crew leader and deputy leader of the crew asked to join and to people who open the link, and includes the content of v1.10, which it replaced before that version took effect |
 | v1.10 | Replaced by v1.11 before taking effect | Narrows what is provided to members of the same crew — results of individual crew sessions and attendance counts go only to the crew leader and deputy leader, rankings show only the top 10, and the most frequent running pair is shown only to those two people (announced 20 October 2026; absorbed into v1.11 before its effective date) |
 | v1.9 | 20 October 2026 | Reflects running crews (crew information items and provision to members of the same crew), importing run records (reading workouts and routes from the Health app) and heart rate zone calculation (maximum heart rate or year of birth) |
@@ -445,7 +449,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 30 October 2026 and replaces the previous Policy (effective 20 October 2026).
+This Privacy Policy takes effect on 3 November 2026 and replaces the previous Policy (effective 30 October 2026).
 
 ---
 

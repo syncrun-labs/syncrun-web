@@ -15,6 +15,8 @@ export interface AccountCopy {
     cols: { h: string; items?: string[]; p: string }[];
   };
   device: { heading: string; lede: string; cols: { h: string; p: string }[] };
+  subscription: { heading: string; lede: string; cols: { h: string; p: string }[] };
+  records: { heading: string; lede: string; cols: { h: string; p: string }[] };
   email: {
     heading: string;
     lede: string;
@@ -59,12 +61,20 @@ export const accountCopy: Record<Lang, AccountCopy> = {
       cols: [
         {
           h: "서버에서 지워지는 것",
-          items: ["계정과 러닝 기록 전체", "프로필 이름과 사진", "카드 배경 사진", "기기 알림 토큰", "약관 동의 기록"],
+          items: [
+            "계정과 러닝 기록 전체",
+            "프로필 이름과 사진",
+            "카드 배경 사진",
+            "구독 정보",
+            "크루 소속 · 출석 기록과 크루 초대 · 가입 요청",
+            "기기 알림 토큰",
+            "약관 동의 기록",
+          ],
           p: "Apple로 로그인한 계정은 Apple ID 설정의 앱 연결도 함께 폐기됩니다.",
         },
         {
           h: "남는 것",
-          p: "함께 뛴 사람의 기록에 남은 단체 결과는 그 사람의 기록이라 지워지지 않습니다. 그 기록에서 이름은 러닝 당시의 이름으로 남습니다.",
+          p: "함께 뛴 사람의 기록에 남은 단체 결과는 그 사람의 기록이라 지워지지 않고, 이름은 러닝 당시의 이름으로 남습니다. 크루장이던 크루는 지워지지 않고 크루장 없이 읽기 전용이 되어 크루원이 이어받을 수 있습니다. 법령이 보존을 요구하는 기록은 그 기간 동안 보관한 뒤 지웁니다 — 위치정보 이용·제공사실 확인자료 6개월, 소비자 불만·분쟁 처리 기록 3년, 서비스 이용 로그 3개월.",
         },
         {
           h: "되돌릴 수 없습니다",
@@ -87,6 +97,42 @@ export const accountCopy: Record<Lang, AccountCopy> = {
         {
           h: "로그아웃",
           p: "로그아웃은 계정을 지우지 않습니다. 이 기기에서 나갈 뿐이고, 기기의 러닝 기록은 그대로 남습니다.",
+        },
+      ],
+    },
+    subscription: {
+      heading: "구독은 따로 해지해 주세요",
+      lede: "회원 탈퇴는 구독 해지가 아닙니다. SyncRun Plus · Crew를 구독 중이라면 산 곳에서 해지해야 다음 결제가 이루어지지 않습니다.",
+      cols: [
+        {
+          h: "iPhone에서 샀다면",
+          p: "기기의 설정 앱에서 이름 > 구독으로 들어가 SyncRun을 해지합니다.",
+        },
+        {
+          h: "Android에서 샀다면",
+          p: "Google Play 앱에서 프로필 > 결제 및 정기 결제 > 정기 결제로 들어가 SyncRun을 해지합니다.",
+        },
+        {
+          h: "해지하지 않으면",
+          p: "계정을 지워도 앱 마켓의 구독은 계속 갱신될 수 있습니다. 해지해도 이미 결제한 기간이 끝날 때까지는 결제가 다시 이루어지지 않습니다.",
+        },
+      ],
+    },
+    records: {
+      heading: "계정은 두고 기록만 지우기",
+      lede: "계정을 지우지 않고 일부 데이터만 지울 수도 있습니다. 앱에서 지우면 서버와 다른 기기에서도 함께 지워집니다.",
+      cols: [
+        {
+          h: "러닝 기록",
+          p: "기록 상세의 ⋯ 메뉴에서 「기록 삭제」를 누릅니다. 그 기록의 경로 · 심박 · 카드 배경 사진이 함께 지워집니다.",
+        },
+        {
+          h: "카드 배경 사진",
+          p: "카드를 꾸미는 화면에서 배경 사진을 빼면 서버에 보관된 사진도 지워집니다.",
+        },
+        {
+          h: "크루",
+          p: "크루 화면에서 크루를 탈퇴하면 그 크루의 소속과 출석 기록이 지워집니다. 크루장은 크루를 삭제할 수 있습니다.",
         },
       ],
     },
@@ -142,6 +188,8 @@ export const accountCopy: Record<Lang, AccountCopy> = {
             "Your account and every run",
             "Profile name and photo",
             "Run card background photos",
+            "Subscription information",
+            "Crew memberships, attendance records, and crew invitations and join requests",
             "Device notification tokens",
             "Records of consent to the terms",
           ],
@@ -149,7 +197,7 @@ export const accountCopy: Record<Lang, AccountCopy> = {
         },
         {
           h: "What remains",
-          p: "Group results kept in the records of people you ran with are their records, so they are not deleted. Your name stays there as it was at the time of the run.",
+          p: "Group results kept in the records of people you ran with are their records, so they are not deleted, and your name stays there as it was at the time of the run. A crew you led is not deleted; it becomes read-only without a leader, and a member can take it over. Records that the law requires us to keep are kept for that period and then deleted: records of location information use and provision for 6 months, records of consumer complaints and dispute handling for 3 years, and service access logs for 3 months.",
         },
         {
           h: "It cannot be undone",
@@ -172,6 +220,42 @@ export const accountCopy: Record<Lang, AccountCopy> = {
         {
           h: "Signing out",
           p: "Signing out does not delete the account. It only signs you out on this device, and the runs on the device remain.",
+        },
+      ],
+    },
+    subscription: {
+      heading: "Cancel your subscription separately",
+      lede: "Deleting your account does not cancel a subscription. If you subscribe to SyncRun Plus or Crew, cancel it where you bought it so that you are not charged again.",
+      cols: [
+        {
+          h: "Bought on iPhone",
+          p: "In the device’s Settings app, go to your name > Subscriptions and cancel SyncRun.",
+        },
+        {
+          h: "Bought on Android",
+          p: "In the Google Play app, go to Profile > Payments & subscriptions > Subscriptions and cancel SyncRun.",
+        },
+        {
+          h: "If you do not cancel",
+          p: "The subscription in the app store can keep renewing even after the account is deleted. After you cancel, you are not charged again, and the period you already paid for runs to its end.",
+        },
+      ],
+    },
+    records: {
+      heading: "Delete data but keep your account",
+      lede: "You can also delete some of your data without deleting the account. What you delete in the app is also deleted on the server and on your other devices.",
+      cols: [
+        {
+          h: "Runs",
+          p: "In a run’s details, open the ⋯ menu and tap Delete Run. The run’s route, heart rate and card background photo are deleted with it.",
+        },
+        {
+          h: "Card background photos",
+          p: "Remove the background photo while editing the card, and the copy kept on the server is deleted too.",
+        },
+        {
+          h: "Crews",
+          p: "Leave a crew from the crew screen to delete your membership and attendance records there. A crew leader can delete the crew.",
         },
       ],
     },
