@@ -100,6 +100,24 @@ export default function Account() {
             </div>
           </section>
 
+          {[
+            { id: "subscription", copy: c.subscription },
+            { id: "records", copy: c.records },
+          ].map(({ id, copy }) => (
+            <section key={id} className="doc__section" id={id}>
+              <h2 className="h2 doc__h2">{copy.heading}</h2>
+              <p className="doc__section-lede">{copy.lede}</p>
+              <div className="doc__cols">
+                {copy.cols.map((col) => (
+                  <div key={col.h}>
+                    <h3 className="doc__h3">{col.h}</h3>
+                    <p className="doc__p">{col.p}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+
           <section className="doc__section" id="email">
             <h2 className="h2 doc__h2">{c.email.heading}</h2>
             <p className="doc__section-lede">{c.email.lede}</p>
