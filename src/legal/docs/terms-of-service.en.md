@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.9 |
-| Effective date | 3 November 2026 |
-| Last amended | 27 October 2026 |
+| Document version | v1.10 |
+| Effective date | 5 November 2026 |
+| Last amended | 29 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -232,6 +232,18 @@ The heart rate recording service in item 5 is provided only in the iOS app and i
 
 6. A member who starts a free trial on the app's purchase screen is deemed to have agreed to the free trial conditions shown on that screen.
 
+### Article 11-11 (Promotion Codes)
+
+1. For partnerships or events, the Company may provide codes that let members use a paid service free of charge for a set period ("promotion codes"). The free period, the paid services covered, the redemption deadline and the members eligible to use a promotion code are shown where the code is announced and on the code redemption screen provided by the app market operator.
+
+2. The free period received through a promotion code is separate from the free trial in Article 11-10. Using a promotion code does not count as using the free trial.
+
+3. A promotion code can no longer be used once its redemption deadline has passed or it has reached its set number of uses.
+
+4. Article 11-10(3) to (5) apply mutatis mutandis to the use of the free period received through a promotion code, conversion to the paid service after the free period ends and consent to it, and cancellation during the free period.
+
+5. A member who redeems a promotion code on the code redemption screen is deemed to have agreed to the conditions shown on that screen.
+
 ---
 
 ## Chapter 4 Obligations of Members
@@ -445,4 +457,4 @@ Members may not assign or gift their rights to use the Service or their contract
 
 ## Addendum
 
-These Terms take effect on 3 November 2026 and replace the previous Terms (effective 30 October 2026).
+These Terms take effect on 5 November 2026 and replace the previous Terms (effective 3 November 2026).
