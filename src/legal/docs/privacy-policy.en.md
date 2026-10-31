@@ -2,9 +2,9 @@
 
 | Item | Detail |
 | --- | --- |
-| Document version | v1.12 |
-| Effective date | 3 November 2026 |
-| Last amended | 27 October 2026 |
+| Document version | v1.13 |
+| Effective date | 10 November 2026 |
+| Last amended | 31 October 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -69,7 +69,7 @@ Where a user selects "Hide My Email" when using Sign in with Apple, a private re
 | Run record | Run title | Generated automatically and editable by the user | Required |
 | Location information | Live latitude and longitude during a run | Collected automatically by device GPS | Required |
 | Location information | Latitude and longitude while waiting to bump (while the group formation screen is open) | Collected automatically by device GPS | Required |
-| Run record | Run card background photo | Chosen by the user in the Photos app | Optional |
+| Run record | Run card background photo | Chosen by the user in the Photos app or the device's photo picker, or taken by the user with the camera | Optional |
 | Sensitive information | Heart rate (samples every 5 seconds during a run, and the average) | Collected via HealthKit from Apple Watch or heart-rate-capable earbuds | Optional |
 | Technical information | Push token (APNs device token or FCM registration token) | Collected automatically when notification permission is granted | Optional |
 | Usage record | Consent history (item consented to, document version, time of consent or withdrawal) | Recorded automatically on the consent screen | Required |
@@ -84,7 +84,7 @@ The route of a run record is stored in two forms: normalised 0–1 coordinates u
 
 The measurement samples taken every 5 seconds during a run are the raw data for showing how pace, cadence and altitude changed over the run in the record detail. They are kept as part of the run record; whether heart rate is included depends on the consent for the sensitive information item below.
 
-A run card background photo is collected only where the user chooses one in the Photos app, and is kept with that run record. The purpose is to keep the card intact if you change device or delete and reinstall the app. If you do not choose a photo, none is collected, and not choosing one places no restriction on any other feature.
+A run card background photo is collected only where the user chooses one in the Photos app or the device's photo picker, or takes one with the camera, and is kept with that run record. The purpose is to keep the card intact if you change device or delete and reinstall the app. If you do not choose or take a photo, none is collected, and not choosing or taking one places no restriction on any other feature.
 
 Consent history records, item by item, which version of which legal document you consented to, or withdrew consent from, and when. It is retained in order to confirm that the consents required by the Personal Information Protection Act and the Act on the Protection and Use of Location Information were actually obtained, and to determine who must be asked for what again when the documents are amended. Entries accumulate rather than being overwritten, so withdrawals of consent are also retained.
 
@@ -425,7 +425,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 3 November 2026.
+1. This Privacy Policy applies from 10 November 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -433,6 +433,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
+| v1.13 | 10 November 2026 | States that a run card background photo is also collected when the user chooses it in the device's photo picker or takes it with the camera |
 | v1.12 | 3 November 2026 | Reflects the collection method of subscription information for Google Play subscription sales (purchase token look-up and status-change notifications) and the passing of an account-linking identifier, adds the camera permission (taking run card backgrounds), and states which permissions are requested on each platform |
 | v1.11 | 30 October 2026 | Reflects crew invite links — join requests received through a link (crew information items and retention period), and provision to the crew leader and deputy leader of the crew asked to join and to people who open the link, and includes the content of v1.10, which it replaced before that version took effect |
 | v1.10 | Replaced by v1.11 before taking effect | Narrows what is provided to members of the same crew — results of individual crew sessions and attendance counts go only to the crew leader and deputy leader, rankings show only the top 10, and the most frequent running pair is shown only to those two people (announced 20 October 2026; absorbed into v1.11 before its effective date) |
@@ -449,7 +450,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 3 November 2026 and replaces the previous Policy (effective 30 October 2026).
+This Privacy Policy takes effect on 10 November 2026 and replaces the previous Policy (effective 3 November 2026).
 
 ---
 
