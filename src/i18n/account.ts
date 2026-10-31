@@ -124,11 +124,11 @@ export const accountCopy: Record<Lang, AccountCopy> = {
       cols: [
         {
           h: "러닝 기록",
-          p: "기록 상세의 ⋯ 메뉴에서 「기록 삭제」를 누릅니다. 그 기록의 경로 · 심박 · 카드 배경 사진이 함께 지워집니다.",
+          p: "기록 상세 오른쪽 위의 더보기 메뉴(⋯ 또는 ⋮)에서 「기록 삭제」를 누릅니다. 그 기록의 경로 · 심박 · 카드 배경 사진이 함께 지워집니다.",
         },
         {
           h: "카드 배경 사진",
-          p: "카드를 꾸미는 화면에서 배경 사진을 빼면 서버에 보관된 사진도 지워집니다.",
+          p: "카드를 꾸미는 화면에서 배경을 사진이 아닌 다른 배경으로 바꿔 저장하면 서버에 보관된 사진도 지워집니다.",
         },
         {
           h: "크루",
@@ -247,11 +247,11 @@ export const accountCopy: Record<Lang, AccountCopy> = {
       cols: [
         {
           h: "Runs",
-          p: "In a run’s details, open the ⋯ menu and tap Delete Run. The run’s route, heart rate and card background photo are deleted with it.",
+          p: "In a run’s details, open the more menu at the top right (⋯ or ⋮) and tap Delete run. The run’s route, heart rate and card background photo are deleted with it.",
         },
         {
           h: "Card background photos",
-          p: "Remove the background photo while editing the card, and the copy kept on the server is deleted too.",
+          p: "While editing the card, switch the background from the photo to another one and save, and the copy kept on the server is deleted too.",
         },
         {
           h: "Crews",
