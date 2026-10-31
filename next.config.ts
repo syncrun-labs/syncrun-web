@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
       { source: "/admin/:path*", headers: noindex },
       { source: "/crew/:path*", headers: noindex },
       { source: "/en/crew/:path*", headers: noindex },
+      // 유니버설 링크 연결 파일 — 확장자가 없어 형식을 따로 적지 않으면 JSON으로 읽히지 않는다.
+      // 앱으로 넘기는 경로는 이 파일이 정한다(`/crew/join/*`만).
+      {
+        source: "/.well-known/apple-app-site-association",
+        headers: [{ key: "Content-Type", value: "application/json" }],
+      },
     ];
   },
 };

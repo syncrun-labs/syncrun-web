@@ -130,6 +130,9 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
 - `public/scenes/` — 장면 사진(생성) · 화면 마스크 · **스크롤 구동 영상의 프레임 시퀀스**(`gather`·`tunnel/`, 각 61장 + `manifest.json`,
   `landing/ScrubFrames`가 캔버스에 그린다 · `scripts/scene-frames.sh`로 뽑는다 · `REVERSE=1`은 거꾸로). `public/media/` — 자동 재생 영상(워밍업 필름·출발선·오늘 저녁).
   `public/brand/` — 로고(wordmark·icon).
+- `public/.well-known/apple-app-site-association` — iOS 유니버설 링크 연결 파일. 앱(팀 `54U979SGB7` · `com.syncrunlabs.sync`)으로 넘기는 경로는
+  크루 초대 링크 `/crew/join/*` 하나뿐이고, 나머지 페이지는 웹에 남는다. 확장자가 없어 `next.config.ts`의 `headers()`가 `Content-Type: application/json`을 붙인다.
+  리다이렉트 · rewrite에 걸리지 않는 정적 파일로 나가야 Apple이 읽는다.
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/` — 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
   **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
