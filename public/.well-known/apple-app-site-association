@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["54U979SGB7.com.syncrunlabs.sync"],
+        "components": [{ "/": "/crew/join/*", "comment": "크루 초대 링크만 앱으로 넘긴다" }]
+      }
+    ]
+  }
+}
