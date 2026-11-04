@@ -3,8 +3,8 @@
 | Item | Detail |
 | --- | --- |
 | Document version | v1.13 |
-| Effective date | 10 November 2026 |
-| Last amended | 31 October 2026 |
+| Effective date | 11 November 2026 |
+| Last amended | 4 November 2026 |
 
 > **This English text is a translation provided for your convenience. The Korean version is the authoritative original.** If the two differ, the Korean version governs. Article numbers match the Korean original so that references line up across both versions.
 
@@ -425,7 +425,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Article 15 Changes to this Privacy Policy
 
-1. This Privacy Policy applies from 10 November 2026.
+1. This Privacy Policy applies from 11 November 2026.
 
 2. Where content is added, deleted or amended in response to changes in laws, policies or security technology, the Company will give notice through the in-app notices and this document from seven days before the change takes effect (30 days before, where the change is unfavourable to users).
 
@@ -433,7 +433,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 | Version | Effective date | Notes |
 | --- | --- | --- |
-| v1.13 | 10 November 2026 | States that a run card background photo is also collected when the user chooses it in the device's photo picker or takes it with the camera |
+| v1.13 | 11 November 2026 | States that a run card background photo is also collected when the user chooses it in the device's photo picker or takes it with the camera |
 | v1.12 | 3 November 2026 | Reflects the collection method of subscription information for Google Play subscription sales (purchase token look-up and status-change notifications) and the passing of an account-linking identifier, adds the camera permission (taking run card backgrounds), and states which permissions are requested on each platform |
 | v1.11 | 30 October 2026 | Reflects crew invite links — join requests received through a link (crew information items and retention period), and provision to the crew leader and deputy leader of the crew asked to join and to people who open the link, and includes the content of v1.10, which it replaced before that version took effect |
 | v1.10 | Replaced by v1.11 before taking effect | Narrows what is provided to members of the same crew — results of individual crew sessions and attendance counts go only to the crew leader and deputy leader, rankings show only the top 10, and the most frequent running pair is shown only to those two people (announced 20 October 2026; absorbed into v1.11 before its effective date) |
@@ -450,7 +450,7 @@ Users may change or withdraw each access permission at any time in the device se
 
 ## Addendum
 
-This Privacy Policy takes effect on 10 November 2026 and replaces the previous Policy (effective 3 November 2026).
+This Privacy Policy takes effect on 11 November 2026 and replaces the previous Policy (effective 3 November 2026).
 
 ---
 
