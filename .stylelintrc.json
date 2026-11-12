@@ -1,0 +1,13 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["./scripts/stylelint-token-colors.mjs"],
+  "rules": {
+    "color-named": "never",
+    "color-no-hex": true,
+    "value-keyword-case": ["lower", { "ignoreKeywords": ["/^currentcolor$/i"] }],
+    "function-disallowed-list": [
+      "/^(alpha|rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch|color|device-cmyk|light-dark|contrast-color|color-contrast)$/i"
+    ],
+    "syncrun/token-colors": true
+  }
+}

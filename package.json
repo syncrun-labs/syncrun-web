@@ -10,6 +10,7 @@
     "preview": "next start -p 4173",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.test.json --noEmit",
     "lint": "eslint .",
+    "lint:css": "stylelint \"**/*.module.css\" --allow-empty-input",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "verify": "npm run lint && npm run format:check && npm run build",
@@ -45,7 +46,10 @@
     "eslint-plugin-react-refresh": "^0.5.6",
     "globals": "^17.12.0",
     "husky": "^9.1.7",
+    "postcss-value-parser": "^4.2.0",
     "prettier": "^3.9.6",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.70.0"
   }

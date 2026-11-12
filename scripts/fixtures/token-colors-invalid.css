@@ -1,0 +1,9 @@
+.example {
+  color: #dc565b;
+  background-color: rebeccapurple;
+  border-color: rgb(1 2 3);
+  outline-color: hsl(20deg 100% 30%);
+  box-shadow: 0 0 1rem color-mix(in srgb, currentColor, var(--ink));
+  text-decoration-color: CanvasText;
+  background-image: linear-gradient(var(--ink, red), transparent);
+}

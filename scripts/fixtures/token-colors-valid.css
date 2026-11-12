@@ -1,0 +1,8 @@
+.example {
+  color: var(--accent-core);
+  outline-color: currentColor;
+  border-color: inherit;
+  background: linear-gradient(transparent, var(--ink));
+  box-shadow: 0 0 1rem color-mix(in srgb, var(--ink) 40%, transparent);
+  text-shadow: 0 0 1px color-mix(in oklab, 40% var(--ink, transparent), var(--accent-core));
+}

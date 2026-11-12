@@ -1,0 +1,44 @@
+name: PR check
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: 추가된 줄과 커밋 검사 및 변경 범위 확인
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          node scripts/check-dashes.mjs "$BASE_SHA"
+          node scripts/check-commits.mjs "$BASE_SHA"
+          if git diff --quiet --no-renames "$BASE_SHA...HEAD" -- . \
+            ':(top,exclude)AGENTS.md' ':(top,exclude)CLAUDE.md' ':(top,exclude)README.md' \
+            ':(top,exclude,glob)docs/adr/**/*.md'; then
+            echo "docs_only=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: 코드와 한·영 약관 URL 계약 검사
+        if: steps.scope.outputs.docs_only != 'true'
+        run: |
+          npm ci
+          npm run lint
+          npm run lint:css
+          npm run format:check
+          npx next typegen
+          npm run typecheck
+          node --test scripts/*.test.mjs
+          npx playwright install --with-deps chromium
+          npm test -- tests/legal-urls.spec.ts --project=desktop-ko --project=desktop-en

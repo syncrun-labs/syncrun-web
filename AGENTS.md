@@ -25,6 +25,7 @@ npm run dev           # 개발 서버
 npm run build         # 타입체크 + next build (전 페이지 정적 생성)
 npm run preview       # 빌드 결과 미리보기
 npm run lint          # ESLint
+npm run lint:css      # CSS Modules의 색 토큰 검사
 npm run format        # Prettier 적용 (format:check 는 검사만)
 npm run verify        # lint + format:check + build: 커밋 전 한 방
 npm test              # Playwright: 시각 회귀 · 약관 URL 계약
@@ -35,7 +36,9 @@ npm run admin:verify  # 운영 사이트 lint + test + public/admin/ 빌드
 ```
 
 **변경 후 필수 검증**: `npm run verify`가 통과해야 한다.
-husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 돌린다.
+husky가 pre-commit에서 `lint`·`lint:css`·`format:check`를, commit-msg에서 메시지와 약관 사본 변경을, pre-push에서 `verify`를 검사한다.
+PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의 `AGENTS.md`·`CLAUDE.md`·`README.md`와 `docs/adr/`의 마크다운만 변경되면 이 검사만 실행한다.
+그 외 변경에는 lint·CSS 색 토큰·서식·타입과 한·영 약관 URL 계약 검사도 실행한다. 무료 비공개 플랜이라 브랜치 보호가 없어 병합을 막지는 못한다.
 
 서식은 **Prettier가 전담한다**. 손으로 맞추지 말고 `npm run format`을 돌린다.
 `src/legal/docs/`는 포맷 대상이 아니다(허브 사본이라 원문과 바이트로 같아야 한다).
