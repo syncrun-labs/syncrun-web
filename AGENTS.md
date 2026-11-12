@@ -12,6 +12,11 @@ Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). �
 UI 프레임워크 없음 — iOS 앱의 토큰을 CSS 변수로 옮겨 직접 조립한다.
 i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/en). 장면 사진은 생성 이미지이고, 사진 속 폰·워치 화면에 앱 UI를 HTML로 얹는다(`public/scenes/`).
 
+## SSoT — 제품·계약은 syncrun 허브에
+
+제품 SSoT·요구사항·계약은 [syncrun](https://github.com/syncrun-labs/syncrun) 허브. 이 레포는 마케팅 표면이라
+FR 요구사항·통신 계약을 담지 않는다 — 제품 메시지가 바뀌면 허브의 현재 사실에 맞춰 카피를 갱신한다.
+
 ## 명령어
 
 ```bash
@@ -75,8 +80,7 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    러너 팔레트 컬러 액센트(짧은 바)로 만든다. 아이콘은 의미가 분명한 자리(브랜드 마크, App Store 글리프)에만.
    제품 카피는 사용자 가치로 말한다 — 'SwiftUI·Liquid Glass'·'외부 의존성 0' 같은 개발 자랑 문구는 넣지 않는다.
    글꼴은 시스템 폰트 스택이다(`--font-sans`) — 라틴은 SF Pro, 한국어는 Apple SD Gothic Neo·Noto Sans CJK 등 기기 기본.
-   **웹폰트를 넣지 않는다.** Pretendard를 얹으면 랜딩의 LCP 요소가 텍스트라 swap·optional 어느 쪽이든
-   첫 페인트가 2~3초 밀린다(로컬·프로덕션 실측). 한국어는 라틴보다 자간을 넉넉히(`:lang(ko)`).
+   한국어는 라틴보다 자간을 넉넉히(`:lang(ko)`).
 4. **문서·주석은 현재 상태만 서술한다.** 변경 이력·"기존 A에서 B로"·참고 대상 서술은 커밋 메시지가 담당한다.
    주석은 "지금 이 코드가 무엇인지"와 비자명한 "왜"만 적는다.
    **예외는 `docs/adr/`이다** — 아키텍처 결정 기록(ADR)은 결정 시점을 기록한다. 무엇을 정했는지와 함께
@@ -122,8 +126,7 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   `Run`(이 구간만 가로 — 함께 · 터널 · 도착, 네 선과 머리 점, `runGeometry`) · `Card`(떨어지듯 내려앉고 포인터로 기울어지는 카드) · `Closing`.
   `Dock`이 아래 러닝 도크(이 페이지의 유일한 내비게이션), `TopBar`가 이름과 언어.
   **스크롤을 가로채지 않는다** — 고정 구간은 `position: sticky` + 섹션 높이로 만든다(`src/lib/useProgress.ts`의 `--p`, 가로 패널의 `--lp`).
-  React는 스크롤마다 다시 렌더하지 않는다. **사진 속 화면 자리(%)와 마스크는 사진을 재서 얻은 것이다** — 사진을 바꾸면 `Gather`의 `SCREENS`·
-  `Card`의 `PHONE`·`.watch` 위치와 `public/scenes/*-screen(s).png`를 다시 만든다.
+  React는 스크롤마다 다시 렌더하지 않는다.
 - `src/components/scenes/` — 패널이 쓰는 조각(`RunCardArt`: 앱 단체 카드의 시그니처 배경, `Route`, `crew`: 네 사람·거리·경로 모양).
 - `src/index.css` — 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
 - `src/components/reactbits/SafeBoundary` — 장식 레이어용 에러 바운더리.
@@ -131,30 +134,33 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   `landing/ScrubFrames`가 캔버스에 그린다 · `scripts/scene-frames.sh`로 뽑는다 · `REVERSE=1`은 거꾸로). `public/media/` — 자동 재생 영상(워밍업 필름·출발선·오늘 저녁).
   `public/brand/` — 로고(wordmark·icon).
 - `public/.well-known/apple-app-site-association` — iOS 유니버설 링크 연결 파일. 앱(팀 `54U979SGB7` · `com.syncrunlabs.sync`)으로 넘기는 경로는
-  크루 초대 링크 `/crew/join/*` 하나뿐이고, 나머지 페이지는 웹에 남는다. 확장자가 없어 `next.config.ts`의 `headers()`가 `Content-Type: application/json`을 붙인다.
-  리다이렉트 · rewrite에 걸리지 않는 정적 파일로 나가야 Apple이 읽는다.
+  크루 초대 링크 `/crew/join/*` 하나뿐이고, 나머지 페이지는 웹에 남는다.
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/` — 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
-  **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
 - `src/styles/landing.css` — 랜딩 섹션·도크·위 막대와 반응형·정지 상태. `src/styles/sections.css` — 랜딩 타이포와 푸터.
 - **`admin/` — 운영 사이트 소스**(`docs/adr/0004`). 운영자가 이용자에게 안내 알림을 보내는 독립 Vite + React 앱으로,
   `/admin`으로 나간다. 요구사항은 허브 `FR-OPS-02` · `03` · `04`, 서버와 주고받는 규격은 허브 `contracts/api-contract.md` §21이고
   `admin/src/api/types.ts`가 그 절을 옮긴 것이다. 서버 호출은 `ApiClient` 하나로만 한다 — 실제(`HttpApiClient`)와
   계약을 흉내 내는 메모리 구현(`MockApiClient`)에 함께 넣는다. 운영자 토큰은 메모리에만 둔다.
-  **`admin/`을 고치면 `npm run admin:verify`를 돌리고, 그 결과 `public/admin/`을 같은 커밋에 싣는다** — Vercel은 `admin/`을 빌드하지 않는다.
   `admin/`은 이 레포의 lint · tsc 대상이 아니다(자기 oxlint · vitest). 랜딩 어디에도 `/admin` 링크를 두지 않는다.
   `admin:build`는 운영 서버(`api.syncrunlabs.com`)와 서버 `GOOGLE_CLIENT_IDS`의 웹 클라이언트로 빌드한다 — 두 값은 비밀이 아니고 `admin/.env.production`에 있다.
   구글 콘솔에서 그 웹 클라이언트의 승인된 자바스크립트 출처에 `https://www.syncrunlabs.com`이 있어야 로그인 버튼이 동작한다. 서버 없이 화면만 볼 때는 `admin:dev`(모의 API · 개발 로그인).
 
+## 함정 — 어기면 사고
+
+- **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
+- **`admin/`을 고치면 `npm run admin:verify`를 돌리고, 그 결과 `public/admin/`을 같은 커밋에 싣는다** — Vercel은 `admin/`을 빌드하지 않는다.
+- **웹폰트를 넣지 않는다.** Pretendard를 얹으면 랜딩의 LCP 요소가 텍스트라 swap·optional 어느 쪽이든
+  첫 페인트가 2~3초 밀린다(로컬·프로덕션 실측).
+- **사진 속 화면 자리(%)와 마스크는 사진을 재서 얻은 것이다** — 사진을 바꾸면 `Gather`의 `SCREENS`·
+  `Card`의 `PHONE`·`.watch` 위치와 `public/scenes/*-screen(s).png`를 다시 만든다.
+- **`apple-app-site-association`은 확장자가 없어** `next.config.ts`의 `headers()`가 `Content-Type: application/json`을 붙인다.
+  리다이렉트 · rewrite에 걸리지 않는 정적 파일로 나가야 Apple이 읽는다.
+- **프리뷰는 배포 보호가 켜져 있어** 로그인 없이는 302 — 자동화가 재려면 우회 시크릿이 필요하다.
+
 ## 배포
 
-Vercel이 `main` 병합 시 프로덕션, 브랜치 푸시 시 프리뷰를 배포한다(GitHub App). 프리뷰는 배포 보호가 켜져 있어
-로그인 없이는 302 — 자동화가 재려면 우회 시크릿이 필요하다. `.github/workflows/deploy.yml`은 GitHub Pages용 수동 경로다.
-
-## SyncRun
-
-제품 SSoT·요구사항·계약은 [syncrun](https://github.com/syncrun-labs/syncrun) 허브. 이 레포는 마케팅 표면이라
-FR 요구사항·통신 계약을 담지 않는다 — 제품 메시지가 바뀌면 허브의 현재 사실에 맞춰 카피를 갱신한다.
+Vercel이 `main` 병합 시 프로덕션, 브랜치 푸시 시 프리뷰를 배포한다(GitHub App). `.github/workflows/deploy.yml`은 GitHub Pages용 수동 경로다.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
