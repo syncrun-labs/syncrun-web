@@ -36,6 +36,7 @@ npm run admin:verify  # 운영 사이트 lint + test + public/admin/ 빌드
 
 **변경 후 필수 검증**: `npm run verify`가 통과해야 한다.
 husky가 pre-commit에서 `lint`·`format:check`를, commit-msg에서 메시지와 약관 사본 변경을, pre-push에서 `verify`를 검사한다.
+PR마다 `pr-check`가 lint·서식·타입, 대시와 약관 사본 규칙, 한·영 약관 URL 계약을 검사한다. 무료 비공개 플랜이라 브랜치 보호가 없어 병합을 막지는 못한다.
 
 서식은 **Prettier가 전담한다**. 손으로 맞추지 말고 `npm run format`을 돌린다.
 `src/legal/docs/`는 포맷 대상이 아니다(허브 사본이라 원문과 바이트로 같아야 한다).

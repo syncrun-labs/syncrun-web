@@ -1,0 +1,38 @@
+name: PR check
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npx next typegen
+      - run: npm run typecheck
+
+      - name: 추가된 줄과 커밋 검사
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          node scripts/check-dashes.mjs "$BASE_SHA"
+          node scripts/check-commits.mjs "$BASE_SHA"
+
+      - run: node --test scripts/*.test.mjs
+      - run: npx playwright install --with-deps chromium
+      - run: npm test -- tests/legal-urls.spec.ts --project=desktop-ko --project=desktop-en
