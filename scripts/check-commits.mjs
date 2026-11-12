@@ -9,19 +9,11 @@ if (!base) {
 
 const git = (...args) => execFileSync("git", args, { encoding: "utf8" });
 const commits = git("log", "--no-merges", "--format=%H", `${base}..HEAD`, "--").trim().split("\n").filter(Boolean);
+const diffOptions = ["--root", "--no-commit-id", "-r", "--name-only", "--no-renames", "-z"];
 
 for (const commit of commits) {
   const message = git("show", "-s", "--format=%B", commit);
-  const changedFiles = git(
-    "diff-tree",
-    "--root",
-    "--no-commit-id",
-    "-r",
-    "--name-only",
-    "--no-renames",
-    "-z",
-    commit,
-  ).split("\0");
+  const changedFiles = git("diff-tree", ...diffOptions, commit).split("\0");
   const errors = checkCommit(message, changedFiles);
 
   if (errors.length) {
