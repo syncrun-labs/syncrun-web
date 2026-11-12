@@ -50,23 +50,33 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
    (type = feat·fix·docs·refactor·style·chore·test …). **Co-Authored-By에 AI 도구를 넣지 않는다.**
    **이슈·PR 제목도 같은 형식을 쓴다.** 요약은 한국어 평서문("~한다")으로, 마침표 없이.
 
-   | | 형식 | 예 |
-   |---|---|---|
-   | 커밋 | `type(scope): 요약` | `feat(seo): 로케일별 canonical을 붙인다` |
-   | 이슈 | `type(scope): 요약` | `feat(seo): 마케팅 사이트를 Next.js로 이전한다` |
-   | PR | `[#이슈] type(scope): 요약` | `[#22] feat(seo): 로케일 구조와 Metadata를 세운다` |
+   **커밋·PR 제목은 참조를 뒤에 붙인다.** type이 맨 앞이어야 Conventional Commits이고, 병합 커밋 제목이 PR 제목이라
+   이 꼬리가 `git log --first-parent`에 이슈 추적을 남긴다. 이슈는 작업이 어디서 시작됐는지에 따라 둘 중 하나다.
 
-   **이슈 제목에는 번호를 붙이지 않는다** — 생성 전에는 자기 번호를 알 수 없다.
-   **PR 제목 앞에는 대상 이슈 번호를 붙인다** — 병합 커밋 제목이 PR 제목이라, 이 접두가
-   `git log --first-parent`에 이슈 추적을 남긴다. 대응 이슈가 없는 순수 잡무·메타문서 PR은 접두를 생략한다.
-   부연을 덧붙일 때는 괄호가 아니라 `—`나 `·`로 잇는다.
+   | 작업 | 이슈 | 커밋·PR 제목 | PR 본문 |
+   |---|---|---|---|
+   | 허브에서 시작 (약관 사본, 크루 링크, 운영 사이트 등) | 허브 이슈 | `docs(legal): 이용약관 v1.10 사본 동기화 · 시행 2026-11-05 · syncrun#606` | `Refs syncrun-labs/syncrun#606` |
+   | 웹에서 시작 (랜딩, SEO, 리팩터링, 문서) | 이 레포 이슈 | `feat(seo): 로케일별 canonical을 붙인다 · #22` | `Closes #22` |
+   | 이슈 없는 잡무 | 없음 | `chore(deps): next를 16.3으로 올린다` | |
 
-   **이슈 하나에 PR 하나가 기본이다.** PR 본문에 `Closes #N`을 적으면 병합이 이슈를 닫는다 —
+   **이슈 제목은 `type(scope): 요약`이고 번호를 붙이지 않는다.** 생성 전에는 자기 번호를 알 수 없다.
+   허브 이슈는 병합으로 닫히지 않게 `Refs`로만 걸고, 허브 `close-issue` 절차로 닫는다.
+   부연은 괄호가 아니라 `·`로 잇는다.
+
+   **이슈 하나에 PR 하나가 기본이다.** 웹 이슈는 PR 본문에 `Closes #N`을 적어 병합이 닫게 한다.
    손으로 닫을 일을 만들지 않는 것이 이 기본값의 이유다.
    **예외는 여러 PR로 나뉘는 큰 작업이다.** 이때 이슈는 체크리스트를 가진 우산이 되고,
    각 PR은 `Closes` 대신 **`Refs #N`**으로 건다. GitHub가 닫아주지 않으므로 마지막 PR을 병합한 뒤
    **이슈를 직접 닫는다** — 우산 이슈를 열어둔 채 잊는 것이 이 방식의 유일한 실패 모드다.
    우산이 PR 셋을 넘길 조짐이면 하위 이슈(sub-issue)로 쪼개 각각을 1:1로 되돌린다.
+
+   **PR은 한 가지 일만 담고, 직접 읽어야 하는 변경은 400줄 안쪽으로 둔다.** 400줄·60분을 넘기면 리뷰가 결함을 놓친다.
+   에셋·스냅샷·잠금 파일·생성 파일·삭제만 있는 변경은 세지 않는다. 삭제만 있는 정리는 따로 떼면 리뷰가 금방 끝난다.
+   순서는 기반·리팩터링, 동작 변경, 정리다. 다만 이 레포는 병합이 곧 프로덕션 배포라, 나누면 반쪽 화면이 나가는 변경은
+   한 PR에 두고 커밋을 관심사별로 나눈다. 리팩터링 PR은 작게 만들어 그날 병합한다. 오래 열어 두면 약관 사본 PR과 부딪힌다.
+
+   **새 브랜치는 `git fetch origin` 뒤 `origin/main`에서 판다.** `git pull`은 지금 체크아웃된 브랜치만 최신화한다.
+   같은 클론에서 세션을 여럿 돌리면 레포를 고치는 세션은 각자 워크트리(`git worktree add`)에서 일한다.
 2. **디자인 충실도**: 색·타이포·글래스는 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
    디자인 시스템(`SRColor`·`SRFont`·`Glass.swift`)을 웹으로 옮긴 것이다. 새 색·폰트를 임의로 만들지 말고
    `src/index.css`의 `:root` 토큰(잉크 `#0B0B0F`, **시그니처 코랄 `--accent-core` `#DC565B`**, 러너 팔레트 8색, 글래스 표면)만 쓴다.
@@ -146,9 +156,25 @@ husky가 pre-commit에서 `lint`·`format:check`를, pre-push에서 `verify`를 
   `admin:build`는 운영 서버(`api.syncrunlabs.com`)와 서버 `GOOGLE_CLIENT_IDS`의 웹 클라이언트로 빌드한다 — 두 값은 비밀이 아니고 `admin/.env.production`에 있다.
   구글 콘솔에서 그 웹 클라이언트의 승인된 자바스크립트 출처에 `https://www.syncrunlabs.com`이 있어야 로그인 버튼이 동작한다. 서버 없이 화면만 볼 때는 `admin:dev`(모의 API · 개발 로그인).
 
+## 작업별 문서 라우팅 · 코드를 만지기 전에 해당 문서부터
+
+| 작업이 닿는 영역 | 먼저 읽을 문서 |
+|---|---|
+| 랜딩 구성·모션 | `docs/adr/` 중 최신 랜딩 ADR (대체되지 않은 것) |
+| 라우트·다국어·SEO | `docs/adr/0001` |
+| 약관 사본 | 허브 `legal/`, 허브 `legal-update` 스킬 |
+| 운영 사이트(`admin/`) | `docs/adr/0004`, 허브 `FR-OPS-02`~`04`, `contracts/api-contract.md` §21 |
+| 크루 초대 링크 | 허브 `FR-CREW-08`, 위 `apple-app-site-association` 항목 |
+| 플랜·가격·인원 같은 제품 사실 | 허브 `requirements.md` |
+
 ## 함정 — 어기면 사고
 
 - **`src/legal/docs/*.md`·`*.en.md`는 [syncrun](https://github.com/syncrun-labs/syncrun) 허브 `legal/`의 사본이다** — 허브의 `legal/sync.sh`가 여섯 벌을 맞춘다(앱 번들 사본도 같은 원문을 쓴다). 이 레포에서 약관 본문을 고치지 않는다.
+  **경로·파일 이름·바이트를 바꾸지 않는다.** syncrun-ios·syncrun-android의 `compare-with-published` CI가
+  `raw.githubusercontent.com/syncrun-labs/syncrun-web/main/src/legal/docs/<문서>.md`를 받아 앱 번들 사본과 `diff`한다.
+  폴더를 옮기거나 포맷만 돌려도 앱 레포 CI가 병합 뒤에 깨진다. 렌더링 코드는 바꿔도 된다.
+- **약관 URL과 화면 구조는 계약이다.** `/legal/<슬러그>`·`/en/legal/<슬러그>`는 App Store Connect에 등록됐고 배포된 앱이 연다.
+  `tests/legal-urls.spec.ts`가 각 주소의 200, `article.legal-doc h1`, 선택된 `role="tab"`을 본다. 구조를 바꿀 때도 이 셋을 지킨다.
 - **`admin/`을 고치면 `npm run admin:verify`를 돌리고, 그 결과 `public/admin/`을 같은 커밋에 싣는다** — Vercel은 `admin/`을 빌드하지 않는다.
 - **웹폰트를 넣지 않는다.** Pretendard를 얹으면 랜딩의 LCP 요소가 텍스트라 swap·optional 어느 쪽이든
   첫 페인트가 2~3초 밀린다(로컬·프로덕션 실측).
