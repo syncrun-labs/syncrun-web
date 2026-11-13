@@ -1,0 +1,136 @@
+/* 약관 마크다운 본문: 제목·문단·목록·인용·구분선·표와 인라인 강조 */
+
+.root {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--text);
+}
+
+.h {
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+  text-wrap: balance;
+}
+
+.h1 {
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  margin-bottom: 6px;
+}
+
+.h2 {
+  font-size: clamp(1.3rem, 2.6vw, 1.65rem);
+  margin-top: 2.1em;
+  padding-top: 1em;
+  border-top: 1px solid var(--glass-edge);
+}
+
+.h3 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin-top: 1.6em;
+}
+
+.p {
+  margin-top: 0.85em;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.li {
+  display: flex;
+  gap: 0.6em;
+  margin-top: 0.5em;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.marker {
+  flex-shrink: 0;
+  color: var(--accent-core);
+  font-weight: 600;
+}
+
+.ordered .marker {
+  min-width: 1.7em;
+  font-variant-numeric: tabular-nums;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.quote {
+  margin-top: 1em;
+  padding: 0.7em 1.1em;
+  border-left: 3px solid var(--accent-core);
+  border-radius: 0 12px 12px 0;
+  background: var(--accent-soft);
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.hr {
+  margin: 1.9em 0;
+  border: none;
+  border-top: 1px solid var(--glass-edge);
+}
+
+.wrap {
+  margin-top: 1.1em;
+  overflow-x: auto;
+  border: 1px solid var(--glass-edge);
+  border-radius: 14px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  word-break: keep-all;
+  border-bottom: 1px solid var(--glass-edge);
+  border-right: 1px solid var(--glass-edge);
+}
+
+.table th {
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.table th:last-child,
+.table td:last-child {
+  border-right: none;
+}
+
+.table tr:last-child th,
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.root code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
+.root strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.root a {
+  color: var(--accent-deep);
+  border-bottom: 1px solid var(--accent-soft);
+}
