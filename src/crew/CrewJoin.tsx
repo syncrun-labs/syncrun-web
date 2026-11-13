@@ -1,13 +1,13 @@
 "use client";
 
 import "../styles/support.css";
-import "../styles/crew-join.css";
 import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import wordmark from "@/public/brand/wordmark.png";
 import { crewJoinCopy } from "../i18n/crewJoin";
 import { useLang } from "../i18n/lang";
 import { APP_STORE_URL } from "../lib/app-store";
+import styles from "./CrewJoin.module.css";
 
 /** 초대 링크 미리보기 (api-contract §18.12) — 로그인 없이 부르는 공개 경로 */
 const API_BASE = "https://api.syncrunlabs.com/api/v1";
@@ -85,8 +85,8 @@ export default function CrewJoin() {
         </div>
       </header>
 
-      <main className="doc crew-join">
-        <div className="container crew-join__inner">
+      <main className="doc">
+        <div className={`container ${styles.inner}`}>
           {state.kind === "expired" ? (
             <section className="doc__head">
               <h1 className="doc__title">{c.expired.title}</h1>
@@ -103,19 +103,19 @@ export default function CrewJoin() {
               </section>
 
               {token && (
-                <a href={`syncrun://crew/join/${token}`} className="btn btn-primary crew-join__open">
+                <a href={`syncrun://crew/join/${token}`} className={`btn btn-primary ${styles.open}`}>
                   {c.open}
                 </a>
               )}
 
               <section className="doc__section">
                 <h2 className="h2 doc__h2">{c.install.heading}</h2>
-                <ol className="doc__list crew-join__steps">
+                <ol className={`doc__list ${styles.steps}`}>
                   {c.install.steps.map((step) => (
                     <li key={step}>{step}</li>
                   ))}
                 </ol>
-                <a href={APP_STORE_URL} className="btn crew-join__store">
+                <a href={APP_STORE_URL} className={`btn ${styles.store}`}>
                   {c.install.store}
                 </a>
               </section>
