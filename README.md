@@ -1,13 +1,12 @@
 # SyncRun Web
 
 > 맞대면 그 자리에서 함께 뛰는 러닝 앱 **SyncRun**의 마케팅 사이트.
-> [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의 리퀴드 글래스 감성을
-> [React Bits](https://reactbits.dev) 애니메이션 컴포넌트로 웹에 옮겼다.
+> [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의 디자인 토큰을 웹으로 옮겨, 앱 화면과 실제 러닝 카드로 제품을 설명한다.
 
 ## 스택
 
-Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). 애니메이션은
-[framer-motion](https://www.framer.com/motion/). 히어로 배경은 스크롤이 프레임을 넘기는 캔버스 시퀀스다.
+Next.js(App Router) · React 19 · TypeScript · CSS Modules(디자인 토큰, `docs/adr/0008`).
+움직임은 라이브러리 없이 CSS 키프레임과 Web Animations API로 한다.
 **전 페이지가 빌드 타임 정적 생성(SSG)이다** — API Route·서버 액션은 없다.
 UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 손으로 조립했다.
 
@@ -18,17 +17,9 @@ UI 프레임워크는 쓰지 않고, iOS 앱의 토큰을 CSS 변수로 옮겨 �
 - **팔레트**: 밝은 중립 바탕 + **잉크 검정 `#0B0B0F`**(본문·주 액션) + **시그니처 코랄 `#DC565B`** 단일 액센트. iOS 라이트의 Start 버튼이 검정이듯 주 액션은 검정으로 두어 밝은 화면에 또렷하게 섞는다. 러너 팔레트 8색은 참가자 경로·아바타와 짧은 액센트 바에 쓴다. (`src/index.css`의 `:root`)
 - **글래스**: `Glass.swift`의 `srGlass`(ultraThin material + 대각 헤어라인)을 밝은 반투명 흰 표면 + `backdrop-filter` + 대각 스페큘러 하이라이트로 재현 → `.glass`.
 - **타이포**: 시스템 폰트 스택 — 라틴은 SF Pro, 한국어는 기기의 한글 서체. 웹폰트를 넣지 않는다. 한글 제목은 자간을 0 근처에 두고(`html:lang(ko)`) 위계는 굵기와 크기로 만든다. 러닝 수치는 항상 `tabular-nums`.
-- **모션**: SRMotion spring 감성(`--ease-spring`). 뷰포트 진입 리빌과 `DeviceFrame`의 미세한 스크롤 틸트가 전부다 — 핀 고정·스크롤 스크러빙·스냅 스크롤은 쓰지 않는다.
+- **모션**: 스크롤 연출은 없다. 첫 화면의 두 폰이 맞닿는 모션과 질문을 열고 닫는 모션뿐이고, 축소 모션에서는 맞닿은 한 장으로 멈춘다(`docs/adr/0007`).
 
 새 색·폰트를 임의로 추가하지 않는다. iOS 앱의 토큰이 바뀌면 여기 CSS 변수도 함께 맞춘다.
-
-## React Bits 컴포넌트
-
-`src/components/reactbits/` — SyncRun 토큰에 맞춰 손질한 판:
-`AnimatedContent`(뷰포트 진입 리빌) · `ClickSpark` · `SafeBoundary`(장식 레이어 에러 바운더리).
-
-장식 레이어(WebGL 등)는 `SafeBoundary`로 감싸 실패해도 페이지 전체가 죽지 않고 CSS 폴백만 남긴다.
-`prefers-reduced-motion` 사용자와 `?reveal=all`(정적 QA)에서는 리빌 게이팅을 건너뛰고 콘텐츠를 즉시 보여준다.
 
 ## 페이지
 
@@ -60,20 +51,20 @@ app/
   en/                      같은 구조의 영어판 — /en 아래
   sitemap.ts · robots.ts   색인 장치
 src/
-  index.css                디자인 토큰(:root) · 리셋 · 글래스 · 버튼 · .section--dark · 키프레임
-  App.tsx                  랜딩 섹션 조립(클라이언트 컴포넌트)
+  index.css                디자인 토큰(:root: 색·간격·모서리·기기 프레임) · 리셋 · 글래스 · 버튼
+  App.tsx                  랜딩(ProductLanding)과 푸터를 감싼다
   site/                    RootHtml(공유 껍데기) · metadata(제목·canonical·hreflang·og) · config(오리진·경로)
-  lib/reveal.ts            리빌 게이팅 스킵 판단(reduced-motion · ?reveal=all)
-  lib/company.ts           사업자 정보 상수(약관과 같은 값) — 회사 소개·랜딩 푸터가 함께 읽는다
+  lib/reveal.ts            축소 모션 · ?reveal=all 판단(첫 화면 모션을 멈춘다)
+  lib/useIsAndroid.ts      Android 기기 판정(수화 뒤)
+  lib/company.ts           사업자 정보 상수(약관과 같은 값). 회사 소개·랜딩 푸터가 함께 읽는다
   components/
-    reactbits/             React Bits 계열 컴포넌트 + reactbits.css
-    ui/                    DeviceFrame(베젤+실캡처) · HeroScrub(스크롤 구동 프레임 배경) · BumpPair · Facts + ui.css
-    sections/              Nav · Hero(스크러빙) · OneStart · Bump · LiveSession · RunCard · Features · CTA · Footer
-    LangToggle.tsx         KO/EN 전환 — 상대 언어의 같은 페이지로 가는 링크
-  i18n/                    dict.ts(랜딩) · support.ts · company.ts · account.ts · legal.ts · lang.tsx(LangProvider)
+    product/               랜딩: 섹션마다 tsx + module.css(Hero · Features · Cards · Reviews · Plans · Faq) · ui · runners
+    sections/Footer.tsx    랜딩 푸터
+    LangToggle.tsx         KO/EN 전환. 상대 언어의 같은 페이지로 가는 링크
+  i18n/                    product.ts(랜딩 본문) · dict.ts(메타·푸터) · support.ts · company.ts · account.ts · legal.ts · lang.tsx
   support/ · company/ · account/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
-  styles/                  sections.css(랜딩 레이아웃) · support.css · company.css · account.css · legal.css
-public/shots/              iOS 시뮬레이터 실캡처 — next/image 정적 import로 쓴다
+  styles/                  sections.css(푸터·공용 타이포) · support.css · company.css · account.css · legal.css · crew-join.css
+public/product/            랜딩의 앱 화면 캡처 · 러닝 카드 원본 · App Store QR
 ```
 
 ## 개발
