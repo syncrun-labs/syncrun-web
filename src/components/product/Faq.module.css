@@ -1,0 +1,70 @@
+.faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--column-gap);
+  padding-block: var(--section-y);
+  border-top: 1px solid var(--hair);
+}
+
+.faq .title {
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+}
+
+.faq details {
+  border-bottom: 1px solid var(--hair);
+}
+
+.faq summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 닫힘은 +, 열림은 45도 돌아 × */
+.faq summary::after {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background:
+    linear-gradient(currentcolor, currentcolor) center / 100% 1.5px no-repeat,
+    linear-gradient(currentcolor, currentcolor) center / 1.5px 100% no-repeat;
+  opacity: 0.55;
+  transition: transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.faq details[open]:not([data-closing]) summary::after {
+  transform: rotate(45deg);
+}
+
+.faq details p {
+  padding-bottom: var(--space-5);
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.more {
+  display: inline-block;
+  margin-top: var(--space-5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq summary::after {
+    transition: none;
+  }
+}
+
+@media (width <= 860px) {
+  .faq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

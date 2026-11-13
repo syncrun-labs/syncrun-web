@@ -3,14 +3,14 @@
 > 이 문서가 원본이다. `CLAUDE.md`는 `@AGENTS.md` 한 줄로 이 파일을 불러오기만 한다. 규칙을 고칠 때는 여기를 고친다.
 
 SyncRun 랜딩페이지. 맞대면 그 자리에서 함께 뛰는 러닝 앱 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
-마케팅 사이트다. 랜딩은 **한 번의 러닝**이다. 저절로 흐르는 워밍업 필름으로 시작해, 모으기 · 3·2·1 · 달리기(이 구간만 가로) · 카드 · 오늘 저녁으로 간다(`docs/adr/0006`).
+마케팅 사이트다. 랜딩은 **스크롤 연출 없이 제품을 차례로 설명한다**. 무엇인지 · 어떻게 쓰는지 · 기능 · 카드 · 리뷰 · 플랜 · 질문 순이다(`docs/adr/0007`).
 
 ## 스택
 
-Next.js(App Router) · React 19 · TypeScript · 순수 CSS(디자인 토큰). 랜딩의 움직임은 라이브러리 없이 rAF 한 루프와 CSS 변수로 한다.
+Next.js(App Router) · React 19 · TypeScript · CSS Modules(디자인 토큰). 움직임은 라이브러리 없이 CSS 키프레임과 Web Animations API로 한다.
 **전 페이지가 빌드 타임 정적 생성(SSG)이다**. API Route·서버 액션은 없다.
 UI 프레임워크 없음: iOS 앱의 토큰을 CSS 변수로 옮겨 직접 조립한다.
-i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/en). 장면 사진은 생성 이미지이고, 사진 속 폰·워치 화면에 앱 UI를 HTML로 얹는다(`public/scenes/`).
+i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/en). 랜딩 이미지는 실제 앱 화면과 실제 러닝 카드다(`public/product/`).
 
 ## SSoT · 제품·계약은 syncrun 허브에
 
@@ -85,8 +85,7 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
    `src/index.css`의 `:root` 토큰(잉크 `#0B0B0F`, **시그니처 코랄 `--accent-core` `#DC565B`**, 러너 팔레트 8색, 글래스 표면)만 쓴다.
    **액센트는 코랄 하나로 통일한다**. 로고의 겹친 두 '맞댐' 원 색이자 iOS `SRColor.accentCore`다.
    (레거시 `--cobalt*` 변수는 코랄로 매핑된 **별칭**일 뿐이고 지원·약관 페이지 호환용이다. 파란색은 쓰지 않는다.)
-   **랜딩은 밤 섹션(사진·검정)이 기본이고 밝은 바탕은 "함께"·카드 두 곳이다**. 러닝 전·후의 밤과 달리는 동안의 낮이다.
-   문서형 페이지는 밝은 바탕이 기본이고 검정은 주 액션(iOS 라이트의 Start 버튼)이다. 코랄은 강조·러너 '나'에 쓰고 넓은 채움엔 쓰지 않는다.
+   **랜딩과 문서형 페이지 모두 밝은 바탕이 기본이고 검정은 주 액션(iOS 라이트의 Start 버튼)이다.** 코랄은 강조·러너 '나'에 쓰고 넓은 채움엔 쓰지 않는다.
    러닝 수치는 항상 `tabular-nums`.
    **스타일은 CSS Modules로 쓴다**(`docs/adr/0008`). 페이지·컴포넌트 CSS는 옆의 `*.module.css`에, 전역(`src/index.css`)은 토큰·리셋·공용 타이포만,
    여러 페이지가 실제로 쓰는 조각만 `src/ui/`에 둔다. 모듈 안의 색은 토큰만 쓰고(`npm run lint:css`가 막는다), 투명도는 `color-mix`로 토큰을 섞는다.
@@ -105,15 +104,11 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
    **예외는 `docs/adr/`이다**. 아키텍처 결정 기록(ADR)은 결정 시점을 기록한다. 무엇을 정했는지와 함께
    그때의 맥락·검토한 대안·기각 사유를 남긴다. 결정이 뒤집히면 파일을 고치지 말고 새 번호의 ADR을 쓰고
    이전 것을 "대체됨"으로 표시한다. 구조를 바꾸기 전에 관련 ADR의 제약을 먼저 읽는다.
-5. **장식은 견고하게.** 달리기 구간의 선 같은 장식 레이어는 실패해도 본문이 죽으면 안 된다. `SafeBoundary`로 감싼다.
-   `prefers-reduced-motion`·`?reveal=all`(`src/lib/reveal.ts`)에서는 **모든 섹션이 완성된 한 장으로 정지한다**.
-   필름 대신 포스터, 카운트다운 대신 출발 뒤 모습, 가로 띠 대신 세로로 쌓인 패널. 시각 회귀는 이 상태를 찍는다.
-   **활력은 박자와 속도에서 낸다**. 케이던스(분당 180보)에 맞춘 컷·마디, 스크롤 속도(`--speed`)에 반응하는 페이스·속도선.
-   장식 입자·파동·링은 쓰지 않는다.
-6. **생성 이미지 규칙.** 장면 사진은 생성하되 **얼굴·글자·상표를 넣지 않고, 화면은 꺼진 검정으로** 뽑는다.
-   화면 안의 UI는 생성하지 않고 HTML로 얹되, **사진의 화면 모양을 딴 알파 마스크로 잘라** 베젤 밖으로 나가지 않게 하고
-   필름 입자를 함께 덮는다(발광 그림자·라이트 모드 UI는 밤 사진에서 떠 보인다). 결과에 가짜 글자(라벨·로고)가 보이면 다시 뽑거나 잘라낸다.
-   장소가 특정되는 랜드마크도 쓰지 않는다.
+5. **움직임은 적게, 멈춘 모습도 완성되게.** 랜딩에는 스크롤 연출이 없고, 움직임은 첫 화면의 맞닿는 폰 모션과 질문을 열고 닫는 모션뿐이다.
+   `prefers-reduced-motion`·`?reveal=all`(`src/lib/reveal.ts`)에서는 **맞닿은 순간의 한 장으로 정지한다**. 시각 회귀는 이 상태를 찍는다.
+   장식 입자·파동·종이 결은 쓰지 않는다. 맞닿는 순간의 원은 동작을 설명하는 것이라 예외다.
+6. **이미지는 실제 것을 쓴다.** 앱 화면은 실제 캡처를 폰 프레임(`ui.tsx`의 `Phone`)에 담고, 카드는 앱에서 뽑은 원본(9:16)을 쓴다.
+   사람이 나오는 사진·실명이 들어간 카드는 그 사람들의 공개 동의를 받은 뒤에 병합한다. 생성 이미지는 쓰지 않는다.
 
 ## 구조
 
@@ -132,31 +127,28 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 - **i18n**(`src/i18n/`): **다섯 페이지 전부 ko/en이다.** 언어는 URL이 정하고 라우트가 `LangProvider`에 `lang`과 두 언어의 경로 짝(`paths`)을 넘긴다.
   브라우저 로케일 감지나 저장된 선택은 **없다**. URL 하나에 내용 하나가 고정되어야 검색엔진이 언어판을 구분한다.
   카피는 페이지마다 한 파일이다. `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `account.ts` · `legal.ts`.
-  **랜딩 카피만 `useLang().t`로 오고, 문서형 페이지는 `useLang().lang`으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
+  랜딩 본문은 `product.ts`, 메타·푸터는 `dict.ts`다. **페이지마다 `useLang().lang`으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
   내부 링크는 `useLang().base`(ko `""` · en `"/en"`)를 앞에 붙인다. `components/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
   **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다**. 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
   **한국어가 정본이고 영어는 편의 번역이다**. 앱이 동의를 받는 것은 한국어 문서이며, 그 사실을 문서 머리와 페이지 안내가 함께 밝힌다.
   영어판을 두는 이유는 앱이 영문 이름으로 영문 스토어에 나가 있어서다(GDPR 투명성·CCPA 고지 언어 기준).
-- **이미지는 `next/image`에 정적 import로 넘긴다** (`import river from "@/public/scenes/river.jpg"`). 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
+- **이미지는 `next/image`에 정적 import로 넘긴다** (`import live from "@/public/product/live.jpg"`). 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
   모바일 랜딩 기준 이미지 합계가 2,100KB에서 100KB가 됐다. `<img>`를 직접 쓰지 않는다(린트가 막는다).
-- **랜딩**(`src/components/landing/`): `Landing`이 섹션을 조립하고 한 루프로 스크롤 속도(`--speed`, 문서 루트)와 도크(거리·페이스·시간·장)를 갱신한다.
-  섹션마다 움직임의 주인이 다르다. `Hero`(워밍업, 자동 재생 필름 `public/media/reel.mp4`에 케이던스 마디 · 스크롤하면 작아지며 밀려남) ·
-  `Gather`(스크롤로 손이 모이는 프레임 시퀀스 → 원본 사진 + 마스크로 자른 앱 홈) · `Countdown`(화면을 채우면 1초씩 3·2·1, GO에 영상 재생) ·
-  `Run`(이 구간만 가로: 함께 · 터널 · 도착, 네 선과 머리 점, `runGeometry`) · `Card`(떨어지듯 내려앉고 포인터로 기울어지는 카드) · `Closing`.
-  `Dock`이 아래 러닝 도크(이 페이지의 유일한 내비게이션), `TopBar`가 이름과 언어.
-  **스크롤을 가로채지 않는다**. 고정 구간은 `position: sticky` + 섹션 높이로 만든다(`src/lib/useProgress.ts`의 `--p`, 가로 패널의 `--lp`).
-  React는 스크롤마다 다시 렌더하지 않는다.
-- `src/components/scenes/`: 패널이 쓰는 조각(`RunCardArt`: 앱 단체 카드의 시그니처 배경, `Route`, `crew`: 네 사람·거리·경로 모양).
-- `src/index.css`: 디자인 토큰(`:root`, `--accent*` 코랄) · 리셋 · `.glass` · 버튼 · `.section--dark` · 키프레임.
-- `src/components/reactbits/SafeBoundary`: 장식 레이어용 에러 바운더리.
-- `public/scenes/`: 장면 사진(생성) · 화면 마스크 · **스크롤 구동 영상의 프레임 시퀀스**(`gather`·`tunnel/`, 각 61장 + `manifest.json`,
-  `landing/ScrubFrames`가 캔버스에 그린다 · `scripts/scene-frames.sh`로 뽑는다 · `REVERSE=1`은 거꾸로). `public/media/`: 자동 재생 영상(워밍업 필름·출발선·오늘 저녁).
-  `public/brand/`: 로고(wordmark·icon).
+- **랜딩**(`src/components/product/`): `ProductLanding`이 언어를 한 번 읽어 섹션마다 제 몫의 문구를 props로 넘긴다.
+  섹션 하나에 파일 하나와 옆의 `*.module.css`다. `Hero`(맞닿는 폰 모션) · `Features`(세 단계·함께·혼자·크루) · `Cards` · `Reviews` · `Plans` · `Faq`,
+  메뉴와 마무리는 `ProductLanding` 안에 있다. 여러 섹션이 같이 쓰는 조각(`StoreButton`·`Phone`·`Screen`·`FeatureList`)은 `ui.tsx`와 `ui.module.css`, 러너 색은 `runners.ts`.
+  **브라우저가 필요한 `Hero`(축소 모션·Android 판정)와 `Faq`(열고 닫는 모션)만 클라이언트 컴포넌트다.** 나머지 섹션은 훅을 쓰지 않는다.
+  Android 판정은 `src/lib/useIsAndroid.ts`(정적 페이지라 수화 뒤에 정해진다, 개발 서버는 `?device=android`).
+- 이전 랜딩(`src/components/landing/`·`scenes/`·`reactbits/`, `public/scenes/`·`public/media/`, `src/styles/landing.css`)은 쓰이지 않고 삭제를 기다린다.
+  `scenes/AppleGlyph`만 `ui.tsx`가 쓰므로 삭제 때 옮긴다.
+- `src/index.css`: 디자인 토큰(`:root`: 색 `--accent*` 코랄, 간격 `--space-1~7`(4·8·12·16·24·32·48)·`--section-y`·`--column-gap`, `--radius-card`, 기기 프레임 `--device-*`) · 리셋 · `.glass` · 버튼 · 키프레임.
+  간격은 이 눈금만 쓴다(iOS 앱에서 가장 많이 쓰는 값과 같다).
+- `public/product/`: 랜딩의 앱 화면 캡처와 러닝 카드 원본, App Store QR. `public/brand/`: 로고(wordmark·icon).
 - `public/.well-known/apple-app-site-association`: iOS 유니버설 링크 연결 파일. 앱(팀 `54U979SGB7` · `com.syncrunlabs.sync`)으로 넘기는 경로는
   크루 초대 링크 `/crew/join/*` 하나뿐이고, 나머지 페이지는 웹에 남는다.
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/`: 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
-- `src/styles/landing.css`: 랜딩 섹션·도크·위 막대와 반응형·정지 상태. `src/styles/sections.css`: 랜딩 타이포와 푸터.
+- `src/styles/sections.css`: 랜딩 푸터와 문서형 페이지가 같이 쓰는 타이포.
 - **`admin/`: 운영 사이트 소스**(`docs/adr/0004`). 운영자가 이용자에게 안내 알림을 보내는 독립 Vite + React 앱으로,
   `/admin`으로 나간다. 요구사항은 허브 `FR-OPS-02` · `03` · `04`, 서버와 주고받는 규격은 허브 `contracts/api-contract.md` §21이고
   `admin/src/api/types.ts`가 그 절을 옮긴 것이다. 서버 호출은 `ApiClient` 하나로만 한다. 실제(`HttpApiClient`)와
@@ -187,8 +179,6 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 - **`admin/`을 고치면 `npm run admin:verify`를 돌리고, 그 결과 `public/admin/`을 같은 커밋에 싣는다**. Vercel은 `admin/`을 빌드하지 않는다.
 - **웹폰트를 넣지 않는다.** Pretendard를 얹으면 랜딩의 LCP 요소가 텍스트라 swap·optional 어느 쪽이든
   첫 페인트가 2~3초 밀린다(로컬·프로덕션 실측).
-- **사진 속 화면 자리(%)와 마스크는 사진을 재서 얻은 것이다**. 사진을 바꾸면 `Gather`의 `SCREENS`·
-  `Card`의 `PHONE`·`.watch` 위치와 `public/scenes/*-screen(s).png`를 다시 만든다.
 - **`apple-app-site-association`은 확장자가 없어** `next.config.ts`의 `headers()`가 `Content-Type: application/json`을 붙인다.
   리다이렉트 · rewrite에 걸리지 않는 정적 파일로 나가야 Apple이 읽는다.
 - **프리뷰는 배포 보호가 켜져 있어** 로그인 없이는 302를 낸다. 자동화가 재려면 우회 시크릿이 필요하다.

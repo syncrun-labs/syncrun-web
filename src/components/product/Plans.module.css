@@ -1,0 +1,67 @@
+.plans {
+  padding-block: var(--section-y);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-7);
+}
+
+.grid article {
+  padding: var(--space-5);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-card);
+}
+
+.grid article h3 {
+  font-size: 1.4rem;
+}
+
+.who {
+  min-height: 3em;
+  margin-top: var(--space-1);
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.people {
+  margin-top: var(--space-3);
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+}
+
+.people strong {
+  color: var(--text);
+  font-size: 3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.grid ul {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: var(--space-5) 0 0;
+  border-top: 1px solid var(--hair);
+  font-size: 0.96rem;
+  line-height: 1.5;
+  list-style: none;
+}
+
+.note {
+  margin-top: var(--space-4);
+}
+
+@media (width <= 860px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .who {
+    min-height: 0;
+  }
+}

@@ -1,0 +1,214 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  padding-block: clamp(36px, 5vw, 64px);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.android {
+  margin: var(--space-4) 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.qr {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.art {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 38%);
+  justify-content: center;
+  gap: 12%;
+  padding-block: 6%;
+  container-type: inline-size;
+}
+
+/* 두 폰은 "ㅅ" 자로 기대 선다. 왼쪽이 더 기울고 높게, 오른쪽이 덜 기울고 낮게 서서 대칭을 피한다.
+   다가오며 더 기울어 맞닿고 살짝 물러난다. 이동 거리(cqw)는 .art의 폭 기준이다 */
+.phone {
+  --y: -2.5cqw;
+  --rest: translate(-4cqw, var(--y)) rotate(4deg);
+  --hit: translate(3cqw, var(--y)) rotate(8deg);
+  --settle: translate(2cqw, var(--y)) rotate(7.5deg);
+
+  animation: bump-phone 4.2s infinite;
+}
+
+.phone + .phone {
+  --y: 3.5cqw;
+  --rest: translate(3cqw, var(--y)) rotate(-2deg);
+  --hit: translate(-2cqw, var(--y)) rotate(-5deg);
+  --settle: translate(-1cqw, var(--y)) rotate(-4.5deg);
+}
+
+@keyframes bump-phone {
+  0%,
+  12%,
+  100% {
+    transform: var(--rest);
+    animation-timing-function: cubic-bezier(0.55, 0, 0.9, 0.6);
+  }
+
+  34% {
+    transform: var(--hit);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+
+  42% {
+    transform: var(--settle);
+  }
+
+  66% {
+    transform: var(--settle);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+}
+
+/* 맞닿으면 그룹이 된 화면이 나타난다 */
+.after {
+  animation: bump-screen 4.2s infinite;
+}
+
+@keyframes bump-screen {
+  0%,
+  33.5%,
+  90%,
+  100% {
+    opacity: 0;
+  }
+
+  37%,
+  84% {
+    opacity: 1;
+  }
+}
+
+.bump {
+  position: absolute;
+  top: 47%;
+  left: 50.5%;
+  z-index: 1;
+  width: 70%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* 닿는 순간에 안쪽부터 생겨 넓어지며 서서히 사라진다. 안쪽 원이 가장 진하고 굵다(--peak) */
+.bump i {
+  --peak: 0.8;
+
+  position: absolute;
+  inset: 33%;
+  border: 2px solid var(--accent-core);
+  border-radius: 50%;
+  opacity: 0;
+  animation: bump-ring 4.2s infinite;
+}
+
+.bump i:nth-child(2) {
+  --peak: 0.5;
+
+  inset: 16.5%;
+  border-width: 1.5px;
+  animation-delay: 0.1s;
+}
+
+.bump i:nth-child(3) {
+  --peak: 0.25;
+
+  inset: 0;
+  border-width: 1px;
+  animation-delay: 0.2s;
+}
+
+@keyframes bump-ring {
+  0%,
+  33% {
+    transform: scale(0.86);
+    opacity: 0;
+  }
+
+  38% {
+    transform: scale(0.98);
+    opacity: var(--peak);
+    animation-timing-function: cubic-bezier(0.25, 0.5, 0.4, 1);
+  }
+
+  90%,
+  100% {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+}
+
+/* 모션을 줄이면 닿은 순간의 한 장으로 멈춘다 */
+.still .phone,
+.still .after,
+.still .bump i {
+  animation: none;
+}
+
+.still .phone {
+  transform: var(--settle);
+}
+
+.still .after {
+  opacity: 1;
+}
+
+.still .bump i {
+  opacity: var(--peak);
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone,
+  .after,
+  .bump i {
+    animation: none;
+  }
+
+  .phone {
+    transform: var(--settle);
+  }
+
+  .after {
+    opacity: 1;
+  }
+
+  .bump i {
+    opacity: var(--peak);
+  }
+}
+
+@media (width <= 860px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .qr {
+    display: none;
+  }
+
+  .art {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+}

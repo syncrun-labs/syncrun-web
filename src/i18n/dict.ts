@@ -107,9 +107,9 @@ const ACCOUNT_DELETE = "account/delete";
 export const dict: Record<Lang, Dict> = {
   ko: {
     meta: {
-      title: "SyncRun — 달린 길은 선이 된다",
+      title: "SyncRun · 폰을 맞대면 바로 함께 뛰는 러닝 앱",
       description:
-        "혼자 뛰면 한 줄, 옆 사람과 폰을 가운데로 모으면 여러 줄. GPS와 걸음으로 거리를 재고, 끝나면 함께 달린 선이 한 장의 카드로 남는 러닝 앱.",
+        "옆 사람과 폰을 맞대면 그 자리에서 함께 뛰는 러닝 앱. 혼자 뛰는 날도 같은 버튼으로 시작하고, 끝나면 함께 달린 경로가 카드 한 장으로 남아요.",
     },
     dock: {
       chapters: ["워밍업", "모으기", "3 · 2 · 1", "함께", "터널", "카드"],
@@ -218,9 +218,11 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "제품",
           links: [
-            { label: "모으기", href: "#gather" },
-            { label: "함께 출발", href: "#start" },
+            { label: "함께 뛰기", href: "#together" },
+            { label: "혼자 뛰기", href: "#solo" },
+            { label: "크루", href: "#crew" },
             { label: "러닝 카드", href: "#card" },
+            { label: "플랜", href: "#plans" },
           ],
         },
         {
@@ -241,14 +243,6 @@ export const dict: Record<Lang, Dict> = {
             { label: "위치기반서비스", href: `${LEGAL}/location-terms` },
           ],
         },
-        {
-          head: "개발",
-          links: [
-            { label: "GitHub", href: "https://github.com/syncrun-labs" },
-            { label: "iOS 앱", href: "https://github.com/syncrun-labs/syncrun-ios" },
-            { label: "백엔드", href: "https://github.com/syncrun-labs/syncrun-server" },
-          ],
-        },
       ],
       bizHead: "사업자 정보",
       bizLabels: { ceo: "대표", bizNo: "사업자등록번호" },
@@ -258,7 +252,7 @@ export const dict: Record<Lang, Dict> = {
 
   en: {
     meta: {
-      title: "SyncRun — Every run leaves a line",
+      title: "SyncRun · Bring your phones together and run as a group",
       description:
         "Run alone and it's one line. Bring your phones together and it's several. SyncRun measures with GPS and your steps, and turns the lines you ran together into one card.",
     },
@@ -369,9 +363,11 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "Product",
           links: [
-            { label: "Gather", href: "#gather" },
-            { label: "Start together", href: "#start" },
-            { label: "Run card", href: "#card" },
+            { label: "Run together", href: "#together" },
+            { label: "Run solo", href: "#solo" },
+            { label: "Crew", href: "#crew" },
+            { label: "Run cards", href: "#card" },
+            { label: "Plans", href: "#plans" },
           ],
         },
         {
@@ -390,14 +386,6 @@ export const dict: Record<Lang, Dict> = {
             { label: "Terms of Service", href: `${LEGAL}/terms-of-service` },
             { label: "Privacy Policy", href: `${LEGAL}/privacy-policy` },
             { label: "Location Services", href: `${LEGAL}/location-terms` },
-          ],
-        },
-        {
-          head: "Build",
-          links: [
-            { label: "GitHub", href: "https://github.com/syncrun-labs" },
-            { label: "iOS app", href: "https://github.com/syncrun-labs/syncrun-ios" },
-            { label: "Backend", href: "https://github.com/syncrun-labs/syncrun-server" },
           ],
         },
       ],

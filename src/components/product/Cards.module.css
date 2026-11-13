@@ -1,0 +1,90 @@
+.cards {
+  padding-block: var(--section-y);
+}
+
+.rows {
+  display: grid;
+  gap: var(--section-y);
+  margin-top: var(--space-7);
+}
+
+/* 카드와 설명을 한 단에 나란히, 두 번째 단은 좌우를 바꾼다 */
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--column-gap);
+  align-items: center;
+  margin: 0;
+}
+
+.image {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  justify-self: center;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-card);
+
+  /* 흰 바탕의 달력 카드도 가장자리가 보이게 하는 옅은 선 */
+  outline: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
+  outline-offset: -1px;
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.row:nth-child(even) .image {
+  order: 2;
+}
+
+.row figcaption {
+  max-width: 26em;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--bar);
+}
+
+.row figcaption h3 {
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  line-height: 1.35;
+}
+
+.row figcaption p {
+  margin-top: var(--space-3);
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  line-height: 1.65;
+}
+
+@media (width <= 860px) {
+  /* 카드를 화면 폭에 가깝게 키우고 옆으로 넘긴다. 다음 카드가 조금 보여 넘길 수 있다는 걸 알린다 */
+  .rows {
+    display: flex;
+    gap: var(--space-4);
+    margin-inline: calc(var(--gutter) * -1);
+    padding: var(--space-1) var(--gutter) var(--space-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .rows::-webkit-scrollbar {
+    display: none;
+  }
+
+  .row {
+    flex: 0 0 min(78vw, 340px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: start;
+    scroll-snap-align: start;
+  }
+
+  .image {
+    width: 100%;
+  }
+
+  .row:nth-child(even) .image {
+    order: 0;
+  }
+}

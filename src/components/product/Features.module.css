@@ -1,0 +1,75 @@
+/* 사용법 세 단계 */
+.how {
+  padding-block: var(--section-y);
+  border-top: 1px solid var(--hair);
+}
+
+.how ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: var(--space-7);
+  padding: 0;
+  list-style: none;
+}
+
+.how p {
+  margin-top: var(--space-2);
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.n {
+  display: block;
+  margin-bottom: var(--space-4);
+  font-size: 3.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* 함께 뛰기: 앱 화면과 설명 */
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--column-gap);
+  align-items: center;
+  padding-block: var(--section-y);
+}
+
+/* 혼자 뛰기와 크루: 두 단 */
+.details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--column-gap);
+  padding-block: var(--section-y);
+}
+
+.details > section {
+  scroll-margin-top: 72px;
+}
+
+.aside {
+  margin-top: var(--space-6);
+}
+
+/* 크루장의 지금 수고: 따옴표로 묶은 말 세 줄. 아래 항목이 차례로 답한다 */
+.pains {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  list-style: none;
+}
+
+@media (width <= 860px) {
+  .feature,
+  .details,
+  .how ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

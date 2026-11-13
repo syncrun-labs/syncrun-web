@@ -1,0 +1,136 @@
+/* 랜딩 전체: 밝은 바탕과 앱 화면이 주인공이고, 스크롤 연출은 없다. 푸터까지 감싼다 */
+.page {
+  --hair: color-mix(in srgb, var(--ink) 10%, transparent);
+
+  background: var(--bg-base);
+}
+
+.page h1,
+.page h2 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.page h1 {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+}
+
+.page h2 {
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+}
+
+html:lang(ko) .page h1,
+html:lang(ko) .page h2 {
+  letter-spacing: 0;
+}
+
+.page h3 {
+  font-size: 1.06rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.page h1 em,
+.page h2 em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+/* 메뉴 */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--hair);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  width: min(100%, 1200px);
+  height: 64px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.brand img {
+  display: block;
+  width: auto;
+  height: 28px;
+}
+
+.links {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.links a {
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.links a:hover {
+  color: var(--text);
+}
+
+.end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-left: auto;
+}
+
+.end .compact {
+  padding: 9px 16px;
+  font-size: 0.86rem;
+}
+
+/* 마무리 */
+.closing {
+  padding: clamp(64px, 9vw, 120px) var(--gutter);
+  background: var(--bg);
+  text-align: center;
+  scroll-margin-top: 72px;
+}
+
+.closing p {
+  margin-inline: auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-4) var(--space-5);
+  margin-top: var(--space-6);
+}
+
+@media (width <= 960px) {
+  .links {
+    display: none;
+  }
+}
+
+@media (width <= 480px) {
+  .bar,
+  .end {
+    gap: var(--space-3);
+  }
+
+  .end .compact {
+    padding: 8px 13px;
+    font-size: 0.8rem;
+  }
+
+  html:lang(en) .end .compact {
+    gap: 0;
+    font-size: 0;
+  }
+}

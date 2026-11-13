@@ -66,6 +66,22 @@
   --gutter: clamp(20px, 5vw, 64px);
   --nav-h: 56px;
 
+  /* 간격은 이 일곱 단계만 쓴다. iOS 앱에서 가장 많이 쓰는 값(4·8·12·16·24)과 같은 눈금이다 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  /* 섹션 위아래 여백과 두 단 사이 간격 */
+  --section-y: clamp(48px, 7vw, 96px);
+  --column-gap: clamp(36px, 6vw, 88px);
+  --radius-card: 20px;
+  /* 랜딩의 폰 프레임: 베젤과 다이내믹 아일랜드 */
+  --device-bezel: #55565c;
+  --device-island: #000;
+
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
