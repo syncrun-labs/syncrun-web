@@ -42,7 +42,15 @@
   gap: 18px;
 }
 
+/* 「홈」처럼 짧은 링크도 24×24px 이상 눌리게 안쪽 여백으로 넓히고, 같은 크기의 음수 바깥 여백으로 배치는 그대로 둔다 */
 .doc-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+  margin: -4px -6px;
+  padding: 4px 6px;
   font-size: 14px;
   color: var(--text-secondary);
   transition: color 0.2s ease;
