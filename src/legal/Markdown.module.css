@@ -47,7 +47,9 @@
 
 .marker {
   flex-shrink: 0;
-  color: var(--accent-core);
+
+  /* 본문 크기 글자라 4.5:1이 필요하다. 원색 코랄(3.8:1) 대신 대비 보정 액센트(4.7:1) */
+  color: var(--accent);
   font-weight: 600;
 }
 
