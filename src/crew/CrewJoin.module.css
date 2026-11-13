@@ -1,0 +1,167 @@
+/* 크루 초대 링크 페이지: 앱의 그룹 목록 모양. 회색 바탕에 작은 머리말과 흰 카드가 차례로 놓인다.
+   대부분 폰으로 열어, PC에서도 폰 폭 한 줄로 가운데 둔다. 머리 막대는 문서형 페이지의 것을 쓴다. */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: var(--section-y);
+  background: var(--bg);
+}
+
+.inner {
+  width: min(100%, 430px);
+  margin-inline: auto;
+  padding: var(--space-6) var(--space-4) 0;
+}
+
+.group + .group {
+  margin-top: var(--space-6);
+}
+
+/* 앱의 칸 머리말: 카드 바깥 왼쪽 위의 작은 회색 글자 */
+.label {
+  margin: 0 0 var(--space-2) var(--space-4);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.card {
+  padding: var(--space-4);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+/* 카드 아래의 설명: 앱의 칸 꼬리말처럼 작고 흐리게 */
+.footer {
+  margin: var(--space-2) var(--space-4) 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.crew {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.sub {
+  margin: var(--space-1) 0 0;
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.text {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.crew + .text {
+  margin-top: var(--space-2);
+}
+
+/* 버튼: 주 액션은 앱의 「수락」처럼 검정 알약, 보조는 회색 알약 */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: opacity 0.15s;
+}
+
+.button:hover {
+  opacity: 0.85;
+}
+
+.primary {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.secondary {
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--text);
+}
+
+/* 카드 안의 줄: 앱의 목록처럼 줄 사이에 가는 선 */
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rows > li {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+  padding-block: var(--space-3);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.rows > li + li {
+  border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+.rows > li:first-child {
+  padding-top: 0;
+}
+
+.rows > li:last-child {
+  padding-bottom: 0;
+}
+
+.n {
+  flex: none;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 크루 소개: 러너 팔레트의 짧은 바로 위계를 만든다 */
+.fact {
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--bar);
+}
+
+.rows > .fact {
+  padding-left: var(--space-3);
+}
+
+.fact h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.fact p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* 「SyncRun 알아보기」는 앱의 목록 줄처럼 오른쪽 끝에 › */
+.more {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.more span {
+  color: var(--text-tertiary);
+}
