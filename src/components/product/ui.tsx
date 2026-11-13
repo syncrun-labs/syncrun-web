@@ -1,5 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
-import AppleGlyph from "../scenes/AppleGlyph";
+import AppleGlyph from "./AppleGlyph";
 import { APP_STORE_URL } from "../../lib/app-store";
 import { barStyle } from "./runners";
 import s from "./ui.module.css";

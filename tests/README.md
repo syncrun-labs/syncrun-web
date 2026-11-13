@@ -35,9 +35,8 @@ App Store Connect에 등록돼 심사에서 열리는 주소이고, `syncrun-ios
 
 `playwright.config.ts`의 `reducedMotion: "reduce"` 하나가 흔들리는 요소를 전부 고정한다.
 
-- 리빌 게이팅(`src/lib/reveal.ts`)이 즉시 최종 상태로 건너뛴다
-- `Aurora`는 WebGL 루프 대신 `uTime` 고정 프레임만 그린다
-- 스냅 스크롤이 꺼져 풀페이지 캡처가 온전히 잡힌다
+- 첫 화면의 맞닿는 폰 모션이 맞닿은 순간의 한 장으로 멈춘다(`src/lib/reveal.ts`)
+- 질문은 기본 펼침으로만 열린다
 
 언어는 URL이 정한다 — `-ko` 프로젝트는 `/…`, `-en` 프로젝트는 `/en/…`을 방문한다.
 스냅샷 이름은 언어와 무관하게 같고 프로젝트별 디렉터리가 기준 이미지를 가른다.
