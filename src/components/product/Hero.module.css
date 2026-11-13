@@ -1,0 +1,65 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  padding-block: clamp(36px, 5vw, 64px);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.android {
+  margin: var(--space-4) 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.qr {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.art {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 38%);
+  justify-content: center;
+  gap: 12%;
+  padding-block: 6%;
+  container-type: inline-size;
+}
+
+/* 두 폰은 "ㅅ" 자로 기대 선다. 왼쪽이 더 기울고 높게, 오른쪽이 덜 기울고 낮게 서서 대칭을 피한다.
+   이동 거리(cqw)는 .art의 폭 기준이다 */
+.phone {
+  transform: translate(2cqw, -2.5cqw) rotate(7.5deg);
+}
+
+.phone + .phone {
+  transform: translate(-1cqw, 3.5cqw) rotate(-4.5deg);
+}
+
+@media (width <= 860px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .qr {
+    display: none;
+  }
+
+  .art {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+}

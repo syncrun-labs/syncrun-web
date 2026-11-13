@@ -1,0 +1,145 @@
+/* 랜딩의 여러 섹션이 같이 쓰는 조각: 섹션 틀, 글 조각, 내려받기 버튼, 폰 프레임, 항목 목록 */
+
+.wrap {
+  width: min(100%, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  scroll-margin-top: 72px;
+}
+
+.lede {
+  max-width: 34em;
+  margin-top: var(--space-4);
+  color: var(--text-secondary);
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.65;
+}
+
+.note {
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.link {
+  color: var(--text);
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.store {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 14px 22px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 0.98rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.store:hover {
+  opacity: 0.82;
+}
+
+.store svg {
+  width: 17px;
+  height: 17px;
+  fill: currentcolor;
+}
+
+/* 기기: 크기가 달라져도 비율이 같도록 폭(cqw) 기준으로 잰다 */
+.phone {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.screen {
+  position: relative;
+  padding: 3.2cqw;
+  border: 0.7cqw solid var(--device-bezel);
+  border-radius: 16cqw;
+  background: var(--ink);
+}
+
+.screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12.5cqw;
+}
+
+/* 겹쳐 둔 화면: 위치와 모서리는 아래 화면과 같다. 보일지는 쓰는 쪽이 정한다 */
+.after {
+  position: absolute;
+  inset: 3.2cqw;
+  opacity: 0;
+}
+
+/* 캡처마다 아일랜드가 찍히기도 안 찍히기도 해서, 찍힌 것(284×110px / 화면 폭 1206px)보다
+   조금 크게 덮어 어느 화면에서나 같은 모양으로 보이게 한다 */
+.island {
+  position: absolute;
+  top: 6.3cqw;
+  left: 50%;
+  width: 22cqw;
+  height: 8.6cqw;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: var(--device-island);
+}
+
+/* 상태 표시줄 없이 잘린 화면: 위를 비워 상태 표시줄 자리로 두고, 화면 비율에 맞춰 위쪽부터 채운다 */
+.crop {
+  display: block;
+  aspect-ratio: 860 / 1870;
+  padding-top: 12.5cqw;
+  overflow: hidden;
+  border-radius: 12.5cqw;
+  background: var(--surface);
+}
+
+.crop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 0;
+}
+
+.shot {
+  width: min(100%, 300px);
+  justify-self: center;
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.facts li {
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--bar);
+}
+
+.facts p {
+  margin-top: var(--space-2);
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+@media (width <= 860px) {
+  .shot {
+    width: min(100%, 260px);
+  }
+}
