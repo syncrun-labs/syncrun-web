@@ -7,12 +7,12 @@ import { SITE_ORIGIN, langPath } from "./config";
  * 페이지 하나의 `metadata`를 만든다.
  *
  * - canonical은 그 언어의 자기 URL이다. 두 언어판이 서로 중복으로 잡히지 않게 한다.
- * - hreflang은 ko·en 짝과 `x-default`를 건다. `x-default`는 ko — 접두 없는 기본 URL이다.
- * - og:image는 리디자인 전까지 브랜드 아이콘을 임시로 건다. `twitter:card`가 `summary_large_image`인데
- *   이미지가 없으면 카드가 깨지므로, 없는 것보다 낫다.
+ * - hreflang은 ko·en 짝과 접두 없는 기본 URL인 `x-default`를 건다.
+ * - 랜딩과 크루 초대는 각 경로의 `opengraph-image.tsx`가 공유 이미지를 공급한다.
  */
 export function buildMetadata(lang: Lang, path: string, meta: PageMeta): Metadata {
   const url = `${SITE_ORIGIN}${langPath(lang, path)}`;
+  const hasShareImage = path === "/" || path === "/crew/join";
   return {
     title: meta.title,
     description: meta.description,
@@ -32,13 +32,12 @@ export function buildMetadata(lang: Lang, path: string, meta: PageMeta): Metadat
       alternateLocale: lang === "ko" ? ["en_US"] : ["ko_KR"],
       title: meta.title,
       description: meta.description,
-      images: [{ url: `${SITE_ORIGIN}/brand/icon.png`, width: 1024, height: 1024, alt: "SyncRun" }],
+      ...(!hasShareImage && { images: [{ url: "/brand/icon.png", width: 1024, height: 1024, alt: "SyncRun" }] }),
     },
     twitter: {
-      card: "summary_large_image",
+      card: hasShareImage ? "summary_large_image" : "summary",
       title: meta.title,
       description: meta.description,
-      images: [`${SITE_ORIGIN}/brand/icon.png`],
     },
   };
 }

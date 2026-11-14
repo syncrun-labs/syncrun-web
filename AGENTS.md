@@ -119,6 +119,8 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
   `/account/delete`는 Google Play Data safety의 계정 삭제 안내 URL이다. 본문은 플랫폼 이름 없이 앱 내 탈퇴 경로와 이메일 요청 경로만 적는다.
   각 `page.tsx`는 얇다. `src/site/metadata.ts`의 `buildMetadata()`로 제목·설명·canonical·hreflang(ko/en/x-default)·og를 만들고
   기존 컴포넌트에 `lang`을 넘긴다. `app/sitemap.ts`·`app/robots.ts`가 색인 장치.
+  랜딩·크루 초대의 공유 이미지는 언어별 `opengraph-image.tsx`가 빌드에서 만든다. 초대 이미지는 모든 초대에 공통이다.
+  공개 페이지는 검색·AI 학습용 크롤러에 열어 둔다. 크루 초대와 운영 사이트는 응답 헤더로 색인을 막는다.
   지원 페이지의 사실관계(맞댐 조건·권한 문구·계정 삭제 경로)는 syncrun-ios의 `project.yml`과 앱 화면을 따른다.
   **회사 소개의 사업자 정보는 약관(이용약관 제27조·위치기반서비스 이용약관 제16조)과 같은 값이어야 한다**.
   값은 `src/lib/company.ts` 한 곳에 두고 랜딩 푸터도 그 상수를 읽는다. 약관이 개정되면 이 상수를 함께 본다.
