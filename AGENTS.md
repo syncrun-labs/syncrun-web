@@ -163,6 +163,8 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 |---|---|
 | 랜딩 구성·모션 | `docs/adr/` 중 최신 랜딩 ADR (대체되지 않은 것) |
 | 라우트·다국어·SEO | `docs/adr/0001` |
+| 렌더링·번들 성능 전후 비교 | [perf-compare](.agents/skills/perf-compare/SKILL.md) |
+| 공개 사이트의 한국어 문구 작성·검토 | [korean-copy](.agents/skills/korean-copy/SKILL.md) |
 | 약관 사본 | 허브 `legal/`, 허브 `legal-update` 스킬 |
 | 운영 사이트(`admin/`) | `docs/adr/0004`, 허브 `FR-OPS-02`~`04`, `contracts/api-contract.md` §21 |
 | 크루 초대 링크 | 허브 `FR-CREW-08`, 위 `apple-app-site-association` 항목 |
