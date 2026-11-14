@@ -30,7 +30,7 @@ jobs:
             ':(top,exclude,glob)docs/adr/**/*.md'; then
             echo "docs_only=true" >> "$GITHUB_OUTPUT"
           fi
-      - name: 코드와 한·영 약관 URL 계약 검사
+      - name: 코드와 한·영 약관 URL·접근성 검사
         if: steps.scope.outputs.docs_only != 'true'
         run: |
           npm ci
@@ -41,4 +41,4 @@ jobs:
           npm run typecheck
           node --test scripts/*.test.mjs
           npx playwright install --with-deps chromium
-          npm test -- tests/legal-urls.spec.ts --project=desktop-ko --project=desktop-en
+          npm test -- tests/legal-urls.spec.ts tests/accessibility.spec.ts
