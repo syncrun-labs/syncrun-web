@@ -1,4 +1,4 @@
-/* 지원 페이지 카피 — 한국어/영어. 사실관계(맞댐 조건·권한 문구·계정 삭제 경로)는 syncrun-ios의
+/* 지원 페이지의 한·영 카피. 사실관계(맞댐 조건·권한 문구·계정 삭제 경로)는 syncrun-ios의
    권한 설명과 앱 화면을 따른다. 두 언어의 절 구성이 같아야 토글이 같은 자리를 보여 준다. */
 
 import type { Lang } from "./dict";
@@ -22,7 +22,7 @@ export interface SupportCopy {
 export const supportCopy: Record<Lang, SupportCopy> = {
   ko: {
     meta: {
-      title: "SyncRun 지원 — 문의와 도움말",
+      title: "SyncRun 지원 · 문의와 도움말",
       description:
         "SyncRun iOS 앱의 지원 페이지. 폰 맞댐 결성, 위치·건강 권한, 계정과 회원 탈퇴, 문의 방법을 안내합니다.",
     },
@@ -189,7 +189,7 @@ export const supportCopy: Record<Lang, SupportCopy> = {
 
   en: {
     meta: {
-      title: "SyncRun Support — Help and contact",
+      title: "SyncRun Support · Help and contact",
       description:
         "Support for the SyncRun iOS app: forming a group by tapping phones, location and health permissions, accounts and deletion, and how to reach us.",
     },
@@ -202,7 +202,7 @@ export const supportCopy: Record<Lang, SupportCopy> = {
     },
     contact: {
       label: "Contact",
-      note: "We reply in English or Korean, usually within 2–3 business days.",
+      note: "We reply in English or Korean, usually within two to three business days.",
       sideLabel: "Telling us this makes it faster",
       checklist: [
         "Device model (e.g. iPhone 15 Pro)",
@@ -217,8 +217,8 @@ export const supportCopy: Record<Lang, SupportCopy> = {
         {
           q: "Tapping phones doesn’t create a group",
           a: [
-            "Tap-to-pair works only between iPhones that have the ultra-wideband (UWB) chip — iPhone 11 and later, except the SE. On other devices the pairing never appears.",
-            "Both people need to be on the app’s home screen. Bring the two phones within a metre of each other and hold them there for a moment, and you join the same session automatically — the closer they are, the faster it catches. There is no need to shake or bump them.",
+            "Tap-to-pair works only between iPhones with an ultra-wideband (UWB) chip (iPhone 11 and later, except the SE). On other devices the pairing never appears.",
+            "Both people need to be on the app’s home screen. Bring the two phones within a metre of each other and hold them there for a moment. The phones join the same session automatically, and pairing is faster when they are closer. There is no need to shake or bump them.",
             "The first time you pair, allow both the Nearby Devices and Local Network prompts. If one was declined by accident, turn it back on in iOS Settings > SyncRun.",
             "Nobody can join after the countdown starts. Pair from the home screen before you set off.",
           ],
@@ -276,7 +276,7 @@ export const supportCopy: Record<Lang, SupportCopy> = {
           q: "I want to delete my account",
           a: [
             "Me tab > Account > Delete account removes it yourself. Your server account and every run go with it, and it cannot be undone.",
-            "Signing out does not delete the account — it only signs you out on this device.",
+            "Signing out ends your session on this device and keeps your account intact.",
           ],
         },
       ],
@@ -340,7 +340,7 @@ export const supportCopy: Record<Lang, SupportCopy> = {
           h: "Terms and policies",
           parts: [
             "The full Terms of Service, Privacy Policy and Location-Based Service Terms are on the ",
-            " page, and also inside the app — on the consent screen at first launch and under Me > Account.",
+            " page. In the app, you can read them on the consent screen at first launch and under Me > Account.",
           ],
           link: "Terms & policies",
         },
