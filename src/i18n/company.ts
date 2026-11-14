@@ -1,10 +1,10 @@
-/* 회사 소개 페이지 카피 — 한국어/영어. 사업자 정보의 실제 값은 `lib/company.ts`에 있고
+/* 회사 소개 페이지의 한·영 카피. 사업자 정보의 실제 값은 `lib/company.ts`에 있고
    여기에는 라벨과 문장만 둔다. 두 언어의 절 구성이 같아야 토글이 같은 자리를 보여 준다. */
 
 import type { Lang } from "./dict";
 import type { PageMeta } from "./lang";
 
-/** 바로가기 링크의 목적지 — 실제 주소는 페이지가 BASE_URL로 조립한다. */
+/** 바로가기 링크의 목적지. 실제 주소는 페이지가 BASE_URL로 조립한다. */
 export type CompanyLink = "home" | "support" | "legal" | "github";
 
 export interface CompanyCopy {
@@ -49,7 +49,7 @@ export interface CompanyCopy {
 export const companyCopy: Record<Lang, CompanyCopy> = {
   ko: {
     meta: {
-      title: "싱크런 랩스(SyncRun Labs) — 회사 소개",
+      title: "싱크런 랩스(SyncRun Labs) · 회사 소개",
       description:
         "싱크런 랩스는 경상북도 경산시의 소프트웨어 회사입니다. 폰을 맞대면 그 자리에서 그룹이 결성되는 iPhone 러닝 앱 SyncRun을 만듭니다.",
     },
@@ -71,7 +71,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
         },
         {
           h: "기록은 한 장으로 남는다",
-          p: "러닝이 끝나면 경로·거리·페이스·함께 뛴 사람이 한 장의 러닝 카드가 됩니다. 카드는 지도 배경 없이 경로 라인만 그리고 장소는 동 단위로만 적습니다 — 공유하는 순간 집 위치가 드러나지 않게 하기 위한 기본값이고, 이 값은 낮출 수 없습니다.",
+          p: "러닝이 끝나면 경로·거리·페이스·함께 뛴 사람이 한 장의 러닝 카드가 됩니다. 카드는 지도 배경 없이 경로 라인만 그리고 장소는 동 단위로만 적습니다. 공유할 때 집 위치가 드러나지 않도록 이 보호 수준은 낮출 수 없습니다.",
         },
       ],
     },
@@ -81,7 +81,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
       milestones: [
         {
           when: "2026.08",
-          what: "TestFlight 내부 베타 시작 — 맞댐으로 그룹이 결성되고 함께 뛴 기록이 카드로 남는 전 흐름이 실기기에서 동작",
+          what: "TestFlight 내부 베타 시작. 맞댐으로 그룹이 결성되고 함께 뛴 기록이 카드로 남는 전 흐름이 실기기에서 동작",
         },
         {
           when: "2026.08",
@@ -89,15 +89,15 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
         },
         {
           when: "2026.09",
-          what: "개인사업자 등록 — 싱크런 랩스(SyncRun Labs), 사업자등록번호 656-09-03142",
+          what: "개인사업자 등록 · 싱크런 랩스(SyncRun Labs), 사업자등록번호 656-09-03142",
         },
         {
           when: "2026.09",
-          what: "App Store 정식 출시 — SyncRun 1.0.0, iOS 18.0 이상, 무료",
+          what: "App Store 정식 출시 · SyncRun 1.0.0, iOS 18.0 이상, 무료",
         },
         {
           when: "2026.09",
-          what: "위치기반서비스사업 신고 수리 — 방송미디어통신위원회 신고번호 제1589호",
+          what: "위치기반서비스사업 신고 수리 · 방송미디어통신위원회 신고번호 제1589호",
         },
         {
           when: "다음",
@@ -167,7 +167,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
 
   en: {
     meta: {
-      title: "SyncRun Labs — About",
+      title: "SyncRun Labs · About",
       description:
         "SyncRun Labs is a software company in Gyeongsan, Republic of Korea. We build SyncRun, an iPhone running app where two runners tap phones and a group run starts on the spot.",
     },
@@ -189,7 +189,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
         },
         {
           h: "The run is kept as one card",
-          p: "When a run ends, the route, distance, pace and the people you ran with become a single run card. The card draws the route line without a map background and names the place only down to the neighbourhood — a default that keeps a shared card from revealing where someone lives, and one that cannot be loosened.",
+          p: "When a run ends, the route, distance, pace and the people you ran with become a single run card. The card draws the route line without a map background and names the place only down to the neighbourhood. This privacy setting keeps a shared card from revealing where someone lives and cannot be loosened.",
         },
       ],
     },
@@ -199,7 +199,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
       milestones: [
         {
           when: "2026.08",
-          what: "Closed TestFlight beta — the full loop runs on real devices: tap to form a group, run together, keep the run as a card",
+          what: "Closed TestFlight beta. On real devices, runners can tap to form a group, run together and keep the run as a card",
         },
         {
           when: "2026.08",
@@ -207,15 +207,15 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
         },
         {
           when: "2026.09",
-          what: "Registered as a business — SyncRun Labs, business registration no. 656-09-03142",
+          what: "Registered as a business · SyncRun Labs, business registration no. 656-09-03142",
         },
         {
           when: "2026.09",
-          what: "Released on the App Store — SyncRun 1.0.0, iOS 18.0 or later, free",
+          what: "Released on the App Store · SyncRun 1.0.0, iOS 18.0 or later, free",
         },
         {
           when: "2026.09",
-          what: "Location-based service provider filing accepted — Korea Media and Communications Commission filing no. 1589",
+          what: "Location-based service provider filing accepted · Korea Media and Communications Commission filing no. 1589",
         },
         {
           when: "Next",
@@ -266,7 +266,7 @@ export const companyCopy: Record<Lang, CompanyCopy> = {
     },
     contact: {
       label: "Contact",
-      note: "Partnerships, hiring and press reach us at the same address. We usually reply within 2–3 business days.",
+      note: "Partnerships, hiring and press reach us at the same address. We usually reply within two to three business days.",
       sideLabel: "Elsewhere",
       links: [
         { label: "Product", to: "home" },

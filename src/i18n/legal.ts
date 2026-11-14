@@ -1,4 +1,4 @@
-/* 약관 페이지의 골격 카피 — 한국어/영어.
+/* 약관 페이지의 한·영 카피.
    약관 3종은 한국어가 정본이고, 영어는 편의를 위한 번역이다(허브 `legal/*.en.md`).
    영어 페이지는 영어 전문을 보여 주며, 정본이 한국어라는 사실은 문서 머리와 이 안내가 함께 밝힌다. */
 
@@ -25,7 +25,7 @@ export interface LegalCopy {
 export const legalCopy: Record<Lang, LegalCopy> = {
   ko: {
     meta: {
-      title: "SyncRun 약관 및 정책 — 이용약관 · 개인정보 · 위치기반",
+      title: "SyncRun 약관 및 정책",
       description:
         "SyncRun 서비스 이용약관, 개인정보 처리방침, 위치기반서비스 이용약관 전문.",
     },
