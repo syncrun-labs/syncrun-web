@@ -478,7 +478,8 @@ h3 {
   letter-spacing: 0.04em;
   padding: 5px 9px;
   border-radius: 999px;
-  color: var(--text-tertiary);
+  /* 11.5px 글자라 4.5:1이 필요하다. 비활성도 secondary로 둔다 */
+  color: var(--text-secondary);
   transition:
     color 0.2s ease,
     background 0.2s ease;

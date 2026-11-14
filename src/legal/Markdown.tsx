@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./Markdown.module.css";
 
 /// 번들 마크다운을 블록 단위로 파싱해 렌더한다. 제목·문단·목록·표·인용·구분선과
 /// 인라인 강조(**볼드**·*이탤릭*·`코드`·[링크])를 지원한다. 외부 의존성 없음.
@@ -127,51 +128,51 @@ function parse(markdown: string): Block[] {
 export default function Markdown({ source }: { source: string }) {
   const blocks = parse(source);
   return (
-    <div className="md">
+    <div className={styles.root}>
       {blocks.map((block, i) => {
         switch (block.kind) {
           case "heading": {
             const Tag = `h${block.level}` as "h1" | "h2" | "h3";
             return (
-              <Tag key={i} className={`md__h md__h${block.level}`}>
+              <Tag key={i} className={`${styles.h} ${styles[`h${block.level}`]}`}>
                 {renderInline(block.text)}
               </Tag>
             );
           }
           case "paragraph":
             return (
-              <p key={i} className="md__p">
+              <p key={i} className={styles.p}>
                 {renderInline(block.text)}
               </p>
             );
           case "bullet":
             return (
-              <div key={i} className="md__li md__li--bullet">
-                <span className="md__li-marker" aria-hidden="true">
+              <div key={i} className={styles.li}>
+                <span className={styles.marker} aria-hidden="true">
                   •
                 </span>
-                <div className="md__li-body">{renderInline(block.text)}</div>
+                <div className={styles.body}>{renderInline(block.text)}</div>
               </div>
             );
           case "ordered":
             return (
-              <div key={i} className="md__li md__li--ordered">
-                <span className="md__li-marker mono">{block.marker}</span>
-                <div className="md__li-body">{renderInline(block.text)}</div>
+              <div key={i} className={`${styles.li} ${styles.ordered}`}>
+                <span className={`${styles.marker} mono`}>{block.marker}</span>
+                <div className={styles.body}>{renderInline(block.text)}</div>
               </div>
             );
           case "quote":
             return (
-              <blockquote key={i} className="md__quote">
+              <blockquote key={i} className={styles.quote}>
                 {renderInline(block.text)}
               </blockquote>
             );
           case "hr":
-            return <hr key={i} className="md__hr" />;
+            return <hr key={i} className={styles.hr} />;
           case "table":
             return (
-              <div key={i} className="md__table-wrap">
-                <table className="md__table">
+              <div key={i} className={styles.wrap}>
+                <table className={styles.table}>
                   <tbody>
                     {block.rows.map((row, r) => (
                       <tr key={r}>

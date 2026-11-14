@@ -3,9 +3,9 @@
 import "../styles/support.css";
 import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
-import "../styles/legal.css";
 
 import Markdown from "./Markdown";
+import styles from "./Legal.module.css";
 import LangToggle from "../components/LangToggle";
 import { useLang } from "../i18n/lang";
 import { legalCopy } from "../i18n/legal";
@@ -51,7 +51,7 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
           </section>
 
           {c.notice ? (
-            <aside className="legal-notice">
+            <aside className={styles.notice}>
               {c.notice.paragraphs.map((p) => (
                 <p key={p}>{p}</p>
               ))}
@@ -69,21 +69,22 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
             </aside>
           ) : null}
 
-          <div className="legal-tabs" role="tablist" aria-label={c.tabsLabel}>
+          <div className={styles.tabs} role="tablist" aria-label={c.tabsLabel}>
             {LEGAL_DOCS.map((item) => (
               <a
                 key={item.key}
                 href={`${base}/legal/${item.slug}`}
                 role="tab"
                 aria-selected={item.key === active}
-                className={`legal-tab${item.key === active ? " is-active" : ""}`}
+                className={item.key === active ? `${styles.tab} ${styles.active}` : styles.tab}
               >
                 {c.tabs[item.key]}
               </a>
             ))}
           </div>
 
-          <article className="legal-doc">
+          {/* legal-doc은 약관 URL 계약 테스트가 찾는 이름이라 모듈 클래스와 함께 둔다 */}
+          <article className={`legal-doc ${styles.doc}`}>
             <Markdown source={source} />
           </article>
         </div>

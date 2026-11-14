@@ -16,7 +16,8 @@
 }
 
 .note {
-  color: var(--text-tertiary);
+  /* 작은 글이라 4.5:1이 필요하다. tertiary(2.8:1)가 아니라 secondary(4.9:1) */
+  color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }
