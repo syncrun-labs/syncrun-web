@@ -7,14 +7,16 @@ import "../styles/account.css";
 
 import LangToggle from "../components/LangToggle";
 import { accountCopy } from "../i18n/account";
-import { useLang } from "../i18n/lang";
+import type { Lang } from "../i18n/dict";
+import type { LangPaths } from "../i18n/lang";
+import { langBase } from "../site/config";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 
 const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
 
-export default function Account() {
-  const { lang, base } = useLang();
+export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths }) {
+  const base = langBase(lang);
   const c = accountCopy[lang];
   // 언어별 경로 — ko는 접두 없음, en은 /en
   const HOME = base || "/";
@@ -37,7 +39,7 @@ export default function Account() {
             <a href={SUPPORT} className="doc-nav__link">
               {c.nav.support}
             </a>
-            <LangToggle />
+            <LangToggle lang={lang} paths={paths} />
             <a href={MAILTO} className="btn btn-primary doc-nav__cta">
               {c.nav.cta}
             </a>

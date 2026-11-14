@@ -15,6 +15,16 @@ test.describe("약관 URL 계약", () => {
 
       await expect(page.locator("article.legal-doc h1")).toHaveText(heading[lang]);
       await expect(page.getByRole("tab", { selected: true })).toBeVisible();
+
+      const toggle = page.getByRole("group", { name: "Language" });
+      const otherLang = lang === "ko" ? "en" : "ko";
+      await expect(toggle.getByRole("link", { name: lang.toUpperCase() })).toHaveAttribute("aria-current", "page");
+      await expect(toggle.getByRole("link", { name: otherLang.toUpperCase() })).toHaveAttribute(
+        "href",
+        localized(path, otherLang),
+      );
+      await expect(page.locator(".doc-nav").locator(`a[href="${localized("/support", lang)}"]`)).toBeVisible();
+      await expect(page.locator(".doc-foot").locator(`a[href="${localized("/company", lang)}"]`)).toBeVisible();
     });
   }
 });

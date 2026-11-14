@@ -1,5 +1,5 @@
 /* 랜딩의 메타(제목·설명)와 푸터 문구, 한국어/영어. 랜딩 본문은 product.ts에 있다.
-   구조: dict[lang].<절>.<키>. 푸터는 useLang()의 t로 읽는다. */
+   구조: dict[lang].<절>.<키>. 푸터는 전달받은 언어로 문구를 고른다. */
 
 import { supportMailto } from "../lib/contact";
 
@@ -17,7 +17,7 @@ export interface Dict {
   };
 }
 
-/* 지원/약관/회사는 언어별 경로다. Footer가 useLang().base를 앞에 붙인다. */
+/* 지원/약관/회사는 언어별 경로다. Footer가 언어 접두를 앞에 붙인다. */
 const SUPPORT = "support";
 const LEGAL = "legal";
 const COMPANY_PAGE = "company";

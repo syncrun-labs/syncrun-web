@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Legal from "@/src/legal/Legal";
 import { LEGAL_DOCS, docBySlug } from "@/src/legal/docs";
 import { readLegalDoc } from "@/src/legal/read";
-import { LangProvider } from "@/src/i18n/lang";
 import { legalCopy } from "@/src/i18n/legal";
 import { buildMetadata } from "@/src/site/metadata";
 import { pathPair } from "@/src/site/config";
@@ -32,9 +31,5 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const doc = docBySlug(slug);
   if (!doc) notFound();
-  return (
-    <LangProvider lang="en" paths={pathPair(`/legal/${slug}`)}>
-      <Legal active={doc.key} source={readLegalDoc(doc.slug, "en")} />
-    </LangProvider>
-  );
+  return <Legal lang="en" paths={pathPair(`/legal/${slug}`)} active={doc.key} source={readLegalDoc(doc.slug, "en")} />;
 }

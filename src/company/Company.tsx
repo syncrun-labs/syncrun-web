@@ -7,7 +7,9 @@ import "../styles/company.css";
 
 import LangToggle from "../components/LangToggle";
 import { companyCopy, type CompanyLink } from "../i18n/company";
-import { useLang } from "../i18n/lang";
+import type { Lang } from "../i18n/dict";
+import type { LangPaths } from "../i18n/lang";
+import { langBase } from "../site/config";
 import { COMPANY } from "../lib/company";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 
@@ -24,8 +26,8 @@ function hrefFor(base: string): Record<CompanyLink | "mailto", string> {
   };
 }
 
-export default function Company() {
-  const { lang, base } = useLang();
+export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths }) {
+  const base = langBase(lang);
   const HREF = hrefFor(base);
   const HOME = HREF.home;
   const c = companyCopy[lang];
@@ -61,7 +63,7 @@ export default function Company() {
             <a href={HREF.support} className="doc-nav__link">
               {c.nav.support}
             </a>
-            <LangToggle />
+            <LangToggle lang={lang} paths={paths} />
             <a href={mailto} className="btn btn-primary doc-nav__cta">
               {c.nav.cta}
             </a>
