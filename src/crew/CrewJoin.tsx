@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import wordmark from "@/public/brand/wordmark.png";
 import { crewJoinCopy } from "../i18n/crewJoin";
-import { useLang } from "../i18n/lang";
+import type { Lang } from "../i18n/dict";
+import { langBase } from "../site/config";
 import { APP_STORE_URL } from "../lib/app-store";
 import styles from "./CrewJoin.module.css";
 
@@ -66,8 +67,8 @@ const noSubscription = () => () => {};
  * 메신저 안의 브라우저는 같은 도메인의 링크로는 앱을 열지 않기 때문이다. 앱이 없으면 설치 뒤 링크를 다시 누르게 안내한다.
  * 아래에 크루로 뛰면 무엇이 좋은지 세 줄을 두어, 앱을 모르는 사람도 초대의 가치를 알게 한다.
  */
-export default function CrewJoin() {
-  const { lang, base } = useLang();
+export default function CrewJoin({ lang }: { lang: Lang }) {
+  const base = langBase(lang);
   const c = crewJoinCopy[lang];
   // 정적 페이지라 서버에서 그릴 때는 주소와 기기를 모른다. 브라우저에서만 읽는다.
   const hydrated = useSyncExternalStore(

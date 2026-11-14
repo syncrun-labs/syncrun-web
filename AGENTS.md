@@ -126,11 +126,12 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
   값은 `src/lib/company.ts` 한 곳에 두고 랜딩 푸터도 그 상수를 읽는다. 약관이 개정되면 이 상수를 함께 본다.
 - **약관은 슬러그마다 정적 페이지다.** `src/legal/docs.ts`가 키·슬러그 목록(라우트의 `generateStaticParams`와 화면 탭이 같이 본다),
   `src/legal/read.ts`가 서버에서 원문을 읽어 `Legal`에 넘긴다. 마크다운은 클라이언트 번들에 들어가지 않는다. `/legal`은 이용약관으로 308.
-- **i18n**(`src/i18n/`): **다섯 페이지 전부 ko/en이다.** 언어는 URL이 정하고 라우트가 `LangProvider`에 `lang`과 두 언어의 경로 짝(`paths`)을 넘긴다.
+- **i18n**(`src/i18n/`): **공개 페이지는 ko/en이다.** 언어는 URL이 정하고 라우트가 페이지 컴포넌트에 `lang`을 props로 넘긴다.
+  공용 언어 전환 링크에는 같은 페이지의 경로 짝(`paths`)도 넘긴다. 크루 초대는 브라우저에서 읽은 토큰을 반대 언어 링크에 붙인다.
   브라우저 로케일 감지나 저장된 선택은 **없다**. URL 하나에 내용 하나가 고정되어야 검색엔진이 언어판을 구분한다.
   카피는 페이지마다 한 파일이다. `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `account.ts` · `legal.ts`.
-  랜딩 본문은 `product.ts`, 메타·푸터는 `dict.ts`다. **페이지마다 `useLang().lang`으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
-  내부 링크는 `useLang().base`(ko `""` · en `"/en"`)를 앞에 붙인다. `components/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
+  랜딩 본문은 `product.ts`, 메타·푸터는 `dict.ts`다. **페이지마다 `lang` prop으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
+  내부 링크는 `src/site/config.ts`의 `langPath` 또는 `langBase`로 언어별 경로를 만든다. `components/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
   **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다**. 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
   **한국어가 정본이고 영어는 편의 번역이다**. 앱이 동의를 받는 것은 한국어 문서이며, 그 사실을 문서 머리와 페이지 안내가 함께 밝힌다.
   영어판을 두는 이유는 앱이 영문 이름으로 영문 스토어에 나가 있어서다(GDPR 투명성·CCPA 고지 언어 기준).

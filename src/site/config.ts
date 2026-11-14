@@ -1,4 +1,5 @@
 import type { Lang } from "../i18n/dict";
+import type { LangPaths } from "../i18n/lang";
 
 /** canonical·hreflang·sitemap·og:url 이 전부 이 오리진을 기준으로 만들어진다. */
 export const SITE_ORIGIN = "https://www.syncrunlabs.com";
@@ -17,7 +18,7 @@ export function langPath(lang: Lang, path: string): string {
   return `${base}${path}`;
 }
 
-/** 같은 페이지의 두 언어 경로 짝 — `LangProvider`의 `paths`와 hreflang이 함께 쓴다. */
-export function pathPair(path: string): { ko: string; en: string } {
+/** 언어 전환 링크가 가리키는 같은 페이지의 두 경로. */
+export function pathPair(path: string): LangPaths {
   return { ko: langPath("ko", path), en: langPath("en", path) };
 }

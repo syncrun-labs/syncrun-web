@@ -1,4 +1,5 @@
-import { useLang } from "../../i18n/lang";
+import { dict, type Lang } from "../../i18n/dict";
+import { langBase } from "../../site/config";
 import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
 import { COMPANY } from "../../lib/company";
@@ -10,9 +11,9 @@ function resolve(href: string, base: string): string {
   return `${base}/${href}`;
 }
 
-export default function Footer() {
-  const { t, lang, base } = useLang();
-  const f = t.footer;
+export default function Footer({ lang }: { lang: Lang }) {
+  const base = langBase(lang);
+  const f = dict[lang].footer;
   const c = COMPANY[lang];
 
   return (

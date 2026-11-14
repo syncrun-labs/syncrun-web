@@ -5,15 +5,17 @@ import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
 
 import LangToggle from "../components/LangToggle";
-import { useLang } from "../i18n/lang";
+import type { Lang } from "../i18n/dict";
+import type { LangPaths } from "../i18n/lang";
+import { langBase } from "../site/config";
 import { supportCopy } from "../i18n/support";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 
 const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
 
-export default function Support() {
-  const { lang, base } = useLang();
+export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths }) {
+  const base = langBase(lang);
   const c = supportCopy[lang];
   // 언어별 경로 — ko는 접두 없음, en은 /en
   const HOME = base || "/";
@@ -34,7 +36,7 @@ export default function Support() {
             <a href={COMPANY_PAGE} className="doc-nav__link">
               {c.nav.company}
             </a>
-            <LangToggle />
+            <LangToggle lang={lang} paths={paths} />
             <a href={MAILTO} className="btn btn-primary doc-nav__cta">
               {c.nav.cta}
             </a>

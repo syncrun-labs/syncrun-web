@@ -7,7 +7,9 @@ import wordmark from "@/public/brand/wordmark.png";
 import Markdown from "./Markdown";
 import styles from "./Legal.module.css";
 import LangToggle from "../components/LangToggle";
-import { useLang } from "../i18n/lang";
+import type { Lang } from "../i18n/dict";
+import type { LangPaths } from "../i18n/lang";
+import { langPath } from "../site/config";
 import { legalCopy } from "../i18n/legal";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import { LEGAL_DOCS, type LegalDocKey } from "./docs";
@@ -18,10 +20,21 @@ const MAILTO = supportMailto("[SyncRun 문의]");
  * 약관 화면. 어느 문서인지와 본문은 라우트가 정해서 넘긴다 — `/legal/<슬러그>` 하나가 문서 하나다.
  * 본문은 번역하지 않는다(한국어가 정본이고 앱이 동의를 받는 문서). 탭은 다른 문서 페이지로 가는 링크다.
  */
-export default function Legal({ active, source }: { active: LegalDocKey; source: string }) {
-  const { lang, base } = useLang();
+export default function Legal({
+  active,
+  source,
+  lang,
+  paths,
+}: {
+  active: LegalDocKey;
+  source: string;
+  lang: Lang;
+  paths: LangPaths;
+}) {
   const c = legalCopy[lang];
-  const HOME = base || "/";
+  const HOME = langPath(lang, "/");
+  const SUPPORT = langPath(lang, "/support");
+  const COMPANY = langPath(lang, "/company");
 
   return (
     <>
@@ -34,10 +47,10 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
             <a href={HOME} className="doc-nav__link">
               {c.nav.home}
             </a>
-            <a href={`${HOME}support`} className="doc-nav__link">
+            <a href={SUPPORT} className="doc-nav__link">
               {c.nav.support}
             </a>
-            <LangToggle />
+            <LangToggle lang={lang} paths={paths} />
           </div>
         </div>
       </header>
@@ -61,7 +74,7 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
                   {SUPPORT_EMAIL}
                 </a>
                 {c.notice.askMiddle}
-                <a href={`${HOME}company`} className="doc__inline-link">
+                <a href={COMPANY} className="doc__inline-link">
                   {c.notice.askLink}
                 </a>
                 {c.notice.askSuffix}
@@ -73,7 +86,7 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
             {LEGAL_DOCS.map((item) => (
               <a
                 key={item.key}
-                href={`${base}/legal/${item.slug}`}
+                href={langPath(lang, `/legal/${item.slug}`)}
                 role="tab"
                 aria-selected={item.key === active}
                 className={item.key === active ? `${styles.tab} ${styles.active}` : styles.tab}
@@ -95,8 +108,8 @@ export default function Legal({ active, source }: { active: LegalDocKey; source:
           <span className="mono">© 2026 SyncRun Labs</span>
           <div className="doc-foot__links">
             <a href={HOME}>{c.foot.home}</a>
-            <a href={`${HOME}company`}>{c.foot.company}</a>
-            <a href={`${HOME}support`}>{c.foot.support}</a>
+            <a href={COMPANY}>{c.foot.company}</a>
+            <a href={SUPPORT}>{c.foot.support}</a>
             <a href={MAILTO}>{c.foot.contact}</a>
           </div>
         </div>
