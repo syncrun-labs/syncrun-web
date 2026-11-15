@@ -141,6 +141,8 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
   섹션 하나에 파일 하나와 옆의 `*.module.css`다. `Hero`(맞닿는 폰 모션) · `Features`(세 단계·함께·혼자·크루) · `Cards` · `Reviews` · `Plans` · `Faq`,
   메뉴와 마무리는 `ProductLanding` 안에 있다. 여러 섹션이 같이 쓰는 조각(`StoreButton`·`Phone`·`Screen`·`FeatureList`)은 `ui.tsx`와 `ui.module.css`, 러너 색은 `runners.ts`.
   **브라우저가 필요한 `Hero`(축소 모션·Android 판정)와 `Faq`(열고 닫는 모션)만 클라이언트 컴포넌트다.** 나머지 섹션은 훅을 쓰지 않는다.
+- **서버·클라이언트 경계.** `"use client"`는 브라우저가 꼭 필요한 컴포넌트(상태·이펙트·이벤트·`window`)에만 붙인다. 훅이 없는 컴포넌트에는 붙이지 않는다.
+  경계를 옮길 때는 [perf-compare](.agents/skills/perf-compare/SKILL.md)로 JS와 HTML gzip 합계를 함께 잰다. 텍스트가 긴 페이지는 서버 렌더가 HTML을 키울 수 있다.
   Android 판정은 `src/lib/useIsAndroid.ts`(정적 페이지라 수화 뒤에 정해진다, 개발 서버는 `?device=android`).
 - `src/index.css`: 디자인 토큰(`:root`: 색 `--accent*` 코랄, 간격 `--space-1~7`(4·8·12·16·24·32·48)·`--section-y`·`--column-gap`, `--radius-card`, 기기 프레임 `--device-*`) · 리셋 · `.glass` · 버튼 · 키프레임.
   간격은 이 눈금만 쓴다(iOS 앱에서 가장 많이 쓰는 값과 같다).
@@ -148,7 +150,9 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 - `public/.well-known/apple-app-site-association`: iOS 유니버설 링크 연결 파일. 앱(팀 `54U979SGB7` · `com.syncrunlabs.sync`)으로 넘기는 경로는
   크루 초대 링크 `/crew/join/*` 하나뿐이고, 나머지 페이지는 웹에 남는다.
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/`: 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
-  `src/styles/support.css`·`legal.css`·`company.css`·`account.css`가 문서형 레이아웃.
+  `src/styles/support.css`(공용 머리 막대·문서 레이아웃)·`company.css`·`account.css`와 약관의 `Legal.module.css`·`Markdown.module.css`가 문서형 레이아웃.
+  **지원·회사 소개·계정 삭제는 서버 컴포넌트, 약관(`Legal`)은 클라이언트 컴포넌트다.** 짧은 페이지는 서버로 그리면 JS가 줄어 합계가 4~5KiB(gzip) 준다.
+  약관은 서버로 그리면 긴 문서 트리가 RSC 페이로드로 HTML에 한 번 더 실려 합계가 약 2KiB 는다(2026-11-15 실측).
 - `src/styles/sections.css`: 랜딩 푸터와 문서형 페이지가 같이 쓰는 타이포.
 - **`admin/`: 운영 사이트 소스**(`docs/adr/0004`). 운영자가 이용자에게 안내 알림을 보내는 독립 Vite + React 앱으로,
   `/admin`으로 나간다. 요구사항은 허브 `FR-OPS-02` · `03` · `04`, 서버와 주고받는 규격은 허브 `contracts/api-contract.md` §21이고
