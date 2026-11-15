@@ -1,14 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import wordmark from "@/public/brand/wordmark.png";
 import { crewJoinCopy } from "../i18n/crewJoin";
 import type { Lang } from "../i18n/dict";
 import { langBase } from "../site/config";
 import { APP_STORE_URL } from "../lib/app-store";
 import styles from "./CrewJoin.module.css";
-import d from "../ui/doc.module.css";
+import { DocHeader } from "../ui/Doc";
 
 /** 초대 링크 미리보기 (api-contract §18.12): 로그인 없이 부르는 공개 경로 */
 const API_BASE = "https://api.syncrunlabs.com/api/v1";
@@ -115,18 +113,7 @@ export default function CrewJoin({ lang }: { lang: Lang }) {
 
   return (
     <>
-      <header className={`doc-nav ${d.nav}`}>
-        <div className={`container ${d["nav-inner"]}`}>
-          <a href={base || "/"} className={d["nav-brand"]}>
-            <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
-          </a>
-          <div className={d["nav-actions"]}>
-            <a href={otherHref} className={d["nav-link"]}>
-              {c.other}
-            </a>
-          </div>
-        </div>
-      </header>
+      <DocHeader home={base || "/"} links={[{ href: otherHref, label: c.other }]} />
 
       <main className={styles.page}>
         <div className={styles.inner}>
