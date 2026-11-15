@@ -151,7 +151,8 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 - `public/.well-known/apple-app-site-association`: iOS 유니버설 링크 연결 파일. 앱(팀 `54U979SGB7` · `com.syncrunlabs.sync`)으로 넘기는 경로는
   크루 초대 링크 `/crew/join/*` 하나뿐이고, 나머지 페이지는 웹에 남는다.
 - `src/support/`·`src/legal/`·`src/company/`·`src/account/`: 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
-  공용 머리 막대·문서 레이아웃은 `src/ui/doc.module.css`(지원·회사 소개·계정 삭제·약관·크루 초대가 같이 쓴다), 페이지 고유분은 옆의 모듈
+  공용 틀은 `src/ui/Doc.tsx`(`DocHeader`·`DocFooter`·`DocSection`·`ContactBox`)와 `src/ui/doc.module.css`다. 페이지는 링크와 문구만 넘긴다.
+  지원·회사 소개·계정 삭제·약관·크루 초대가 같이 쓰고, 페이지 고유분은 옆의 모듈
   (`Company.module.css` 사업자 정보 표, 약관의 `Legal.module.css`·`Markdown.module.css`). 회사 소개·계정 삭제의 변형(마일스톤·탈퇴 단계·3열 격자·열 안 목록)은
   공용 모듈의 변형 클래스다. `.doc-nav`·`.doc-foot`·`.legal-doc`은 약관 URL 계약 테스트가 찾는 이름이라 모듈 클래스와 함께 남긴다.
   **지원·회사 소개·계정 삭제는 서버 컴포넌트, 약관(`Legal`)은 클라이언트 컴포넌트다.** 짧은 페이지는 서버로 그리면 JS가 줄어 합계가 4~5KiB(gzip) 준다.
