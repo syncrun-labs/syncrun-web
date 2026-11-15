@@ -140,7 +140,8 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 - **랜딩**(`src/components/product/`): `ProductLanding`이 언어를 한 번 읽어 섹션마다 제 몫의 문구를 props로 넘긴다.
   섹션 하나에 파일 하나와 옆의 `*.module.css`다. `Hero`(맞닿는 폰 모션) · `Features`(세 단계·함께·혼자·크루) · `Cards` · `Reviews` · `Plans` · `Faq`,
   메뉴와 마무리는 `ProductLanding` 안에 있다. 여러 섹션이 같이 쓰는 조각(`StoreButton`·`Phone`·`Screen`·`FeatureList`)은 `ui.tsx`와 `ui.module.css`, 러너 색은 `runners.ts`.
-  **브라우저가 필요한 `Hero`(축소 모션·Android 판정)와 `Faq`(열고 닫는 모션)만 클라이언트 컴포넌트다.** 나머지 섹션은 훅을 쓰지 않는다.
+  **랜딩은 서버 컴포넌트로 그리고, 브라우저가 필요한 `Hero`(축소 모션·Android 판정)와 `Faq`(열고 닫는 모션)만 클라이언트 섬이다.** 나머지 섹션은 훅을 쓰지 않는다.
+  이렇게 그리면 JS·HTML gzip 합계가 `/` 197.4→192.3KiB, `/en` 196.6→190.6KiB로 준다(2026-11-16 실측).
   Android 판정은 `src/lib/useIsAndroid.ts`(정적 페이지라 수화 뒤에 정해진다, 개발 서버는 `?device=android`).
 - **서버·클라이언트 경계.** `"use client"`는 브라우저가 꼭 필요한 컴포넌트(상태·이펙트·이벤트·`window`)에만 붙인다. 훅이 없는 컴포넌트에는 붙이지 않는다.
   경계를 옮길 때는 [perf-compare](.agents/skills/perf-compare/SKILL.md)로 JS와 HTML gzip 합계를 함께 잰다. 텍스트가 긴 페이지는 서버 렌더가 HTML을 키울 수 있다.
