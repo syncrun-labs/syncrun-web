@@ -57,8 +57,25 @@
 }
 
 @media (width <= 860px) {
+  /* 카드 섹션처럼 옆으로 넘긴다. 다음 플랜이 조금 보여 넘길 수 있다는 걸 알린다 */
   .grid {
-    grid-template-columns: minmax(0, 1fr);
+    display: flex;
+    gap: var(--space-3);
+    margin-inline: calc(var(--gutter) * -1);
+    padding: var(--space-1) var(--gutter) var(--space-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .grid article {
+    flex: 0 0 min(80vw, 320px);
+    scroll-snap-align: start;
   }
 
   .who {

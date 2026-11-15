@@ -8,7 +8,7 @@ export default function Plans({ copy }: { copy: ProductCopy["plans"] }) {
     <section id="plans" className={`${s.plans} ${ui.wrap}`}>
       <h2>{copy.title}</h2>
       <p className={ui.lede}>{copy.lede}</p>
-      <div className={s.grid}>
+      <div className={s.grid} tabIndex={0} role="region" aria-label={copy.title}>
         {copy.items.map((p) => (
           <article key={p.name}>
             <h3>{p.name}</h3>
