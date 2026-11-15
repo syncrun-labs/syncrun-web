@@ -1,5 +1,3 @@
-"use client";
-
 import "./styles/sections.css";
 
 import type { LangPaths } from "./i18n/lang";
