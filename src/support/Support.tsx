@@ -1,13 +1,10 @@
-import Image from "next/image";
-import wordmark from "@/public/brand/wordmark.png";
-
-import LangToggle from "../components/LangToggle";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
 import { langBase } from "../site/config";
 import { supportCopy } from "../i18n/support";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import d from "../ui/doc.module.css";
+import { ContactBox, DocFooter, DocHeader, DocSection } from "../ui/Doc";
 
 const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
@@ -22,25 +19,16 @@ export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths 
 
   return (
     <>
-      <header className={`doc-nav ${d.nav}`}>
-        <div className={`container ${d["nav-inner"]}`}>
-          <a href={HOME} className={d["nav-brand"]}>
-            <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
-          </a>
-          <div className={d["nav-actions"]}>
-            <a href={HOME} className={d["nav-link"]}>
-              {c.nav.home}
-            </a>
-            <a href={COMPANY_PAGE} className={d["nav-link"]}>
-              {c.nav.company}
-            </a>
-            <LangToggle lang={lang} paths={paths} />
-            <a href={MAILTO} className={`btn btn-primary ${d["nav-cta"]}`}>
-              {c.nav.cta}
-            </a>
-          </div>
-        </div>
-      </header>
+      <DocHeader
+        home={HOME}
+        links={[
+          { href: HOME, label: c.nav.home },
+          { href: COMPANY_PAGE, label: c.nav.company },
+        ]}
+        lang={lang}
+        paths={paths}
+        cta={{ href: MAILTO, label: c.nav.cta }}
+      />
 
       <main className={d.doc}>
         <div className="container">
@@ -51,26 +39,20 @@ export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths 
             <p className={`mono ${d.meta}`}>{c.head.requirements}</p>
           </section>
 
-          <section className={`glass ${d.contact}`} id="contact">
-            <div>
-              <span className={`mono ${d.label}`}>{c.contact.label}</span>
-              <a href={MAILTO} className={d.email}>
-                {EMAIL}
-              </a>
-              <p className={d["contact-note"]}>{c.contact.note}</p>
-            </div>
-            <div className={d["contact-side"]}>
-              <span className={`mono ${d.label}`}>{c.contact.sideLabel}</span>
-              <ul className={d.list}>
-                {c.contact.checklist.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </section>
+          <ContactBox
+            id="contact"
+            label={c.contact.label}
+            email={EMAIL}
+            href={MAILTO}
+            note={c.contact.note}
+            sideLabel={c.contact.sideLabel}
+          >
+            {c.contact.checklist.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ContactBox>
 
-          <section className={d.section} id="faq">
-            <h2 className={`h2 ${d.heading}`}>{c.faq.heading}</h2>
+          <DocSection id="faq" heading={c.faq.heading}>
             <div className={d.faq}>
               {c.faq.items.map((item, i) => (
                 <article key={item.q} className={d.qa}>
@@ -86,11 +68,9 @@ export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </article>
               ))}
             </div>
-          </section>
+          </DocSection>
 
-          <section className={d.section} id="permissions">
-            <h2 className={`h2 ${d.heading}`}>{c.permissions.heading}</h2>
-            <p className={d["section-lede"]}>{c.permissions.lede}</p>
+          <DocSection id="permissions" heading={c.permissions.heading} lede={c.permissions.lede}>
             <div className={d.perms}>
               {c.permissions.items.map((p) => (
                 <div key={p.name} className={d.perm}>
@@ -100,10 +80,9 @@ export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </div>
               ))}
             </div>
-          </section>
+          </DocSection>
 
-          <section className={d.section} id="privacy">
-            <h2 className={`h2 ${d.heading}`}>{c.account.heading}</h2>
+          <DocSection id="privacy" heading={c.account.heading}>
             <div className={d.cols}>
               {c.account.cards.map((card) => (
                 <div key={card.h}>
@@ -122,24 +101,20 @@ export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </div>
               ))}
             </div>
-          </section>
+          </DocSection>
         </div>
       </main>
 
-      <footer className={`doc-foot ${d.foot}`}>
-        <div className={`container ${d["foot-inner"]}`}>
-          <span className="mono">© 2026 SyncRun Labs</span>
-          <div className={d["foot-links"]}>
-            <a href={HOME}>{c.foot.home}</a>
-            <a href={COMPANY_PAGE}>{c.foot.company}</a>
-            <a href={LEGAL}>{c.foot.legal}</a>
-            <a href={MAILTO}>{c.foot.contact}</a>
-            <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer">
-              {c.foot.github}
-            </a>
-          </div>
-        </div>
-      </footer>
+      <DocFooter
+        owner="SyncRun Labs"
+        links={[
+          { href: HOME, label: c.foot.home },
+          { href: COMPANY_PAGE, label: c.foot.company },
+          { href: LEGAL, label: c.foot.legal },
+          { href: MAILTO, label: c.foot.contact },
+          { href: "https://github.com/syncrun-labs", label: c.foot.github, external: true },
+        ]}
+      />
     </>
   );
 }

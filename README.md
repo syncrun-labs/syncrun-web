@@ -61,9 +61,10 @@ src/
     product/               랜딩: 섹션마다 tsx + module.css(Hero · Features · Cards · Reviews · Plans · Faq) · ui · runners
     sections/Footer.tsx    랜딩 푸터
     LangToggle.tsx         KO/EN 전환. 상대 언어의 같은 페이지로 가는 링크
+  ui/                      문서형 페이지 공용 틀: Doc.tsx(머리 막대 · 푸터 · 섹션 · 문의 상자)와 doc.module.css
   i18n/                    product.ts(랜딩 본문) · dict.ts(메타·푸터) · support.ts · company.ts · account.ts · legal.ts · lang.tsx
   support/ · company/ · account/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
-  styles/                  sections.css(푸터·공용 타이포) · support.css · company.css · account.css · legal.css · crew-join.css
+  styles/                  sections.css(랜딩 푸터 · 공용 타이포). 나머지 스타일은 각 컴포넌트 옆의 *.module.css
 public/product/            랜딩의 앱 화면 캡처 · 러닝 카드 원본 · App Store QR
 ```
 

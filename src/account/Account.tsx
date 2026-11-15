@@ -1,13 +1,10 @@
-import Image from "next/image";
-import wordmark from "@/public/brand/wordmark.png";
-
-import LangToggle from "../components/LangToggle";
 import { accountCopy } from "../i18n/account";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
 import { langBase } from "../site/config";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import d from "../ui/doc.module.css";
+import { ContactBox, DocFooter, DocHeader, DocSection } from "../ui/Doc";
 
 const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
@@ -24,25 +21,16 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
 
   return (
     <>
-      <header className={`doc-nav ${d.nav}`}>
-        <div className={`container ${d["nav-inner"]}`}>
-          <a href={HOME} className={d["nav-brand"]}>
-            <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
-          </a>
-          <div className={d["nav-actions"]}>
-            <a href={HOME} className={d["nav-link"]}>
-              {c.nav.home}
-            </a>
-            <a href={SUPPORT} className={d["nav-link"]}>
-              {c.nav.support}
-            </a>
-            <LangToggle lang={lang} paths={paths} />
-            <a href={MAILTO} className={`btn btn-primary ${d["nav-cta"]}`}>
-              {c.nav.cta}
-            </a>
-          </div>
-        </div>
-      </header>
+      <DocHeader
+        home={HOME}
+        links={[
+          { href: HOME, label: c.nav.home },
+          { href: SUPPORT, label: c.nav.support },
+        ]}
+        lang={lang}
+        paths={paths}
+        cta={{ href: MAILTO, label: c.nav.cta }}
+      />
 
       <main className={d.doc}>
         <div className="container">
@@ -51,9 +39,7 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
             <p className={`lede ${d.lede}`}>{c.head.lede}</p>
           </section>
 
-          <section className={d.section} id="in-app">
-            <h2 className={`h2 ${d.heading}`}>{c.inApp.heading}</h2>
-            <p className={d["section-lede"]}>{c.inApp.lede}</p>
+          <DocSection id="in-app" heading={c.inApp.heading} lede={c.inApp.lede}>
             <ol className={`${d.faq} ${d.steps}`}>
               {c.inApp.steps.map((step, i) => (
                 <li key={step} className={d.qa}>
@@ -64,11 +50,9 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </li>
               ))}
             </ol>
-          </section>
+          </DocSection>
 
-          <section className={d.section} id="deleted">
-            <h2 className={`h2 ${d.heading}`}>{c.deleted.heading}</h2>
-            <p className={d["section-lede"]}>{c.deleted.lede}</p>
+          <DocSection id="deleted" heading={c.deleted.heading} lede={c.deleted.lede}>
             <div className={d.cols}>
               {c.deleted.cols.map((col) => (
                 <div key={col.h}>
@@ -84,11 +68,9 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </div>
               ))}
             </div>
-          </section>
+          </DocSection>
 
-          <section className={d.section} id="device">
-            <h2 className={`h2 ${d.heading}`}>{c.device.heading}</h2>
-            <p className={d["section-lede"]}>{c.device.lede}</p>
+          <DocSection id="device" heading={c.device.heading} lede={c.device.lede}>
             <div className={d.cols}>
               {c.device.cols.map((col) => (
                 <div key={col.h}>
@@ -97,15 +79,13 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </div>
               ))}
             </div>
-          </section>
+          </DocSection>
 
           {[
             { id: "subscription", copy: c.subscription },
             { id: "records", copy: c.records },
           ].map(({ id, copy }) => (
-            <section key={id} className={d.section} id={id}>
-              <h2 className={`h2 ${d.heading}`}>{copy.heading}</h2>
-              <p className={d["section-lede"]}>{copy.lede}</p>
+            <DocSection key={id} id={id} heading={copy.heading} lede={copy.lede}>
               <div className={d.cols}>
                 {copy.cols.map((col) => (
                   <div key={col.h}>
@@ -114,64 +94,58 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
                   </div>
                 ))}
               </div>
-            </section>
+            </DocSection>
           ))}
 
-          <section className={d.section} id="email">
-            <h2 className={`h2 ${d.heading}`}>{c.email.heading}</h2>
-            <p className={d["section-lede"]}>{c.email.lede}</p>
-            <div className={`glass ${d.contact}`}>
-              <div>
-                <span className={`mono ${d.label}`}>{c.email.label}</span>
-                <a href={DELETE_MAILTO} className={d.email}>
-                  {EMAIL}
-                </a>
-                <p className={d["contact-note"]}>
+          <DocSection id="email" heading={c.email.heading} lede={c.email.lede}>
+            <ContactBox
+              as="div"
+              label={c.email.label}
+              email={EMAIL}
+              href={DELETE_MAILTO}
+              note={
+                <>
                   {c.email.notePrefix}
                   <a href={PRIVACY} className={d["inline-link"]}>
                     {c.email.noteLink}
                   </a>
                   {c.email.noteSuffix}
-                </p>
-              </div>
-              <div className={d["contact-side"]}>
-                <span className={`mono ${d.label}`}>{c.email.sideLabel}</span>
-                <ul className={d.list}>
-                  {c.email.checklist.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
+                </>
+              }
+              sideLabel={c.email.sideLabel}
+            >
+              {c.email.checklist.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ContactBox>
+          </DocSection>
 
-          <section className={d.section} id="contact">
-            <h2 className={`h2 ${d.heading}`}>{c.contact.heading}</h2>
-            <p className={d["section-lede"]}>
-              {c.contact.prefix}
-              <a href={SUPPORT} className={d["inline-link"]}>
-                {c.contact.link}
-              </a>
-              {c.contact.suffix}
-            </p>
-          </section>
+          <DocSection
+            id="contact"
+            heading={c.contact.heading}
+            lede={
+              <>
+                {c.contact.prefix}
+                <a href={SUPPORT} className={d["inline-link"]}>
+                  {c.contact.link}
+                </a>
+                {c.contact.suffix}
+              </>
+            }
+          />
         </div>
       </main>
 
-      <footer className={`doc-foot ${d.foot}`}>
-        <div className={`container ${d["foot-inner"]}`}>
-          <span className="mono">© 2026 SyncRun Labs</span>
-          <div className={d["foot-links"]}>
-            <a href={HOME}>{c.foot.home}</a>
-            <a href={SUPPORT}>{c.foot.support}</a>
-            <a href={LEGAL}>{c.foot.legal}</a>
-            <a href={MAILTO}>{c.foot.contact}</a>
-            <a href="https://github.com/syncrun-labs" target="_blank" rel="noreferrer">
-              {c.foot.github}
-            </a>
-          </div>
-        </div>
-      </footer>
+      <DocFooter
+        owner="SyncRun Labs"
+        links={[
+          { href: HOME, label: c.foot.home },
+          { href: SUPPORT, label: c.foot.support },
+          { href: LEGAL, label: c.foot.legal },
+          { href: MAILTO, label: c.foot.contact },
+          { href: "https://github.com/syncrun-labs", label: c.foot.github, external: true },
+        ]}
+      />
     </>
   );
 }

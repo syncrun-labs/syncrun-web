@@ -1,7 +1,3 @@
-import Image from "next/image";
-import wordmark from "@/public/brand/wordmark.png";
-
-import LangToggle from "../components/LangToggle";
 import { companyCopy, type CompanyLink } from "../i18n/company";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
@@ -10,6 +6,7 @@ import { COMPANY } from "../lib/company";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import d from "../ui/doc.module.css";
 import biz from "./Company.module.css";
+import { ContactBox, DocFooter, DocHeader, DocSection } from "../ui/Doc";
 
 const EMAIL = SUPPORT_EMAIL;
 
@@ -49,25 +46,16 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
 
   return (
     <>
-      <header className={`doc-nav ${d.nav}`}>
-        <div className={`container ${d["nav-inner"]}`}>
-          <a href={HOME} className={d["nav-brand"]}>
-            <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
-          </a>
-          <div className={d["nav-actions"]}>
-            <a href={HOME} className={d["nav-link"]}>
-              {c.nav.home}
-            </a>
-            <a href={HREF.support} className={d["nav-link"]}>
-              {c.nav.support}
-            </a>
-            <LangToggle lang={lang} paths={paths} />
-            <a href={mailto} className={`btn btn-primary ${d["nav-cta"]}`}>
-              {c.nav.cta}
-            </a>
-          </div>
-        </div>
-      </header>
+      <DocHeader
+        home={HOME}
+        links={[
+          { href: HOME, label: c.nav.home },
+          { href: HREF.support, label: c.nav.support },
+        ]}
+        lang={lang}
+        paths={paths}
+        cta={{ href: mailto, label: c.nav.cta }}
+      />
 
       <main className={d.doc}>
         <div className="container">
@@ -79,9 +67,7 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
             </p>
           </section>
 
-          <section className={d.section} id="about">
-            <h2 className={`h2 ${d.heading}`}>{c.about.heading}</h2>
-            <p className={d["section-lede"]}>{c.about.lede}</p>
+          <DocSection id="about" heading={c.about.heading} lede={c.about.lede}>
             <div className={d.cols}>
               {c.about.cards.map((card) => (
                 <div key={card.h}>
@@ -90,11 +76,9 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </div>
               ))}
             </div>
-          </section>
+          </DocSection>
 
-          <section className={d.section} id="status">
-            <h2 className={`h2 ${d.heading}`}>{c.status.heading}</h2>
-            <p className={d["section-lede"]}>{c.status.lede}</p>
+          <DocSection id="status" heading={c.status.heading} lede={c.status.lede}>
             <div className={`${d.faq} ${d.milestones}`}>
               {c.status.milestones.map((m) => (
                 <article key={m.when + m.what} className={d.qa}>
@@ -105,11 +89,9 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
                 </article>
               ))}
             </div>
-          </section>
+          </DocSection>
 
-          <section className={d.section} id="stack">
-            <h2 className={`h2 ${d.heading}`}>{c.stack.heading}</h2>
-            <p className={d["section-lede"]}>{c.stack.lede}</p>
+          <DocSection id="stack" heading={c.stack.heading} lede={c.stack.lede}>
             <div className={`${d.perms} ${d.stack}`}>
               {c.stack.items.map((s) => (
                 <div key={s.area} className={d.perm}>
@@ -125,11 +107,9 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
               </a>
               {c.stack.reposSuffix}
             </p>
-          </section>
+          </DocSection>
 
-          <section className={d.section} id="business">
-            <h2 className={`h2 ${d.heading}`}>{c.business.heading}</h2>
-            <p className={d["section-lede"]}>{c.business.lede}</p>
+          <DocSection id="business" heading={c.business.heading} lede={c.business.lede}>
             <dl className={biz.biz}>
               {rows.map((row) => (
                 <div key={row.k} className={biz.row}>
@@ -145,49 +125,33 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
               </a>
               {c.business.noteSuffix}
             </p>
-          </section>
+          </DocSection>
 
-          <section className={`glass ${d.contact}`} id="contact">
-            <div>
-              <span className={`mono ${d.label}`}>{c.contact.label}</span>
-              <a href={mailto} className={d.email}>
-                {EMAIL}
-              </a>
-              <p className={d["contact-note"]}>{c.contact.note}</p>
-            </div>
-            <div className={d["contact-side"]}>
-              <span className={`mono ${d.label}`}>{c.contact.sideLabel}</span>
-              <ul className={d.list}>
-                {c.contact.links.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={HREF[l.to]}
-                      className={d["inline-link"]}
-                      target={l.to === "github" ? "_blank" : undefined}
-                      rel={l.to === "github" ? "noreferrer" : undefined}
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+          <ContactBox
+            id="contact"
+            label={c.contact.label}
+            email={EMAIL}
+            href={mailto}
+            note={c.contact.note}
+            sideLabel={c.contact.sideLabel}
+          >
+            {c.contact.links.map((l) => (
+              <li key={l.label}>
+                <a
+                  href={HREF[l.to]}
+                  className={d["inline-link"]}
+                  target={l.to === "github" ? "_blank" : undefined}
+                  rel={l.to === "github" ? "noreferrer" : undefined}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ContactBox>
         </div>
       </main>
 
-      <footer className={`doc-foot ${d.foot}`}>
-        <div className={`container ${d["foot-inner"]}`}>
-          <span className="mono">© 2026 {COMPANY.en.name}</span>
-          <div className={d["foot-links"]}>
-            {c.foot.map((l) => (
-              <a key={l.label} href={HREF[l.to]}>
-                {l.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <DocFooter owner={COMPANY.en.name} links={c.foot.map((l) => ({ href: HREF[l.to], label: l.label }))} />
     </>
   );
 }

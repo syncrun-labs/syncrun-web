@@ -1,11 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import wordmark from "@/public/brand/wordmark.png";
-
 import Markdown from "./Markdown";
 import styles from "./Legal.module.css";
-import LangToggle from "../components/LangToggle";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
 import { langPath } from "../site/config";
@@ -13,6 +9,7 @@ import { legalCopy } from "../i18n/legal";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import { LEGAL_DOCS, type LegalDocKey } from "./docs";
 import d from "../ui/doc.module.css";
+import { DocHeader, DocFooter } from "../ui/Doc";
 
 const MAILTO = supportMailto("[SyncRun 문의]");
 
@@ -38,22 +35,15 @@ export default function Legal({
 
   return (
     <>
-      <header className={`doc-nav ${d.nav}`}>
-        <div className={`container ${d["nav-inner"]}`}>
-          <a href={HOME} className={d["nav-brand"]}>
-            <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
-          </a>
-          <div className={d["nav-actions"]}>
-            <a href={HOME} className={d["nav-link"]}>
-              {c.nav.home}
-            </a>
-            <a href={SUPPORT} className={d["nav-link"]}>
-              {c.nav.support}
-            </a>
-            <LangToggle lang={lang} paths={paths} />
-          </div>
-        </div>
-      </header>
+      <DocHeader
+        home={HOME}
+        links={[
+          { href: HOME, label: c.nav.home },
+          { href: SUPPORT, label: c.nav.support },
+        ]}
+        lang={lang}
+        paths={paths}
+      />
 
       <main className={d.doc}>
         <div className="container">
@@ -103,17 +93,15 @@ export default function Legal({
         </div>
       </main>
 
-      <footer className={`doc-foot ${d.foot}`}>
-        <div className={`container ${d["foot-inner"]}`}>
-          <span className="mono">© 2026 SyncRun Labs</span>
-          <div className={d["foot-links"]}>
-            <a href={HOME}>{c.foot.home}</a>
-            <a href={COMPANY}>{c.foot.company}</a>
-            <a href={SUPPORT}>{c.foot.support}</a>
-            <a href={MAILTO}>{c.foot.contact}</a>
-          </div>
-        </div>
-      </footer>
+      <DocFooter
+        owner="SyncRun Labs"
+        links={[
+          { href: HOME, label: c.foot.home },
+          { href: COMPANY, label: c.foot.company },
+          { href: SUPPORT, label: c.foot.support },
+          { href: MAILTO, label: c.foot.contact },
+        ]}
+      />
     </>
   );
 }
