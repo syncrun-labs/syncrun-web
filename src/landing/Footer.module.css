@@ -106,3 +106,12 @@
 .mailto:hover {
   color: var(--accent);
 }
+
+/* 좁은 화면에서는 링크 묶음을 두 열로 놓아 푸터 높이를 줄인다 */
+@media (width <= 560px) {
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 24px;
+  }
+}
