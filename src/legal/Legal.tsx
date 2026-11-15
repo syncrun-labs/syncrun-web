@@ -1,6 +1,5 @@
 "use client";
 
-import "../styles/support.css";
 import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
 
@@ -13,6 +12,7 @@ import { langPath } from "../site/config";
 import { legalCopy } from "../i18n/legal";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import { LEGAL_DOCS, type LegalDocKey } from "./docs";
+import d from "../ui/doc.module.css";
 
 const MAILTO = supportMailto("[SyncRun 문의]");
 
@@ -38,16 +38,16 @@ export default function Legal({
 
   return (
     <>
-      <header className="doc-nav">
-        <div className="container doc-nav__inner">
-          <a href={HOME} className="doc-nav__brand">
-            <Image src={wordmark} alt="SyncRun" className="doc-nav__wordmark" priority />
+      <header className={`doc-nav ${d.nav}`}>
+        <div className={`container ${d["nav-inner"]}`}>
+          <a href={HOME} className={d["nav-brand"]}>
+            <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
           </a>
-          <div className="doc-nav__actions">
-            <a href={HOME} className="doc-nav__link">
+          <div className={d["nav-actions"]}>
+            <a href={HOME} className={d["nav-link"]}>
               {c.nav.home}
             </a>
-            <a href={SUPPORT} className="doc-nav__link">
+            <a href={SUPPORT} className={d["nav-link"]}>
               {c.nav.support}
             </a>
             <LangToggle lang={lang} paths={paths} />
@@ -55,12 +55,12 @@ export default function Legal({
         </div>
       </header>
 
-      <main className="doc">
+      <main className={d.doc}>
         <div className="container">
-          <section className="doc__head">
+          <section className={d.head}>
             <span className="doc__kicker">Legal</span>
-            <h1 className="doc__title">{c.head.title}</h1>
-            <p className="lede doc__lede">{c.head.lede}</p>
+            <h1 className={d.title}>{c.head.title}</h1>
+            <p className={`lede ${d.lede}`}>{c.head.lede}</p>
           </section>
 
           {c.notice ? (
@@ -70,11 +70,11 @@ export default function Legal({
               ))}
               <p>
                 {c.notice.askPrefix}
-                <a href={MAILTO} className="doc__inline-link">
+                <a href={MAILTO} className={d["inline-link"]}>
                   {SUPPORT_EMAIL}
                 </a>
                 {c.notice.askMiddle}
-                <a href={COMPANY} className="doc__inline-link">
+                <a href={COMPANY} className={d["inline-link"]}>
                   {c.notice.askLink}
                 </a>
                 {c.notice.askSuffix}
@@ -103,10 +103,10 @@ export default function Legal({
         </div>
       </main>
 
-      <footer className="doc-foot">
-        <div className="container doc-foot__inner">
+      <footer className={`doc-foot ${d.foot}`}>
+        <div className={`container ${d["foot-inner"]}`}>
           <span className="mono">© 2026 SyncRun Labs</span>
-          <div className="doc-foot__links">
+          <div className={d["foot-links"]}>
             <a href={HOME}>{c.foot.home}</a>
             <a href={COMPANY}>{c.foot.company}</a>
             <a href={SUPPORT}>{c.foot.support}</a>

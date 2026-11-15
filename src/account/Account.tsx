@@ -1,7 +1,5 @@
-import "../styles/support.css";
 import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
-import "../styles/account.css";
 
 import LangToggle from "../components/LangToggle";
 import { accountCopy } from "../i18n/account";
@@ -9,6 +7,7 @@ import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
 import { langBase } from "../site/config";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
+import d from "../ui/doc.module.css";
 
 const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
@@ -25,76 +24,76 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
 
   return (
     <>
-      <header className="doc-nav">
-        <div className="container doc-nav__inner">
-          <a href={HOME} className="doc-nav__brand">
-            <Image src={wordmark} alt="SyncRun" className="doc-nav__wordmark" priority />
+      <header className={`doc-nav ${d.nav}`}>
+        <div className={`container ${d["nav-inner"]}`}>
+          <a href={HOME} className={d["nav-brand"]}>
+            <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
           </a>
-          <div className="doc-nav__actions">
-            <a href={HOME} className="doc-nav__link">
+          <div className={d["nav-actions"]}>
+            <a href={HOME} className={d["nav-link"]}>
               {c.nav.home}
             </a>
-            <a href={SUPPORT} className="doc-nav__link">
+            <a href={SUPPORT} className={d["nav-link"]}>
               {c.nav.support}
             </a>
             <LangToggle lang={lang} paths={paths} />
-            <a href={MAILTO} className="btn btn-primary doc-nav__cta">
+            <a href={MAILTO} className={`btn btn-primary ${d["nav-cta"]}`}>
               {c.nav.cta}
             </a>
           </div>
         </div>
       </header>
 
-      <main className="doc">
+      <main className={d.doc}>
         <div className="container">
-          <section className="doc__head">
-            <h1 className="doc__title">{c.head.title}</h1>
-            <p className="lede doc__lede">{c.head.lede}</p>
+          <section className={d.head}>
+            <h1 className={d.title}>{c.head.title}</h1>
+            <p className={`lede ${d.lede}`}>{c.head.lede}</p>
           </section>
 
-          <section className="doc__section" id="in-app">
-            <h2 className="h2 doc__h2">{c.inApp.heading}</h2>
-            <p className="doc__section-lede">{c.inApp.lede}</p>
-            <ol className="doc__faq doc__faq--steps">
+          <section className={d.section} id="in-app">
+            <h2 className={`h2 ${d.heading}`}>{c.inApp.heading}</h2>
+            <p className={d["section-lede"]}>{c.inApp.lede}</p>
+            <ol className={`${d.faq} ${d.steps}`}>
               {c.inApp.steps.map((step, i) => (
-                <li key={step} className="doc__qa">
-                  <span className="doc__qa-num mono tabular">{String(i + 1).padStart(2, "0")}</span>
-                  <div className="doc__qa-body">
-                    <p className="doc__qa-a">{step}</p>
+                <li key={step} className={d.qa}>
+                  <span className={`mono tabular ${d["qa-num"]}`}>{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <p className={d["qa-a"]}>{step}</p>
                   </div>
                 </li>
               ))}
             </ol>
           </section>
 
-          <section className="doc__section" id="deleted">
-            <h2 className="h2 doc__h2">{c.deleted.heading}</h2>
-            <p className="doc__section-lede">{c.deleted.lede}</p>
-            <div className="doc__cols">
+          <section className={d.section} id="deleted">
+            <h2 className={`h2 ${d.heading}`}>{c.deleted.heading}</h2>
+            <p className={d["section-lede"]}>{c.deleted.lede}</p>
+            <div className={d.cols}>
               {c.deleted.cols.map((col) => (
                 <div key={col.h}>
-                  <h3 className="doc__h3">{col.h}</h3>
+                  <h3 className={d.subheading}>{col.h}</h3>
                   {col.items ? (
-                    <ul className="doc__list">
+                    <ul className={`${d.list} ${d.compact}`}>
                       {col.items.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
                   ) : null}
-                  <p className="doc__p">{col.p}</p>
+                  <p className={d.p}>{col.p}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="doc__section" id="device">
-            <h2 className="h2 doc__h2">{c.device.heading}</h2>
-            <p className="doc__section-lede">{c.device.lede}</p>
-            <div className="doc__cols">
+          <section className={d.section} id="device">
+            <h2 className={`h2 ${d.heading}`}>{c.device.heading}</h2>
+            <p className={d["section-lede"]}>{c.device.lede}</p>
+            <div className={d.cols}>
               {c.device.cols.map((col) => (
                 <div key={col.h}>
-                  <h3 className="doc__h3">{col.h}</h3>
-                  <p className="doc__p">{col.p}</p>
+                  <h3 className={d.subheading}>{col.h}</h3>
+                  <p className={d.p}>{col.p}</p>
                 </div>
               ))}
             </div>
@@ -104,40 +103,40 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
             { id: "subscription", copy: c.subscription },
             { id: "records", copy: c.records },
           ].map(({ id, copy }) => (
-            <section key={id} className="doc__section" id={id}>
-              <h2 className="h2 doc__h2">{copy.heading}</h2>
-              <p className="doc__section-lede">{copy.lede}</p>
-              <div className="doc__cols">
+            <section key={id} className={d.section} id={id}>
+              <h2 className={`h2 ${d.heading}`}>{copy.heading}</h2>
+              <p className={d["section-lede"]}>{copy.lede}</p>
+              <div className={d.cols}>
                 {copy.cols.map((col) => (
                   <div key={col.h}>
-                    <h3 className="doc__h3">{col.h}</h3>
-                    <p className="doc__p">{col.p}</p>
+                    <h3 className={d.subheading}>{col.h}</h3>
+                    <p className={d.p}>{col.p}</p>
                   </div>
                 ))}
               </div>
             </section>
           ))}
 
-          <section className="doc__section" id="email">
-            <h2 className="h2 doc__h2">{c.email.heading}</h2>
-            <p className="doc__section-lede">{c.email.lede}</p>
-            <div className="glass doc__contact">
-              <div className="doc__contact-main">
-                <span className="doc__label mono">{c.email.label}</span>
-                <a href={DELETE_MAILTO} className="doc__email">
+          <section className={d.section} id="email">
+            <h2 className={`h2 ${d.heading}`}>{c.email.heading}</h2>
+            <p className={d["section-lede"]}>{c.email.lede}</p>
+            <div className={`glass ${d.contact}`}>
+              <div>
+                <span className={`mono ${d.label}`}>{c.email.label}</span>
+                <a href={DELETE_MAILTO} className={d.email}>
                   {EMAIL}
                 </a>
-                <p className="doc__contact-note">
+                <p className={d["contact-note"]}>
                   {c.email.notePrefix}
-                  <a href={PRIVACY} className="doc__inline-link">
+                  <a href={PRIVACY} className={d["inline-link"]}>
                     {c.email.noteLink}
                   </a>
                   {c.email.noteSuffix}
                 </p>
               </div>
-              <div className="doc__contact-side">
-                <span className="doc__label mono">{c.email.sideLabel}</span>
-                <ul className="doc__list">
+              <div className={d["contact-side"]}>
+                <span className={`mono ${d.label}`}>{c.email.sideLabel}</span>
+                <ul className={d.list}>
                   {c.email.checklist.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -146,11 +145,11 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
             </div>
           </section>
 
-          <section className="doc__section" id="contact">
-            <h2 className="h2 doc__h2">{c.contact.heading}</h2>
-            <p className="doc__section-lede">
+          <section className={d.section} id="contact">
+            <h2 className={`h2 ${d.heading}`}>{c.contact.heading}</h2>
+            <p className={d["section-lede"]}>
               {c.contact.prefix}
-              <a href={SUPPORT} className="doc__inline-link">
+              <a href={SUPPORT} className={d["inline-link"]}>
                 {c.contact.link}
               </a>
               {c.contact.suffix}
@@ -159,10 +158,10 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
         </div>
       </main>
 
-      <footer className="doc-foot">
-        <div className="container doc-foot__inner">
+      <footer className={`doc-foot ${d.foot}`}>
+        <div className={`container ${d["foot-inner"]}`}>
           <span className="mono">© 2026 SyncRun Labs</span>
-          <div className="doc-foot__links">
+          <div className={d["foot-links"]}>
             <a href={HOME}>{c.foot.home}</a>
             <a href={SUPPORT}>{c.foot.support}</a>
             <a href={LEGAL}>{c.foot.legal}</a>

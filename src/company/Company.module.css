@@ -1,0 +1,37 @@
+/* 회사 소개의 사업자 정보 표. <table>이 아니라 <dl>이다. 항목·값 두 칸뿐이라 좁은 화면에서 세로로 접혀야 한다 */
+
+.biz {
+  margin: 28px 0 0;
+  border-top: 1px solid var(--glass-edge);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 14rem) 1fr;
+  gap: 8px 28px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--glass-edge);
+}
+
+.key {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  padding-top: 2px;
+}
+
+.value {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+@media (width <= 640px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
