@@ -52,19 +52,15 @@ app/
   sitemap.ts · robots.ts   색인 장치
 src/
   index.css                디자인 토큰(:root: 색·간격·모서리·기기 프레임) · 리셋 · 글래스 · 버튼
-  App.tsx                  랜딩(ProductLanding)과 푸터를 감싼다
   site/                    RootHtml(공유 껍데기) · metadata(제목·canonical·hreflang·og) · config(오리진·경로)
   lib/reveal.ts            축소 모션 · ?reveal=all 판단(첫 화면 모션을 멈춘다)
   lib/useIsAndroid.ts      Android 기기 판정(수화 뒤)
   lib/company.ts           사업자 정보 상수(약관과 같은 값). 회사 소개·랜딩 푸터가 함께 읽는다
-  components/
-    product/               랜딩: 섹션마다 tsx + module.css(Hero · Features · Cards · Reviews · Plans · Faq) · ui · runners
-    sections/Footer.tsx    랜딩 푸터
-    LangToggle.tsx         KO/EN 전환. 상대 언어의 같은 페이지로 가는 링크
-  ui/                      문서형 페이지 공용 틀: Doc.tsx(머리 막대 · 푸터 · 섹션 · 문의 상자)와 doc.module.css
+  landing/                 랜딩: Landing.tsx(본문과 푸터) · ProductLanding.tsx(메뉴 · 마무리) · 섹션마다 tsx + module.css
+                           (Hero · Features · Cards · Reviews · Plans · Faq) · Footer · ui · runners
+  ui/                      여러 페이지가 쓰는 조각: Doc.tsx(머리 막대 · 푸터 · 섹션 · 문의 상자)와 doc.module.css, LangToggle.tsx(KO/EN 전환)
   i18n/                    product.ts(랜딩 본문) · dict.ts(메타·푸터) · support.ts · company.ts · account.ts · legal.ts · lang.tsx
   support/ · company/ · account/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
-  styles/                  sections.css(랜딩 푸터 · 공용 타이포). 나머지 스타일은 각 컴포넌트 옆의 *.module.css
 public/product/            랜딩의 앱 화면 캡처 · 러닝 카드 원본 · App Store QR
 ```
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import calendar from "@/public/product/calendar.jpg";
 import together from "@/public/product/together.jpg";
-import type { ProductCopy } from "../../i18n/product";
+import type { ProductCopy } from "../i18n/product";
 import { barStyle } from "./runners";
 import ui from "./ui.module.css";
 import s from "./Cards.module.css";

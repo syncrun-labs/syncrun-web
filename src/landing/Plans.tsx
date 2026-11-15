@@ -1,4 +1,4 @@
-import type { ProductCopy } from "../../i18n/product";
+import type { ProductCopy } from "../i18n/product";
 import ui from "./ui.module.css";
 import s from "./Plans.module.css";
 

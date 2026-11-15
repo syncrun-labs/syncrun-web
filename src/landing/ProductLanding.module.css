@@ -1,6 +1,7 @@
 /* 랜딩 전체: 밝은 바탕과 앱 화면이 주인공이고, 스크롤 연출은 없다. 푸터까지 감싼다 */
 .page {
   --hair: color-mix(in srgb, var(--ink) 10%, transparent);
+  --maxw: 1200px;
 
   background: var(--bg-base);
 }
@@ -20,15 +21,18 @@
   font-size: clamp(1.9rem, 3.4vw, 3rem);
 }
 
-html:lang(ko) .page h1,
-html:lang(ko) .page h2 {
-  letter-spacing: 0;
-}
-
 .page h3 {
   font-size: 1.06rem;
   font-weight: 700;
   line-height: 1.4;
+}
+
+/* 한글 제목은 자간을 조이지 않는다. 글자상자가 꽉 차 있어 좁히면 뭉친다 */
+html:lang(ko) .page h1,
+html:lang(ko) .page h2,
+html:lang(ko) .page h3 {
+  letter-spacing: 0;
+  line-height: 1.24;
 }
 
 .page h1 em,

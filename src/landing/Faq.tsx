@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type MouseEvent } from "react";
-import type { ProductCopy } from "../../i18n/product";
+import type { ProductCopy } from "../i18n/product";
 import ui from "./ui.module.css";
 import s from "./Faq.module.css";
 

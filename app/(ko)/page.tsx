@@ -1,4 +1,4 @@
-import App from "@/src/App";
+import Landing from "@/src/landing/Landing";
 import { dict } from "@/src/i18n/dict";
 import { buildMetadata } from "@/src/site/metadata";
 import { pathPair } from "@/src/site/config";
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <>
       <LandingStructuredData lang="ko" />
-      <App lang="ko" paths={pathPair(PATH)} />
+      <Landing lang="ko" paths={pathPair(PATH)} />
     </>
   );
 }
