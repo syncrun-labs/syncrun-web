@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import wordmark from "@/public/brand/wordmark.png";
-import LangToggle from "../components/LangToggle";
+import LangToggle from "./LangToggle";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
 import d from "./doc.module.css";

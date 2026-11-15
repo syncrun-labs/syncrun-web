@@ -1,5 +1,5 @@
 import live from "@/public/product/live.jpg";
-import type { ProductCopy } from "../../i18n/product";
+import type { ProductCopy } from "../i18n/product";
 import { FeatureList, Screen } from "./ui";
 import { RUNNERS } from "./runners";
 import ui from "./ui.module.css";

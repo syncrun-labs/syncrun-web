@@ -1,10 +1,10 @@
 import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
-import LangToggle from "../LangToggle";
-import type { Lang } from "../../i18n/dict";
-import type { LangPaths } from "../../i18n/lang";
-import { langBase } from "../../site/config";
-import { productCopy, type ProductCopy } from "../../i18n/product";
+import LangToggle from "../ui/LangToggle";
+import type { Lang } from "../i18n/dict";
+import type { LangPaths } from "../i18n/lang";
+import { langBase } from "../site/config";
+import { productCopy, type ProductCopy } from "../i18n/product";
 import Cards from "./Cards";
 import Faq from "./Faq";
 import Features from "./Features";

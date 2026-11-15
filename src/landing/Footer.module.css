@@ -1,0 +1,108 @@
+/* 랜딩 푸터: 로고와 한 줄 소개, 링크 묶음, 사업자 정보, 저작권과 문의 메일 */
+
+.footer {
+  border-top: 1px solid var(--glass-edge);
+  padding-top: 66px;
+  padding-bottom: 40px;
+  background: var(--bg);
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding-bottom: 48px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.wordmark {
+  height: 34px;
+  width: auto;
+}
+
+.tag {
+  margin-top: 16px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.cols {
+  display: flex;
+  gap: 64px;
+  flex-wrap: wrap;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.head {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  /* 작은 글씨라 4.5:1이 필요하다. faint는 1.61:1로 한참 못 미친다 */
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.col a {
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.col a:hover {
+  color: var(--ink);
+}
+
+.biz {
+  padding-bottom: 22px;
+}
+
+.biz .head {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.line {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 26px;
+  border-top: 1px solid var(--glass-edge);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.mailto {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.mailto:hover {
+  color: var(--accent);
+}
