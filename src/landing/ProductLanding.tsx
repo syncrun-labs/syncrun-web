@@ -11,7 +11,8 @@ import Features from "./Features";
 import Hero from "./Hero";
 import Plans from "./Plans";
 import Reviews from "./Reviews";
-import { StoreButton } from "./ui";
+import { StoreButton, type StoreLink } from "./ui";
+import { appStoreUrl } from "../lib/app-store";
 import ui from "./ui.module.css";
 import s from "./ProductLanding.module.css";
 
@@ -22,7 +23,7 @@ function Nav({
   paths,
 }: {
   items: ProductCopy["nav"];
-  store: string;
+  store: StoreLink;
   lang: Lang;
   paths: LangPaths;
 }) {
@@ -41,14 +42,14 @@ function Nav({
         </nav>
         <div className={s.end}>
           <LangToggle lang={lang} paths={paths} />
-          <StoreButton label={store} className={s.compact} />
+          <StoreButton store={store} className={s.compact} />
         </div>
       </div>
     </header>
   );
 }
 
-function Closing({ copy, store, base }: { copy: ProductCopy["closing"]; store: string; base: string }) {
+function Closing({ copy, store, base }: { copy: ProductCopy["closing"]; store: StoreLink; base: string }) {
   return (
     <section className={s.closing}>
       <h2>
@@ -58,7 +59,7 @@ function Closing({ copy, store, base }: { copy: ProductCopy["closing"]; store: s
       </h2>
       <p className={ui.lede}>{copy.lede}</p>
       <div className={s.actions}>
-        <StoreButton label={store} />
+        <StoreButton store={store} />
         <a className={ui.link} href={`${base}/support`}>
           {copy.help}
         </a>
@@ -77,18 +78,19 @@ function Closing({ copy, store, base }: { copy: ProductCopy["closing"]; store: s
 export default function ProductLanding({ lang, paths }: { lang: Lang; paths: LangPaths }) {
   const base = langBase(lang);
   const c = productCopy[lang];
+  const store = { label: c.store, href: appStoreUrl(lang) };
 
   return (
     <>
-      <Nav items={c.nav} store={c.store} lang={lang} paths={paths} />
+      <Nav items={c.nav} store={store} lang={lang} paths={paths} />
       <main id="top">
-        <Hero copy={c.hero} store={c.store} />
+        <Hero copy={c.hero} store={store} />
         <Features how={c.how} together={c.together} solo={c.solo} crew={c.crew} />
         <Cards copy={c.card} />
         <Reviews copy={c.reviews} />
         <Plans copy={c.plans} />
         <Faq copy={c.faq} base={base} />
-        <Closing copy={c.closing} store={c.store} base={base} />
+        <Closing copy={c.closing} store={store} base={base} />
       </main>
     </>
   );

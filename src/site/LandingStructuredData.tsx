@@ -1,9 +1,10 @@
 import { dict, type Lang } from "../i18n/dict";
-import { APP_STORE_URL } from "../lib/app-store";
+import { appStoreUrl } from "../lib/app-store";
 import { COMPANY } from "../lib/company";
 import { langPath, SITE_ORIGIN } from "./config";
 
 export default function LandingStructuredData({ lang }: { lang: Lang }) {
+  const storeUrl = appStoreUrl(lang);
   const organizationId = `${SITE_ORIGIN}/#organization`;
   const data = {
     "@context": "https://schema.org",
@@ -26,8 +27,8 @@ export default function LandingStructuredData({ lang }: { lang: Lang }) {
         inLanguage: lang,
         applicationCategory: "HealthApplication",
         operatingSystem: "iOS 18.0+",
-        installUrl: APP_STORE_URL,
-        offers: { "@type": "Offer", price: 0, url: APP_STORE_URL },
+        installUrl: storeUrl,
+        offers: { "@type": "Offer", price: 0, url: storeUrl },
         publisher: { "@id": organizationId },
       },
     ],

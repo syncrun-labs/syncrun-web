@@ -9,7 +9,7 @@ import storeQr from "@/public/product/store-qr.svg";
 import type { ProductCopy } from "../i18n/product";
 import { shouldSkipReveal } from "../lib/reveal";
 import { useIsAndroid } from "../lib/useIsAndroid";
-import { Phone, StoreButton } from "./ui";
+import { Phone, StoreButton, type StoreLink } from "./ui";
 import ui from "./ui.module.css";
 import s from "./Hero.module.css";
 
@@ -17,7 +17,7 @@ import s from "./Hero.module.css";
  * 첫 화면. 두 폰이 다가와 맞닿고, 닿는 순간 화면이 그룹으로 바뀌며 원이 퍼진다.
  * 브라우저에서만 알 수 있는 두 가지(축소 모션·`?reveal=all`, Android 기기) 때문에 클라이언트 컴포넌트다.
  */
-export default function Hero({ copy, store }: { copy: ProductCopy["hero"]; store: string }) {
+export default function Hero({ copy, store }: { copy: ProductCopy["hero"]; store: StoreLink }) {
   const artRef = useRef<HTMLDivElement>(null);
   const isAndroid = useIsAndroid();
 
@@ -38,7 +38,7 @@ export default function Hero({ copy, store }: { copy: ProductCopy["hero"]; store
         </h1>
         <p className={ui.lede}>{copy.lede}</p>
         <div className={s.cta}>
-          <StoreButton label={store} />
+          <StoreButton store={store} />
           <span className={ui.note}>{copy.note}</span>
         </div>
         {isAndroid && <p className={s.android}>{copy.android}</p>}
