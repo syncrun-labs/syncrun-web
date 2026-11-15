@@ -27,7 +27,6 @@
     "admin:verify": "npm --prefix admin run lint && npm --prefix admin test && npm run admin:build"
   },
   "dependencies": {
-    "framer-motion": "^11.18.2",
     "next": "^16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
