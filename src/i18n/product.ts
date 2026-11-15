@@ -67,7 +67,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
     store: "App Store에서 받기",
     hero: {
       title: ["폰을 맞대면", "바로 함께 뛰는", "러닝 앱."],
-      lede: "SyncRun은 크루와 혼자 뛰는 러너 모두를 위한 러닝 앱이에요. 옆 사람과 폰을 맞대면 그 자리에서 그룹이 되고, 함께 달린 기록은 카드 한 장으로 남아요.",
+      lede: "SyncRun은 옆 사람과 폰을 맞대면 바로 함께 뛰는 러닝 앱이에요. 함께 달린 기록은 카드로 남아요.",
       note: "무료 · iPhone · iOS 18 이상",
       android: "Android 앱은 준비하고 있어요. 지금은 iPhone에서 쓸 수 있어요.",
       qr: "iPhone 카메라로 스캔해서 받기",
@@ -79,76 +79,68 @@ export const productCopy: Record<Lang, ProductCopy> = {
       steps: [
         {
           k: "폰을 맞대요",
-          v: "함께 뛸 사람과 폰을 1m 안으로 가까이 대고 1초쯤 기다리면 그룹이 돼요.",
+          v: "1m 안에서 1초쯤 대고 있으면 그룹이 돼요.",
         },
         {
           k: "동시에 출발해요",
-          v: "마지막 사람이 시작을 누르면 모두의 화면에 같은 3·2·1이 떠요.",
+          v: "마지막 사람이 시작을 누르면 다 같이 3·2·1이 떠요.",
         },
         {
           k: "카드가 남아요",
-          v: "다 뛰고 나면 각자의 경로가 겹친 기록 카드가 이미 만들어져 있어요.",
+          v: "다 뛰면 모두의 경로가 담긴 카드가 생겨요.",
         },
       ],
     },
     together: {
       title: ["흩어져 달려도", "서로가 보여요."],
-      lede: "방을 만들거나 친구를 추가하지 않아도 돼요. 달리는 동안 서로의 위치와 페이스가 한 화면에 보여요.",
+      lede: "달리는 동안 서로의 위치와 페이스가 한 화면에 보여요.",
       facts: [
         {
           k: "폰을 맞댄 사람만 들어와요",
-          v: "200명이 뛰는 강변에서도 옆을 스쳐 가는 사람은 그룹에 들어오지 않아요.",
+          v: "옆을 스쳐 가는 사람은 들어오지 않아요.",
         },
         {
           k: "한 번 눌러 응원해요",
-          v: "이름을 누르면 그 사람 손목에 하이파이브가 전해져요.",
+          v: "이름을 누르면 손목에 하이파이브가 가요.",
         },
         {
           k: "위치는 같이 뛰는 사람에게만 보여요",
-          v: "실시간 위치는 같은 세션의 러너에게 러닝 중에만 보이고 언제든 끌 수 있어요.",
-        },
-        {
-          k: "마지막 사람이 들어오면 끝나요",
-          v: "종료는 각자 하고, 모두 들어오면 합산 거리와 하이라이트가 완성돼요.",
+          v: "러닝 중에만 보이고 언제든 끌 수 있어요.",
         },
       ],
       alt: "러닝 중 화면. 거리와 평균 페이스 아래 지도에 함께 달리는 세 사람의 위치와 페이스가 보인다",
     },
     solo: {
       title: ["혼자 뛰는 날도", "기록은 빠짐없이."],
-      lede: "아무와도 폰을 맞대지 않으면 같은 버튼으로 혼자 뛰기가 시작돼요. 모드를 따로 고를 필요가 없어요.",
+      lede: "아무와도 맞대지 않으면 같은 버튼으로 혼자 뛰기가 시작돼요.",
       facts: [
         {
           k: "신호가 끊겨도 거리는 이어져요",
-          v: "지하차도처럼 위치 신호가 약한 곳에서는 걸음 수로 거리를 이어 가요.",
+          v: "지하차도에서는 걸음 수로 이어 재요.",
         },
         {
           k: "음성 안내를 들으며 목표에 맞춰 달려요",
-          v: "거리와 페이스, 심박을 음성으로 알려 주고 거리·시간·목표 페이스를 정해 달릴 수 있어요.",
+          v: "거리, 페이스, 심박을 들으며 목표에 맞춰 달려요.",
         },
         {
           k: "Apple Watch만 차고 나가도 돼요",
-          v: "폰 없이 달려도 경로와 심박, 1km 구간 기록이 똑같이 남아요.",
-        },
-        {
-          k: "한 달이 달력에 쌓여요",
-          v: "스트릭과 활동 통계로 그동안의 러닝을 보고, 한 달 달력을 이미지 한 장으로 공유해요.",
+          v: "폰 없이도 경로와 심박이 남아요.",
         },
       ],
     },
     card: {
       title: ["달린 기록을", "카드로 공유해요."],
-      lede: "앱에서 바로 스토리나 사진으로 올릴 수 있어요. 사진을 깔고 템플릿을 바꾸거나 경로와 기록의 자리를 옮겨 꾸며도 돼요.",
+      lede: "앱에서 바로 스토리나 사진으로 올려요.",
       shotsLabel: "카드 예시",
       shots: [
         {
           caption: "함께 달린 경로를 담은 단체 카드",
-          body: "같이 달린 사람들의 경로가 한 장에 나란히 모여요. 그날 찍은 사진을 깔면 기록이 사진 위에 얹혀요.",
+          body: "같이 달린 경로가 그날 사진 위에 모여요.",
           alt: "대릉원 앞에 선 네 사람 사진 위에 열 명의 경로와 평균 거리, 시간, 페이스를 담은 단체 카드",
         },
         {
           caption: "한 달의 러닝을 모은 달력 카드",
-          body: "달린 날마다 그날의 사진과 경로가 달력 칸을 채워요. 몇 주째 이어 달리고 있는지도 함께 보여요.",
+          body: "달린 날마다 사진과 경로가 칸을 채워요.",
           alt: "9월 달력에 러닝 사진과 경로를 채운 카드. 7주 연속, 13일, 46.4km 기록",
         },
       ],
@@ -156,26 +148,24 @@ export const productCopy: Record<Lang, ProductCopy> = {
     crew: {
       title: ["매주 같이 뛴다면", "크루를 만들어 보세요."],
       pains: [
-        "“공지는 단톡방에 올리고, 출석은 손으로 체크해요.”",
-        "“정기런 전날이면 누가 오는지 다시 물어봐요.”",
-        "“한 달 동안 누가 얼마나 뛰었는지는 따로 정리해요.”",
+        "“공지는 단톡방에, 출석은 손으로 체크해요.”",
       ],
-      lede: "크루를 만들면 이 일을 앱이 대신해요. 그때그때 만들어지는 그룹과 달리 크루는 러닝이 끝나도 남아요.",
+      lede: "크루를 만들면 이 일을 앱이 대신해요.",
       facts: [
         {
           k: "출석은 자동으로",
-          v: "크루원끼리 폰을 맞대고 뛰면 출석이 기록돼요. 따로 출석을 부를 필요가 없어요.",
+          v: "크루원끼리 맞대고 뛰면 출석이 남아요.",
         },
         {
           k: "정기런 알림은 앱이 대신",
-          v: "전날 저녁과 시작 10분 전에 크루원 모두에게 알림이 가요.",
+          v: "전날 저녁과 시작 10분 전에 알려 줘요.",
         },
         {
           k: "함께 쌓은 기록은 리캡으로",
-          v: "한 달과 한 해의 합산 거리, 세션 수, 출석왕, 출석·거리 랭킹을 볼 수 있어요.",
+          v: "한 달, 한 해의 거리와 출석왕을 봐요.",
         },
       ],
-      note: "크루를 만들려면 Crew 플랜이 필요해요. 크루원으로 들어가는 데는 플랜이 없어도 돼요.",
+      note: "크루장은 Crew 플랜이 필요하고, 크루원은 플랜 없이 들어와요.",
     },
     reviews: {
       title: "먼저 뛰어 본 러너들의 이야기",
@@ -193,7 +183,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
     },
     plans: {
       title: "무료로 시작하세요.",
-      lede: "측정과 기록, 함께 뛰기는 무료예요. 더 많은 사람과 뛰거나 기록을 더 자세히 보고 싶을 때 플랜을 고르면 돼요.",
+      lede: "측정과 기록, 함께 뛰기는 무료예요.",
       items: [
         {
           name: "무료",
@@ -217,7 +207,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
           items: ["Plus의 모든 혜택", "크루 만들기와 관리", "정기런·출석·리캡"],
         },
       ],
-      note: "인원은 나를 포함한 수예요. 그룹에서 한 사람만 구독해도 그 자리의 모두가 함께 뛸 수 있어요. 가격과 무료 체험은 App Store에서 확인하세요.",
+      note: "인원은 나를 포함한 수예요. 한 사람만 구독해도 모두 함께 뛰어요.",
     },
     faq: {
       title: "자주 묻는 질문",
@@ -246,7 +236,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
       more: "더 궁금한 점은 지원 페이지에서",
     },
     closing: {
-      title: ["오늘 저녁,", "한 줄 긋고 오세요."],
+      title: ["다음 러닝은,", "폰을 맞대고 시작해요."],
       lede: "App Store에서 무료로 받을 수 있어요. iPhone · iOS 18 이상.",
       help: "도움이 필요하면",
     },
@@ -263,7 +253,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
     store: "Download on the App Store",
     hero: {
       title: ["Bring your phones", "together, and run", "as a group."],
-      lede: "Hold your phone close to the person next to you and you're a group on the spot. The run you share becomes a single card, and on solo days the same button starts your run.",
+      lede: "SyncRun is a running app where touching phones with the person next to you starts a group run. The run you share ends up on a card.",
       note: "Free · iPhone · iOS 18 or later",
       android: "The Android app is on its way. For now, SyncRun is on iPhone.",
       qr: "Scan with your iPhone camera",
@@ -275,76 +265,68 @@ export const productCopy: Record<Lang, ProductCopy> = {
       steps: [
         {
           k: "Bring your phones together",
-          v: "Hold phones within 1 m for about a second and you're a group.",
+          v: "Hold phones within 1 m for a second and you're a group.",
         },
         {
           k: "Start at the same moment",
-          v: "When the last person taps start, everyone's screen counts down 3·2·1 together.",
+          v: "When the last person taps start, everyone counts down 3·2·1.",
         },
         {
           k: "Keep the card",
-          v: "When you finish, a card with everyone's overlapping routes is already made.",
+          v: "When you finish, a card with everyone's routes is ready.",
         },
       ],
     },
     together: {
       title: ["Spread out,", "and still see each other."],
-      lede: "No rooms to create, no friends to add. While you run, everyone's position and pace stay on one screen.",
+      lede: "While you run, everyone's position and pace stay on one screen.",
       facts: [
         {
           k: "Only the phones you gather join",
-          v: "Even on a riverside with 200 runners, phones passing by stay out.",
+          v: "Runners passing by stay out.",
         },
         {
           k: "Cheer with one tap",
-          v: "Tap a name and a high five lands on that runner's wrist.",
+          v: "Tap a name to send a high five to their wrist.",
         },
         {
           k: "Location stays in the group",
-          v: "Live location is visible only to runners in your session, only during the run, and you can turn it off anytime.",
-        },
-        {
-          k: "Finish together",
-          v: "Each runner ends on their own. When the last one is in, the total and highlights are complete.",
+          v: "Only during the run, and you can turn it off anytime.",
         },
       ],
       alt: "The running screen. Below distance and average pace, a map shows three runners and their paces",
     },
     solo: {
       title: ["On solo days,", "every step still counts."],
-      lede: "If you haven't gathered with anyone, the same button simply starts your solo run. There are no modes to choose.",
+      lede: "If you haven't touched phones with anyone, the same button starts a solo run.",
       facts: [
         {
           k: "Distance survives lost signal",
-          v: "Where location is weak, like an underpass, your steps carry the distance.",
+          v: "In an underpass, your steps carry the distance.",
         },
         {
           k: "Listen, and run to a goal",
-          v: "Hear distance, pace, and heart rate by voice, and set a distance, time, or pace goal.",
+          v: "Hear distance, pace, and heart rate as you run to a goal.",
         },
         {
           k: "Leave the phone, keep the watch",
-          v: "With just Apple Watch, your route, heart rate, and 1 km splits are recorded the same way.",
-        },
-        {
-          k: "A month becomes a calendar",
-          v: "See your streak and activity stats, then share the month as one image.",
+          v: "No phone needed. Route and heart rate are still recorded.",
         },
       ],
     },
     card: {
       title: ["When you finish,", "the card is already there."],
-      lede: "Create a card right in the app and share it as a story or photo. Add a photo, switch templates, and move your route and stats around.",
+      lede: "Share it as a story or photo, right from the app.",
       shotsLabel: "Card examples",
       shots: [
         {
           caption: "A group card with everyone's routes",
-          body: "Everyone's route lines up on a single card. Put a photo from the day underneath and your stats sit on top.",
+          body: "Everyone's routes come together on a photo from the day.",
           alt: "A photo of four people standing at the Daereungwon tombs, with ten runners' routes, average distance, time, and pace",
         },
         {
           caption: "A calendar card of a month of runs",
-          body: "Each day you ran fills its square with that day's photo and route, along with how many weeks in a row you've kept going.",
+          body: "Each day you ran fills its square with a photo and route.",
           alt: "A September calendar with run photos and routes, showing 7 weeks on, 13 days, and 46.4 km",
         },
       ],
@@ -352,26 +334,24 @@ export const productCopy: Record<Lang, ProductCopy> = {
     crew: {
       title: ["Run together every week?", "Make it a crew."],
       pains: [
-        "“I post notices in the group chat and check attendance by hand.”",
-        "“The night before every regular run, I ask again who's coming.”",
-        "“I keep my own tally of who ran how much each month.”",
+        "“Notices go in the group chat, and I check attendance by hand.”",
       ],
-      lede: "With a crew, the app does this for you. Unlike a group formed on the spot, a crew stays after the run.",
+      lede: "With a crew, the app does this for you.",
       facts: [
         {
           k: "Attendance takes care of itself",
-          v: "When crew members gather and run, attendance is recorded. No roll call needed.",
+          v: "When crew members touch phones and run, attendance is recorded.",
         },
         {
           k: "Reminders for regular runs",
-          v: "Everyone gets a notification the evening before and 10 minutes before the start.",
+          v: "Reminders go out the evening before and 10 minutes before.",
         },
         {
           k: "Recaps of what you built",
-          v: "See monthly and yearly totals, sessions, top attendee, and attendance and distance rankings.",
+          v: "See monthly and yearly distance and your top attendee.",
         },
       ],
-      note: "Creating a crew is part of the Crew plan. Joining a crew doesn't require a plan.",
+      note: "The crew leader needs the Crew plan. Members join without one.",
     },
     reviews: {
       title: "What early runners say",
@@ -390,7 +370,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
     },
     plans: {
       title: "Start for free.",
-      lede: "Tracking, records, and running together are free. Choose a plan when you want to run with more people or look deeper into your runs.",
+      lede: "Tracking, records, and running together are free.",
       items: [
         {
           name: "Free",
@@ -414,7 +394,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
           items: ["Everything in Plus", "Create and manage a crew", "Regular runs, attendance, recaps"],
         },
       ],
-      note: "Counts include you. One subscriber is enough for everyone in the group. Prices and free trials are shown on the App Store.",
+      note: "Counts include you. One subscriber is enough for the whole group.",
     },
     faq: {
       title: "Frequently asked questions",
@@ -443,7 +423,7 @@ export const productCopy: Record<Lang, ProductCopy> = {
       more: "More answers on the support page",
     },
     closing: {
-      title: ["This evening,", "go draw a line."],
+      title: ["Your next run", "starts with a tap of phones."],
       lede: "Free on the App Store. iPhone · iOS 18 or later.",
       help: "Need help?",
     },
