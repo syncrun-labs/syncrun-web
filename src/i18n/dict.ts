@@ -31,7 +31,7 @@ export const dict: Record<Lang, Dict> = {
         "옆 사람과 폰을 맞대면 그 자리에서 함께 뛰는 러닝 앱. 혼자 뛰는 날도 같은 버튼으로 시작하고, 끝나면 함께 달린 경로가 카드 한 장으로 남아요.",
     },
     footer: {
-      tagline: "달린 길은 선이 되고,\n같이 달린 길은 겹친다.",
+      tagline: "폰을 맞대면,\n같이 달린 기록이 한 장에 남아요.",
       cols: [
         {
           head: "제품",
@@ -75,7 +75,7 @@ export const dict: Record<Lang, Dict> = {
         "Run alone and it's one line. Bring your phones together and it's several. SyncRun measures with GPS and your steps, and turns the lines you ran together into one card.",
     },
     footer: {
-      tagline: "Every run leaves a line.\nRun together, and they overlap.",
+      tagline: "Touch phones,\nand the run you shared lands on one card.",
       cols: [
         {
           head: "Product",
