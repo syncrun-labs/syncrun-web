@@ -1,27 +1,24 @@
-/* =========================================================================
-   문서형 페이지 (지원) — 랜딩과 같은 토큰, 읽기 위한 레이아웃
-   위계는 타이포와 헤어라인으로 만든다. 장식 레이어는 두지 않는다.
-   ========================================================================= */
+/* 문서형 페이지(지원·회사 소개·계정 삭제·약관)가 같이 쓰는 레이아웃: 머리 막대, 본문 머리, 문의 상자,
+   섹션, 질문 목록, 권한 격자, 열, 푸터. 위계는 타이포와 헤어라인으로 만든다. 장식 레이어는 두지 않는다. */
 
 /* -------------------------------------------------------------- 상단 바 */
-.doc-nav {
+.nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.72);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
   backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
   box-shadow: 0 1px 0 var(--glass-edge);
 }
 
-.doc-nav__inner {
+.nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
 }
 
-.doc-nav__brand {
+.nav-brand {
   display: inline-flex;
   align-items: center;
   gap: 9px;
@@ -31,19 +28,19 @@
   color: var(--ink);
 }
 
-.doc-nav__wordmark {
+.nav-wordmark {
   height: 32px;
   width: auto;
 }
 
-.doc-nav__actions {
+.nav-actions {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
 /* 「홈」처럼 짧은 링크도 24×24px 이상 눌리게 안쪽 여백으로 넓히고, 같은 크기의 음수 바깥 여백으로 배치는 그대로 둔다 */
-.doc-nav__link {
+.nav-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -56,11 +53,11 @@
   transition: color 0.2s ease;
 }
 
-.doc-nav__link:hover {
+.nav-link:hover {
   color: var(--ink);
 }
 
-.doc-nav__cta {
+.nav-cta {
   height: 38px;
   font-size: 14px;
   padding-inline: 18px;
@@ -71,30 +68,30 @@
   padding-bottom: clamp(72px, 9vw, 120px);
 }
 
-.doc__head {
+.head {
   padding-top: clamp(56px, 8vw, 96px);
   padding-bottom: clamp(28px, 4vw, 44px);
   max-width: 46rem;
 }
 
-.doc__title {
+.title {
   margin: 18px 0 0;
   font-size: clamp(2.6rem, 6vw, 4.2rem);
   letter-spacing: -0.045em;
 }
 
-.doc__lede {
+.lede {
   margin-top: 16px;
   word-break: keep-all;
 }
 
-.doc__meta {
+.meta {
   margin-top: 20px;
   font-size: 13px;
   color: var(--text-tertiary);
 }
 
-.doc__label {
+.label {
   display: block;
   font-size: 11px;
   font-weight: 600;
@@ -104,7 +101,7 @@
 }
 
 /* -------------------------------------------------------------- 문의 */
-.doc__contact {
+.contact {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: clamp(24px, 4vw, 56px);
@@ -112,34 +109,34 @@
   border-radius: 28px;
 }
 
-.doc__email {
+.email {
   display: inline-block;
   margin-top: 12px;
   font-size: clamp(1.35rem, 3vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--ink);
-  border-bottom: 2px solid var(--cobalt);
+  border-bottom: 2px solid var(--accent-core);
   transition: color 0.2s ease;
   overflow-wrap: anywhere;
 }
 
-.doc__email:hover {
-  color: var(--cobalt-deep);
+.email:hover {
+  color: var(--accent-deep);
 }
 
-.doc__contact-note {
+.contact-note {
   margin-top: 14px;
   font-size: 15px;
   color: var(--text-secondary);
   word-break: keep-all;
 }
 
-.doc__contact-side .doc__label {
+.contact-side .label {
   margin-bottom: 12px;
 }
 
-.doc__list {
+.list {
   margin: 0;
   padding-left: 1.1em;
   font-size: 15px;
@@ -147,20 +144,20 @@
   color: var(--text-secondary);
 }
 
-.doc__list li::marker {
-  color: var(--cobalt);
+.list li::marker {
+  color: var(--accent-core);
 }
 
 /* -------------------------------------------------------------- 섹션 */
-.doc__section {
+.section {
   padding-top: clamp(56px, 7vw, 96px);
 }
 
-.doc__h2 {
+.heading {
   font-size: clamp(1.7rem, 3.4vw, 2.6rem);
 }
 
-.doc__section-lede {
+.section-lede {
   margin-top: 14px;
   max-width: 42rem;
   font-size: 16px;
@@ -168,14 +165,14 @@
   word-break: keep-all;
 }
 
-.doc__h3 {
+.subheading {
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--ink);
 }
 
-.doc__p {
+.p {
   margin-top: 10px;
   font-size: 15px;
   line-height: 1.65;
@@ -183,18 +180,18 @@
   word-break: keep-all;
 }
 
-.doc__inline-link {
-  color: var(--cobalt-deep);
-  border-bottom: 1px solid var(--cobalt-soft);
+.inline-link {
+  color: var(--accent-deep);
+  border-bottom: 1px solid var(--accent-soft);
 }
 
 /* ---------------------------------------------------------------- FAQ */
-.doc__faq {
+.faq {
   margin-top: clamp(24px, 3vw, 36px);
   border-top: 1px solid var(--glass-edge);
 }
 
-.doc__qa {
+.qa {
   display: grid;
   grid-template-columns: 62px 1fr;
   gap: 8px;
@@ -202,21 +199,21 @@
   border-bottom: 1px solid var(--glass-edge);
 }
 
-.doc__qa-num {
+.qa-num {
   font-size: 13px;
   font-weight: 600;
-  color: var(--cobalt);
+  color: var(--accent-core);
   padding-top: 4px;
 }
 
-.doc__qa-q {
+.qa-q {
   font-size: clamp(1.05rem, 2vw, 1.3rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   word-break: keep-all;
 }
 
-.doc__qa-a {
+.qa-a {
   margin-top: 10px;
   max-width: 44rem;
   font-size: 15px;
@@ -226,7 +223,7 @@
 }
 
 /* ---------------------------------------------------------------- 권한 */
-.doc__perms {
+.perms {
   margin-top: clamp(24px, 3vw, 36px);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -237,12 +234,12 @@
   overflow: hidden;
 }
 
-.doc__perm {
+.perm {
   background: var(--glass-fill-strong);
   padding: clamp(18px, 2.2vw, 26px);
 }
 
-.doc__perm-name {
+.perm-name {
   display: block;
   font-size: 15px;
   font-weight: 700;
@@ -250,7 +247,7 @@
   color: var(--ink);
 }
 
-.doc__perm-use {
+.perm-use {
   margin-top: 8px;
   font-size: 14px;
   line-height: 1.6;
@@ -258,7 +255,7 @@
   word-break: keep-all;
 }
 
-.doc__perm-off {
+.perm-off {
   display: block;
   margin-top: 12px;
   font-size: 12px;
@@ -266,38 +263,26 @@
   color: var(--text-tertiary);
 }
 
-.doc__perm-off::before {
+.perm-off::before {
   content: "허용 안 함 · ";
   color: var(--warn);
 }
 
 /* ------------------------------------------------------- 계정·개인정보 */
-.doc__cols {
+.cols {
   margin-top: clamp(24px, 3vw, 36px);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(22px, 3vw, 40px);
 }
 
-/* -------------------------------------------------------------- 영어 */
-.doc__section--en {
-  margin-top: clamp(48px, 6vw, 80px);
-  padding-top: clamp(28px, 3.4vw, 40px);
-  border-top: 1px solid var(--glass-edge);
-  max-width: 46rem;
-}
-
-.doc__section--en .doc__p {
-  word-break: normal;
-}
-
 /* -------------------------------------------------------------- 푸터 */
-.doc-foot {
+.foot {
   border-top: 1px solid var(--glass-edge);
   padding-block: 28px;
 }
 
-.doc-foot__inner {
+.foot-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -306,36 +291,76 @@
   color: var(--text-tertiary);
 }
 
-.doc-foot__links {
+.foot-links {
   display: flex;
   gap: 20px;
 }
 
-.doc-foot__links a {
+.foot-links a {
   transition: color 0.2s ease;
 }
 
-.doc-foot__links a:hover {
+.foot-links a:hover {
   color: var(--ink);
 }
 
+/* -------------------------------------------------------------- 변형 */
+
+/* 마일스톤(회사 소개): 질문 목록을 쓰되 라벨이 "2026.08"이라 칸을 넓힌다. 답 문단이 질문 없이 홀로 서므로 위 여백도 지운다 */
+.milestones .qa {
+  grid-template-columns: 86px 1fr;
+}
+
+.milestones .qa-a {
+  margin-top: 0;
+}
+
+/* 탈퇴 단계(계정 삭제): 질문 목록을 번호 목록으로 쓴다. 질문 없이 문장 하나가 서므로 위 여백을 지운다 */
+.steps {
+  list-style: none;
+  padding-left: 0;
+}
+
+.steps .qa-a {
+  margin-top: 0;
+  color: var(--ink);
+}
+
+/* 기술 스택(회사 소개): 권한 격자를 쓰되 항목이 셋이라 3열로 둔다. 2열이면 빈 칸 하나가 남는다 */
+.perms.stack {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* 열 안에서 제목 아래에 서는 목록(계정 삭제의 지워지는 항목) */
+.list.compact {
+  margin-top: 10px;
+}
+
+.compact + .p {
+  margin-top: 14px;
+}
+
 /* ---------------------------------------------------------- 반응형 */
-@media (max-width: 900px) {
-  .doc__contact {
+@media (width <= 900px) {
+  .contact {
     grid-template-columns: 1fr;
   }
 
-  .doc__perms {
+  .perms {
     grid-template-columns: 1fr;
   }
 
-  .doc__cols {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+
+  .perms.stack {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 560px) {
-  .doc-nav__inner {
+@media (width <= 560px) {
+  .nav-inner {
     flex-wrap: wrap;
     gap: var(--space-2) var(--space-4);
     height: auto;
@@ -343,22 +368,22 @@
     padding-block: var(--space-2);
   }
 
-  .doc-nav__actions {
+  .nav-actions {
     flex-wrap: wrap;
     row-gap: var(--space-2);
   }
 
-  .doc__qa {
+  .qa {
     grid-template-columns: 1fr;
     gap: 0;
   }
 
-  .doc__qa-num {
+  .qa-num {
     padding-top: 0;
     margin-bottom: 6px;
   }
 
-  .doc-foot__inner {
+  .foot-inner {
     flex-direction: column;
     align-items: flex-start;
   }
