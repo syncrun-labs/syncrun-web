@@ -131,13 +131,13 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
   브라우저 로케일 감지나 저장된 선택은 **없다**. URL 하나에 내용 하나가 고정되어야 검색엔진이 언어판을 구분한다.
   카피는 페이지마다 한 파일이다. `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `account.ts` · `legal.ts`.
   랜딩 본문은 `product.ts`, 메타·푸터는 `dict.ts`다. **페이지마다 `lang` prop으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
-  내부 링크는 `src/site/config.ts`의 `langPath` 또는 `langBase`로 언어별 경로를 만든다. `components/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
+  내부 링크는 `src/site/config.ts`의 `langPath` 또는 `langBase`로 언어별 경로를 만든다. `src/ui/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
   **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다**. 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
   **한국어가 정본이고 영어는 편의 번역이다**. 앱이 동의를 받는 것은 한국어 문서이며, 그 사실을 문서 머리와 페이지 안내가 함께 밝힌다.
   영어판을 두는 이유는 앱이 영문 이름으로 영문 스토어에 나가 있어서다(GDPR 투명성·CCPA 고지 언어 기준).
 - **이미지는 `next/image`에 정적 import로 넘긴다** (`import live from "@/public/product/live.jpg"`). 크기를 빌드가 알고 AVIF/WebP·표시 크기별로 변환된다.
   모바일 랜딩 기준 이미지 합계가 2,100KB에서 100KB가 됐다. `<img>`를 직접 쓰지 않는다(린트가 막는다).
-- **랜딩**(`src/components/product/`): `ProductLanding`이 언어를 한 번 읽어 섹션마다 제 몫의 문구를 props로 넘긴다.
+- **랜딩**(`src/landing/`): `Landing`이 본문(`ProductLanding`)과 푸터(`Footer`)를 감싸고, `ProductLanding`이 언어를 한 번 읽어 섹션마다 제 몫의 문구를 props로 넘긴다.
   섹션 하나에 파일 하나와 옆의 `*.module.css`다. `Hero`(맞닿는 폰 모션) · `Features`(세 단계·함께·혼자·크루) · `Cards` · `Reviews` · `Plans` · `Faq`,
   메뉴와 마무리는 `ProductLanding` 안에 있다. 여러 섹션이 같이 쓰는 조각(`StoreButton`·`Phone`·`Screen`·`FeatureList`)은 `ui.tsx`와 `ui.module.css`, 러너 색은 `runners.ts`.
   **랜딩은 서버 컴포넌트로 그리고, 브라우저가 필요한 `Hero`(축소 모션·Android 판정)와 `Faq`(열고 닫는 모션)만 클라이언트 섬이다.** 나머지 섹션은 훅을 쓰지 않는다.
@@ -157,7 +157,7 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
   공용 모듈의 변형 클래스다. `.doc-nav`·`.doc-foot`·`.legal-doc`은 약관 URL 계약 테스트가 찾는 이름이라 모듈 클래스와 함께 남긴다.
   **지원·회사 소개·계정 삭제는 서버 컴포넌트, 약관(`Legal`)은 클라이언트 컴포넌트다.** 짧은 페이지는 서버로 그리면 JS가 줄어 합계가 4~5KiB(gzip) 준다.
   약관은 서버로 그리면 긴 문서 트리가 RSC 페이로드로 HTML에 한 번 더 실려 합계가 약 2KiB 는다(2026-11-15 실측).
-- `src/styles/sections.css`: 랜딩 푸터와 문서형 페이지가 같이 쓰는 타이포.
+- 페이지·컴포넌트 스타일은 모두 옆의 `*.module.css`이고, 전역 CSS는 `src/index.css`(토큰·리셋·공용 타이포·`.lang-toggle`) 하나다.
 - **`admin/`: 운영 사이트 소스**(`docs/adr/0004`). 운영자가 이용자에게 안내 알림을 보내는 독립 Vite + React 앱으로,
   `/admin`으로 나간다. 요구사항은 허브 `FR-OPS-02` · `03` · `04`, 서버와 주고받는 규격은 허브 `contracts/api-contract.md` §21이고
   `admin/src/api/types.ts`가 그 절을 옮긴 것이다. 서버 호출은 `ApiClient` 하나로만 한다. 실제(`HttpApiClient`)와
