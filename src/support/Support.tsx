@@ -1,5 +1,3 @@
-"use client";
-
 import "../styles/support.css";
 import Image from "next/image";
 import wordmark from "@/public/brand/wordmark.png";
