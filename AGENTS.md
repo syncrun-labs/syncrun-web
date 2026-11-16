@@ -2,15 +2,16 @@
 
 > 이 문서가 원본이다. `CLAUDE.md`는 `@AGENTS.md` 한 줄로 이 파일을 불러오기만 한다. 규칙을 고칠 때는 여기를 고친다.
 
-SyncRun 랜딩페이지. 맞대면 그 자리에서 함께 뛰는 러닝 앱 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
-마케팅 사이트다. 랜딩은 **스크롤 연출 없이 제품을 차례로 설명한다**. 무엇인지 · 어떻게 쓰는지 · 기능 · 카드 · 리뷰 · 플랜 · 질문 순이다(`docs/adr/0007`).
+SyncRun 소개 사이트. 폰을 맞대면 바로 함께 뛰는 러닝 앱 [syncrun-ios](https://github.com/syncrun-labs/syncrun-ios)의
+소개 사이트다. 랜딩은 **스크롤 연출 없이 제품을 차례로 설명한다**. 무엇인지 · 어떻게 쓰는지 · 기능 · 크루 · 카드 · 리뷰 · 플랜 · 질문 순이다(`docs/adr/0007`).
 
 ## 스택
 
 Next.js(App Router) · React 19 · TypeScript · CSS Modules(디자인 토큰). 움직임은 라이브러리 없이 CSS 키프레임과 Web Animations API로 한다.
-**전 페이지가 빌드 타임 정적 생성(SSG)이다**. API Route·서버 액션은 없다.
+**공개 페이지는 모두 빌드 타임 정적 생성(SSG)이다**. API Route·서버 액션은 없다.
+예외는 둘이다. 크루 초대는 껍데기만 정적이고 초대 정보를 브라우저에서 서버 API로 불러온다. `/admin`은 따로 빌드한 Vite SPA(`public/admin/`)다.
 UI 프레임워크 없음: iOS 앱의 토큰을 CSS 변수로 옮겨 직접 조립한다.
-i18n은 라이브러리 없이 `src/i18n/`의 경량 컨텍스트로 한다(ko/en). 랜딩 이미지는 실제 앱 화면과 실제 러닝 카드다(`public/product/`).
+i18n은 라이브러리 없이 한다(ko/en). 라우트가 `lang`을 props로 넘기고 페이지마다 `src/i18n/`의 문구 객체를 고른다. 랜딩 이미지는 실제 앱 화면과 실제 러닝 카드다(`public/product/`).
 
 ## SSoT · 제품·계약은 syncrun 허브에
 
@@ -27,9 +28,11 @@ npm run preview       # 빌드 결과 미리보기
 npm run lint          # ESLint
 npm run lint:css      # CSS Modules의 색 토큰 검사
 npm run format        # Prettier 적용 (format:check 는 검사만)
-npm run verify        # lint + format:check + build: 커밋 전 한 방
-npm test              # Playwright: 시각 회귀 · 약관 URL 계약
+npm run verify        # lint + format:check + build: 커밋 전 한 번
+npm run typecheck     # 타입 검사 (새 체크아웃은 먼저 npx next typegen)
+npm test              # Playwright: 시각 회귀 · 접근성 · 약관 URL 계약 (tests/README.md)
 npm run lighthouse    # Lighthouse 측정 (LHCI_BASE_URL 로 대상 지정, 기본 프로덕션)
+npm run lighthouse:local    # 로컬 빌드를 측정
 npm run lighthouse:report   # 측정 결과를 표로
 npm run admin:dev     # 운영 사이트(admin/) 개발 서버: 서버 없이 모의 API로
 npm run admin:verify  # 운영 사이트 lint + test + public/admin/ 빌드
@@ -112,7 +115,7 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 
 ## 구조
 
-- **라우트는 `app/`에 있고 언어가 URL을 가른다**. `app/(ko)`가 `/` · `/support` · `/company` · `/account/delete` · `/legal/[slug]`,
+- **라우트는 `app/`에 있고 언어가 URL을 가른다**. `app/(ko)`가 `/` · `/support` · `/company` · `/account/delete` · `/crew/join` · `/legal/[slug]`,
   `app/en`이 같은 구조를 `/en` 아래에. `<html lang>`이 언어마다 달라 루트 레이아웃이 둘이고 껍데기(`src/site/RootHtml.tsx`)를 공유한다.
   **ko에는 접두를 붙이지 않는다**. `/legal/<슬러그>` 3종이 App Store Connect에 등록된 주소다(`docs/adr/0001`).
   `/`는 App Store Connect의 Marketing URL, `/support`는 Support URL. 영어 스토어에는 `/en`·`/en/support`를 건다.
@@ -129,8 +132,8 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 - **i18n**(`src/i18n/`): **공개 페이지는 ko/en이다.** 언어는 URL이 정하고 라우트가 페이지 컴포넌트에 `lang`을 props로 넘긴다.
   공용 언어 전환 링크에는 같은 페이지의 경로 짝(`paths`)도 넘긴다. 크루 초대는 브라우저에서 읽은 토큰을 반대 언어 링크에 붙인다.
   브라우저 로케일 감지나 저장된 선택은 **없다**. URL 하나에 내용 하나가 고정되어야 검색엔진이 언어판을 구분한다.
-  카피는 페이지마다 한 파일이다. `dict.ts`(랜딩, 구조 `t.<섹션>.<키>`) · `support.ts` · `company.ts` · `account.ts` · `legal.ts`.
-  랜딩 본문은 `product.ts`, 메타·푸터는 `dict.ts`다. **페이지마다 `lang` prop으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
+  카피는 페이지마다 한 파일이다. `product.ts`(랜딩 본문) · `dict.ts`(랜딩 메타·푸터, 구조 `dict[lang].<절>.<키>`) · `support.ts` · `company.ts` · `account.ts` · `legal.ts` · `crewJoin.ts`.
+  `lang.ts`는 `LangPaths`·`PageMeta` 같은 공용 타입이고, `Lang` 타입은 `dict.ts`에 있다. **페이지마다 `lang` prop으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
   내부 링크는 `src/site/config.ts`의 `langPath` 또는 `langBase`로 언어별 경로를 만든다. `src/ui/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
   **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다**. 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
   **한국어가 정본이고 영어는 편의 번역이다**. 앱이 동의를 받는 것은 한국어 문서이며, 그 사실을 문서 머리와 페이지 안내가 함께 밝힌다.
@@ -149,9 +152,10 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 - `src/index.css`: 디자인 토큰(`:root`: 색 `--accent*` 코랄, 간격 `--space-1~7`(4·8·12·16·24·32·48)·`--section-y`·`--column-gap`, `--radius-card`, 기기 프레임 `--device-*`) · 리셋 · `.glass` · 버튼 · 키프레임.
   간격은 이 눈금만 쓴다(iOS 앱에서 가장 많이 쓰는 값과 같다).
 - `public/product/`: 랜딩의 앱 화면 캡처와 러닝 카드 원본, App Store QR. `public/brand/`: 로고(wordmark·icon).
+- `src/lib/app-store.ts`: App Store 주소. 국가 코드 없는 주소는 웹에서 미국 스토어로 넘어가므로 한국어 페이지는 `/kr/`을 연다.
 - `public/.well-known/apple-app-site-association`: iOS 유니버설 링크 연결 파일. 앱(팀 `54U979SGB7` · `com.syncrunlabs.sync`)으로 넘기는 경로는
   크루 초대 링크 `/crew/join/*` 하나뿐이고, 나머지 페이지는 웹에 남는다.
-- `src/support/`·`src/legal/`·`src/company/`·`src/account/`: 지원·약관·회사 소개·계정 삭제 안내 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
+- `src/support/`·`src/legal/`·`src/company/`·`src/account/`·`src/crew/`: 지원·약관·회사 소개·계정 삭제 안내·크루 초대 페이지 진입점과 본문. 카피는 `src/i18n/`에 있고 컴포넌트는 렌더만 한다.
   공용 틀은 `src/ui/Doc.tsx`(`DocHeader`·`DocFooter`·`DocSection`·`ContactBox`)와 `src/ui/doc.module.css`다. 페이지는 링크와 문구만 넘긴다.
   지원·회사 소개·계정 삭제·약관·크루 초대가 같이 쓰고, 페이지 고유분은 옆의 모듈
   (`Company.module.css` 사업자 정보 표, 약관의 `Legal.module.css`·`Markdown.module.css`). 회사 소개·계정 삭제의 변형(마일스톤·탈퇴 단계·3열 격자·열 안 목록)은
