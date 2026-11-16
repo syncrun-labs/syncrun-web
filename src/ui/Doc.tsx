@@ -1,7 +1,9 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import wordmark from "@/public/brand/wordmark.png";
+import type { Route } from "next";
 import LangToggle from "./LangToggle";
+import SiteLink from "./SiteLink";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
 import d from "./doc.module.css";
@@ -12,14 +14,13 @@ import d from "./doc.module.css";
  * `.doc-nav`·`.doc-foot`은 약관 URL 계약 테스트가 찾는 이름이라 모듈 클래스와 함께 둔다.
  */
 
+/** 사이트 안 경로, mailto, 바깥 주소. 어떻게 그릴지는 `SiteLink`가 주소를 보고 정한다. */
 export interface DocLink {
-  href: string;
+  href: Route;
   label: string;
-  /** 새 창으로 여는 바깥 링크(GitHub 등) */
-  external?: boolean;
+  /** 다른 언어로 가는 링크. 루트 레이아웃이 달라 어차피 문서 전체를 새로 받으므로 `<a>`로 그리고 미리 받지 않는다 */
+  otherLang?: boolean;
 }
-
-const externalProps = (l: DocLink) => (l.external ? { target: "_blank", rel: "noreferrer" } : {});
 
 /** 머리 막대: 로고, 링크, 언어 전환(있으면), 문의 버튼(있으면) */
 export function DocHeader({
@@ -29,7 +30,7 @@ export function DocHeader({
   paths,
   cta,
 }: {
-  home: string;
+  home: Route;
   links: DocLink[];
   lang?: Lang;
   paths?: LangPaths;
@@ -38,15 +39,21 @@ export function DocHeader({
   return (
     <header className={`doc-nav ${d.nav}`}>
       <div className={`container ${d["nav-inner"]}`}>
-        <a href={home} className={d["nav-brand"]}>
+        <SiteLink href={home} className={d["nav-brand"]}>
           <Image src={wordmark} alt="SyncRun" className={d["nav-wordmark"]} priority />
-        </a>
+        </SiteLink>
         <div className={d["nav-actions"]}>
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className={d["nav-link"]} {...externalProps(l)}>
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.otherLang ? (
+              <a key={l.href} href={l.href} className={d["nav-link"]}>
+                {l.label}
+              </a>
+            ) : (
+              <SiteLink key={l.href} href={l.href} className={d["nav-link"]}>
+                {l.label}
+              </SiteLink>
+            ),
+          )}
           {lang && paths && <LangToggle lang={lang} paths={paths} />}
           {cta && (
             <a href={cta.href} className={`btn btn-primary ${d["nav-cta"]}`}>
@@ -66,9 +73,9 @@ export function DocFooter({ owner, links }: { owner: string; links: DocLink[] })
         <span className="mono">© 2026 {owner}</span>
         <div className={d["foot-links"]}>
           {links.map((l) => (
-            <a key={l.label} href={l.href} {...externalProps(l)}>
+            <SiteLink key={l.label} href={l.href}>
               {l.label}
-            </a>
+            </SiteLink>
           ))}
         </div>
       </div>

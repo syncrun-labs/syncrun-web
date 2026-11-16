@@ -1,7 +1,9 @@
 import { companyCopy, type CompanyLink } from "../i18n/company";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
-import { langBase } from "../site/config";
+import type { Route } from "next";
+import { langPath } from "../site/config";
+import SiteLink from "../ui/SiteLink";
 import { COMPANY } from "../lib/company";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import d from "../ui/doc.module.css";
@@ -10,20 +12,19 @@ import { ContactBox, DocFooter, DocHeader, DocSection } from "../ui/Doc";
 
 const EMAIL = SUPPORT_EMAIL;
 
-/** 언어별 경로 — ko는 접두 없음, en은 /en. 외부·mailto는 언어와 무관. */
-function hrefFor(base: string): Record<CompanyLink | "mailto", string> {
+/** 언어별 경로. 외부·mailto는 언어와 무관. */
+function hrefFor(lang: Lang): Record<CompanyLink | "mailto", Route> {
   return {
-    home: base || "/",
-    support: `${base}/support`,
-    legal: `${base}/legal/terms-of-service`,
+    home: langPath(lang, "/"),
+    support: langPath(lang, "/support"),
+    legal: langPath(lang, "/legal/terms-of-service"),
     github: COMPANY.github,
     mailto: supportMailto("[SyncRun 문의]"),
   };
 }
 
 export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths }) {
-  const base = langBase(lang);
-  const HREF = hrefFor(base);
+  const HREF = hrefFor(lang);
   const HOME = HREF.home;
   const c = companyCopy[lang];
   const org = COMPANY[lang];
@@ -120,9 +121,9 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
             </dl>
             <p className={d.p}>
               {c.business.notePrefix}
-              <a href={`${base}/legal/location-terms`} className={d["inline-link"]}>
+              <SiteLink href={langPath(lang, "/legal/location-terms")} className={d["inline-link"]}>
                 {c.business.noteLink}
-              </a>
+              </SiteLink>
               {c.business.noteSuffix}
             </p>
           </DocSection>
@@ -137,14 +138,9 @@ export default function Company({ lang, paths }: { lang: Lang; paths: LangPaths 
           >
             {c.contact.links.map((l) => (
               <li key={l.label}>
-                <a
-                  href={HREF[l.to]}
-                  className={d["inline-link"]}
-                  target={l.to === "github" ? "_blank" : undefined}
-                  rel={l.to === "github" ? "noreferrer" : undefined}
-                >
+                <SiteLink href={HREF[l.to]} className={d["inline-link"]}>
                   {l.label}
-                </a>
+                </SiteLink>
               </li>
             ))}
           </ContactBox>

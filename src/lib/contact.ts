@@ -6,6 +6,6 @@
 export const SUPPORT_EMAIL = "contact@syncrunlabs.com";
 
 /** 제목을 미리 채운 메일 링크 — 어느 화면에서 왔는지 제목으로 갈린다. */
-export function supportMailto(subject: string): string {
+export function supportMailto(subject: string): `mailto:${string}` {
   return `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }

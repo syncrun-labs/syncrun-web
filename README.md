@@ -64,7 +64,7 @@ src/
   lib/app-store.ts         App Store 주소. 한국어는 한국 스토어(/kr/), 영어는 국가 코드 없이
   landing/                 랜딩: Landing.tsx(본문과 푸터) · ProductLanding.tsx(메뉴 · 마무리) · 섹션마다 tsx + module.css
                            (Hero · Features · Cards · Reviews · Plans · Faq) · Footer · ui · runners
-  ui/                      여러 페이지가 쓰는 조각: Doc.tsx(머리 막대 · 푸터 · 섹션 · 문의 상자)와 doc.module.css, LangToggle.tsx(KO/EN 전환)
+  ui/                      여러 페이지가 쓰는 조각: Doc.tsx(머리 막대 · 푸터 · 섹션 · 문의 상자)와 doc.module.css, SiteLink.tsx(내부 링크), LangToggle.tsx(KO/EN 전환)
   i18n/                    product.ts(랜딩 본문) · dict.ts(메타·푸터) · support.ts · company.ts · account.ts · legal.ts · crewJoin.ts · lang.ts(공용 타입)
   support/ · company/ · account/ · legal/   문서형 페이지 본문. 약관 원문은 legal/docs/*.md(허브 사본)
   crew/                    크루 초대 페이지(클라이언트 컴포넌트, 초대 정보는 브라우저에서 불러온다)

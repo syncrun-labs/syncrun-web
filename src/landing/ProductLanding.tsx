@@ -3,7 +3,9 @@ import wordmark from "@/public/brand/wordmark.png";
 import LangToggle from "../ui/LangToggle";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
-import { langBase } from "../site/config";
+import SiteLink from "../ui/SiteLink";
+import type { Route } from "next";
+import { langPath } from "../site/config";
 import { productCopy, type ProductCopy } from "../i18n/product";
 import Cards from "./Cards";
 import Faq from "./Faq";
@@ -49,7 +51,7 @@ function Nav({
   );
 }
 
-function Closing({ copy, store, base }: { copy: ProductCopy["closing"]; store: StoreLink; base: string }) {
+function Closing({ copy, store, support }: { copy: ProductCopy["closing"]; store: StoreLink; support: Route }) {
   return (
     <section className={s.closing}>
       <h2>
@@ -60,9 +62,9 @@ function Closing({ copy, store, base }: { copy: ProductCopy["closing"]; store: S
       <p className={ui.lede}>{copy.lede}</p>
       <div className={s.actions}>
         <StoreButton store={store} />
-        <a className={ui.link} href={`${base}/support`}>
+        <SiteLink className={ui.link} href={support}>
           {copy.help}
-        </a>
+        </SiteLink>
       </div>
     </section>
   );
@@ -76,7 +78,7 @@ function Closing({ copy, store, base }: { copy: ProductCopy["closing"]; store: S
  * 브라우저가 필요한 곳은 `Hero`(축소 모션·Android)와 `Faq`(열고 닫는 모션) 두 곳이다.
  */
 export default function ProductLanding({ lang, paths }: { lang: Lang; paths: LangPaths }) {
-  const base = langBase(lang);
+  const support = langPath(lang, "/support");
   const c = productCopy[lang];
   const store = { label: c.store, href: appStoreUrl(lang) };
 
@@ -89,8 +91,8 @@ export default function ProductLanding({ lang, paths }: { lang: Lang; paths: Lan
         <Cards copy={c.card} />
         <Reviews copy={c.reviews} />
         <Plans copy={c.plans} />
-        <Faq copy={c.faq} base={base} />
-        <Closing copy={c.closing} store={store} base={base} />
+        <Faq copy={c.faq} support={support} />
+        <Closing copy={c.closing} store={store} support={support} />
       </main>
     </>
   );

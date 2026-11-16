@@ -2,6 +2,7 @@
    구조: dict[lang].<절>.<키>. 푸터는 전달받은 언어로 문구를 고른다. */
 
 import { supportMailto } from "../lib/contact";
+import type { SiteHref } from "../site/config";
 
 export type Lang = "ko" | "en";
 
@@ -9,7 +10,8 @@ export interface Dict {
   meta: { title: string; description: string };
   footer: {
     tagline: string;
-    cols: { head: string; links: { label: string; href: string }[] }[];
+    /** 사이트 경로는 접두 없는 형태(`/support`)로 두고 푸터가 언어 접두를 붙인다. 앵커·mailto는 그대로 */
+    cols: { head: string; links: { label: string; href: SiteHref }[] }[];
     /* 사업자 정보 — 값은 lib/company.ts에서 오고 여기엔 라벨만 둔다. */
     bizHead: string;
     bizLabels: { ceo: string; bizNo: string };
@@ -17,11 +19,6 @@ export interface Dict {
   };
 }
 
-/* 지원/약관/회사는 언어별 경로다. Footer가 언어 접두를 앞에 붙인다. */
-const SUPPORT = "support";
-const LEGAL = "legal";
-const COMPANY_PAGE = "company";
-const ACCOUNT_DELETE = "account/delete";
 
 export const dict: Record<Lang, Dict> = {
   ko: {
@@ -46,19 +43,19 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "지원",
           links: [
-            { label: "회사 소개", href: `${COMPANY_PAGE}` },
-            { label: "지원 · 도움말", href: `${SUPPORT}` },
-            { label: "권한 안내", href: `${SUPPORT}#permissions` },
-            { label: "계정 삭제 안내", href: `${ACCOUNT_DELETE}` },
+            { label: "회사 소개", href: "/company" },
+            { label: "지원 · 도움말", href: "/support" },
+            { label: "권한 안내", href: "/support#permissions" },
+            { label: "계정 삭제 안내", href: "/account/delete" },
             { label: "문의", href: supportMailto("[SyncRun 문의]") },
           ],
         },
         {
           head: "약관",
           links: [
-            { label: "이용약관", href: `${LEGAL}/terms-of-service` },
-            { label: "개인정보 처리방침", href: `${LEGAL}/privacy-policy` },
-            { label: "위치기반서비스", href: `${LEGAL}/location-terms` },
+            { label: "이용약관", href: "/legal/terms-of-service" },
+            { label: "개인정보 처리방침", href: "/legal/privacy-policy" },
+            { label: "위치기반서비스", href: "/legal/location-terms" },
           ],
         },
       ],
@@ -90,19 +87,19 @@ export const dict: Record<Lang, Dict> = {
         {
           head: "Support",
           links: [
-            { label: "About us", href: `${COMPANY_PAGE}` },
-            { label: "Support · Help", href: `${SUPPORT}` },
-            { label: "Permissions", href: `${SUPPORT}#permissions` },
-            { label: "Delete your account", href: `${ACCOUNT_DELETE}` },
+            { label: "About us", href: "/company" },
+            { label: "Support · Help", href: "/support" },
+            { label: "Permissions", href: "/support#permissions" },
+            { label: "Delete your account", href: "/account/delete" },
             { label: "Contact", href: supportMailto("[SyncRun]") },
           ],
         },
         {
           head: "Legal",
           links: [
-            { label: "Terms of Service", href: `${LEGAL}/terms-of-service` },
-            { label: "Privacy Policy", href: `${LEGAL}/privacy-policy` },
-            { label: "Location Services", href: `${LEGAL}/location-terms` },
+            { label: "Terms of Service", href: "/legal/terms-of-service" },
+            { label: "Privacy Policy", href: "/legal/privacy-policy" },
+            { label: "Location Services", href: "/legal/location-terms" },
           ],
         },
       ],
