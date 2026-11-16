@@ -197,7 +197,7 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
 
 ## 배포
 
-Vercel이 `main` 병합 시 프로덕션, 브랜치 푸시 시 프리뷰를 배포한다(GitHub App). `.github/workflows/deploy.yml`은 GitHub Pages용 수동 경로다.
+Vercel이 `main` 병합 시 프로덕션, 브랜치 푸시 시 프리뷰를 배포한다(GitHub App).
 
 <!-- BEGIN:nextjs-agent-rules -->
 
