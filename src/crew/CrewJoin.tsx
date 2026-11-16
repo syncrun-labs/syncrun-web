@@ -7,6 +7,7 @@ import { langBase } from "../site/config";
 import { appStoreUrl } from "../lib/app-store";
 import styles from "./CrewJoin.module.css";
 import { DocHeader } from "../ui/Doc";
+import { devParam, noSubscription, useDevice } from "../lib/device";
 
 /** 초대 링크 미리보기 (api-contract §18.12): 로그인 없이 부르는 공개 경로 */
 const API_BASE = "https://api.syncrunlabs.com/api/v1";
@@ -33,7 +34,6 @@ interface Preview {
 }
 
 type State = { kind: "loading" } | { kind: "ready"; preview: Preview } | { kind: "unknown" } | { kind: "expired" };
-type Device = "ios" | "android" | "desktop";
 
 /** `/crew/join/<token>` · `/en/crew/join/<token>`의 마지막 조각. 정적 페이지라 주소에서 읽는다. */
 function tokenFromPath(pathname: string): string | null {
@@ -41,34 +41,14 @@ function tokenFromPath(pathname: string): string | null {
   return last !== "join" && TOKEN_PATTERN.test(last) ? last : null;
 }
 
-/** 초대를 연 기기. iPadOS는 데스크톱 Safari로 보이므로 터치 지점 수로 가른다. */
-function readDevice(): Device {
-  const ua = navigator.userAgent;
-  if (/iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) return "ios";
-  if (/Android/.test(ua)) return "android";
-  return "desktop";
-}
-
-/** 개발 서버에서만: `?device=android` 같은 값으로 기기 안내를, `?sample`로 미리보기를 확인한다 */
-function devParam(name: string): string | null {
-  if (process.env.NODE_ENV !== "development") return null;
-  return new URLSearchParams(window.location.search).get(name);
-}
-
 const SAMPLE: Preview = { crewName: "여의도 새벽런", inviterName: "서연", memberCount: 12 };
-const noSubscription = () => () => {};
 
 /**
- * 크루 초대 링크를 연 사람의 페이지. 앱의 「나」 탭 크루 초대 칸과 같은 모양으로(회색 바탕, 작은 머리말, 흰 카드,
- * 검정 알약 버튼) 초대 카드(크루 이름 · 초대한 사람 · 크루원 수)를 보이고,
- * 기기에 맞는 다음 행동을 하나 둔다. iPhone은 [SyncRun에서 열기]로 앱 주소(`syncrun://crew/join/<token>`)에 넘긴다.
- * 메신저 안의 브라우저는 같은 도메인의 링크로는 앱을 열지 않기 때문이다. 앱이 없으면 설치 뒤 링크를 다시 누르게 안내한다.
- * 아래에 크루로 뛰면 무엇이 좋은지 세 줄을 두어, 앱을 모르는 사람도 초대의 가치를 알게 한다.
+ * 주소의 초대 토큰과 그 미리보기(크루 이름 · 초대한 사람 · 크루원 수).
+ * 정적 페이지라 서버에서 그릴 때는 주소를 모른다. 브라우저에서만 읽고 부른다.
+ * 토큰이 없거나 서버가 404를 주면 만료, 그 밖의 실패는 알 수 없음으로 둔다.
  */
-export default function CrewJoin({ lang }: { lang: Lang }) {
-  const base = langBase(lang);
-  const c = crewJoinCopy[lang];
-  // 정적 페이지라 서버에서 그릴 때는 주소와 기기를 모른다. 브라우저에서만 읽는다.
+function useInvitePreview(): { token: string | null; state: State } {
   const hydrated = useSyncExternalStore(
     noSubscription,
     () => true,
@@ -79,18 +59,12 @@ export default function CrewJoin({ lang }: { lang: Lang }) {
     () => tokenFromPath(window.location.pathname),
     () => null,
   );
-  const device = useSyncExternalStore<Device>(
-    noSubscription,
-    () => (devParam("device") as Device | null) ?? readDevice(),
-    () => "ios",
-  );
   const sample = useSyncExternalStore(
     noSubscription,
     () => devParam("sample") !== null,
     () => false,
   );
   const [fetched, setFetched] = useState<State>({ kind: "loading" });
-  const state: State = sample ? { kind: "ready", preview: SAMPLE } : hydrated && !token ? { kind: "expired" } : fetched;
 
   useEffect(() => {
     if (!token || sample) return;
@@ -107,6 +81,24 @@ export default function CrewJoin({ lang }: { lang: Lang }) {
       });
     return () => controller.abort();
   }, [token, sample]);
+
+  const state: State = sample ? { kind: "ready", preview: SAMPLE } : hydrated && !token ? { kind: "expired" } : fetched;
+  return { token, state };
+}
+
+/**
+ * 크루 초대 링크를 연 사람의 페이지. 앱의 「나」 탭 크루 초대 칸과 같은 모양으로(회색 바탕, 작은 머리말, 흰 카드,
+ * 검정 알약 버튼) 초대 카드(크루 이름 · 초대한 사람 · 크루원 수)를 보이고,
+ * 기기에 맞는 다음 행동을 하나 둔다. iPhone은 [SyncRun에서 열기]로 앱 주소(`syncrun://crew/join/<token>`)에 넘긴다.
+ * 메신저 안의 브라우저는 같은 도메인의 링크로는 앱을 열지 않기 때문이다. 앱이 없으면 설치 뒤 링크를 다시 누르게 안내한다.
+ * 아래에 크루로 뛰면 무엇이 좋은지 세 줄을 두어, 앱을 모르는 사람도 초대의 가치를 알게 한다.
+ */
+export default function CrewJoin({ lang }: { lang: Lang }) {
+  const base = langBase(lang);
+  const c = crewJoinCopy[lang];
+  const { token, state } = useInvitePreview();
+  // 서버에서는 iPhone으로 그린다. 초대 링크는 대부분 iPhone 메신저에서 열린다
+  const device = useDevice("ios");
 
   const otherLang = lang === "ko" ? "/en" : "";
   const otherHref = token ? `${otherLang}/crew/join/${token}` : `${otherLang}/crew/join`;

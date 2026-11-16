@@ -8,7 +8,7 @@ import homePairRight from "@/public/product/home-pair-right.jpg";
 import storeQr from "@/public/product/store-qr.svg";
 import type { ProductCopy } from "../i18n/product";
 import { shouldSkipReveal } from "../lib/reveal";
-import { useIsAndroid } from "../lib/useIsAndroid";
+import { useDevice } from "../lib/device";
 import { Phone, StoreButton, type StoreLink } from "./ui";
 import ui from "./ui.module.css";
 import s from "./Hero.module.css";
@@ -19,7 +19,7 @@ import s from "./Hero.module.css";
  */
 export default function Hero({ copy, store }: { copy: ProductCopy["hero"]; store: StoreLink }) {
   const artRef = useRef<HTMLDivElement>(null);
-  const isAndroid = useIsAndroid();
+  const isAndroid = useDevice("desktop") === "android";
 
   // 축소 모션과 `?reveal=all`(시각 회귀)에서는 닿은 순간의 한 장으로 멈춘다
   useEffect(() => {
