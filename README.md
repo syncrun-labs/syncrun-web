@@ -54,7 +54,7 @@ src/
   index.css                디자인 토큰(:root: 색·간격·모서리·기기 프레임) · 리셋 · 글래스 · 버튼
   site/                    RootHtml(공유 껍데기) · metadata(제목·canonical·hreflang·og) · config(오리진·경로)
   lib/reveal.ts            축소 모션 · ?reveal=all 판단(첫 화면 모션을 멈춘다)
-  lib/useIsAndroid.ts      Android 기기 판정(수화 뒤)
+  lib/device.ts            기기 판정 useDevice(iOS · Android · 데스크톱, 수화 뒤) · 개발용 주소 값
   lib/company.ts           사업자 정보 상수(약관과 같은 값). 회사 소개·랜딩 푸터가 함께 읽는다
   landing/                 랜딩: Landing.tsx(본문과 푸터) · ProductLanding.tsx(메뉴 · 마무리) · 섹션마다 tsx + module.css
                            (Hero · Features · Cards · Reviews · Plans · Faq) · Footer · ui · runners
