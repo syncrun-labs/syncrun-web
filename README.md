@@ -78,7 +78,6 @@ npm test           # Playwright — 시각 회귀 · 약관 URL 계약
 ## 배포
 
 Vercel이 `main` 병합 시 프로덕션을, 브랜치 푸시 시 프리뷰를 배포한다(GitHub App, 프레임워크 = Next.js).
-`.github/workflows/deploy.yml`은 GitHub Pages용 수동 경로다.
 
 ## SyncRun
 
