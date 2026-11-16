@@ -1,5 +1,6 @@
 "use client";
 
+import SiteLink from "../ui/SiteLink";
 import Markdown from "./Markdown";
 import styles from "./Legal.module.css";
 import type { Lang } from "../i18n/dict";
@@ -64,9 +65,9 @@ export default function Legal({
                   {SUPPORT_EMAIL}
                 </a>
                 {c.notice.askMiddle}
-                <a href={COMPANY} className={d["inline-link"]}>
+                <SiteLink href={COMPANY} className={d["inline-link"]}>
                   {c.notice.askLink}
-                </a>
+                </SiteLink>
                 {c.notice.askSuffix}
               </p>
             </aside>
@@ -74,7 +75,7 @@ export default function Legal({
 
           <div className={styles.tabs} role="tablist" aria-label={c.tabsLabel}>
             {LEGAL_DOCS.map((item) => (
-              <a
+              <SiteLink
                 key={item.key}
                 href={langPath(lang, `/legal/${item.slug}`)}
                 role="tab"
@@ -82,7 +83,7 @@ export default function Legal({
                 className={item.key === active ? `${styles.tab} ${styles.active}` : styles.tab}
               >
                 {c.tabs[item.key]}
-              </a>
+              </SiteLink>
             ))}
           </div>
 

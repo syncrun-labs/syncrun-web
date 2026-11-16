@@ -1,6 +1,7 @@
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
-import { langBase } from "../site/config";
+import SiteLink from "../ui/SiteLink";
+import { langPath } from "../site/config";
 import { supportCopy } from "../i18n/support";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import d from "../ui/doc.module.css";
@@ -10,12 +11,10 @@ const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
 
 export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths }) {
-  const base = langBase(lang);
   const c = supportCopy[lang];
-  // 언어별 경로 — ko는 접두 없음, en은 /en
-  const HOME = base || "/";
-  const LEGAL = `${base}/legal/terms-of-service`;
-  const COMPANY_PAGE = `${base}/company`;
+  const HOME = langPath(lang, "/");
+  const LEGAL = langPath(lang, "/legal/terms-of-service");
+  const COMPANY_PAGE = langPath(lang, "/company");
 
   return (
     <>
@@ -91,9 +90,9 @@ export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths 
                     {card.parts[0]}
                     {card.link ? (
                       <>
-                        <a href={LEGAL} className={d["inline-link"]}>
+                        <SiteLink href={LEGAL} className={d["inline-link"]}>
                           {card.link}
-                        </a>
+                        </SiteLink>
                         {card.parts[1]}
                       </>
                     ) : null}
@@ -112,7 +111,7 @@ export default function Support({ lang, paths }: { lang: Lang; paths: LangPaths 
           { href: COMPANY_PAGE, label: c.foot.company },
           { href: LEGAL, label: c.foot.legal },
           { href: MAILTO, label: c.foot.contact },
-          { href: "https://github.com/syncrun-labs", label: c.foot.github, external: true },
+          { href: "https://github.com/syncrun-labs", label: c.foot.github },
         ]}
       />
     </>

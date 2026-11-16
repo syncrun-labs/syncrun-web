@@ -3,7 +3,9 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { crewJoinCopy } from "../i18n/crewJoin";
 import type { Lang } from "../i18n/dict";
-import { langBase } from "../site/config";
+import SiteLink from "../ui/SiteLink";
+import type { Route } from "next";
+import { langPath } from "../site/config";
 import { appStoreUrl } from "../lib/app-store";
 import styles from "./CrewJoin.module.css";
 import { DocHeader } from "../ui/Doc";
@@ -94,18 +96,19 @@ function useInvitePreview(): { token: string | null; state: State } {
  * 아래에 크루로 뛰면 무엇이 좋은지 세 줄을 두어, 앱을 모르는 사람도 초대의 가치를 알게 한다.
  */
 export default function CrewJoin({ lang }: { lang: Lang }) {
-  const base = langBase(lang);
+  const home = langPath(lang, "/");
   const c = crewJoinCopy[lang];
   const { token, state } = useInvitePreview();
   // 서버에서는 iPhone으로 그린다. 초대 링크는 대부분 iPhone 메신저에서 열린다
   const device = useDevice("ios");
 
   const otherLang = lang === "ko" ? "/en" : "";
-  const otherHref = token ? `${otherLang}/crew/join/${token}` : `${otherLang}/crew/join`;
+  // `/crew/join/<토큰>`은 rewrite가 받는 경로라 라우트 타입에 들어 있다. 토큰은 브라우저에서 읽은 값이라 문자열로 만든다
+  const otherHref = (token ? `${otherLang}/crew/join/${token}` : `${otherLang}/crew/join`) as Route;
 
   return (
     <>
-      <DocHeader home={base || "/"} links={[{ href: otherHref, label: c.other }]} />
+      <DocHeader home={home} links={[{ href: otherHref, label: c.other, otherLang: true }]} />
 
       <main className={styles.page}>
         <div className={styles.inner}>
@@ -184,10 +187,10 @@ export default function CrewJoin({ lang }: { lang: Lang }) {
                 </li>
               ))}
               <li>
-                <a href={base || "/"} className={styles.more}>
+                <SiteLink href={home} className={styles.more}>
                   {c.about.more}
                   <span aria-hidden="true">›</span>
-                </a>
+                </SiteLink>
               </li>
             </ul>
           </Group>

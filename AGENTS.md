@@ -134,7 +134,10 @@ PR마다 `pr-check`가 대시와 약관 사본 규칙을 검사한다. 루트의
   브라우저 로케일 감지나 저장된 선택은 **없다**. URL 하나에 내용 하나가 고정되어야 검색엔진이 언어판을 구분한다.
   카피는 페이지마다 한 파일이다. `product.ts`(랜딩 본문) · `dict.ts`(랜딩 메타·푸터, 구조 `dict[lang].<절>.<키>`) · `support.ts` · `company.ts` · `account.ts` · `legal.ts` · `crewJoin.ts`.
   `lang.ts`는 `LangPaths`·`PageMeta` 같은 공용 타입이고, `Lang` 타입은 `dict.ts`에 있다. **페이지마다 `lang` prop으로 자기 카피 객체를 고른다**. 한 파일에 다 넣으면 dict가 감당이 안 된다.
-  내부 링크는 `src/site/config.ts`의 `langPath` 또는 `langBase`로 언어별 경로를 만든다. `src/ui/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 링크다.
+  내부 링크는 `src/site/config.ts`의 `langPath(lang, "/support")`로 언어별 경로를 만들고 `src/ui/SiteLink.tsx`로 그린다.
+  `typedRoutes`가 켜져 있어 `langPath`에 없는 경로를 넘기면 타입 검사가 막는다(`SitePath`). `SiteLink`는 사이트 안 경로를 `next/link`로,
+  앵커·mailto·바깥 주소를 `<a>`로 그린다. 미리 받기(prefetch)는 끈다. 한 페이지만 보고 나가는 방문이 대부분이라 받아 둔 데이터가 버려진다. `src/ui/LangToggle.tsx`는 상대 언어의 같은 페이지로 가는 `<a>`다.
+  한국어와 영어는 루트 레이아웃이 달라 언어 전환은 어차피 문서 전체를 새로 받는다.
   **약관 본문은 한국어 정본(`*.md`)과 영어 참고본(`*.en.md`) 두 벌이다**. 영어 페이지는 영어본을 낸다(`readLegalDoc(slug, "en")`).
   **한국어가 정본이고 영어는 편의 번역이다**. 앱이 동의를 받는 것은 한국어 문서이며, 그 사실을 문서 머리와 페이지 안내가 함께 밝힌다.
   영어판을 두는 이유는 앱이 영문 이름으로 영문 스토어에 나가 있어서다(GDPR 투명성·CCPA 고지 언어 기준).

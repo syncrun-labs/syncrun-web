@@ -1,7 +1,8 @@
 import { accountCopy } from "../i18n/account";
 import type { Lang } from "../i18n/dict";
 import type { LangPaths } from "../i18n/lang";
-import { langBase } from "../site/config";
+import SiteLink from "../ui/SiteLink";
+import { langPath } from "../site/config";
 import { SUPPORT_EMAIL, supportMailto } from "../lib/contact";
 import d from "../ui/doc.module.css";
 import { ContactBox, DocFooter, DocHeader, DocSection } from "../ui/Doc";
@@ -10,13 +11,11 @@ const EMAIL = SUPPORT_EMAIL;
 const MAILTO = supportMailto("[SyncRun 문의]");
 
 export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths }) {
-  const base = langBase(lang);
   const c = accountCopy[lang];
-  // 언어별 경로 — ko는 접두 없음, en은 /en
-  const HOME = base || "/";
-  const SUPPORT = `${base}/support`;
-  const LEGAL = `${base}/legal/terms-of-service`;
-  const PRIVACY = `${base}/legal/privacy-policy`;
+  const HOME = langPath(lang, "/");
+  const SUPPORT = langPath(lang, "/support");
+  const LEGAL = langPath(lang, "/legal/terms-of-service");
+  const PRIVACY = langPath(lang, "/legal/privacy-policy");
   const DELETE_MAILTO = supportMailto(c.email.mailSubject);
 
   return (
@@ -106,9 +105,9 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
               note={
                 <>
                   {c.email.notePrefix}
-                  <a href={PRIVACY} className={d["inline-link"]}>
+                  <SiteLink href={PRIVACY} className={d["inline-link"]}>
                     {c.email.noteLink}
-                  </a>
+                  </SiteLink>
                   {c.email.noteSuffix}
                 </>
               }
@@ -126,9 +125,9 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
             lede={
               <>
                 {c.contact.prefix}
-                <a href={SUPPORT} className={d["inline-link"]}>
+                <SiteLink href={SUPPORT} className={d["inline-link"]}>
                   {c.contact.link}
-                </a>
+                </SiteLink>
                 {c.contact.suffix}
               </>
             }
@@ -143,7 +142,7 @@ export default function Account({ lang, paths }: { lang: Lang; paths: LangPaths 
           { href: SUPPORT, label: c.foot.support },
           { href: LEGAL, label: c.foot.legal },
           { href: MAILTO, label: c.foot.contact },
-          { href: "https://github.com/syncrun-labs", label: c.foot.github, external: true },
+          { href: "https://github.com/syncrun-labs", label: c.foot.github },
         ]}
       />
     </>

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
   if (!doc) notFound();
   const base = legalCopy.ko.meta;
   // 문서마다 제목을 달리해 세 페이지가 검색엔진에 서로 다른 문서로 잡히게 한다.
-  return buildMetadata("ko", `/legal/${slug}`, {
+  return buildMetadata("ko", `/legal/${doc.slug}`, {
     title: `${legalCopy.ko.tabs[doc.key]} · ${base.title}`,
     description: base.description,
   });
@@ -31,5 +31,5 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const doc = docBySlug(slug);
   if (!doc) notFound();
-  return <Legal lang="ko" paths={pathPair(`/legal/${slug}`)} active={doc.key} source={readLegalDoc(doc.slug)} />;
+  return <Legal lang="ko" paths={pathPair(`/legal/${doc.slug}`)} active={doc.key} source={readLegalDoc(doc.slug)} />;
 }

@@ -6,6 +6,7 @@ import type { NextConfig } from "next";
  * 최적화와 리다이렉트를 막기 때문이다. Vercel에서는 기본 출력도 정적 페이지를 그대로 CDN에서 낸다.
  */
 const nextConfig: NextConfig = {
+  typedRoutes: true,
   async redirects() {
     return [
       // `/legal`은 문서 하나를 가리키지 않는다 — 기본 문서로 보낸다.

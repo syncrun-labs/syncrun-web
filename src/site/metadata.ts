@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { Lang } from "../i18n/dict";
 import type { PageMeta } from "../i18n/lang";
-import { SITE_ORIGIN, langPath } from "./config";
+import { SITE_ORIGIN, langPath, type SitePath } from "./config";
 
 /**
  * 페이지 하나의 `metadata`를 만든다.
@@ -10,7 +10,7 @@ import { SITE_ORIGIN, langPath } from "./config";
  * - hreflang은 ko·en 짝과 접두 없는 기본 URL인 `x-default`를 건다.
  * - 랜딩과 크루 초대는 각 경로의 `opengraph-image.tsx`가 공유 이미지를 공급한다.
  */
-export function buildMetadata(lang: Lang, path: string, meta: PageMeta): Metadata {
+export function buildMetadata(lang: Lang, path: SitePath, meta: PageMeta): Metadata {
   const url = `${SITE_ORIGIN}${langPath(lang, path)}`;
   const hasShareImage = path === "/" || path === "/crew/join";
   return {

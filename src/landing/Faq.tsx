@@ -1,5 +1,7 @@
 "use client";
 
+import SiteLink from "../ui/SiteLink";
+import type { Route } from "next";
 import { useRef, type MouseEvent } from "react";
 import type { ProductCopy } from "../i18n/product";
 import ui from "./ui.module.css";
@@ -68,7 +70,7 @@ function Item({ q, a }: { q: string; a: string }) {
 }
 
 /** 자주 묻는 질문. 열고 닫는 모션 때문에 클라이언트 컴포넌트다. */
-export default function Faq({ copy, base }: { copy: ProductCopy["faq"]; base: string }) {
+export default function Faq({ copy, support }: { copy: ProductCopy["faq"]; support: Route }) {
   return (
     <section className={`${s.faq} ${ui.wrap}`} aria-labelledby="faq-title">
       <h2 id="faq-title" className={s.title}>
@@ -78,9 +80,9 @@ export default function Faq({ copy, base }: { copy: ProductCopy["faq"]; base: st
         {copy.items.map((f) => (
           <Item key={f.q} q={f.q} a={f.a} />
         ))}
-        <a className={`${ui.link} ${s.more}`} href={`${base}/support`}>
+        <SiteLink className={`${ui.link} ${s.more}`} href={support}>
           {copy.more}
-        </a>
+        </SiteLink>
       </div>
     </section>
   );

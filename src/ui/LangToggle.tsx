@@ -5,6 +5,7 @@ import { LANGS } from "../site/config";
 /**
  * KO/EN 전환. 랜딩 Nav와 문서형 페이지(지원·회사 소개·약관)가 같은 것을 쓴다.
  * 상태를 바꾸는 게 아니라 상대 언어의 같은 페이지로 이동하는 링크다. 언어는 URL이 정한다.
+ * `next/link`를 쓰지 않는다. 한국어와 영어는 루트 레이아웃이 달라 어차피 문서 전체를 새로 받는다.
  */
 export default function LangToggle({ lang, paths }: { lang: Lang; paths: LangPaths }) {
   return (

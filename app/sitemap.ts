@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 import { LEGAL_DOCS } from "@/src/legal/docs";
 import { readLegalDoc } from "@/src/legal/read";
-import { LANGS, SITE_ORIGIN, langPath } from "@/src/site/config";
+import { LANGS, SITE_ORIGIN, langPath, type SitePath } from "@/src/site/config";
 
 // 본문이나 구조화 데이터가 바뀐 페이지의 날짜만 갱신한다.
-const PAGES = [
+const PAGES: { path: SitePath; lastModified: string }[] = [
   { path: "/", lastModified: "2026-11-14" },
   { path: "/support", lastModified: "2026-09-16" },
   { path: "/company", lastModified: "2026-09-18" },
@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const lastModified = amended
       ? [amended[1], amended[2].padStart(2, "0"), amended[3].padStart(2, "0")].join("-")
       : undefined;
-    return { path: `/legal/${slug}`, lastModified };
+    return { path: `/legal/${slug}` as const, lastModified };
   });
 
   return LANGS.flatMap((lang) =>
