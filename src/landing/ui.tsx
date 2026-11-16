@@ -1,21 +1,21 @@
 import Image, { type StaticImageData } from "next/image";
 import AppleGlyph from "./AppleGlyph";
-import { APP_STORE_URL } from "../lib/app-store";
 import { barStyle } from "./runners";
 import s from "./ui.module.css";
 
 /** 랜딩의 여러 섹션이 같이 쓰는 조각. 섹션 하나만 쓰는 것은 그 섹션 파일에 둔다. */
 
-export function StoreButton({ label, className }: { label: string; className?: string }) {
+/** App Store 버튼의 문구와 주소. 주소는 언어마다 스토어 지역이 달라 라우트 쪽에서 고른다. */
+export interface StoreLink {
+  label: string;
+  href: string;
+}
+
+export function StoreButton({ store, className }: { store: StoreLink; className?: string }) {
   return (
-    <a
-      className={className ? `${s.store} ${className}` : s.store}
-      href={APP_STORE_URL}
-      target="_blank"
-      rel="noreferrer"
-    >
+    <a className={className ? `${s.store} ${className}` : s.store} href={store.href} target="_blank" rel="noreferrer">
       <AppleGlyph />
-      {label}
+      {store.label}
     </a>
   );
 }

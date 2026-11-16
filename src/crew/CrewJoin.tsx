@@ -4,7 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { crewJoinCopy } from "../i18n/crewJoin";
 import type { Lang } from "../i18n/dict";
 import { langBase } from "../site/config";
-import { APP_STORE_URL } from "../lib/app-store";
+import { appStoreUrl } from "../lib/app-store";
 import styles from "./CrewJoin.module.css";
 import { DocHeader } from "../ui/Doc";
 
@@ -155,7 +155,7 @@ export default function CrewJoin({ lang }: { lang: Lang }) {
                       </li>
                     ))}
                   </ol>
-                  <a href={APP_STORE_URL} className={`${styles.button} ${styles.secondary}`}>
+                  <a href={appStoreUrl(lang)} className={`${styles.button} ${styles.secondary}`}>
                     {c.install.store}
                   </a>
                 </Group>
@@ -171,7 +171,7 @@ export default function CrewJoin({ lang }: { lang: Lang }) {
                 <Group label={c.desktop.heading}>
                   <p className={styles.text}>{c.desktop.lede}</p>
                   <a
-                    href={APP_STORE_URL}
+                    href={appStoreUrl(lang)}
                     className={`${styles.button} ${styles.secondary}`}
                     target="_blank"
                     rel="noreferrer"
