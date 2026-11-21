@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.syncrunlabs.sync",
+      "sha256_cert_fingerprints": [
+        "C0:8F:45:D1:71:92:E6:0F:71:79:B0:D0:64:9D:EF:8E:3E:BE:7A:43:D9:A0:81:7E:B1:E2:2A:70:BC:A5:1B:96"
+      ]
+    }
+  }
+]
