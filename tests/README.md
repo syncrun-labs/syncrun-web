@@ -1,9 +1,10 @@
 # tests
 
-Playwright 테스트는 세 종류다.
+Playwright 테스트는 네 종류다.
 
 | 파일 | 무엇 |
 |---|---|
+| `applinks.spec.ts` | **Android 앱 링크 계약** · 연결 파일의 200·JSON 응답과 앱 패키지·Play 서명 지문을 검사한다 |
 | `accessibility.spec.ts` | **접근성 회귀** · 공개 페이지 7개의 명도 대비와 터치 영역을 데스크톱·모바일 한·영으로 검사한다 |
 | `legal-urls.spec.ts` | **약관 URL 계약** — 세 주소가 각각 제 문서를 200으로 낸다 |
 | `visual.spec.ts` | **시각 회귀** — 7개 페이지 × 데스크톱·모바일 × ko·en 풀페이지 비교 |
